@@ -11,7 +11,22 @@ Demo GIF
 
 ## Getting started
 
-See the [Mastering Plone 6 Development Training](https://training.plone.org/6/mastering-plone/index.html) for instructions.
+Your have ElasticSearch up and running with Plone. 
+
+* Your Index is 'Plone2020'
+* Your ElasticSearch Server is available on 'myelasticsearch.acme.org'
+* CORS is configured: 
+
+elasticsearch.yml
+
+```
+http.cors.enabled : true
+http.cors.allow-origin : /https?:\/\/(.*)acme.org(.*)/
+```
+  
+
+Start ElasticSearch with ELASTIC_URL=myelasticsearch.acme.org/Plone2020 ./bin/elasticsearch
+
 
 ## Copyright and license
 
