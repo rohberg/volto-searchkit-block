@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import { OverridableContext } from 'react-overridable';
 import { Link } from 'react-router-dom';
@@ -24,12 +24,12 @@ import {
   withState,
 } from 'react-searchkit';
 
-import { ESSearchApi } from './Searchkit/ESSearchApi';
-import { IGIBESRequestSerializer } from './Searchkit/IGIBESRequestSerializer';
-import { Results } from './Searchkit/Results';
+import { ESSearchApi } from '../Searchkit/ESSearchApi';
+import { IGIBESRequestSerializer } from '../Searchkit/IGIBESRequestSerializer';
+import { Results } from '../Searchkit/Results';
 
 import { settings } from '~/config';
-import { NoSSR } from './helpers';
+import { NoSSR } from '../helpers';
 
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -305,7 +305,7 @@ const FacetedSearch = ({ data, location }) => {
       <NoSSR>
         <p>
           DEBUG: url {search_url} and index {search_index}
-        </p>  
+        </p>
         <OverridableContext.Provider value={overriddenComponents}>
           <ReactSearchKit
             searchApi={searchApi}
