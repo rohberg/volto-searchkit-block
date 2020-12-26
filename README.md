@@ -13,8 +13,9 @@ Demo GIF
 
 Your have ElasticSearch up and running with Plone. 
 
-* Your Index is 'Plone2020'
 * Your ElasticSearch Server is available on 'myelasticsearch.acme.org'
+* Your Index is 'plone2020'
+* Check with https://myelasticsearch.acme.org/plone2020/_count
 * CORS is configured: 
 
 elasticsearch.yml
@@ -25,7 +26,7 @@ http.cors.allow-origin : /https?:\/\/(.*)acme.org(.*)/
 ```
   
 
-Start ElasticSearch with ELASTIC_URL=myelasticsearch.acme.org/Plone2020 ./bin/elasticsearch
+Start ElasticSearch with ELASTIC_URL=myelasticsearch.acme.org/plone2020 ./bin/elasticsearch
 
 
 ## Copyright and license
