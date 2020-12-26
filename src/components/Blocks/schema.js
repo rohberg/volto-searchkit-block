@@ -4,7 +4,7 @@ export const SearchBlockSchema = {
     {
       id: 'default',
       title: 'Default',
-      fields: ['elastic_search_api'],
+      fields: ['elastic_search_api_url', 'elastic_search_api_index'],
     },
   ],
   properties: {
