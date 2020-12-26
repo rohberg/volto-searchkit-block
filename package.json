@@ -17,6 +17,7 @@
     "url": "git@github.com:rohberg/volto-searchkit-block.git"
   },
   "dependencies": {
+    "react-searchkit": "^1.0.0-alpha.10"
   },
   "scripts": {
     "release": "release-it",
