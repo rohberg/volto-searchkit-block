@@ -303,9 +303,6 @@ const FacetedSearch = ({ data, location }) => {
   return (
     <Segment vertical>
       <NoSSR>
-        <p>
-          DEBUG: url {search_url} and index {search_index}
-        </p>
         <OverridableContext.Provider value={overriddenComponents}>
           <ReactSearchKit
             searchApi={searchApi}
