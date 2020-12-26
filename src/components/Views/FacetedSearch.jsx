@@ -32,6 +32,8 @@ import { settings } from '~/config';
 import { NoSSR } from '../helpers';
 
 import { useDispatch, useSelector } from 'react-redux';
+import { flattenToAppURL } from '@plone/volto/helpers';
+import { flattenESUrlToPath } from '../helpers';
 
 const OnResults = withState(Results);
 
@@ -97,11 +99,13 @@ const IGIBResultsListItem = ({ result, index }) => {
   return (
     <Item key={index}>
       <Item.Content>
-        <Item.Header
-          as={Link}
-          to={result['@id'].replace(settings.devProxyToApiPath, '')}
-        >
+        <Item.Header as={Link} to={flattenESUrlToPath(result['@id'])}>
           {result.title}
+          {/* <p>result['@id']: {result['@id']}</p>
+          <p>
+            flattenESUrlToPath(result['@id']):{' '}
+            {flattenESUrlToPath(result['@id'])}
+          </p> */}
         </Item.Header>
         <Item.Description>
           {_truncate(result.description, { length: 200 })}

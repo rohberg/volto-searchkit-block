@@ -1,4 +1,5 @@
 import React from 'react';
+import { flattenToAppURL } from '@plone/volto/helpers';
 
 class NoSSR extends React.Component {
   state = {
@@ -14,4 +15,15 @@ class NoSSR extends React.Component {
   }
 }
 
-export { NoSSR };
+// TODO replace ugly  flattenESUrlToPath hack. Problem Elastic responds with backend Plone Zeo client url.
+function flattenESUrlToPath(url) {
+  var pathArray = url.split('/');
+  var newPathname = '';
+  for (let i = 4; i < pathArray.length; i++) {
+    newPathname += '/';
+    newPathname += pathArray[i];
+  }
+  return newPathname;
+}
+
+export { NoSSR, flattenESUrlToPath };
