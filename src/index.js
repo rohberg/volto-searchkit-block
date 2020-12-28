@@ -5,7 +5,7 @@ import { FacetedSearchBlockEdit, FacetedSearchBlockView } from './components';
 const applyConfig = (config) => {
   config.settings.searchkitblock = {
     ...config.settings.searchkitblock,
-    elasticurl: process.env.ELASTIC_URL || 'http://localhost:9200/plone2020',
+    elasticurl: process.env.ELASTIC_URL || 'http://localhost:9200/esploneindex',
   };
 
   config.blocks.blocksConfig.searchkitblock = {

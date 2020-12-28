@@ -14,7 +14,7 @@ export const SearchBlockSchema = {
     },
     elastic_search_api_index: {
       title: 'Elastic Search API Index',
-      default: 'plone2020',
+      default: 'esploneindex',
     },
   },
   required: ['elastic_search_api_url', 'elastic_search_api_index'],

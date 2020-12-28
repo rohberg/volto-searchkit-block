@@ -280,14 +280,14 @@ const initialState = {
 const FacetedSearch = ({ data, location }) => {
   const {
     search_url = data.elastic_search_api_url || 'http://localhost:9200',
-    search_index = data.elastic_search_api_index || 'plone2020',
+    search_index = data.elastic_search_api_index || 'esploneindex',
   } = data;
 
   const dispatch = useDispatch();
 
   const searchApi = new ESSearchApi({
     axios: {
-      // url: 'http://localhost:9200/plone2020/_search',
+      // url: 'http://localhost:9200/esploneindex/_search',
       url: search_url + '/' + search_index + '/_search',
       timeout: 5000,
       headers: { Accept: 'application/json' },
