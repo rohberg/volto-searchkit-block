@@ -197,6 +197,11 @@ export class CustomESRequestSerializer {
                   field: fieldName + '.token',
                   order: { _key: 'asc' },
                 },
+                aggs: {
+                  somemoredatafromelasticsearch: {
+                    top_hits: { size: 1, _source: { include: [fieldName] } },
+                  },
+                },
               },
             },
           },

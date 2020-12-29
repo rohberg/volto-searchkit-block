@@ -27,6 +27,7 @@ import {
 
 import { ESSearchApi } from '../Searchkit/ESSearchApi';
 import { CustomESRequestSerializer } from '../Searchkit/CustomESRequestSerializer';
+import { CustomESResponseSerializer } from '../Searchkit/CustomESResponseSerializer';
 import { Results } from '../Searchkit/Results';
 
 import { settings } from '~/config';
@@ -252,6 +253,7 @@ const FacetedSearch = ({ data, location }) => {
 
   const dispatch = useDispatch();
 
+
   const searchApi = new ESSearchApi({
     axios: {
       // url: 'http://localhost:9200/esploneindex/_search',
@@ -261,6 +263,7 @@ const FacetedSearch = ({ data, location }) => {
     },
     es: {
       requestSerializer: CustomESRequestSerializer,
+      responseSerializer: CustomESResponseSerializer,
     },
   });
 
