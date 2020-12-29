@@ -3,55 +3,40 @@
 
 @import (multiple) '../../theme.config';
 
-// TODO style tags
-.freemanualtags {
-    display: inline-block;
-    margin-left: 1rem;
-}
-
 .ui.grid > .row > .column.facetedsearch_filter {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: baseline;
-    .ui.card {
-        margin: 1em 0.5em 1em 0em;
+    &.cards {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: baseline;
+        .ui.card {
+            margin: 1em 0.5em 1em 0em;
+        }
     }
-}
-
-
-.ui.dropdown.fnfilter {
-    font-family: @fontName;
-    font-size: 1rem;
-    margin: 0 0 .5rem 0;
-    background-color: #f3f1f1;
-    padding: 0 0 0 .3rem;
-    & > .dropdown.icon {
-        font-size: 1rem;
-    }
-    &.selected {
-        background-color: @grey;
-        color: @white;
-    }
-}
-.ui.pagination.menu {
-    font-size: .8rem;
-}
-div.fnresults {
-    .ui.items {
-        &> .item {
-            .ui.tag {
-                // margin-left: 1rem;
-            }
-            .content .header {
-                font-family: @fontName;
+    &.dropdown {
+        .ui.dropdown.fnfilter {
+            font-family: @fontName;
+            font-size: 1rem;
+            margin: 0 0 .5rem 0;
+            background-color: #f3f1f1;
+            // padding: 0 0 0 .3rem;
+            padding: 0.8rem 1.2rem;
+            & > .dropdown.icon {
                 font-size: 1rem;
-                color: @red;
+            }
+            &.selected {
+                background-color: @grey;
+                color: @white;
+            }
+            .text {
+                // padding: 0.8rem 1.2rem !important;
+            }
+            .ui.dropdown .menu {
+                width: 100%;
+                & > .item {
+                    padding: 0.8rem 1.2rem !important;
+                }
             }
         }
-
-    }
-    .ui.divided.items > .item {
-        border: none;
     }
 }

@@ -39,6 +39,9 @@ import { flattenESUrlToPath } from '../helpers';
 
 import './less/public.less';
 
+// TODO configSearchFilterLayout: configurable layout of filters (menu cards or dropdown)
+const configSearchFilterLayout = 'dropdown';
+
 const OnResults = withState(Results);
 
 // class Tags extends Component {
@@ -172,7 +175,7 @@ const customBucketAggregationElement = (props) => {
     containerCmp && (
       <Dropdown
         fluid
-        text={selectedFilters.length ? selectedFilters.join(' ') : title}
+        text={selectedFilters.length ? title + ': ' + selectedFilters.join(', ') : title}
         className={
           selectedFilters.length ? 'fnfilter selected' : 'fnfilter unselected'
         }
@@ -221,9 +224,7 @@ let overriddenComponents = {
   'Count.element': myCountElement,
 };
 
-// TODO configurable layout of filters (menu cards or dropdown)
-const configSearchCards = false;
-if (!configSearchCards) {
+if (configSearchFilterLayout === 'dropdown') {
   overriddenComponents = {
     ...overriddenComponents,
     ...{
@@ -282,7 +283,15 @@ const FacetedSearch = ({ data, location }) => {
             <Container>
               <Grid relaxed style={{ padding: '2em 0' }}>
                 <Grid.Row>
-                  <Grid.Column width={12} className="facetedsearch_filter">
+                  <Grid.Column
+                    width={12}
+                    className={
+                      'facetedsearch_filter ' +
+                      (configSearchFilterLayout === 'cards'
+                        ? 'cards'
+                        : 'dropdown')
+                    }
+                  >
                     <BucketAggregation
                       title="Komponenten"
                       agg={{
