@@ -1,13 +1,9 @@
-/*
- * respect IGIB filters: kompasscomponent, targetaudience, ...
- */
-
 import _extend from 'lodash/extend';
 import _isEmpty from 'lodash/isEmpty';
 
 import { listFields, nestedFields } from './constants.js';
 
-export class IGIBESRequestSerializer {
+export class CustomESRequestSerializer {
   getFilters = (filters) => {
     /**
      * input: [
@@ -50,8 +46,8 @@ export class IGIBESRequestSerializer {
    */
   serialize = (stateQuery) => {
     const { queryString, sortBy, sortOrder, page, size, filters } = stateQuery;
-    // console.debug('IGIBESRequestSerializer queryString', queryString);
-    // console.debug('IGIBESRequestSerializer filters', filters);
+    // console.debug('CustomESRequestSerializer queryString', queryString);
+    // console.debug('CustomESRequestSerializer filters', filters);
 
     const bodyParams = {};
     if (!_isEmpty(queryString)) {

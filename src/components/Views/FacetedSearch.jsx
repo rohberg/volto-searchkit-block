@@ -1,3 +1,4 @@
+// TODO update counts of BucketAggregation on selection of filter
 import React, { useEffect } from 'react';
 
 import { OverridableContext } from 'react-overridable';
@@ -25,7 +26,7 @@ import {
 } from 'react-searchkit';
 
 import { ESSearchApi } from '../Searchkit/ESSearchApi';
-import { IGIBESRequestSerializer } from '../Searchkit/IGIBESRequestSerializer';
+import { CustomESRequestSerializer } from '../Searchkit/CustomESRequestSerializer';
 import { Results } from '../Searchkit/Results';
 
 import { settings } from '~/config';
@@ -38,42 +39,6 @@ import { flattenESUrlToPath } from '../helpers';
 import './less/public.less';
 
 const OnResults = withState(Results);
-
-const customAggComp = (title, containerCmp) => {
-  return containerCmp ? (
-    <Menu vertical>
-      <Menu.Item>
-        <Menu.Header>{title}</Menu.Header>
-        {containerCmp}
-      </Menu.Item>
-    </Menu>
-  ) : null;
-};
-
-const customAggValuesContainerCmp = (valuesCmp) => (
-  <Menu.Menu>{valuesCmp}</Menu.Menu>
-);
-
-const customAggValueCmp = (
-  bucket,
-  isSelected,
-  onFilterClicked,
-  getChildAggCmps,
-) => {
-  const childAggCmps = getChildAggCmps(bucket);
-  return (
-    <Menu.Item
-      key={bucket.key}
-      name={bucket.key}
-      active={isSelected}
-      onClick={() => onFilterClicked(bucket.key)}
-    >
-      <Label>{bucket.doc_count}</Label>
-      {bucket.key}
-      {childAggCmps}
-    </Menu.Item>
-  );
-};
 
 // class Tags extends Component {
 //   onClick = (event, value) => {
@@ -97,7 +62,7 @@ const customAggValueCmp = (
 //   }
 // }
 
-const IGIBResultsListItem = ({ result, index }) => {
+const CustomResultsListItem = ({ result, index }) => {
   return (
     <Item key={index}>
       <Item.Content>
@@ -193,7 +158,7 @@ const myCountElement = ({ totalResults }) => <div>{totalResults} Treffer</div>;
 
 // One Filter of Faceted Navigation
 const customBucketAggregationElement = (props) => {
-  // console.debug('IGIBBucketAggregationElement', props);
+  // console.debug('customBucketAggregationElement', props);
   const { title, containerCmp } = props;
   const selectedFilters = containerCmp.props.selectedFilters.map((el) => el[1]);
   // console.debug(selectedFilters);
@@ -265,10 +230,10 @@ const customBucketAggregationValuesElement = (props) => {
 };
 
 const overriddenComponents = {
-  'BucketAggregation.element': customBucketAggregationElement,
-  'BucketAggregationContainer.element': customBucketAggregationContainerElement,
-  'BucketAggregationValues.element': customBucketAggregationValuesElement,
-  'ResultsList.item.elasticsearch': IGIBResultsListItem,
+  // 'BucketAggregation.element': customBucketAggregationElement,
+  // 'BucketAggregationContainer.element': customBucketAggregationContainerElement,
+  // 'BucketAggregationValues.element': customBucketAggregationValuesElement,
+  'ResultsList.item.elasticsearch': CustomResultsListItem,
   'Count.element': myCountElement,
 };
 
@@ -295,7 +260,7 @@ const FacetedSearch = ({ data, location }) => {
       headers: { Accept: 'application/json' },
     },
     es: {
-      requestSerializer: IGIBESRequestSerializer,
+      requestSerializer: CustomESRequestSerializer,
     },
   });
 
@@ -325,9 +290,6 @@ const FacetedSearch = ({ data, location }) => {
                         field: 'kompasscomponent',
                         aggName: 'kompasscomponent_agg.kompasscomponent_token',
                       }}
-                      renderElement={customAggComp}
-                      renderValuesContainerElement={customAggValuesContainerCmp}
-                      renderValueElement={customAggValueCmp}
                     />
                     <BucketAggregation
                       title="Zielpublikum"
