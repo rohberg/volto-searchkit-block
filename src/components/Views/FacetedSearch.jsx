@@ -35,6 +35,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { flattenToAppURL } from '@plone/volto/helpers';
 import { flattenESUrlToPath } from '../helpers';
 
+import './less/public.less';
+
 const OnResults = withState(Results);
 
 const customAggComp = (title, containerCmp) => {
