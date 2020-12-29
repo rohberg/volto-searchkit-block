@@ -195,6 +195,7 @@ export class CustomESRequestSerializer {
               [myaggs[1]]: {
                 terms: {
                   field: fieldName + '.token',
+                  order: { _key: 'asc' },
                 },
               },
             },
