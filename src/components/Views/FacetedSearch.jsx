@@ -5,15 +5,11 @@ import { OverridableContext } from 'react-overridable';
 import { Link } from 'react-router-dom';
 import _truncate from 'lodash/truncate';
 import {
-  Button,
-  Card,
   Container,
   Dropdown,
   Grid,
   Item,
-  List,
   Label,
-  Menu,
   Segment,
 } from 'semantic-ui-react';
 import {
@@ -30,11 +26,9 @@ import { CustomESRequestSerializer } from '../Searchkit/CustomESRequestSerialize
 import { CustomESResponseSerializer } from '../Searchkit/CustomESResponseSerializer';
 import { Results } from '../Searchkit/Results';
 
-import { settings } from '~/config';
 import { NoSSR } from '../helpers';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { flattenToAppURL } from '@plone/volto/helpers';
+import { useDispatch } from 'react-redux';
 import { flattenESUrlToPath } from '../helpers';
 
 import './less/public.less';
@@ -175,7 +169,11 @@ const customBucketAggregationElement = (props) => {
     containerCmp && (
       <Dropdown
         fluid
-        text={selectedFilters.length ? title + ': ' + selectedFilters.join(', ') : title}
+        text={
+          selectedFilters.length
+            ? title + ': ' + selectedFilters.join(', ')
+            : title
+        }
         className={
           selectedFilters.length ? 'fnfilter selected' : 'fnfilter unselected'
         }
