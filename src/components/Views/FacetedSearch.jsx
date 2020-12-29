@@ -157,27 +157,19 @@ const CustomResultsListItem = ({ result, index }) => {
 
 const myCountElement = ({ totalResults }) => <div>{totalResults} Treffer</div>;
 
-// One Filter of Faceted Navigation
+// One single Filter of Faceted Navigation
 const customBucketAggregationElement = (props) => {
-  // console.debug('customBucketAggregationElement', props);
   const { title, containerCmp } = props;
-  const selectedFilters = containerCmp.props.selectedFilters.map((el) => el[1]);
-  // console.debug(selectedFilters);
+  // Get label from token
+  let buckets = containerCmp.props.buckets;
+  let allFilters = Object.fromEntries(
+    Array.from(buckets, (x) => [x.key, x.label]),
+  );
+  let selectedFilters = containerCmp.props.selectedFilters
+    .map((el) => el[1])
+    .map((token) => allFilters[token]);
   return (
     containerCmp && (
-      // <Card
-      //   className={
-      //     selectedFilters.length ? 'fnfilter selected' : 'fnfilter unselected'
-      //   }
-      // >
-      //   <Card.Content>
-      //     <Card.Description>
-      //       {selectedFilters.length ? selectedFilters.join(' ') : title}
-      //     </Card.Description>
-      //   </Card.Content>
-      //   <Card.Content extra>{containerCmp}</Card.Content>
-      // </Card>
-
       <Dropdown
         fluid
         text={selectedFilters.length ? selectedFilters.join(' ') : title}
@@ -185,16 +177,7 @@ const customBucketAggregationElement = (props) => {
           selectedFilters.length ? 'fnfilter selected' : 'fnfilter unselected'
         }
       >
-        <Dropdown.Menu>
-          {containerCmp}
-          {/* <Dropdown.Item text='New' />
-          <Dropdown.Item text='Open...' description='ctrl + o' />
-          <Dropdown.Item icon='trash' text='Move to trash' />
-          <Dropdown.Divider />
-          <Dropdown.Item text='Download As...' />
-          <Dropdown.Item text='Publish To Web' />
-          <Dropdown.Item text='E-mail Collaborators' /> */}
-        </Dropdown.Menu>
+        <Dropdown.Menu>{containerCmp}</Dropdown.Menu>
       </Dropdown>
     )
   );
@@ -230,13 +213,26 @@ const customBucketAggregationValuesElement = (props) => {
   );
 };
 
-const overriddenComponents = {
+let overriddenComponents = {
   // 'BucketAggregation.element': customBucketAggregationElement,
   // 'BucketAggregationContainer.element': customBucketAggregationContainerElement,
   // 'BucketAggregationValues.element': customBucketAggregationValuesElement,
   'ResultsList.item.elasticsearch': CustomResultsListItem,
   'Count.element': myCountElement,
 };
+
+// TODO configurable layout of filters (menu cards or dropdown)
+const configSearchCards = false;
+if (!configSearchCards) {
+  overriddenComponents = {
+    ...overriddenComponents,
+    ...{
+      'BucketAggregation.element': customBucketAggregationElement,
+      'BucketAggregationContainer.element': customBucketAggregationContainerElement,
+      'BucketAggregationValues.element': customBucketAggregationValuesElement,
+    },
+  };
+}
 
 const initialState = {
   queryString: '',
