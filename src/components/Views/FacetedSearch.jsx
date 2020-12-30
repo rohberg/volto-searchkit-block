@@ -235,27 +235,12 @@ const customBucketAggregationValuesElement = (props) => {
     getChildAggCmps,
     keyField,
   } = props;
-  const toggle = (event) => {
-    console.log('toggled');
-    onFilterClicked(bucket.key);
-    event.preventDefault();
-  };
-  const donothing = (event) => {
-    console.log('do nothing');
-    event.preventDefault();
-  };
   const label = bucket.label
     ? `${bucket.label} (${bucket.doc_count})`
     : `${keyField} (${bucket.doc_count})`;
   const childAggCmps = getChildAggCmps(bucket);
   return (
     <Dropdown.Item key={bucket.key}>
-      {/* <Checkbox
-        label={label}
-        value={bucket.key}
-        onChange="toggle"
-        checked={isSelected}
-      /> */}
       <Item
         onClick={() => onFilterClicked(bucket.key)}
         className={isSelected ? 'isSelected' : ''}

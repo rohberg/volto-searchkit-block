@@ -21,6 +21,9 @@ export class Results extends Component {
     const { total } = this.props.currentResultsState.data;
     return total ? (
       <div className="fnresults">
+        {/* <Grid relaxed>
+          <ActiveFilters />
+        </Grid> */}
         <Grid>
           <Grid.Column width={4}>
             <Count />
