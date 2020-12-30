@@ -215,9 +215,6 @@ const customBucketAggregationValuesElement = (props) => {
 };
 
 let overriddenComponents = {
-  // 'BucketAggregation.element': customBucketAggregationElement,
-  // 'BucketAggregationContainer.element': customBucketAggregationContainerElement,
-  // 'BucketAggregationValues.element': customBucketAggregationValuesElement,
   'ResultsList.item.elasticsearch': CustomResultsListItem,
   'Count.element': myCountElement,
 };
