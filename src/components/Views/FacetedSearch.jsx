@@ -5,14 +5,17 @@ import { OverridableContext } from 'react-overridable';
 import { Link } from 'react-router-dom';
 import _truncate from 'lodash/truncate';
 import {
+  Checkbox,
   Container,
   Dropdown,
   Grid,
+  Icon,
   Item,
   Label,
   Segment,
 } from 'semantic-ui-react';
 import {
+  ActiveFilters,
   BucketAggregation,
   EmptyResults,
   Error,
@@ -154,9 +157,34 @@ const CustomResultsListItem = ({ result, index }) => {
 
 const myCountElement = ({ totalResults }) => <div>{totalResults} Treffer</div>;
 
+const myActiveFiltersElement = (props) => {
+  const { filters, removeActiveFilter, getLabel } = props;
+  return (
+    <>
+      {filters.map((filter, index) => {
+        const { label, activeFilter } = getLabel(filter);
+        // console.log('myActiveFiltersElement');
+        // console.log(activeFilter);
+        // console.log(removeActiveFilter);
+        // console.log(removeActiveFilter.toSource());
+        return (
+          <Label
+            image
+            key={index}
+            onClick={() => removeActiveFilter(activeFilter)}
+          >
+            {label}
+            <Icon name="delete" />
+          </Label>
+        );
+      })}
+    </>
+  );
+};
+
 // One single Filter of Faceted Navigation
 const customBucketAggregationElement = (props) => {
-  const { title, containerCmp } = props;
+  const { title, containerCmp, updateQueryFilters } = props;
   // Get label from token
   let buckets = containerCmp.props.buckets;
   let allFilters = Object.fromEntries(
@@ -165,6 +193,32 @@ const customBucketAggregationElement = (props) => {
   let selectedFilters = containerCmp.props.selectedFilters
     .map((el) => el[1])
     .map((token) => allFilters[token]);
+
+  // let options = [
+  //   { key: 1, text: 'One', value: 1 },
+  //   { key: 2, text: 'Two', value: 2 },
+  //   { key: 3, text: 'Three', value: 3 },
+  // ];
+  let options = buckets.map((bucket) => ({
+    key: bucket.key,
+    text: bucket.label,
+    value: bucket.key,
+  }));
+
+  const handleChange = (e, { value }) => {
+    console.log('Dropdown handle Change', value);
+    console.log(props);
+    // TODO handleChange, options
+    // let filters = [
+    //   // ['kompasscomponent_agg.kompasscomponent_token', 'BEW'],
+    //   ['kompasscomponent_agg.kompasscomponent_token', 'LENA'],
+    // ];
+    if (value.length) {
+      let filters = value.map((el) => [props.agg.aggName, el]);
+      updateQueryFilters(filters);
+    }
+  };
+
   return (
     containerCmp && (
       <Dropdown
@@ -177,8 +231,12 @@ const customBucketAggregationElement = (props) => {
         className={
           selectedFilters.length ? 'fnfilter selected' : 'fnfilter unselected'
         }
+        multiple
+        selection
+        options={options}
+        onChange={handleChange}
       >
-        <Dropdown.Menu>{containerCmp}</Dropdown.Menu>
+        {/* <Dropdown.Menu>{containerCmp}</Dropdown.Menu> */}
       </Dropdown>
     )
   );
@@ -196,16 +254,25 @@ const customBucketAggregationValuesElement = (props) => {
     getChildAggCmps,
     keyField,
   } = props;
+  const toggle = (event) => {
+    console.log('toggled');
+    event.preventDefault();
+  };
+  const donothing = (event) => {
+    console.log('do nothing');
+    event.preventDefault();
+  };
   const label = bucket.label
-    ? bucket.label
+    ? `${bucket.label} (${bucket.doc_count}) (${isSelected})`
     : `${keyField} (${bucket.doc_count})`;
   const childAggCmps = getChildAggCmps(bucket);
   return (
-    <Dropdown.Item key={bucket.key}>
+    <Dropdown.Item key={bucket.key} onClick={donothing}>
       {/* <Checkbox
         label={label}
         value={bucket.key}
-        onClick={() => onFilterClicked(bucket.key)}
+        onChange={toggle}
+        // onChange={() => onFilterClicked(bucket.key)}
         checked={isSelected}
       /> */}
       <Item onClick={() => onFilterClicked(bucket.key)}>{label}</Item>
@@ -217,6 +284,7 @@ const customBucketAggregationValuesElement = (props) => {
 let overriddenComponents = {
   'ResultsList.item.elasticsearch': CustomResultsListItem,
   'Count.element': myCountElement,
+  'ActiveFilters.element': myActiveFiltersElement,
 };
 
 if (configSearchFilterLayout === 'dropdown') {
