@@ -20,23 +20,43 @@
             margin: 0 0 .5rem 0;
             background-color: #f3f1f1;
             // padding: 0 0 0 .3rem;
-            padding: 0.8rem 1.2rem;
+            padding: 0.8rem 1.8rem;
             & > .dropdown.icon {
                 font-size: 1rem;
             }
+            .icon.delete {
+                position: absolute;
+                top: 0.8rem;
+                left: 3px;
+            }
             &.selected {
-                background-color: @grey;
-                color: @white;
-            }
-            .text {
-                // padding: 0.8rem 1.2rem !important;
-            }
-            .ui.dropdown .menu {
-                width: 100%;
-                & > .item {
-                    padding: 0.8rem 1.2rem !important;
+                background-color: #e8e3e3;
+                color: @black;
+                .text {
+                    max-width: 95%;
                 }
+            }
+            .menu {
+                width: 100%;
+                background-color: #d8d2d2;
+                border: none;
+                box-shadow: none;
+                & > .item {
+                    padding: 0.8rem 1.8rem !important;
+                    // color: @white;
+                    & > .item.isSelected {
+                        font-weight: bold;
+                    }
+                }
+            }
+            div.visible .menu {
+                display: block !important;
+                visibility: visible !important;
             }
         }
     }
+}
+
+.countlabel {
+    font-weight: bold;
 }
