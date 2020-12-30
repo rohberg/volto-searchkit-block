@@ -155,7 +155,9 @@ const CustomResultsListItem = ({ result, index }) => {
   );
 };
 
-const myCountElement = ({ totalResults }) => <div>{totalResults} Treffer</div>;
+const myCountElement = ({ totalResults }) => (
+  <div className="countlabel">{totalResults} Treffer</div>
+);
 
 const myActiveFiltersElement = (props) => {
   const { filters, removeActiveFilter, getLabel } = props;
@@ -163,10 +165,6 @@ const myActiveFiltersElement = (props) => {
     <>
       {filters.map((filter, index) => {
         const { label, activeFilter } = getLabel(filter);
-        // console.log('myActiveFiltersElement');
-        // console.log(activeFilter);
-        // console.log(removeActiveFilter);
-        // console.log(removeActiveFilter.toSource());
         return (
           <Label
             image
@@ -194,31 +192,13 @@ const customBucketAggregationElement = (props) => {
     .map((el) => el[1])
     .map((token) => allFilters[token]);
 
-  // let options = [
-  //   { key: 1, text: 'One', value: 1 },
-  //   { key: 2, text: 'Two', value: 2 },
-  //   { key: 3, text: 'Three', value: 3 },
-  // ];
-  let options = buckets.map((bucket) => ({
-    key: bucket.key,
-    text: bucket.label,
-    value: bucket.key,
-  }));
-
-  const handleChange = (e, { value }) => {
-    console.log('Dropdown handle Change', value);
-    console.log(props);
-    // TODO handleChange, options
-    // let filters = [
-    //   // ['kompasscomponent_agg.kompasscomponent_token', 'BEW'],
-    //   ['kompasscomponent_agg.kompasscomponent_token', 'LENA'],
-    // ];
-    if (value.length) {
-      let filters = value.map((el) => [props.agg.aggName, el]);
-      updateQueryFilters(filters);
+  const removeAggFilters = (event) => {
+    if (containerCmp.props.selectedFilters.length) {
+      updateQueryFilters(containerCmp.props.selectedFilters);
     }
+    event.preventDefault();
+    event.stopPropagation();
   };
-
   return (
     containerCmp && (
       <Dropdown
@@ -231,12 +211,13 @@ const customBucketAggregationElement = (props) => {
         className={
           selectedFilters.length ? 'fnfilter selected' : 'fnfilter unselected'
         }
-        multiple
-        selection
-        options={options}
-        onChange={handleChange}
       >
-        {/* <Dropdown.Menu>{containerCmp}</Dropdown.Menu> */}
+        <div>
+          {selectedFilters.length > 0 && (
+            <Icon name="delete" onClick={(e) => removeAggFilters(e)} />
+          )}
+          <Dropdown.Menu>{containerCmp}</Dropdown.Menu>
+        </div>
       </Dropdown>
     )
   );
@@ -256,6 +237,7 @@ const customBucketAggregationValuesElement = (props) => {
   } = props;
   const toggle = (event) => {
     console.log('toggled');
+    onFilterClicked(bucket.key);
     event.preventDefault();
   };
   const donothing = (event) => {
@@ -263,19 +245,23 @@ const customBucketAggregationValuesElement = (props) => {
     event.preventDefault();
   };
   const label = bucket.label
-    ? `${bucket.label} (${bucket.doc_count}) (${isSelected})`
+    ? `${bucket.label} (${bucket.doc_count})`
     : `${keyField} (${bucket.doc_count})`;
   const childAggCmps = getChildAggCmps(bucket);
   return (
-    <Dropdown.Item key={bucket.key} onClick={donothing}>
+    <Dropdown.Item key={bucket.key}>
       {/* <Checkbox
         label={label}
         value={bucket.key}
-        onChange={toggle}
-        // onChange={() => onFilterClicked(bucket.key)}
+        onChange="toggle"
         checked={isSelected}
       /> */}
-      <Item onClick={() => onFilterClicked(bucket.key)}>{label}</Item>
+      <Item
+        onClick={() => onFilterClicked(bucket.key)}
+        className={isSelected ? 'isSelected' : ''}
+      >
+        {label}
+      </Item>
       {childAggCmps}
     </Dropdown.Item>
   );
