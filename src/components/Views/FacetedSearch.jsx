@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 
 import { OverridableContext } from 'react-overridable';
 import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import _truncate from 'lodash/truncate';
 
 import { Portal } from 'react-portal';
@@ -310,7 +311,7 @@ const initialState = {
   size: 10,
 };
 
-const FacetedSearch = ({ data, location }) => {
+const FacetedSearch = ({ data }) => {
   const {
     search_url = data.elastic_search_api_url || 'http://localhost:9200',
     search_index = data.elastic_search_api_index || 'esploneindex',
@@ -320,6 +321,7 @@ const FacetedSearch = ({ data, location }) => {
 
   const [isClient, setIsClient] = React.useState(null);
   React.useEffect(() => setIsClient(true), []);
+  let location = useLocation();
 
   const searchApi = new ESSearchApi({
     axios: {
@@ -334,12 +336,12 @@ const FacetedSearch = ({ data, location }) => {
     },
   });
 
-  useEffect(() => {
-    // TODO set value of input field
-    let searchParams = new URLSearchParams(location?.search);
-    let q = searchParams.get('q');
-    console.debug('FNView useEffect: querystring of location', q, location);
-  }, [location, dispatch]);
+  // useEffect(() => {
+  //   // TODO set value of input field
+  //   let searchParams = new URLSearchParams(location?.search);
+  //   let q = searchParams.get('q');
+  //   // console.debug('FNView useEffect: querystring of location', q, location);
+  // }, [location, dispatch]);
 
   return (
     <Segment vertical>
@@ -350,28 +352,27 @@ const FacetedSearch = ({ data, location }) => {
             eventListenerEnabled={true}
             initialQueryState={initialState}
           >
-            <div>
-              debug1:
-              {console.log(
-                'debug1',
-                location,
-                isClient,
-                document.querySelectorAll('nav.navigation'),
-              )}
-            </div>
-            {location.pathname?.startsWith('/dokumentation') && (
-              <Portal
-                node={
-                  isClient &&
-                  document.querySelectorAll('nav.navigation') &&
-                  document.querySelectorAll('nav.navigation')[0]
-                }
-              >
-                <div>Here comes the SearchBar</div>
-                <SearchBar />
-              </Portal>
-            )}
             <Container>
+              <div>
+                debug1:
+                {console.log(
+                  'debug1',
+                  location,
+                  isClient,
+                  document.querySelectorAll('nav.navigation'),
+                )}
+              </div>
+              {location?.pathname?.startsWith('/dokumentation') && (
+                <Portal
+                  node={
+                    isClient &&
+                    document.querySelectorAll('nav.navigation') &&
+                    document.querySelectorAll('nav.navigation')[0]
+                  }
+                >
+                  <SearchBar />
+                </Portal>
+              )}
               <Grid relaxed style={{ padding: '2em 0' }}>
                 <Grid.Row>
                   <Grid.Column
