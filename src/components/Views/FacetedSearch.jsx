@@ -5,10 +5,12 @@ import { OverridableContext } from 'react-overridable';
 import { Link } from 'react-router-dom';
 import _truncate from 'lodash/truncate';
 import {
+  Button,
   Checkbox,
   Container,
   Dropdown,
   Grid,
+  Header,
   Icon,
   Item,
   Label,
@@ -252,10 +254,37 @@ const customBucketAggregationValuesElement = (props) => {
   );
 };
 
+const customEmpytResultsElement = (props) => {
+  const { queryString, resetQuery } = props;
+  return (
+    <Segment placeholder textAlign="center">
+      <Header icon>
+        <Icon name="search" />
+        Keine Resultate gefunden.
+      </Header>
+      {/* {queryString && <em>Current search "{queryString}"</em>}
+      <br /> */}
+      <Button
+        primary
+        onClick={() => {
+          resetQuery();
+          // todo click cross of search input field
+          document
+            .querySelector('nav.navigation .ui.basic.button.cancel')
+            .click();
+        }}
+      >
+        Suche zurücksetzen
+      </Button>
+    </Segment>
+  );
+};
+
 let overriddenComponents = {
   'ResultsList.item.elasticsearch': CustomResultsListItem,
   'Count.element': myCountElement,
   'ActiveFilters.element': myActiveFiltersElement,
+  'EmptyResults.element': customEmpytResultsElement,
 };
 
 if (configSearchFilterLayout === 'dropdown') {
