@@ -4,6 +4,10 @@ import React, { useEffect } from 'react';
 import { OverridableContext } from 'react-overridable';
 import { Link } from 'react-router-dom';
 import _truncate from 'lodash/truncate';
+
+import { Portal } from 'react-portal';
+import { Navigation } from '@plone/volto/components';
+
 import {
   Button,
   Checkbox,
@@ -23,6 +27,7 @@ import {
   Error,
   ReactSearchKit,
   ResultsLoader,
+  SearchBar,
   withState,
 } from 'react-searchkit';
 
@@ -313,6 +318,8 @@ const FacetedSearch = ({ data, location }) => {
 
   const dispatch = useDispatch();
 
+  const [isClient, setIsClient] = React.useState(null);
+  React.useEffect(() => setIsClient(true), []);
 
   const searchApi = new ESSearchApi({
     axios: {
@@ -343,6 +350,27 @@ const FacetedSearch = ({ data, location }) => {
             eventListenerEnabled={true}
             initialQueryState={initialState}
           >
+            <div>
+              debug1:
+              {console.log(
+                'debug1',
+                location,
+                isClient,
+                document.querySelectorAll('nav.navigation'),
+              )}
+            </div>
+            {location.pathname?.startsWith('/dokumentation') && (
+              <Portal
+                node={
+                  isClient &&
+                  document.querySelectorAll('nav.navigation') &&
+                  document.querySelectorAll('nav.navigation')[0]
+                }
+              >
+                <div>Here comes the SearchBar</div>
+                <SearchBar />
+              </Portal>
+            )}
             <Container>
               <Grid relaxed style={{ padding: '2em 0' }}>
                 <Grid.Row>
