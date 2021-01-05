@@ -2,7 +2,7 @@ import React from 'react';
 import { SidebarPortal } from '@plone/volto/components';
 
 import Sidebar from './Sidebar';
-import FacetedSearch from '../Views/FacetedSearch';
+// import FacetedSearch from '../Views/FacetedSearch';
 
 const Edit = ({ data, onChangeBlock, block, selected }) => {
   return (

@@ -1,4 +1,5 @@
 // TODO update counts of BucketAggregation on selection of filter
+// TODO lacales actionProps, placeholder
 import React, { useEffect } from 'react';
 
 import { OverridableContext } from 'react-overridable';
@@ -275,9 +276,9 @@ const customEmpytResultsElement = (props) => {
         onClick={() => {
           resetQuery();
           // todo click cross of search input field
-          document
-            .querySelector('nav.navigation .ui.basic.button.cancel')
-            .click();
+          // document
+          //   .querySelector('nav.navigation .ui.basic.button.cancel')
+          //   .click();
         }}
       >
         Suche zurücksetzen
@@ -315,6 +316,8 @@ const FacetedSearch = ({ data }) => {
   const {
     search_url = data.elastic_search_api_url || 'http://localhost:9200',
     search_index = data.elastic_search_api_index || 'esploneindex',
+    relocation = data.relocation || '',
+    relocationcontext = data.relocationcontext || null,
   } = data;
 
   const dispatch = useDispatch();
@@ -353,26 +356,40 @@ const FacetedSearch = ({ data }) => {
             initialQueryState={initialState}
           >
             <Container>
-              <div>
-                debug1:
-                {console.log(
-                  'debug1',
-                  location,
-                  isClient,
-                  document.querySelectorAll('nav.navigation'),
-                )}
-              </div>
-              {location?.pathname?.startsWith('/dokumentation') && (
+              {relocationcontext &&
+              document &&
+              location?.pathname === relocationcontext &&
+              relocation.length > 0 ? (
                 <Portal
                   node={
                     isClient &&
-                    document.querySelectorAll('nav.navigation') &&
-                    document.querySelectorAll('nav.navigation')[0]
+                    document &&
+                    document.querySelectorAll(relocation) &&
+                    document.querySelectorAll(relocation)[0]
                   }
                 >
-                  <SearchBar />
+                  <SearchBar
+                    placeholder="Suche"
+                    autofocus="true"
+                    actionProps={{ content: 'Suche' }}
+                    uiProps={{ icon: 'search', iconPosition: 'left' }}
+                  />
                 </Portal>
+              ) : (
+                <Grid relaxed style={{ padding: '2em 0' }}>
+                  <Grid.Row>
+                    <Grid.Column width={12}>
+                      <SearchBar
+                        placeholder="Suche"
+                        autofocus="true"
+                        actionProps={{ content: 'Suche' }}
+                        uiProps={{ icon: 'search', iconPosition: 'left' }}
+                      />
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
               )}
+
               <Grid relaxed style={{ padding: '2em 0' }}>
                 <Grid.Row>
                   <Grid.Column
