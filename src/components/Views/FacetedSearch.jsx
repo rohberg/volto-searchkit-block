@@ -276,9 +276,6 @@ const customEmpytResultsElement = (props) => {
         onClick={() => {
           resetQuery();
           // todo click cross of search input field
-          // document
-          //   .querySelector('nav.navigation .ui.basic.button.cancel')
-          //   .click();
         }}
       >
         Suche zurücksetzen
@@ -355,15 +352,15 @@ const FacetedSearch = ({ data }) => {
             eventListenerEnabled={true}
             initialQueryState={initialState}
           >
+
             <Container>
-              {relocationcontext &&
-              document &&
+              {typeof document !== 'undefined' &&
+              relocationcontext &&
               location?.pathname === relocationcontext &&
               relocation.length > 0 ? (
                 <Portal
                   node={
-                    isClient &&
-                    document &&
+                    __CLIENT__ &&
                     document.querySelectorAll(relocation) &&
                     document.querySelectorAll(relocation)[0]
                   }
