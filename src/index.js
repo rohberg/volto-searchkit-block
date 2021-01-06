@@ -15,8 +15,8 @@ const applyConfig = (config) => {
     view: FacetedSearchBlockView,
     icon: zoomSVG,
     group: 'text',
-    restricted: false,
-    mostUsed: true,
+    restricted: true,
+    mostUsed: false,
     sidebarTab: 1,
     security: {
       addPermission: [],
