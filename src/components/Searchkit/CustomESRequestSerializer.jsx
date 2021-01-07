@@ -47,20 +47,54 @@ export class CustomESRequestSerializer {
   serialize = (stateQuery) => {
     const { queryString, sortBy, sortOrder, page, size, filters } = stateQuery;
     // console.debug('CustomESRequestSerializer queryString', queryString);
+    // console.debug('CustomESRequestSerializer sortBy', sortBy);
     // console.debug('CustomESRequestSerializer filters', filters);
-
     const bodyParams = {};
+
     if (!_isEmpty(queryString)) {
       let qs = queryString
         .split(' ')
         .map((s) => s + '~')
         .join(' ');
-      bodyParams['query'] = {
+      // bodyParams['query'] = {
+      //   query_string: {
+      //     query: qs,
+      //   },
+      // };
+      let simpleFields = [
+        'title^1.2',
+        'id',
+        'description^1.1',
+        'subjects^2',
+        'freemanualtags^2',
+      ];
+      let nestedFields = ['manualfile__extracted.content'];
+      let shouldList = nestedFields.map((fld) => {
+        return {
+          nested: {
+            path: fld.split('.')[0],
+            query: {
+              query_string: {
+                query: qs,
+                fields: [fld],
+              },
+            },
+          },
+        };
+      });
+      shouldList.push({
         query_string: {
           query: qs,
+          fields: simpleFields,
+        },
+      });
+      bodyParams['query'] = {
+        bool: {
+          should: shouldList,
         },
       };
     }
+
     if (sortBy !== null) {
       const sortObj = {};
       sortObj[sortBy] = sortOrder && sortOrder === 'desc' ? 'desc' : 'asc';
@@ -90,7 +124,6 @@ export class CustomESRequestSerializer {
     //       ]
     //   }
     // },
-
 
     const aggFieldsMapping = {
       freemanualtags_agg: 'freemanualtags',
@@ -164,11 +197,10 @@ export class CustomESRequestSerializer {
     // console.debug('post_filter', post_filter);
     bodyParams['post_filter'] = post_filter;
 
-    // simulate a backend that defines all the possible complex aggregations per index
-    // for this demo, we define a few simple aggregations
+    // aggregations
     bodyParams['aggs'] = {};
 
-    // listFields
+    // aggregations of listFields
     Object.keys(aggFieldsMapping).map((aggName) => {
       const fieldName = aggFieldsMapping[aggName];
       // console.debug('aggs', fieldName, listFields.includes(fieldName));
@@ -180,7 +212,7 @@ export class CustomESRequestSerializer {
       }
     });
 
-    // nestedFields
+    // aggregations of nestedFields
     Object.keys(aggFieldsMapping).map((aggName) => {
       const myaggs = aggName.split('.');
       const fieldName = aggFieldsMapping[aggName];
@@ -209,7 +241,7 @@ export class CustomESRequestSerializer {
         _extend(bodyParams['aggs'], aggBucketTermsComponent);
       }
     });
-
+    // console.debug('serialize bodyParams', bodyParams);
     return bodyParams;
   };
 }
