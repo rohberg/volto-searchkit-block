@@ -62,11 +62,11 @@ export class CustomESRequestSerializer {
       //   },
       // };
       let simpleFields = [
-        'title^1.2',
+        'title^1.4',
         'id',
-        'description^1.1',
-        'subjects^2',
-        'freemanualtags^2',
+        'description^1.2',
+        'subjects^1.4',
+        'freemanualtags^1.4',
         'blocks_plaintext',
       ];
       let nestedFields = ['manualfile__extracted.content'];
