@@ -67,6 +67,7 @@ export class CustomESRequestSerializer {
         'description^1.1',
         'subjects^2',
         'freemanualtags^2',
+        'blocks_plaintext',
       ];
       let nestedFields = ['manualfile__extracted.content'];
       let shouldList = nestedFields.map((fld) => {
