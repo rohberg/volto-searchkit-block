@@ -137,7 +137,7 @@ export class CustomESRequestSerializer {
     let terms = [];
     terms.push({
       terms: {
-        portal_type: ['Manual'],
+        portal_type: ['Manual', 'DocumentationOverview'],
       },
     });
     terms.push({
