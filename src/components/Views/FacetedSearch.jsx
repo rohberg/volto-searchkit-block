@@ -87,8 +87,9 @@ const CustomResultsListItem = ({ result, index }) => {
         <Item.Description>
           {_truncate(result.description, { length: 200 })}
         </Item.Description>
-        <Item.Extra>
-          {result.kompasscomponent?.map((item) => {
+        <Item.Extra className="metadata">
+          {result.kompasscomponent && <span>Komponenten: </span>}
+          {result.kompasscomponent?.map((item, index) => {
             let tito = item.title || item.token;
             return (
               <Label
@@ -99,10 +100,16 @@ const CustomResultsListItem = ({ result, index }) => {
                 href={`/dokumentation/suche?q=&f=kompasscomponent_agg.kompasscomponent_token%3A${tito}&l=list&p=1`}
               >
                 {tito}
+                {index < result.kompasscomponent.length - 1 ? (
+                  ','
+                ) : (
+                  <span className="metadataseparator">.</span>
+                )}
               </Label>
             );
           })}
-          {result.targetaudience?.map((item) => {
+          {result.targetaudience && <span>Zielpublikum: </span>}
+          {result.targetaudience?.map((item, index) => {
             let tito_foo = item.title || item.token;
             return (
               <Label
@@ -114,10 +121,16 @@ const CustomResultsListItem = ({ result, index }) => {
                 href={`/dokumentation/suche?q=&f=targetaudience_agg.targetaudience_token%3A${tito_foo}&l=list&p=1`}
               >
                 {tito_foo}
+                {index < result.targetaudience.length - 1 ? (
+                  ','
+                ) : (
+                  <span className="metadataseparator">.</span>
+                )}
               </Label>
             );
           })}
-          {result.organisationunit?.map((item) => {
+          {result.organisationunit && <span>Organisationseinheit: </span>}
+          {result.organisationunit?.map((item, index) => {
             let tito = item.title || item.token;
             return (
               <Label
@@ -129,10 +142,16 @@ const CustomResultsListItem = ({ result, index }) => {
                 href={`/dokumentation/suche?q=&f=organisationunit_agg.organisationunit_token%3A${tito}&l=list&p=1`}
               >
                 {tito}
+                {index < result.organisationunit.length - 1 ? (
+                  ','
+                ) : (
+                  <span className="metadataseparator">.</span>
+                )}
               </Label>
             );
           })}
-          {result.informationtype?.map((item) => {
+          {result.informationtype && <span>Informationstyp: </span>}
+          {result.informationtype?.map((item, index) => {
             let tito = item.title || item.token;
             return (
               <Label
@@ -144,16 +163,27 @@ const CustomResultsListItem = ({ result, index }) => {
                 href={`/dokumentation/suche?q=&f=informationtype_agg.informationtype_token%3A${tito}&l=list&p=1`}
               >
                 {tito}
+                {index < result.informationtype.length - 1 ? (
+                  ','
+                ) : (
+                  <span></span>
+                )}
               </Label>
             );
           })}
 
           <div className="freemanualtags">
-            {result.freemanualtags?.map((item) => {
+            {result.freemanualtags && <span>Tags: </span>}
+            {result.freemanualtags?.map((item, index) => {
               let tito = item;
               return (
                 <Label key={tito} color={`pink`} tag size="mini">
                   {tito}
+                  {index < result.freemanualtags.length - 1 ? (
+                    ','
+                  ) : (
+                    <span></span>
+                  )}
                 </Label>
               );
             })}
@@ -165,7 +195,7 @@ const CustomResultsListItem = ({ result, index }) => {
 };
 
 const myCountElement = ({ totalResults }) => (
-  <div className="countlabel">{totalResults} Treffer</div>
+  <div className="countlabel">{totalResults} Suchergebnisse</div>
 );
 
 const myActiveFiltersElement = (props) => {
