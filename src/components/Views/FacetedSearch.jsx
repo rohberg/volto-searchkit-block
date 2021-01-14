@@ -76,6 +76,11 @@ const CustomResultsListItem = ({ result, index }) => {
   return (
     <Item key={index}>
       <Item.Content>
+        {result.informationtype?.length ? (
+          <Item.Meta>
+            <span>{result.informationtype[0].title}</span>
+          </Item.Meta>
+        ) : null}
         <Item.Header as={Link} to={flattenESUrlToPath(result['@id'])}>
           {result.title}
           {/* <p>result['@id']: {result['@id']}</p>
@@ -85,109 +90,83 @@ const CustomResultsListItem = ({ result, index }) => {
           </p> */}
         </Item.Header>
         <Item.Description>
-          {_truncate(result.description, { length: 200 })}
+          <Link to={flattenESUrlToPath(result['@id'])}>
+            {_truncate(result.description, { length: 200 })}
+          </Link>
         </Item.Description>
         <Item.Extra className="metadata">
-          {result.kompasscomponent && <span>Komponenten: </span>}
-          {result.kompasscomponent?.map((item, index) => {
-            let tito = item.title || item.token;
-            return (
-              <Label
-                key={tito}
-                color={`red`}
-                size="mini"
-                as="a"
-                href={`/dokumentation/suche?q=&f=kompasscomponent_agg.kompasscomponent_token%3A${tito}&l=list&p=1`}
-              >
-                {tito}
-                {index < result.kompasscomponent.length - 1 ? (
-                  ','
-                ) : (
-                  <span className="metadataseparator">.</span>
-                )}
-              </Label>
-            );
-          })}
-          {result.targetaudience && <span>Zielpublikum: </span>}
-          {result.targetaudience?.map((item, index) => {
-            let tito_foo = item.title || item.token;
-            return (
-              <Label
-                key={tito_foo}
-                color={`orange`}
-                basic
-                size="mini"
-                as="a"
-                href={`/dokumentation/suche?q=&f=targetaudience_agg.targetaudience_token%3A${tito_foo}&l=list&p=1`}
-              >
-                {tito_foo}
-                {index < result.targetaudience.length - 1 ? (
-                  ','
-                ) : (
-                  <span className="metadataseparator">.</span>
-                )}
-              </Label>
-            );
-          })}
-          {result.organisationunit && <span>Organisationseinheit: </span>}
-          {result.organisationunit?.map((item, index) => {
-            let tito = item.title || item.token;
-            return (
-              <Label
-                key={tito}
-                color={`purple`}
-                basic
-                size="mini"
-                as="a"
-                href={`/dokumentation/suche?q=&f=organisationunit_agg.organisationunit_token%3A${tito}&l=list&p=1`}
-              >
-                {tito}
-                {index < result.organisationunit.length - 1 ? (
-                  ','
-                ) : (
-                  <span className="metadataseparator">.</span>
-                )}
-              </Label>
-            );
-          })}
-          {result.informationtype && <span>Informationstyp: </span>}
-          {result.informationtype?.map((item, index) => {
-            let tito = item.title || item.token;
-            return (
-              <Label
-                key={tito}
-                color={`violet`}
-                basic
-                size="mini"
-                as="a"
-                href={`/dokumentation/suche?q=&f=informationtype_agg.informationtype_token%3A${tito}&l=list&p=1`}
-              >
-                {tito}
-                {index < result.informationtype.length - 1 ? (
-                  ','
-                ) : (
-                  <span></span>
-                )}
-              </Label>
-            );
-          })}
-
-          <div className="freemanualtags">
-            {result.freemanualtags && <span>Tags: </span>}
-            {result.freemanualtags?.map((item, index) => {
-              let tito = item;
-              return (
-                <Label key={tito} color={`pink`} tag size="mini">
-                  {tito}
-                  {index < result.freemanualtags.length - 1 ? (
-                    ','
-                  ) : (
-                    <span></span>
-                  )}
-                </Label>
-              );
-            })}
-          </div>
+          {result.kompasscomponent?.length ? (
+            <>
+              <span>Komponenten: </span>
+              {result.kompasscomponent?.map((item, index) => {
+                let tito = item.title || item.token;
+                return (
+                  <Link
+                    key={tito}
+                    to={`/dokumentation/suche?q=&f=kompasscomponent_agg.kompasscomponent_token%3A${tito}&l=list&p=1`}
+                  >
+                    {tito}
+                    {index < result.kompasscomponent.length - 1 ? ',' : null}
+                  </Link>
+                );
+              })}
+              <span className="metadataseparator">.</span>
+            </>
+          ) : null}
+          {result.targetaudience?.length ? (
+            <>
+              <span>Zielpublikum: </span>
+              {result.targetaudience?.map((item, index) => {
+                let tito_foo = item.title || item.token;
+                return (
+                  <Link
+                    key={tito_foo}
+                    to={`/dokumentation/suche?q=&f=targetaudience_agg.targetaudience_token%3A${tito_foo}&l=list&p=1`}
+                  >
+                    {tito_foo}
+                    {index < result.targetaudience.length - 1 ? ',' : null}
+                  </Link>
+                );
+              })}
+              <span className="metadataseparator">.</span>
+            </>
+          ) : null}
+          {result.organisationunit?.length ? (
+            <>
+              <span>Organisationseinheit: </span>
+              {result.organisationunit?.map((item, index) => {
+                let tito = item.title || item.token;
+                return (
+                  <Link
+                    key={tito}
+                    to={`/dokumentation/suche?q=&f=organisationunit_agg.organisationunit_token%3A${tito}&l=list&p=1`}
+                  >
+                    {tito}
+                    {index < result.organisationunit.length - 1 ? ',' : null}
+                  </Link>
+                );
+              })}
+              <span className="metadataseparator">.</span>
+            </>
+          ) : null}
+          {result.freemanualtags?.length ? (
+            <div className="freemanualtags">
+              <span>Tags: </span>
+              {result.freemanualtags?.map((item, index) => {
+                let tito = item;
+                return (
+                  <Link key={tito} to={`/dokumentation/suche?q=${tito}`}>
+                    {tito}
+                    {index < result.freemanualtags.length - 1 ? (
+                      ','
+                    ) : (
+                      <span></span>
+                    )}
+                  </Link>
+                );
+              })}
+            </div>
+          ) : null}
         </Item.Extra>
       </Item.Content>
     </Item>
@@ -332,7 +311,27 @@ if (configSearchFilterLayout === 'dropdown') {
   };
 }
 
+const sortValues = [
+  {
+    text: 'Relevanz',
+    sortBy: 'bestmatch',
+    sortOrder: 'asc',
+  },
+  {
+    text: 'Neueste',
+    sortBy: 'modified',
+    sortOrder: 'desc',
+  },
+  {
+    text: 'Alphabetisch',
+    sortBy: 'sortable_title.keyword',
+    sortOrder: 'asc',
+  },
+];
+
 const initialState = {
+  sortBy: 'bestmatch',
+  sortOrder: 'asc',
   queryString: '',
   layout: 'list',
   page: 1,
@@ -463,7 +462,7 @@ const FacetedSearch = ({ data }) => {
                     <ResultsLoader>
                       <EmptyResults />
                       <Error />
-                      <OnResults />
+                      <OnResults sortValues={sortValues} />
                     </ResultsLoader>
                   </Grid.Column>
                 </Grid.Row>

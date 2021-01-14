@@ -96,7 +96,8 @@ export class CustomESRequestSerializer {
       };
     }
 
-    if (sortBy !== null) {
+    if (sortBy !== 'bestmatch') {
+      bodyParams['sort'] = bodyParams['sort'] || [];
       const sortObj = {};
       sortObj[sortBy] = sortOrder && sortOrder === 'desc' ? 'desc' : 'asc';
       bodyParams['sort'].push(sortObj);

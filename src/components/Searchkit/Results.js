@@ -8,16 +8,14 @@
 
 import React, { Component } from 'react';
 import { Grid } from 'semantic-ui-react';
-import {
-  ActiveFilters,
-  Count,
-  Pagination,
-  ResultsMultiLayout,
-} from 'react-searchkit';
-
+import { Count, Pagination, ResultsMultiLayout, Sort } from 'react-searchkit';
 
 export class Results extends Component {
   render() {
+    console.log(
+      'Results Searchkit this.props.currentResultsState.data',
+      this.props.currentResultsState.data,
+    );
     const { total } = this.props.currentResultsState.data;
     return total ? (
       <div className="fnresults">
@@ -25,11 +23,16 @@ export class Results extends Component {
           <ActiveFilters />
         </Grid> */}
         <Grid>
-          <Grid.Column width={4}>
+          <Grid.Column width={6}>
             <Count />
           </Grid.Column>
-          <Grid.Column width={8} textAlign="right">
-            <div></div>
+          <Grid.Column width={6}>
+            <Sort
+              className="sortdropdown"
+              values={this.props.sortValues}
+              label={(cmp) => <> {cmp}</>}
+              overridableId="volto"
+            />
           </Grid.Column>
         </Grid>
         <Grid style={{ padding: '2em 0' }}>
