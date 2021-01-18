@@ -138,12 +138,12 @@ export class CustomESRequestSerializer {
     let terms = [];
     terms.push({
       terms: {
-        portal_type: ['Manual', 'DocumentationOverview'],
+        portal_type: ['Manual'],
       },
     });
     terms.push({
       terms: {
-        review_state: ['internal'],
+        review_state: ['internally_published'],
       },
     });
 
