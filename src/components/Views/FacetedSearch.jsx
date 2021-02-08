@@ -378,7 +378,7 @@ const FacetedSearch = ({ data }) => {
         <OverridableContext.Provider value={overriddenComponents}>
           <ReactSearchKit
             searchApi={searchApi}
-            eventListenerEnabled={true}
+            eventListenerEnabled={false}
             initialQueryState={initialState}
           >
 
