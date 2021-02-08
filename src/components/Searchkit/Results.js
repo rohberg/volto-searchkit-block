@@ -11,6 +11,11 @@ import { Grid } from 'semantic-ui-react';
 import { Count, Pagination, ResultsMultiLayout, Sort } from 'react-searchkit';
 
 export class Results extends Component {
+  componentDidMount() {
+    var evt = new CustomEvent('searchkitQueryChanged', {});
+    window.dispatchEvent(evt);
+  }
+
   render() {
     console.log(
       'Results Searchkit this.props.currentResultsState.data',
