@@ -27,6 +27,7 @@ import {
   BucketAggregation,
   EmptyResults,
   Error,
+  onQueryChanged,
   ReactSearchKit,
   ResultsLoader,
   SearchBar,
@@ -73,12 +74,30 @@ const OnResults = withState(Results);
 // }
 
 const CustomResultsListItem = ({ result, index }) => {
+  // TODO make this configurable
+  let flts = {
+    kompasscomponent: {
+      label: 'Komponente',
+      bucket: 'kompasscomponent_agg.kompasscomponent_token',
+    },
+    targetaudience: {
+      label: 'Zielgruppe',
+      bucket: 'targetaudience_agg.targetaudience_token',
+    },
+    organisationunit: {
+      label: 'Organistionseinheit',
+      bucket: 'organisationunit_agg.organisationunit_token',
+    },
+  };
+  let filterkeys = Object.keys(flts).filter((el) => result[el]?.length > 0);
   return (
     <Item key={index}>
       <Item.Content>
         {result.informationtype?.length ? (
           <Item.Meta>
-            <span>{result.informationtype[0].title}</span>
+            <span>
+              {result.informationtype.map((el) => el.title).join(', ')}
+            </span>
           </Item.Meta>
         ) : null}
         <Item.Header as={Link} to={flattenESUrlToPath(result['@id'])}>
@@ -95,74 +114,68 @@ const CustomResultsListItem = ({ result, index }) => {
           </Link>
         </Item.Description>
         <Item.Extra className="metadata">
-          {result.kompasscomponent?.length ? (
-            <>
-              <span>Komponenten: </span>
-              {result.kompasscomponent?.map((item, index) => {
-                let tito = item.title || item.token;
-                return (
-                  <Link
-                    key={tito}
-                    to={`/dokumentation/suche?q=&f=kompasscomponent_agg.kompasscomponent_token%3A${tito}&l=list&p=1`}
-                  >
-                    {tito}
-                    {index < result.kompasscomponent.length - 1 ? ',' : null}
-                  </Link>
-                );
-              })}
-              <span className="metadataseparator">.</span>
-            </>
-          ) : null}
-          {result.targetaudience?.length ? (
-            <>
-              <span>Zielpublikum: </span>
-              {result.targetaudience?.map((item, index) => {
-                let tito_foo = item.title || item.token;
-                return (
-                  <Link
-                    key={tito_foo}
-                    to={`/dokumentation/suche?q=&f=targetaudience_agg.targetaudience_token%3A${tito_foo}&l=list&p=1`}
-                  >
-                    {tito_foo}
-                    {index < result.targetaudience.length - 1 ? ',' : null}
-                  </Link>
-                );
-              })}
-              <span className="metadataseparator">.</span>
-            </>
-          ) : null}
-          {result.organisationunit?.length ? (
-            <>
-              <span>Organisationseinheit: </span>
-              {result.organisationunit?.map((item, index) => {
-                let tito = item.title || item.token;
-                return (
-                  <Link
-                    key={tito}
-                    to={`/dokumentation/suche?q=&f=organisationunit_agg.organisationunit_token%3A${tito}&l=list&p=1`}
-                  >
-                    {tito}
-                    {index < result.organisationunit.length - 1 ? ',' : null}
-                  </Link>
-                );
-              })}
-              <span className="metadataseparator">.</span>
-            </>
-          ) : null}
+          {filterkeys.map((flt, fltindex) => {
+            // return result[flt]?.length ? (
+            return true ? (
+              <>
+                <span key={flts[flt].label}>{flts[flt].label}: </span>
+                {result[flt]?.map((item, index) => {
+                  let tito = item.title || item.token;
+                  let payloadOfTag = {
+                    searchQuery: {
+                      sortBy: 'bestmatch',
+                      sortOrder: 'asc',
+                      layout: 'list',
+                      page: 1,
+                      size: 10,
+                      filters: [[flts[flt].bucket, tito]],
+                    },
+                  };
+                  return (
+                    <Button
+                      as={Link}
+                      onClick={() => onQueryChanged(payloadOfTag)}
+                      key={tito}
+                    >
+                      {tito}
+                      {index < result[flt].length - 1 ? ',' : null}
+                    </Button>
+                  );
+                })}
+                {fltindex < filterkeys.length - 1 && (
+                  <span className="metadataseparator">|</span>
+                )}
+              </>
+            ) : null;
+          })}
           {result.freemanualtags?.length ? (
             <div className="freemanualtags">
               <span>Tags: </span>
               {result.freemanualtags?.map((item, index) => {
                 let tito = item;
+                let payloadOfTag = {
+                  searchQuery: {
+                    sortBy: 'bestmatch',
+                    sortOrder: 'asc',
+                    layout: 'list',
+                    page: 1,
+                    size: 10,
+                    queryString: tito,
+                  },
+                };
                 return (
-                  <Link key={tito} to={`/dokumentation/suche?q=${tito}`}>
+                  <Button
+                    key={tito}
+                    as={Link}
+                    onClick={() => onQueryChanged(payloadOfTag)}
+                  >
                     {tito}
                     {index < result.freemanualtags.length - 1 ? (
                       ','
                     ) : (
                       <span></span>
                     )}
-                  </Link>
+                  </Button>
                 );
               })}
             </div>
@@ -378,7 +391,7 @@ const FacetedSearch = ({ data }) => {
         <OverridableContext.Provider value={overriddenComponents}>
           <ReactSearchKit
             searchApi={searchApi}
-            eventListenerEnabled={false}
+            eventListenerEnabled={true}
             initialQueryState={initialState}
           >
 
