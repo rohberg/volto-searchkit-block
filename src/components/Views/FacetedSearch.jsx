@@ -234,18 +234,18 @@ const customBucketAggregationElement = (props) => {
     containerCmp && (
       <Dropdown
         fluid
-        text={
-          selectedFilters.length
-            ? title + ': ' + selectedFilters.join(', ')
-            : title
-        }
+        text={selectedFilters.length ? selectedFilters.join(', ') : title}
         className={
           selectedFilters.length ? 'fnfilter selected' : 'fnfilter unselected'
         }
       >
-        <div>
+        <div className="dropdownmenuwrapper">
           {selectedFilters.length > 0 && (
-            <Icon name="delete" onClick={(e) => removeAggFilters(e)} />
+            <Icon
+              className="deleteFilter"
+              name="delete"
+              onClick={(e) => removeAggFilters(e)}
+            />
           )}
           <Dropdown.Menu>{containerCmp}</Dropdown.Menu>
         </div>
