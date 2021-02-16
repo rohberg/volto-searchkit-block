@@ -28,10 +28,10 @@ export class Results extends Component {
           <ActiveFilters />
         </Grid> */}
         <Grid>
-          <Grid.Column width={6}>
+          <Grid.Column width={4}>
             <Count />
           </Grid.Column>
-          <Grid.Column width={6}>
+          <Grid.Column width={4}>
             <Sort
               className="sortdropdown"
               values={this.props.sortValues}
@@ -39,6 +39,7 @@ export class Results extends Component {
               overridableId="volto"
             />
           </Grid.Column>
+          <Grid.Column width={4}></Grid.Column>
         </Grid>
         <Grid style={{ padding: '2em 0' }}>
           <ResultsMultiLayout overridableId="elasticsearch" />
