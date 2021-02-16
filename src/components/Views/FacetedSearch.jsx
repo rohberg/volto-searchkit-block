@@ -339,11 +339,11 @@ const sortValues = [
     sortBy: 'modified',
     sortOrder: 'desc',
   },
-  {
-    text: 'Alphabetisch',
-    sortBy: 'sortable_title.keyword',
-    sortOrder: 'asc',
-  },
+  // {
+  //   text: 'Alphabetisch',
+  //   sortBy: 'sortable_title.keyword',
+  //   sortOrder: 'asc',
+  // },
 ];
 
 const initialState = {
