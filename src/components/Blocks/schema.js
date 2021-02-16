@@ -24,7 +24,7 @@ export const SearchBlockSchema = {
     relocation: {
       title: 'Relocation',
       description:
-        'Selector for relaction of search bar. Leave empty to keep search bar in block.',
+        'Selector for relocation of search bar. Leave empty to keep search bar in block.',
     },
     relocationcontext: {
       title: 'Relocation context',

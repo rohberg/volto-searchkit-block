@@ -11,7 +11,7 @@ Demo GIF
 
 ## Getting started
 
-Your have ElasticSearch up and running with Plone. 
+You have ElasticSearch up and running with Plone. 
 
 * Your ElasticSearch Server is available on 'myelasticsearch.acme.org'
 * Your Index is 'esploneindex'
@@ -28,6 +28,31 @@ http.cors.allow-origin : /https?:\/\/(.*)acme.org(.*)/
 
 Start ElasticSearch with ELASTIC_URL=myelasticsearch.acme.org/esploneindex ./bin/elasticsearch
 
+
+
+## Configuration
+
+```js
+  properties: {
+    elastic_search_api_url: {
+      title: 'Elastic Search API URL',
+      default: 'http://localhost:9200',
+    },
+    elastic_search_api_index: {
+      title: 'Elastic Search API Index',
+      default: 'esploneindex',
+    },
+    relocation: {
+      title: 'Relocation',
+      description:
+        'Selector for relocation of search bar. Leave empty to keep search bar in block.',
+    },
+    relocationcontext: {
+      title: 'Relocation context',
+      description: 'Path where search bar should be relocated',
+    },
+  },
+```
 
 ## Copyright and license
 
