@@ -184,9 +184,17 @@ const CustomResultsListItem = ({ result, index }) => {
   );
 };
 
-const myCountElement = ({ totalResults }) => (
-  <div className="countlabel">{totalResults} Suchergebnisse</div>
-);
+const myCountElement = ({ totalResults }) => {
+  // TODO translation search result label
+  let labelSearchResults = 'Suchergebnis';
+  let labelSearchResultsPlural = 'Suchergebnisse';
+  return (
+    <div className="countlabel">
+      {totalResults}{' '}
+      {totalResults === 1 ? labelSearchResults : labelSearchResultsPlural}
+    </div>
+  );
+};
 
 const myActiveFiltersElement = (props) => {
   const { filters, removeActiveFilter, getLabel } = props;
