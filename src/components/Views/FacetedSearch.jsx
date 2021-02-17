@@ -458,6 +458,13 @@ const FacetedSearch = ({ data }) => {
                       }}
                     />
                     <BucketAggregation
+                      title="Informationstyp"
+                      agg={{
+                        field: 'informationtype',
+                        aggName: 'informationtype_agg.informationtype_token',
+                      }}
+                    />
+                    <BucketAggregation
                       title="Zielpublikum"
                       agg={{
                         field: 'targetaudience',
@@ -469,13 +476,6 @@ const FacetedSearch = ({ data }) => {
                       agg={{
                         field: 'organisationunit',
                         aggName: 'organisationunit_agg.organisationunit_token',
-                      }}
-                    />
-                    <BucketAggregation
-                      title="Informationstyp"
-                      agg={{
-                        field: 'informationtype',
-                        aggName: 'informationtype_agg.informationtype_token',
                       }}
                     />
                   </Grid.Column>
