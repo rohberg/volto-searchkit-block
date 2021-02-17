@@ -39,8 +39,6 @@ import { CustomESRequestSerializer } from '../Searchkit/CustomESRequestSerialize
 import { CustomESResponseSerializer } from '../Searchkit/CustomESResponseSerializer';
 import { Results } from '../Searchkit/Results';
 
-import { NoSSR } from '../helpers';
-
 import { useDispatch } from 'react-redux';
 import { flattenESUrlToPath } from '../helpers';
 
@@ -391,7 +389,7 @@ const FacetedSearch = ({ data }) => {
 
   return (
     <Segment vertical>
-      <NoSSR>
+      {__CLIENT__ && (
         <OverridableContext.Provider value={overriddenComponents}>
           <ReactSearchKit
             searchApi={searchApi}
@@ -487,7 +485,7 @@ const FacetedSearch = ({ data }) => {
             </Container>
           </ReactSearchKit>
         </OverridableContext.Provider>
-      </NoSSR>
+      )}
     </Segment>
   );
 };
