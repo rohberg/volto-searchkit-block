@@ -6,6 +6,7 @@ import { OverridableContext } from 'react-overridable';
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import _truncate from 'lodash/truncate';
+import cx from 'classnames';
 
 import { Portal } from 'react-portal';
 import { Navigation } from '@plone/volto/components';
@@ -89,7 +90,10 @@ const CustomResultsListItem = ({ result, index }) => {
   };
   let filterkeys = Object.keys(flts).filter((el) => result[el]?.length > 0);
   return (
-    <Item key={index}>
+    <Item
+      key={index}
+      className={cx('searchkitresultitem', result.review_state)}
+    >
       <Item.Content>
         {result.informationtype?.length ? (
           <Item.Meta>

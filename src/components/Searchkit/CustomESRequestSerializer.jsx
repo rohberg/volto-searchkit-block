@@ -143,7 +143,7 @@ export class CustomESRequestSerializer {
     });
     terms.push({
       terms: {
-        review_state: ['internally_published'],
+        review_state: ['internally_published', 'private', 'draft'],
       },
     });
 
