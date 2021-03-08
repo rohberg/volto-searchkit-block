@@ -31,7 +31,7 @@ export class Results extends Component {
           <Grid.Column width={4}>
             <Count />
           </Grid.Column>
-          <Grid.Column width={4}>
+          <Grid.Column width={6}>
             <Sort
               className="sortdropdown"
               values={this.props.sortValues}

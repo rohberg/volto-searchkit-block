@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import _truncate from 'lodash/truncate';
 import cx from 'classnames';
-
+import { FormattedMessage } from 'react-intl';
 import { Portal } from 'react-portal';
 import { Navigation } from '@plone/volto/components';
 
@@ -320,11 +320,59 @@ const customEmpytResultsElement = (props) => {
   );
 };
 
+const customSort = ({
+  currentSortBy,
+  currentSortOrder,
+  options,
+  onValueChange,
+  computeValue,
+}) => {
+  console.log('customSort', options);
+  const selected = computeValue(currentSortBy, currentSortOrder);
+  // const _options = options.map((element, index) => {
+  //   return {
+  //     key: index,
+  //     text: element.text,
+  //     value: element.value,
+  //   };
+  // });
+  return (
+    <Header>
+      <Header.Content className="header-content">
+        <div className="sort-by">
+          <FormattedMessage id="Sort By:" defaultMessage="Sort by:" />
+        </div>
+        <Button
+          onClick={(e) => onValueChange('bestmatch-asc')}
+          name="bestmatch-asc"
+          size="tiny"
+          className={cx('button-sort', {
+            'button-active': selected === 'bestmatch-asc',
+          })}
+        >
+          <FormattedMessage id="Relevance" defaultMessage="Relevance" />
+        </Button>
+        <Button
+          onClick={(e) => onValueChange('modified-desc')}
+          name="modified-desc"
+          size="tiny"
+          className={cx('button-sort', {
+            'button-active': selected === 'modified-desc',
+          })}
+        >
+          Datum
+        </Button>
+      </Header.Content>
+    </Header>
+  );
+};
+
 let overriddenComponents = {
   'ResultsList.item.elasticsearch': CustomResultsListItem,
   'Count.element': myCountElement,
   'ActiveFilters.element': myActiveFiltersElement,
   'EmptyResults.element': customEmpytResultsElement,
+  'Sort.element.volto': customSort,
 };
 
 if (configSearchFilterLayout === 'dropdown') {
