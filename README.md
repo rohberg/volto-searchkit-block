@@ -3,6 +3,8 @@
 
 [Volto](https://github.com/plone/volto) add-on
 
+This package is a Plone Volto integration of react-searchkit https://www.npmjs.com/package/react-searchkit
+
 ## Features
 
 ###
@@ -32,6 +34,11 @@ Start ElasticSearch with ELASTIC_URL=myelasticsearch.acme.org/esploneindex ./bin
 
 ## Configuration
 
+The block can be configured by 
+
+- url of elastic search server
+- relocation of the search bar
+
 ```js
   properties: {
     elastic_search_api_url: {
@@ -54,9 +61,14 @@ Start ElasticSearch with ELASTIC_URL=myelasticsearch.acme.org/esploneindex ./bin
   },
 ```
 
+## Credits
+
+This package is a Plone Volto integration of react-searchkit https://www.npmjs.com/package/react-searchkit
+
+
 ## Copyright and license
 
-The Initial Owner of the Original Code is the Plone Foundation.
+The Initial Owner of the Original Code is Rohberg, Zürich.
 All Rights Reserved.
 
 See [LICENSE.md](https://github.com/rohberg/volto-searchkit-block/blob/master/LICENSE.md) for details.
