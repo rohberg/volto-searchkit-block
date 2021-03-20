@@ -43,7 +43,7 @@ import { Results } from '../Searchkit/Results';
 import { useDispatch } from 'react-redux';
 import { flattenESUrlToPath } from '../helpers';
 
-import './less/public.less';
+import './less/springisnow-volto-searchkit-block.less';
 
 // TODO configSearchFilterLayout: configurable layout of filters (menu cards or dropdown)
 const configSearchFilterLayout = 'dropdown';
