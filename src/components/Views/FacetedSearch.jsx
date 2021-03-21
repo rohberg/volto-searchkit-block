@@ -327,7 +327,6 @@ const customSort = ({
   onValueChange,
   computeValue,
 }) => {
-  console.log('customSort', options);
   const selected = computeValue(currentSortBy, currentSortOrder);
   // const _options = options.map((element, index) => {
   //   return {
