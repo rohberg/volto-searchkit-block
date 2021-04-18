@@ -1,5 +1,4 @@
 # volto-searchkit-block
-[![Releases](https://img.shields.io/github/v/release/rohberg/volto-searchkit-block)](https://github.com/rohberg/volto-searchkit-block/releases)
 
 [Volto](https://github.com/plone/volto) add-on
 
