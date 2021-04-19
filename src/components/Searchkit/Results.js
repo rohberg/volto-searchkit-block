@@ -17,11 +17,8 @@ export class Results extends Component {
   }
 
   render() {
-    console.log(
-      'Results Searchkit this.props.currentResultsState.data',
-      this.props.currentResultsState.data,
-    );
     const { total } = this.props.currentResultsState.data;
+    // console.log('Results Searchkit this.props.currentResultsState.data', total);
     return total ? (
       <div className="fnresults">
         {/* <Grid relaxed>
