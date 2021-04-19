@@ -21,9 +21,6 @@ export class Results extends Component {
     // console.log('Results Searchkit this.props.currentResultsState.data', total);
     return total ? (
       <div className="fnresults">
-        {/* <Grid relaxed>
-          <ActiveFilters />
-        </Grid> */}
         <Grid>
           <Grid.Column width={4}>
             <Count />
