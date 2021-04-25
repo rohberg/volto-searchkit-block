@@ -453,6 +453,17 @@ const FacetedSearch = ({ data }) => {
   //   console.log('searchstring reseted');
   // };
 
+  const payloadOFReset = {
+    searchQuery: {
+      sortBy: 'bestmatch',
+      sortOrder: 'asc',
+      layout: 'list',
+      page: 1,
+      size: 10,
+      queryString: '',
+    },
+  };
+
   return (
     <Segment vertical>
       {__CLIENT__ && (
@@ -482,6 +493,12 @@ const FacetedSearch = ({ data }) => {
                       content: 'reset',
                     }}
                     uiProps={{ icon: 'search', iconPosition: 'left' }}
+                  />
+                  <Icon
+                    basic
+                    icon
+                    name="delete"
+                    onClick={() => onQueryChanged(payloadOFReset)}
                   />
                 </Portal>
               ) : (
