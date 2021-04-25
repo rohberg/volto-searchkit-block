@@ -33,6 +33,7 @@ import {
   ResultsLoader,
   SearchBar,
   withState,
+  // updateQueryString,
 } from 'react-searchkit';
 
 import { ESSearchApi } from '../Searchkit/ESSearchApi';
@@ -446,6 +447,12 @@ const FacetedSearch = ({ data }) => {
   //   // console.debug('FNView useEffect: querystring of location', q, location);
   // }, [location, dispatch]);
 
+  // const onResetSearch = () => {
+  //   console.log('reset searchstring');
+  //   updateQueryString('');
+  //   console.log('searchstring reseted');
+  // };
+
   return (
     <Segment vertical>
       {__CLIENT__ && (
@@ -471,7 +478,9 @@ const FacetedSearch = ({ data }) => {
                   <SearchBar
                     placeholder="Suche"
                     autofocus="true"
-                    actionProps={{ content: 'Suche' }}
+                    actionProps={{
+                      content: 'reset',
+                    }}
                     uiProps={{ icon: 'search', iconPosition: 'left' }}
                   />
                 </Portal>
@@ -482,7 +491,9 @@ const FacetedSearch = ({ data }) => {
                       <SearchBar
                         placeholder="Suche"
                         autofocus="true"
-                        actionProps={{ content: 'Suche' }}
+                        actionProps={{
+                          content: 'reset',
+                        }}
                         uiProps={{ icon: 'search', iconPosition: 'left' }}
                       />
                     </Grid.Column>
