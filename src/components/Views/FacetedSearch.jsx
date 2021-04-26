@@ -453,7 +453,7 @@ const FacetedSearch = ({ data }) => {
   //   console.log('searchstring reseted');
   // };
 
-  const payloadOFReset = {
+  const payloadOfReset = {
     searchQuery: {
       sortBy: 'bestmatch',
       sortOrder: 'asc',
@@ -462,6 +462,22 @@ const FacetedSearch = ({ data }) => {
       size: 10,
       queryString: '',
     },
+  };
+
+  const onResetHandler = (event) => {
+    onQueryChanged(payloadOfReset);
+  };
+
+  const onKeyUpHandler = (event) => {
+    const el = document.querySelector('.navigation-dropdownmenu');
+    if (el) {
+      // Number 13 is the "Enter" key on the keyboard
+      if (event.keyCode === 13) {
+        // Cancel the default action, if needed
+        event.preventDefault();
+        el.scrollIntoView();
+      }
+    }
   };
 
   return (
@@ -492,13 +508,18 @@ const FacetedSearch = ({ data }) => {
                     actionProps={{
                       content: 'reset',
                     }}
-                    uiProps={{ icon: 'search', iconPosition: 'left' }}
+                    uiProps={{
+                      icon: 'search',
+                      iconPosition: 'left',
+                      onKeyUp: onKeyUpHandler,
+                      class: 'searchbarinput',
+                    }}
                   />
                   <Icon
                     basic
                     icon
                     name="delete"
-                    onClick={() => onQueryChanged(payloadOFReset)}
+                    onClick={(event) => onResetHandler(event)}
                   />
                 </Portal>
               ) : (
@@ -511,7 +532,17 @@ const FacetedSearch = ({ data }) => {
                         actionProps={{
                           content: 'reset',
                         }}
-                        uiProps={{ icon: 'search', iconPosition: 'left' }}
+                        uiProps={{
+                          icon: 'search',
+                          iconPosition: 'left',
+                          onKeyUp: onKeyUpHandler,
+                        }}
+                      />
+                      <Icon
+                        basic
+                        icon
+                        name="delete"
+                        onClick={(event) => onResetHandler(event)}
                       />
                     </Grid.Column>
                   </Grid.Row>
