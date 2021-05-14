@@ -222,7 +222,10 @@ const myActiveFiltersElement = (props) => {
   );
 };
 
-// One single Filter of Faceted Navigation
+/**
+ * customBucketAggregationElement
+ * One single Filter of Faceted Navigation
+ */
 const customBucketAggregationElement = (props) => {
   const { title, containerCmp, updateQueryFilters } = props;
   // Get label from token
@@ -367,7 +370,7 @@ const customSort = ({
   );
 };
 
-let overriddenComponents = {
+let defaultOverriddenComponents = {
   'ResultsList.item.elasticsearch': CustomResultsListItem,
   'Count.element': myCountElement,
   'ActiveFilters.element': myActiveFiltersElement,
@@ -376,8 +379,8 @@ let overriddenComponents = {
 };
 
 if (configSearchFilterLayout === 'dropdown') {
-  overriddenComponents = {
-    ...overriddenComponents,
+  defaultOverriddenComponents = {
+    ...defaultOverriddenComponents,
     ...{
       'BucketAggregation.element': customBucketAggregationElement,
       'BucketAggregationContainer.element': customBucketAggregationContainerElement,
@@ -413,7 +416,10 @@ const initialState = {
   size: 10,
 };
 
-const FacetedSearch = ({ data }) => {
+const FacetedSearch = ({
+  data,
+  overriddenComponents = defaultOverriddenComponents,
+}) => {
   const {
     search_url = data.elastic_search_api_url || 'http://localhost:9200',
     search_index = data.elastic_search_api_index || 'esploneindex',
