@@ -46,8 +46,7 @@ import { flattenESUrlToPath } from '../helpers';
 
 import './less/springisnow-volto-searchkit-block.less';
 
-// TODO configSearchFilterLayout: configurable layout of filters (menu cards or dropdown)
-const configSearchFilterLayout = 'dropdown';
+import config from '@plone/volto/registry';
 
 const OnResults = withState(Results);
 
@@ -370,7 +369,7 @@ const customSort = ({
   );
 };
 
-let defaultOverriddenComponents = {
+const defaultOverriddenComponents = {
   'ResultsList.item.elasticsearch': CustomResultsListItem,
   'Count.element': myCountElement,
   'ActiveFilters.element': myActiveFiltersElement,
@@ -378,16 +377,11 @@ let defaultOverriddenComponents = {
   'Sort.element.volto': customSort,
 };
 
-if (configSearchFilterLayout === 'dropdown') {
-  defaultOverriddenComponents = {
-    ...defaultOverriddenComponents,
-    ...{
-      'BucketAggregation.element': customBucketAggregationElement,
-      'BucketAggregationContainer.element': customBucketAggregationContainerElement,
-      'BucketAggregationValues.element': customBucketAggregationValuesElement,
-    },
-  };
-}
+const dropdownOverriddenComponents = {
+  'BucketAggregation.element': customBucketAggregationElement,
+  'BucketAggregationContainer.element': customBucketAggregationContainerElement,
+  'BucketAggregationValues.element': customBucketAggregationValuesElement,
+};
 
 const sortValues = [
   {
@@ -416,9 +410,16 @@ const initialState = {
   size: 10,
 };
 
+/**
+ * 
+ * @param {string} filterLayout default 'dropdown'
+ * @param {object} overriddenComponents Override with custom components, ignore to stay with default 'dropdown' or step back to react-searchkit default components with value {}
+ * @returns 
+ */
 const FacetedSearch = ({
   data,
-  overriddenComponents = defaultOverriddenComponents,
+  overriddenComponents,
+  filterLayout = config.settings.searchkitblock.filterLayout
 }) => {
   const {
     search_url = data.elastic_search_api_url || 'http://localhost:9200',
@@ -426,6 +427,11 @@ const FacetedSearch = ({
     relocation = data.relocation || '',
     relocationcontext = data.relocationcontext || null,
   } = data;
+
+  overriddenComponents = overriddenComponents ?? {
+    ...defaultOverriddenComponents,
+    ...(filterLayout === 'dropdown' && dropdownOverriddenComponents),
+  }
 
   const dispatch = useDispatch();
 
@@ -560,10 +566,7 @@ const FacetedSearch = ({
                   <Grid.Column
                     width={12}
                     className={
-                      'facetedsearch_filter ' +
-                      (configSearchFilterLayout === 'cards'
-                        ? 'cards'
-                        : 'dropdown')
+                      'facetedsearch_filter ' + filterLayout
                     }
                   >
                     <BucketAggregation
