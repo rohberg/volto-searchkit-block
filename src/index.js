@@ -8,8 +8,9 @@ import {
 
 const applyConfig = (config) => {
   config.settings.searchkitblock = {
-    ...config.settings.searchkitblock,
+    ...(config.settings.searchkitblock ?? {}),
     elasticurl: process.env.ELASTIC_URL || 'http://localhost:9200/esploneindex',
+    filterLayout: 'dropdown',
   };
 
   config.blocks.blocksConfig.searchkitblock = {
