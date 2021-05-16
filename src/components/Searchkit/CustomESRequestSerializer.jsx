@@ -149,10 +149,10 @@ export class CustomESRequestSerializer {
 
     let filter = [];
     if (filters.length) {
-      // ES need the field name as field, get the field name from the aggregation name
+      // ES needs the field name as field, get the field name from the aggregation name
       const aggValueObj = this.getFilters(filters);
-      // conver to object
-      // console.debug('serialize: aggValueObj', aggValueObj);
+      // convert to object
+      console.debug('serialize: aggValueObj', aggValueObj);
       const additionalterms = Object.keys(aggValueObj).reduce(
         (accumulator, aggName) => {
           const obj = {};
@@ -165,7 +165,7 @@ export class CustomESRequestSerializer {
         },
         [],
       );
-      // console.debug('serialize: additionalterms', additionalterms);
+      console.debug('serialize: additionalterms', additionalterms);
       terms = terms.concat(additionalterms);
 
       filter = Object.keys(aggValueObj).reduce((accumulator, aggName) => {
@@ -192,17 +192,17 @@ export class CustomESRequestSerializer {
     }
 
     const post_filter = { bool: { must: terms } };
-    // console.debug('filter', filter);
+    console.debug('filter', filter);
     if (filter.length) {
       post_filter['bool']['filter'] = filter;
     }
-    // console.debug('post_filter', post_filter);
+    console.debug('post_filter', post_filter);
     bodyParams['post_filter'] = post_filter;
 
     // aggregations
     bodyParams['aggs'] = {};
 
-    // aggregations of listFields
+    // 1. aggregations of listFields
     Object.keys(aggFieldsMapping).map((aggName) => {
       const fieldName = aggFieldsMapping[aggName];
       // console.debug('aggs', fieldName, listFields.includes(fieldName));
@@ -214,12 +214,14 @@ export class CustomESRequestSerializer {
       }
     });
 
-    // aggregations of nestedFields
+    // 2. aggregations of nestedFields
     Object.keys(aggFieldsMapping).map((aggName) => {
+      // console.log('nestedFields', nestedFields);
       const myaggs = aggName.split('.');
       const fieldName = aggFieldsMapping[aggName];
       // console.debug('aggs', fieldName, nestedFields.includes(fieldName));
       if (nestedFields.includes(fieldName)) {
+        // console.log('fieldName in nestedFields:', fieldName, aggName);
         const aggBucketTermsComponent = {
           [myaggs[0]]: {
             nested: {
@@ -243,7 +245,7 @@ export class CustomESRequestSerializer {
         _extend(bodyParams['aggs'], aggBucketTermsComponent);
       }
     });
-    // console.debug('serialize bodyParams', bodyParams);
+    console.debug('>>> serialize bodyParams', bodyParams);
     return bodyParams;
   };
 }
