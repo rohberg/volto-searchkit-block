@@ -8,6 +8,17 @@
 
 @import (multiple) '../../theme.config';
 
+.searchbar-wrapper {
+    display: flex;
+    align-items: baseline;
+    .ui.fluid.input > input {
+        width: unset !important;
+    }
+    .icon.delete {
+        cursor: pointer;
+    }
+}
+
 // .ui.grid > .row > .column.facetedsearch_filter {
 .facetedsearch_filter {
     &.cards {

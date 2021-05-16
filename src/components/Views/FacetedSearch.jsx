@@ -514,48 +514,46 @@ const FacetedSearch = ({
                     document.querySelectorAll(relocation)[0]
                   }
                 >
-                  <SearchBar
-                    placeholder="Suche"
-                    autofocus="true"
-                    actionProps={{
-                      content: 'reset',
-                    }}
-                    uiProps={{
-                      icon: 'search',
-                      iconPosition: 'left',
-                      onKeyUp: onKeyUpHandler,
-                      class: 'searchbarinput',
-                    }}
-                  />
-                  <Icon
-                    basic
-                    icon
-                    name="delete"
-                    onClick={(event) => onResetHandler(event)}
-                  />
+                  <div className="searchbar-wrapper">
+                    <SearchBar
+                      placeholder="Suche"
+                      autofocus="true"
+                      uiProps={{
+                        icon: 'search',
+                        iconPosition: 'left',
+                        onKeyUp: onKeyUpHandler,
+                        class: 'searchbarinput',
+                      }}
+                    />
+                    <Icon
+                      basic
+                      icon
+                      name="delete"
+                      onClick={(event) => onResetHandler(event)}
+                    />
+                  </div>
                 </Portal>
               ) : (
                 <Grid relaxed style={{ padding: '2em 0' }}>
                   <Grid.Row>
                     <Grid.Column width={12}>
-                      <SearchBar
-                        placeholder="Suche"
-                        autofocus="true"
-                        actionProps={{
-                          content: 'reset',
-                        }}
-                        uiProps={{
-                          icon: 'search',
-                          iconPosition: 'left',
-                          onKeyUp: onKeyUpHandler,
-                        }}
-                      />
-                      <Icon
-                        basic
-                        icon
-                        name="delete"
-                        onClick={(event) => onResetHandler(event)}
-                      />
+                      <div className="searchbar-wrapper">
+                        <SearchBar
+                          placeholder="Suche"
+                          autofocus="true"
+                          uiProps={{
+                            icon: 'search',
+                            iconPosition: 'left',
+                            onKeyUp: onKeyUpHandler,
+                          }}
+                        />
+                        <Icon
+                          basic
+                          icon
+                          name="delete"
+                          onClick={(event) => onResetHandler(event)}
+                        />
+                      </div>
                     </Grid.Column>
                   </Grid.Row>
                 </Grid>
