@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "react-overridable": "^0.0.3",
-    "react-searchkit": "github:rohberg/react-searchkit"
+    "react-searchkit": "^v1.0.0-alpha.15"
   },
   "scripts": {
     "release": "release-it",
