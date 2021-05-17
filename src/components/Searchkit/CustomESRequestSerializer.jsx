@@ -188,15 +188,15 @@ export class CustomESRequestSerializer {
         }
         return accumulator;
       }, []);
-      // console.debug('serialize: filter', filter);
+      console.debug('serialize: filter', filter);
     }
 
     const post_filter = { bool: { must: terms } };
-    console.debug('filter', filter);
+    // console.debug('filter', filter);
     if (filter.length) {
       post_filter['bool']['filter'] = filter;
     }
-    console.debug('post_filter', post_filter);
+    // console.debug('post_filter', post_filter);
     bodyParams['post_filter'] = post_filter;
 
     // aggregations
@@ -222,20 +222,66 @@ export class CustomESRequestSerializer {
       // console.debug('aggs', fieldName, nestedFields.includes(fieldName));
       if (nestedFields.includes(fieldName)) {
         // console.log('fieldName in nestedFields:', fieldName, aggName);
+
+        const filter_debug = {
+          nested: {
+            path: 'informationtype',
+            query: {
+              bool: {
+                must: [
+                  {
+                    terms: {
+                      'informationtype.token': ['Anleitung', 'FAQ'],
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        };
+
+        // const aggBucketTermsComponent_old = {
+        //   [myaggs[0]]: {
+        //     nested: {
+        //       path: fieldName,
+        //     },
+        //     aggs: {
+        //       [myaggs[1]]: {
+        //         terms: {
+        //           field: fieldName + '.token',
+        //           order: { _key: 'asc' },
+        //         },
+        //         aggs: {
+        //           somemoredatafromelasticsearch: {
+        //             top_hits: { size: 1, _source: { include: [fieldName] } },
+        //           },
+        //         },
+        //       },
+        //     },
+        //   },
+        // };
         const aggBucketTermsComponent = {
           [myaggs[0]]: {
-            nested: {
-              path: fieldName,
-            },
+            filter: filter_debug, // TODO filter
             aggs: {
-              [myaggs[1]]: {
-                terms: {
-                  field: fieldName + '.token',
-                  order: { _key: 'asc' },
+              inner: {
+                nested: {
+                  path: fieldName,
                 },
                 aggs: {
-                  somemoredatafromelasticsearch: {
-                    top_hits: { size: 1, _source: { include: [fieldName] } },
+                  [myaggs[1]]: {
+                    terms: {
+                      field: fieldName + '.token',
+                      order: { _key: 'asc' },
+                    },
+                    aggs: {
+                      somemoredatafromelasticsearch: {
+                        top_hits: {
+                          size: 1,
+                          _source: { include: [fieldName] },
+                        },
+                      },
+                    },
                   },
                 },
               },
@@ -250,7 +296,9 @@ export class CustomESRequestSerializer {
   };
 }
 
-// payload demo
+/**
+ * payload demo
+ */
 /*
 {
   "size": 10,
