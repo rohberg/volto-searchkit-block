@@ -1,19 +1,17 @@
 // TODO update counts of BucketAggregation on selection of filter
 // TODO lacales actionProps, placeholder
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { OverridableContext } from 'react-overridable';
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
-import _truncate from 'lodash/truncate';
+import { compact, truncate } from 'lodash';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import { Portal } from 'react-portal';
-import { Navigation } from '@plone/volto/components';
 
 import {
   Button,
-  Checkbox,
   Container,
   Dropdown,
   Grid,
@@ -24,7 +22,6 @@ import {
   Segment,
 } from 'semantic-ui-react';
 import {
-  ActiveFilters,
   BucketAggregation,
   EmptyResults,
   Error,
@@ -112,7 +109,7 @@ const CustomResultsListItem = ({ result, index }) => {
         </Item.Header>
         <Item.Description>
           <Link to={flattenESUrlToPath(result['@id'])}>
-            {_truncate(result.description, { length: 200 })}
+            {truncate(result.description, { length: 200 })}
           </Link>
         </Item.Description>
         <Item.Extra className="metadata">
@@ -235,6 +232,7 @@ const customBucketAggregationElement = (props) => {
   let selectedFilters = containerCmp.props.selectedFilters
     .map((el) => el[1])
     .map((token) => allFilters[token]);
+  selectedFilters = compact(selectedFilters);
 
   const removeAggFilters = (event) => {
     if (containerCmp.props.selectedFilters.length) {
@@ -248,7 +246,7 @@ const customBucketAggregationElement = (props) => {
       <div className="bucketAE">
         <Dropdown
           fluid
-          text={selectedFilters.length ? selectedFilters.join(', ') : title}
+          text={selectedFilters.length > 0 ? selectedFilters.join(', ') : title}
           className={
             selectedFilters.length ? 'fnfilter selected' : 'fnfilter unselected'
           }
