@@ -47,7 +47,7 @@ export class CustomESRequestSerializer {
     const { queryString, sortBy, sortOrder, page, size, filters } = stateQuery;
     // console.debug('CustomESRequestSerializer queryString', queryString);
     // console.debug('CustomESRequestSerializer sortBy', sortBy);
-    console.debug('CustomESRequestSerializer filters', filters);
+    // console.debug('CustomESRequestSerializer filters', filters);
     const bodyParams = {};
 
     if (!isEmpty(queryString)) {
@@ -152,7 +152,7 @@ export class CustomESRequestSerializer {
       // ES needs the field name as field, get the field name from the aggregation name
       const aggValueObj = this.getFilters(filters);
       // convert to object
-      console.debug('serialize: aggValueObj', aggValueObj);
+      // console.debug('serialize: aggValueObj', aggValueObj);
       const additionalterms = Object.keys(aggValueObj).reduce(
         (accumulator, aggName) => {
           const obj = {};
@@ -165,10 +165,10 @@ export class CustomESRequestSerializer {
         },
         [],
       );
-      console.debug('serialize: additionalterms', additionalterms);
+      // console.debug('serialize: additionalterms', additionalterms);
       terms = terms.concat(additionalterms);
 
-      console.debug('aggValueObj', aggValueObj);
+      // console.debug('aggValueObj', aggValueObj);
       filter = Object.keys(aggValueObj).reduce((accumulator, aggName) => {
         const obj = {};
         const fieldName = aggFieldsMapping[aggName];
@@ -197,11 +197,11 @@ export class CustomESRequestSerializer {
     // listFields
     const post_filter = { bool: { must: terms } };
     // nestedFields
-    console.debug('filter', filter);
+    // console.debug('filter', filter);
     if (!isEmpty(filter)) {
       post_filter['bool']['filter'] = filter;
     }
-    console.debug('post_filter', post_filter);
+    // console.debug('post_filter', post_filter);
     bodyParams['post_filter'] = post_filter;
 
     // aggregations
@@ -249,7 +249,6 @@ export class CustomESRequestSerializer {
           // agg is a key of aggFieldsMapping.
           // something like 'kompasscomponent_agg.inner.kompasscomponent_token'
           // return filter_debug;
-          console.debug('aggregation_filter agg', agg);
           return isEmpty(filter)
             ? { match_all: {} }
             : {
@@ -315,10 +314,10 @@ export class CustomESRequestSerializer {
         extend(bodyParams['aggs'], aggBucketTermsComponent);
       }
     });
-    console.debug(
-      'CustomESRequestSerializer serialize returns bodyParams',
-      bodyParams,
-    );
+    // console.debug(
+    //   'CustomESRequestSerializer serialize returns bodyParams',
+    //   bodyParams,
+    // );
     return bodyParams;
   };
 }
