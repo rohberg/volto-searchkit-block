@@ -168,7 +168,7 @@ export class CustomESRequestSerializer {
       console.debug('serialize: additionalterms', additionalterms);
       terms = terms.concat(additionalterms);
 
-      console.log('aggValueObj', aggValueObj);
+      console.debug('aggValueObj', aggValueObj);
       filter = Object.keys(aggValueObj).reduce((accumulator, aggName) => {
         const obj = {};
         const fieldName = aggFieldsMapping[aggName];
@@ -249,11 +249,14 @@ export class CustomESRequestSerializer {
           // agg is a key of aggFieldsMapping.
           // something like 'kompasscomponent_agg.inner.kompasscomponent_token'
           // return filter_debug;
+          console.debug('aggregation_filter agg', agg);
           return isEmpty(filter)
             ? { match_all: {} }
             : {
                 bool: {
-                  filter: filter,
+                  filter: filter.filter(
+                    (el) => !agg[0].startsWith(el.nested.path),
+                  ),
                 },
               };
         }
@@ -312,7 +315,7 @@ export class CustomESRequestSerializer {
         extend(bodyParams['aggs'], aggBucketTermsComponent);
       }
     });
-    console.log(
+    console.debug(
       'CustomESRequestSerializer serialize returns bodyParams',
       bodyParams,
     );
