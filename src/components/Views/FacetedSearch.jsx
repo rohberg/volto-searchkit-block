@@ -1,19 +1,17 @@
 // TODO update counts of BucketAggregation on selection of filter
 // TODO lacales actionProps, placeholder
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { OverridableContext } from 'react-overridable';
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
-import _truncate from 'lodash/truncate';
+import { compact, truncate } from 'lodash';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import { Portal } from 'react-portal';
-import { Navigation } from '@plone/volto/components';
 
 import {
   Button,
-  Checkbox,
   Container,
   Dropdown,
   Grid,
@@ -24,7 +22,6 @@ import {
   Segment,
 } from 'semantic-ui-react';
 import {
-  ActiveFilters,
   BucketAggregation,
   EmptyResults,
   Error,
@@ -112,7 +109,7 @@ const CustomResultsListItem = ({ result, index }) => {
         </Item.Header>
         <Item.Description>
           <Link to={flattenESUrlToPath(result['@id'])}>
-            {_truncate(result.description, { length: 200 })}
+            {truncate(result.description, { length: 200 })}
           </Link>
         </Item.Description>
         <Item.Extra className="metadata">
@@ -235,6 +232,7 @@ const customBucketAggregationElement = (props) => {
   let selectedFilters = containerCmp.props.selectedFilters
     .map((el) => el[1])
     .map((token) => allFilters[token]);
+  selectedFilters = compact(selectedFilters);
 
   const removeAggFilters = (event) => {
     if (containerCmp.props.selectedFilters.length) {
@@ -248,7 +246,7 @@ const customBucketAggregationElement = (props) => {
       <div className="bucketAE">
         <Dropdown
           fluid
-          text={selectedFilters.length ? selectedFilters.join(', ') : title}
+          text={selectedFilters.length > 0 ? selectedFilters.join(', ') : title}
           className={
             selectedFilters.length ? 'fnfilter selected' : 'fnfilter unselected'
           }
@@ -411,15 +409,15 @@ const initialState = {
 };
 
 /**
- * 
+ * FacetedSearch
  * @param {string} filterLayout default 'dropdown'
  * @param {object} overriddenComponents Override with custom components, ignore to stay with default 'dropdown' or step back to react-searchkit default components with value {}
- * @returns 
+ * @returns
  */
 const FacetedSearch = ({
   data,
   overriddenComponents,
-  filterLayout = config.settings.searchkitblock.filterLayout
+  filterLayout = config.settings.searchkitblock.filterLayout,
 }) => {
   const {
     search_url = data.elastic_search_api_url || 'http://localhost:9200',
@@ -431,7 +429,7 @@ const FacetedSearch = ({
   overriddenComponents = overriddenComponents ?? {
     ...defaultOverriddenComponents,
     ...(filterLayout === 'dropdown' && dropdownOverriddenComponents),
-  }
+  };
 
   const dispatch = useDispatch();
 
@@ -451,19 +449,6 @@ const FacetedSearch = ({
       responseSerializer: CustomESResponseSerializer,
     },
   });
-
-  // useEffect(() => {
-  //   // TODO set value of input field
-  //   let searchParams = new URLSearchParams(location?.search);
-  //   let q = searchParams.get('q');
-  //   // console.debug('FNView useEffect: querystring of location', q, location);
-  // }, [location, dispatch]);
-
-  // const onResetSearch = () => {
-  //   console.log('reset searchstring');
-  //   updateQueryString('');
-  //   console.log('searchstring reseted');
-  // };
 
   const payloadOfReset = {
     searchQuery: {
@@ -563,36 +548,38 @@ const FacetedSearch = ({
                 <Grid.Row>
                   <Grid.Column
                     width={12}
-                    className={
-                      'facetedsearch_filter ' + filterLayout
-                    }
+                    className={'facetedsearch_filter ' + filterLayout}
                   >
                     <BucketAggregation
                       title="Komponenten"
                       agg={{
                         field: 'kompasscomponent',
-                        aggName: 'kompasscomponent_agg.kompasscomponent_token',
+                        aggName:
+                          'kompasscomponent_agg.inner.kompasscomponent_token',
                       }}
                     />
                     <BucketAggregation
                       title="Informationstyp"
                       agg={{
                         field: 'informationtype',
-                        aggName: 'informationtype_agg.informationtype_token',
+                        aggName:
+                          'informationtype_agg.inner.informationtype_token',
                       }}
                     />
                     <BucketAggregation
                       title="Zielpublikum"
                       agg={{
                         field: 'targetaudience',
-                        aggName: 'targetaudience_agg.targetaudience_token',
+                        aggName:
+                          'targetaudience_agg.inner.targetaudience_token',
                       }}
                     />
                     <BucketAggregation
                       title="Organisationseinheit"
                       agg={{
                         field: 'organisationunit',
-                        aggName: 'organisationunit_agg.organisationunit_token',
+                        aggName:
+                          'organisationunit_agg.inner.organisationunit_token',
                       }}
                     />
                   </Grid.Column>

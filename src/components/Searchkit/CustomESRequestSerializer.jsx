@@ -1,5 +1,4 @@
-import _extend from 'lodash/extend';
-import _isEmpty from 'lodash/isEmpty';
+import { extend, isEmpty } from 'lodash';
 
 import { listFields, nestedFields } from './constants.js';
 
@@ -51,7 +50,7 @@ export class CustomESRequestSerializer {
     // console.debug('CustomESRequestSerializer filters', filters);
     const bodyParams = {};
 
-    if (!_isEmpty(queryString)) {
+    if (!isEmpty(queryString)) {
       let qs = queryString
         .split(' ')
         .map((s) => s + '~')
@@ -127,12 +126,13 @@ export class CustomESRequestSerializer {
     //   }
     // },
 
+    // TODO 'kompasscomponent_agg.inner.kompasscomponent_token' or without inner
     const aggFieldsMapping = {
       freemanualtags_agg: 'freemanualtags',
-      'kompasscomponent_agg.kompasscomponent_token': 'kompasscomponent',
-      'targetaudience_agg.targetaudience_token': 'targetaudience',
-      'organisationunit_agg.organisationunit_token': 'organisationunit',
-      'informationtype_agg.informationtype_token': 'informationtype',
+      'kompasscomponent_agg.inner.kompasscomponent_token': 'kompasscomponent',
+      'targetaudience_agg.inner.targetaudience_token': 'targetaudience',
+      'organisationunit_agg.inner.organisationunit_token': 'organisationunit',
+      'informationtype_agg.inner.informationtype_token': 'informationtype',
     };
 
     let terms = [];
@@ -152,7 +152,7 @@ export class CustomESRequestSerializer {
       // ES needs the field name as field, get the field name from the aggregation name
       const aggValueObj = this.getFilters(filters);
       // convert to object
-      console.debug('serialize: aggValueObj', aggValueObj);
+      // console.debug('serialize: aggValueObj', aggValueObj);
       const additionalterms = Object.keys(aggValueObj).reduce(
         (accumulator, aggName) => {
           const obj = {};
@@ -165,9 +165,10 @@ export class CustomESRequestSerializer {
         },
         [],
       );
-      console.debug('serialize: additionalterms', additionalterms);
+      // console.debug('serialize: additionalterms', additionalterms);
       terms = terms.concat(additionalterms);
 
+      // console.debug('aggValueObj', aggValueObj);
       filter = Object.keys(aggValueObj).reduce((accumulator, aggName) => {
         const obj = {};
         const fieldName = aggFieldsMapping[aggName];
@@ -188,15 +189,19 @@ export class CustomESRequestSerializer {
         }
         return accumulator;
       }, []);
-      // console.debug('serialize: filter', filter);
     }
 
+    /**
+     * ES post_filter
+     */
+    // listFields
     const post_filter = { bool: { must: terms } };
-    console.debug('filter', filter);
-    if (filter.length) {
+    // nestedFields
+    // console.debug('filter', filter);
+    if (!isEmpty(filter)) {
       post_filter['bool']['filter'] = filter;
     }
-    console.debug('post_filter', post_filter);
+    // console.debug('post_filter', post_filter);
     bodyParams['post_filter'] = post_filter;
 
     // aggregations
@@ -210,47 +215,116 @@ export class CustomESRequestSerializer {
         const aggBucketTermsComponent = {
           [aggName]: { terms: { field: fieldName } },
         };
-        _extend(bodyParams['aggs'], aggBucketTermsComponent);
+        extend(bodyParams['aggs'], aggBucketTermsComponent);
       }
     });
 
     // 2. aggregations of nestedFields
     Object.keys(aggFieldsMapping).map((aggName) => {
-      // console.log('nestedFields', nestedFields);
+      // console.debug('nestedFields', nestedFields);
       const myaggs = aggName.split('.');
       const fieldName = aggFieldsMapping[aggName];
       // console.debug('aggs', fieldName, nestedFields.includes(fieldName));
       if (nestedFields.includes(fieldName)) {
-        // console.log('fieldName in nestedFields:', fieldName, aggName);
+        // console.debug('fieldName in nestedFields:', fieldName, aggName);
+
+        const filter_debug = {
+          nested: {
+            path: 'informationtype',
+            query: {
+              bool: {
+                must: [
+                  {
+                    terms: {
+                      'informationtype.token': ['Anleitung', 'FAQ'],
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        };
+
+        function aggregation_filter(agg) {
+          // agg is a key of aggFieldsMapping.
+          // something like 'kompasscomponent_agg.inner.kompasscomponent_token'
+          // return filter_debug;
+          return isEmpty(filter)
+            ? { match_all: {} }
+            : {
+                bool: {
+                  filter: filter.filter(
+                    (el) => !agg[0].startsWith(el.nested.path),
+                  ),
+                },
+              };
+        }
+
+        // const aggBucketTermsComponent_old = {
+        //   [myaggs[0]]: {
+        //     nested: {
+        //       path: fieldName,
+        //     },
+        //     aggs: {
+        //       [myaggs[1]]: {
+        //         terms: {
+        //           field: fieldName + '.token',
+        //           order: { _key: 'asc' },
+        //         },
+        //         aggs: {
+        //           somemoredatafromelasticsearch: {
+        //             top_hits: { size: 1, _source: { include: [fieldName] } },
+        //           },
+        //         },
+        //       },
+        //     },
+        //   },
+        // };
         const aggBucketTermsComponent = {
           [myaggs[0]]: {
-            nested: {
-              path: fieldName,
-            },
             aggs: {
-              [myaggs[1]]: {
-                terms: {
-                  field: fieldName + '.token',
-                  order: { _key: 'asc' },
+              inner: {
+                nested: {
+                  path: fieldName,
                 },
                 aggs: {
-                  somemoredatafromelasticsearch: {
-                    top_hits: { size: 1, _source: { include: [fieldName] } },
+                  [myaggs[2]]: {
+                    terms: {
+                      field: fieldName + '.token',
+                      order: { _key: 'asc' },
+                    },
+                    aggs: {
+                      somemoredatafromelasticsearch: {
+                        top_hits: {
+                          size: 1,
+                          _source: { include: [fieldName] },
+                        },
+                      },
+                    },
                   },
                 },
               },
             },
           },
         };
-        _extend(bodyParams['aggs'], aggBucketTermsComponent);
+        const flt = aggregation_filter(myaggs);
+        if (!isEmpty(flt)) {
+          aggBucketTermsComponent[myaggs[0]].filter = flt;
+        }
+        extend(bodyParams['aggs'], aggBucketTermsComponent);
       }
     });
-    console.debug('>>> serialize bodyParams', bodyParams);
+    // console.debug(
+    //   'CustomESRequestSerializer serialize returns bodyParams',
+    //   bodyParams,
+    // );
     return bodyParams;
   };
 }
 
-// payload demo
+/**
+ * payload demo
+ */
 /*
 {
   "size": 10,
