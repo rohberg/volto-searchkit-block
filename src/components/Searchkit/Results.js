@@ -18,7 +18,7 @@ export class Results extends Component {
 
   render() {
     const { total } = this.props.currentResultsState.data;
-    // console.log('Results Searchkit this.props.currentResultsState.data', total);
+    // console.debug('Results Searchkit this.props.currentResultsState.data', total);
     return total ? (
       <div className="fnresults">
         <Grid>
