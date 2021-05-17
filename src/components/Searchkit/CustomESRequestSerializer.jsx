@@ -1,5 +1,4 @@
-import _extend from 'lodash/extend';
-import _isEmpty from 'lodash/isEmpty';
+import { extend, isEmpty } from 'lodash';
 
 import { listFields, nestedFields } from './constants.js';
 
@@ -48,10 +47,10 @@ export class CustomESRequestSerializer {
     const { queryString, sortBy, sortOrder, page, size, filters } = stateQuery;
     // console.debug('CustomESRequestSerializer queryString', queryString);
     // console.debug('CustomESRequestSerializer sortBy', sortBy);
-    // console.debug('CustomESRequestSerializer filters', filters);
+    console.debug('CustomESRequestSerializer filters', filters);
     const bodyParams = {};
 
-    if (!_isEmpty(queryString)) {
+    if (!isEmpty(queryString)) {
       let qs = queryString
         .split(' ')
         .map((s) => s + '~')
@@ -169,6 +168,7 @@ export class CustomESRequestSerializer {
       console.debug('serialize: additionalterms', additionalterms);
       terms = terms.concat(additionalterms);
 
+      console.log('aggValueObj', aggValueObj);
       filter = Object.keys(aggValueObj).reduce((accumulator, aggName) => {
         const obj = {};
         const fieldName = aggFieldsMapping[aggName];
@@ -198,7 +198,7 @@ export class CustomESRequestSerializer {
     const post_filter = { bool: { must: terms } };
     // nestedFields
     console.debug('filter', filter);
-    if (filter.length) {
+    if (!isEmpty(filter)) {
       post_filter['bool']['filter'] = filter;
     }
     console.debug('post_filter', post_filter);
@@ -215,7 +215,7 @@ export class CustomESRequestSerializer {
         const aggBucketTermsComponent = {
           [aggName]: { terms: { field: fieldName } },
         };
-        _extend(bodyParams['aggs'], aggBucketTermsComponent);
+        extend(bodyParams['aggs'], aggBucketTermsComponent);
       }
     });
 
@@ -245,6 +245,19 @@ export class CustomESRequestSerializer {
           },
         };
 
+        function aggregation_filter(agg) {
+          // agg is a key of aggFieldsMapping.
+          // something like 'kompasscomponent_agg.inner.kompasscomponent_token'
+          // return filter_debug;
+          return isEmpty(filter)
+            ? { match_all: {} }
+            : {
+                bool: {
+                  filter: filter,
+                },
+              };
+        }
+
         // const aggBucketTermsComponent_old = {
         //   [myaggs[0]]: {
         //     nested: {
@@ -267,7 +280,6 @@ export class CustomESRequestSerializer {
         // };
         const aggBucketTermsComponent = {
           [myaggs[0]]: {
-            filter: filter_debug, // TODO filter
             aggs: {
               inner: {
                 nested: {
@@ -293,9 +305,17 @@ export class CustomESRequestSerializer {
             },
           },
         };
-        _extend(bodyParams['aggs'], aggBucketTermsComponent);
+        const flt = aggregation_filter(myaggs);
+        if (!isEmpty(flt)) {
+          aggBucketTermsComponent[myaggs[0]].filter = flt;
+        }
+        extend(bodyParams['aggs'], aggBucketTermsComponent);
       }
     });
+    console.log(
+      'CustomESRequestSerializer serialize returns bodyParams',
+      bodyParams,
+    );
     return bodyParams;
   };
 }
