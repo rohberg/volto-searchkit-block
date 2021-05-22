@@ -74,15 +74,15 @@ const CustomResultsListItem = ({ result, index }) => {
   let flts = {
     kompasscomponent: {
       label: 'Komponente',
-      bucket: 'kompasscomponent_agg.kompasscomponent_token',
+      bucket: 'kompasscomponent_agg.inner.kompasscomponent_token',
     },
     targetaudience: {
       label: 'Zielgruppe',
-      bucket: 'targetaudience_agg.targetaudience_token',
+      bucket: 'targetaudience_agg.inner.targetaudience_token',
     },
     organisationunit: {
       label: 'Organistionseinheit',
-      bucket: 'organisationunit_agg.organisationunit_token',
+      bucket: 'organisationunit_agg.inner.organisationunit_token',
     },
   };
   let filterkeys = Object.keys(flts).filter((el) => result[el]?.length > 0);
@@ -94,9 +94,34 @@ const CustomResultsListItem = ({ result, index }) => {
       <Item.Content>
         {result.informationtype?.length ? (
           <Item.Meta>
-            <span>
-              {result.informationtype.map((el) => el.title).join(', ')}
-            </span>
+            {result.informationtype?.map((item, index) => {
+              let tito = item.title || item.token;
+              const payload = {
+                searchQuery: {
+                  sortBy: 'bestmatch',
+                  sortOrder: 'asc',
+                  layout: 'list',
+                  page: 1,
+                  size: 10,
+                  filters: [
+                    [
+                      'informationtype_agg.inner.informationtype_token',
+                      item.token,
+                    ],
+                  ],
+                },
+              };
+              return (
+                <Button
+                  key={tito}
+                  as={Link}
+                  onClick={() => onQueryChanged(payload)}
+                >
+                  {tito}
+                  {index < result['informationtype'].length - 1 ? ', ' : null}
+                </Button>
+              );
+            })}
           </Item.Meta>
         ) : null}
         <Item.Header as={Link} to={flattenESUrlToPath(result['@id'])}>
@@ -120,20 +145,20 @@ const CustomResultsListItem = ({ result, index }) => {
                 <span key={flts[flt].label}>{flts[flt].label}: </span>
                 {result[flt]?.map((item, index) => {
                   let tito = item.title || item.token;
-                  let payloadOfTag = {
+                  let payloadOfFilter = {
                     searchQuery: {
                       sortBy: 'bestmatch',
                       sortOrder: 'asc',
                       layout: 'list',
                       page: 1,
                       size: 10,
-                      filters: [[flts[flt].bucket, tito]],
+                      filters: [[flts[flt].bucket, item.token]],
                     },
                   };
                   return (
                     <Button
                       as={Link}
-                      onClick={() => onQueryChanged(payloadOfTag)}
+                      onClick={() => onQueryChanged(payloadOfFilter)}
                       key={tito}
                     >
                       {tito}
