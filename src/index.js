@@ -31,7 +31,7 @@ const applyConfig = (config) => {
 
   /**
    * A reference block with default components from react-searchkit
-   * TODO set permission to restrict to admin. For now: set restricted to true!
+   * TODO set permission to restrict to admin as soon as addPermission is implemented in Volto. For now: set restricted to true.
    */
   config.blocks.blocksConfig.referencesearchkitblock = {
     id: 'referencesearchkitblock',
