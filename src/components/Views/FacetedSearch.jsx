@@ -498,6 +498,8 @@ const FacetedSearch = ({
         // Cancel the default action, if needed
         event.preventDefault();
         el.scrollIntoView();
+        // var elmTop = el.getBoundingClientRect().top + window.scrollY;
+        // window.scrollTo({top: elmTop, behavior: 'smooth',});
       }
     }
     // track if enabled
