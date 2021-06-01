@@ -38,12 +38,14 @@ import { CustomESRequestSerializer } from '../Searchkit/CustomESRequestSerialize
 import { CustomESResponseSerializer } from '../Searchkit/CustomESResponseSerializer';
 import { Results } from '../Searchkit/Results';
 
-import { useDispatch } from 'react-redux';
 import { flattenESUrlToPath } from '../helpers';
 
 import './less/springisnow-volto-searchkit-block.less';
 
 import config from '@plone/volto/registry';
+
+// TODO conditional Matomo tracking: catch case if app has not volto-matomo installed
+import { trackSiteSearch } from 'volto-matomo/utils';
 
 const OnResults = withState(Results);
 
@@ -456,8 +458,6 @@ const FacetedSearch = ({
     ...(filterLayout === 'dropdown' && dropdownOverriddenComponents),
   };
 
-  const dispatch = useDispatch();
-
   const [isClient, setIsClient] = React.useState(null);
   React.useEffect(() => setIsClient(true), []);
   let location = useLocation();
@@ -500,6 +500,18 @@ const FacetedSearch = ({
         el.scrollIntoView();
       }
     }
+    // track if enabled
+    if (config.settings.searchkitblock.trackVoltoMatomo) {
+      if (event.target.value && event.target.value.length > 4) {
+        trackSiteSearch({
+          keyword: event.target.value,
+          category: 'Suche in Dokumentation', // optional
+          // count: 4, // optional
+          documentTitle: 'Suche in Dokumentation', // optional
+          href: '/search', // optional
+        });
+      }
+    }
   };
 
   return (
@@ -511,7 +523,6 @@ const FacetedSearch = ({
             eventListenerEnabled={true}
             initialQueryState={initialState}
           >
-
             <Container>
               {typeof document !== 'undefined' &&
               relocationcontext &&

@@ -11,6 +11,7 @@ const applyConfig = (config) => {
     ...(config.settings.searchkitblock ?? {}),
     elasticurl: process.env.ELASTIC_URL || 'http://localhost:9200/esploneindex',
     filterLayout: 'dropdown',
+    trackVoltoMatomo: false,
   };
 
   config.blocks.blocksConfig.searchkitblock = {
