@@ -6,7 +6,9 @@ This package is a Plone Volto integration of react-searchkit https://www.npmjs.c
 
 ## Features
 
-###
+### Search
+
+Highly overridable components for searching, filtering and displaying search results.
 
 
 ![Search @rohberg/volto-searchkit-block](https://github.com/rohberg/volto-searchkit-block/raw/master/public/search.png)
@@ -39,29 +41,22 @@ The block can be configured by
 - url of elastic search server
 - relocation of the search bar
 
+![Configuration](https://github.com/rohberg/volto-searchkit-block/raw/master/public/configuration.png)
+
+Enable Matomo tracking via
+
 ```js
-  properties: {
-    elastic_search_api_url: {
-      title: 'Elastic Search API URL',
-      default: 'http://localhost:9200',
-    },
-    elastic_search_api_index: {
-      title: 'Elastic Search API Index',
-      default: 'esploneindex',
-    },
-    relocation: {
-      title: 'Relocation',
-      description:
-        'Selector for relocation of search bar. Leave empty to keep search bar in block.',
-    },
-    relocationcontext: {
-      title: 'Relocation context',
-      description: 'Path where search bar should be relocated',
-    },
-  },
+  config.settings.searchkitblock = {
+    ...config.settings.searchkitblock,
+    trackVoltoMatomo: true,
+  };
 ```
 
 ## TODOs
+
+### Configurable filters
+
+Configure which filters should be available.
 
 ### Restrict block creation to Site Admins.
 
