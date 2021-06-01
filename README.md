@@ -8,7 +8,8 @@ This package is a Plone Volto integration of react-searchkit https://www.npmjs.c
 
 ###
 
-Demo GIF
+
+![Search @rohberg/volto-searchkit-block](https://github.com/rohberg/volto-searchkit-block/raw/master/public/search.png)
 
 ## Getting started
 
