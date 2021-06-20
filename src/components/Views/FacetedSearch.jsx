@@ -49,6 +49,7 @@ import { trackSiteSearch } from 'volto-matomo/utils';
 
 const OnResults = withState(Results);
 
+
 // class Tags extends Component {
 //   onClick = (event, value) => {
 //     window.history.push({
@@ -268,6 +269,7 @@ const customBucketAggregationElement = (props) => {
     event.preventDefault();
     event.stopPropagation();
   };
+
   return (
     containerCmp && (
       <div className="bucketAE">
@@ -296,9 +298,21 @@ const customBucketAggregationElement = (props) => {
   );
 };
 
-const customBucketAggregationContainerElement = ({ valuesCmp }) => (
-  <>{valuesCmp}</>
-);
+function choicesSorter(a, b) {
+  const titleA = a.props.bucket.label;
+  const titleB = b.props.bucket.label;
+  if (titleA < titleB) {
+    return -1;
+  } else if (titleA > titleB) {
+    return 1;
+  }
+  return 0;
+}
+const customBucketAggregationContainerElement = ({ valuesCmp }) => {
+  let foo = valuesCmp;
+  foo.sort(choicesSorter);
+  return <>{foo}</>;
+};
 
 const customBucketAggregationValuesElement = (props) => {
   const {

@@ -299,7 +299,9 @@ export class CustomESRequestSerializer {
                   [myaggs[2]]: {
                     terms: {
                       field: fieldName + '.token',
-                      order: { _count: 'desc' },
+                      order: {
+                        _key: 'asc',
+                      },
                       size: 30, // number of buckets
                     },
                     aggs: {
