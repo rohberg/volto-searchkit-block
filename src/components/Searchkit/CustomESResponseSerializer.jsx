@@ -20,7 +20,7 @@ function _pimpedAggregations(aggregations) {
       buckets.forEach((bucket) => {
         bucket.label =
           bucket.somemoredatafromelasticsearch?.hits.hits[0]._source.title ??
-          bucket.key; 
+          bucket.key;
       });
   });
 
