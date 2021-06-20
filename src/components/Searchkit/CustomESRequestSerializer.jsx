@@ -48,6 +48,8 @@ export class CustomESRequestSerializer {
     // console.debug('CustomESRequestSerializer queryString', queryString);
     // console.debug('CustomESRequestSerializer sortBy', sortBy);
     // console.debug('CustomESRequestSerializer filters', filters);
+    // console.debug('CustomESRequestSerializer ', stateQuery);
+
     const bodyParams = {};
 
     if (!isEmpty(queryString)) {
@@ -103,7 +105,7 @@ export class CustomESRequestSerializer {
     }
 
     if (size > 0) {
-      bodyParams['size'] = size;
+      bodyParams['size'] = size; // batch size
     }
 
     if (page > 0) {
@@ -180,7 +182,9 @@ export class CustomESRequestSerializer {
               query: {
                 bool: {
                   must: [
-                    { terms: { [fieldName + '.token']: aggValueObj[aggName] } },
+                    {
+                      terms: { [fieldName + '.token']: aggValueObj[aggName] },
+                    },
                   ],
                 },
               },
@@ -203,6 +207,10 @@ export class CustomESRequestSerializer {
     }
     // console.debug('post_filter', post_filter);
     bodyParams['post_filter'] = post_filter;
+
+    /**
+     * Aggregations
+     */
 
     // aggregations
     bodyParams['aggs'] = {};
@@ -291,7 +299,8 @@ export class CustomESRequestSerializer {
                   [myaggs[2]]: {
                     terms: {
                       field: fieldName + '.token',
-                      order: { _key: 'asc' },
+                      order: { _count: 'desc' },
+                      size: 30, // number of buckets
                     },
                     aggs: {
                       somemoredatafromelasticsearch: {
