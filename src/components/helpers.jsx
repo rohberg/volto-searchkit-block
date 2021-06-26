@@ -26,4 +26,17 @@ function flattenESUrlToPath(url) {
   return newPathname;
 }
 
-export { NoSSR, flattenESUrlToPath };
+const scrollToTarget = (target, offsetHeight = 0) => {
+  const bodyRect = document.body.getBoundingClientRect().top;
+  const targetRect = target.getBoundingClientRect().top;
+  const targetPosition = targetRect - bodyRect - offsetHeight;
+
+  console.debug('I scrolled.');
+
+  return window.scrollTo({
+    top: targetPosition,
+    behavior: 'smooth',
+  });
+};
+
+export { NoSSR, flattenESUrlToPath, scrollToTarget };
