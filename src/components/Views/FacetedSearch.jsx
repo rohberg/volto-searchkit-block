@@ -38,7 +38,7 @@ import { CustomESRequestSerializer } from '../Searchkit/CustomESRequestSerialize
 import { CustomESResponseSerializer } from '../Searchkit/CustomESResponseSerializer';
 import { Results } from '../Searchkit/Results';
 
-import { flattenESUrlToPath } from '../helpers';
+import { flattenESUrlToPath, scrollToTarget } from '../helpers';
 
 import './less/springisnow-volto-searchkit-block.less';
 
@@ -511,9 +511,7 @@ const FacetedSearch = ({
       if (event.keyCode === 13) {
         // Cancel the default action, if needed
         event.preventDefault();
-        el.scrollIntoView();
-        // var elmTop = el.getBoundingClientRect().top + window.scrollY;
-        // window.scrollTo({top: elmTop, behavior: 'smooth',});
+        scrollToTarget(el);
       }
     }
     // track if enabled
