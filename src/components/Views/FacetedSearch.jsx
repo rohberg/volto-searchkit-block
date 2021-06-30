@@ -45,7 +45,7 @@ import './less/springisnow-volto-searchkit-block.less';
 import config from '@plone/volto/registry';
 
 // TODO conditional Matomo tracking: catch case if app has not volto-matomo installed
-import { trackSiteSearch } from 'volto-matomo/utils';
+import { trackSiteSearch } from '@eeacms/volto-matomo/utils';
 
 const OnResults = withState(Results);
 
