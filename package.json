@@ -16,10 +16,6 @@
     "type": "git",
     "url": "git@github.com:rohberg/volto-searchkit-block.git"
   },
-  "dependencies": {
-    "react-overridable": "^0.0.3",
-    "react-searchkit": "^v1.0.0-alpha.15"
-  },
   "scripts": {
     "release": "release-it",
     "bootstrap": "node bootstrap",
@@ -29,6 +25,13 @@
     "prettier": "../../../node_modules/.bin/prettier --single-quote --check 'src/**/*.{js,jsx,json,css,less,md}'",
     "prettier:fix": "../../../node_modules/.bin/prettier --single-quote --write 'src/**/*.{js,jsx,json,css,less,md}'",
     "lint": "../../../node_modules/eslint/bin/eslint.js --max-warnings=0 'src/**/*.{js,jsx}'",
-    "lint:fix": "../../../node_modules/eslint/bin/eslint.js --fix 'src/**/*.{js,jsx}'"
+    "lint:fix": "../../../node_modules/eslint/bin/eslint.js --fix 'src/**/*.{js,jsx}'",
+    "i18n": "rm -rf build/messages && NODE_ENV=production i18n --addon",
+    "version": "auto-changelog -p && git add CHANGELOG.md"
+  },
+  "dependencies": {
+    "@plone/scripts": "*",
+    "react-overridable": "^0.0.3",
+    "react-searchkit": "^v1.0.0-alpha.15"
   }
 }
