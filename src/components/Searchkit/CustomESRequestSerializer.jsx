@@ -3,13 +3,23 @@ import { extend, isEmpty } from 'lodash';
 import { listFields, nestedFields } from './constants.js';
 
 export class CustomESRequestSerializer {
+  constructor(config) {
+    this.reviewstatemapping = config.reviewstatemapping;
+  }
+  /**
+   * Convert Array of filters to Object of filters
+   * @param  {Array}  filters Array of filters
+   * @return {Object}         Object of filters
+   * input: [
+   *   [ 'type_agg', 'value1' ]
+   *   [ 'type_agg', 'value2', [ 'subtype_agg', 'a value' ] ]
+   * ]
+   * output: {
+   *   type_agg: ['value1', 'value2']
+   *   subtype_agg: [ 'a value' ]
+   * }
+   */
   getFilters = (filters) => {
-    /**
-     * input: [
-     *   [ 'type_agg', 'value1' ]
-     *   [ 'type_agg', 'value2', [ 'subtype_agg', 'a value' ] ]
-     * ]
-     */
     const aggValueObj = {};
 
     const getChildFilter = (filter) => {
@@ -29,13 +39,6 @@ export class CustomESRequestSerializer {
     filters.forEach((filterObj) => {
       getChildFilter(filterObj);
     });
-
-    /**
-     * output: {
-     *   type_agg: ['value1', 'value2']
-     *   subtype_agg: [ 'a value' ]
-     * }
-     */
     return aggValueObj;
   };
 
@@ -45,10 +48,11 @@ export class CustomESRequestSerializer {
    */
   serialize = (stateQuery) => {
     const { queryString, sortBy, sortOrder, page, size, filters } = stateQuery;
-    // console.debug('CustomESRequestSerializer queryString', queryString);
-    // console.debug('CustomESRequestSerializer sortBy', sortBy);
-    // console.debug('CustomESRequestSerializer filters', filters);
-    // console.debug('CustomESRequestSerializer ', stateQuery);
+
+    // TODO make allowed_content_types configurable
+    let allowed_content_types = ['Manual'];
+    // Check current users permissions
+    let allowed_review_states = this.reviewstatemapping['Manual'];
 
     const bodyParams = {};
 
@@ -140,12 +144,13 @@ export class CustomESRequestSerializer {
     let terms = [];
     terms.push({
       terms: {
-        portal_type: ['Manual'],
+        portal_type: allowed_content_types,
       },
     });
+    // TODO check current user for review_state he has access to
     terms.push({
       terms: {
-        review_state: ['internally_published', 'private', 'draft'],
+        review_state: allowed_review_states,
       },
     });
 
@@ -154,7 +159,6 @@ export class CustomESRequestSerializer {
       // ES needs the field name as field, get the field name from the aggregation name
       const aggValueObj = this.getFilters(filters);
       // convert to object
-      // console.debug('serialize: aggValueObj', aggValueObj);
       const additionalterms = Object.keys(aggValueObj).reduce(
         (accumulator, aggName) => {
           const obj = {};
@@ -167,10 +171,8 @@ export class CustomESRequestSerializer {
         },
         [],
       );
-      // console.debug('serialize: additionalterms', additionalterms);
       terms = terms.concat(additionalterms);
 
-      // console.debug('aggValueObj', aggValueObj);
       filter = Object.keys(aggValueObj).reduce((accumulator, aggName) => {
         const obj = {};
         const fieldName = aggFieldsMapping[aggName];
@@ -201,11 +203,9 @@ export class CustomESRequestSerializer {
     // listFields
     const post_filter = { bool: { must: terms } };
     // nestedFields
-    // console.debug('filter', filter);
     if (!isEmpty(filter)) {
       post_filter['bool']['filter'] = filter;
     }
-    // console.debug('post_filter', post_filter);
     bodyParams['post_filter'] = post_filter;
 
     /**
@@ -218,7 +218,6 @@ export class CustomESRequestSerializer {
     // 1. aggregations of listFields
     Object.keys(aggFieldsMapping).map((aggName) => {
       const fieldName = aggFieldsMapping[aggName];
-      // console.debug('aggs', fieldName, listFields.includes(fieldName));
       if (listFields.includes(fieldName)) {
         const aggBucketTermsComponent = {
           [aggName]: { terms: { field: fieldName } },
@@ -229,12 +228,9 @@ export class CustomESRequestSerializer {
 
     // 2. aggregations of nestedFields
     Object.keys(aggFieldsMapping).map((aggName) => {
-      // console.debug('nestedFields', nestedFields);
       const myaggs = aggName.split('.');
       const fieldName = aggFieldsMapping[aggName];
-      // console.debug('aggs', fieldName, nestedFields.includes(fieldName));
       if (nestedFields.includes(fieldName)) {
-        // console.debug('fieldName in nestedFields:', fieldName, aggName);
 
         const filter_debug = {
           nested: {
@@ -268,26 +264,6 @@ export class CustomESRequestSerializer {
               };
         }
 
-        // const aggBucketTermsComponent_old = {
-        //   [myaggs[0]]: {
-        //     nested: {
-        //       path: fieldName,
-        //     },
-        //     aggs: {
-        //       [myaggs[1]]: {
-        //         terms: {
-        //           field: fieldName + '.token',
-        //           order: { _key: 'asc' },
-        //         },
-        //         aggs: {
-        //           somemoredatafromelasticsearch: {
-        //             top_hits: { size: 1, _source: { include: [fieldName] } },
-        //           },
-        //         },
-        //       },
-        //     },
-        //   },
-        // };
         const aggBucketTermsComponent = {
           [myaggs[0]]: {
             aggs: {
@@ -325,10 +301,6 @@ export class CustomESRequestSerializer {
         extend(bodyParams['aggs'], aggBucketTermsComponent);
       }
     });
-    // console.debug(
-    //   'CustomESRequestSerializer serialize returns bodyParams',
-    //   bodyParams,
-    // );
     return bodyParams;
   };
 }

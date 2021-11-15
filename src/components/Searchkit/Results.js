@@ -7,18 +7,17 @@
  */
 
 import React, { Component } from 'react';
-import { Grid } from 'semantic-ui-react';
+import { Grid, Icon as IconSemantic } from 'semantic-ui-react';
 import { Count, Pagination, ResultsMultiLayout, Sort } from 'react-searchkit';
 
 export class Results extends Component {
   componentDidMount() {
     var evt = new CustomEvent('searchkitQueryChanged', {});
-    window.dispatchEvent(evt);
+    window && window.dispatchEvent(evt);
   }
 
   render() {
     const { total } = this.props.currentResultsState.data;
-    // console.debug('Results Searchkit this.props.currentResultsState.data', total);
     return total ? (
       <div className="fnresults">
         <Grid>
@@ -39,7 +38,7 @@ export class Results extends Component {
           <ResultsMultiLayout overridableId="elasticsearch" />
         </Grid>
         <Grid verticalAlign="middle" textAlign="center">
-          <Pagination />
+          <Pagination options={{ size: 'small' }} />
         </Grid>
       </div>
     ) : null;

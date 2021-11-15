@@ -1,6 +1,7 @@
 // TODO update counts of BucketAggregation on selection of filter
 // TODO lacales actionProps, placeholder
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import { OverridableContext } from 'react-overridable';
 import { Link } from 'react-router-dom';
@@ -16,9 +17,10 @@ import {
   Dropdown,
   Grid,
   Header,
-  Icon,
+  Icon as IconSemantic,
   Item,
   Label,
+  Pagination as Paginator,
   Segment,
 } from 'semantic-ui-react';
 import {
@@ -33,7 +35,13 @@ import {
   // updateQueryString,
 } from 'react-searchkit';
 
-import { ESSearchApi } from '../Searchkit/ESSearchApi';
+import { Icon } from '@plone/volto/components';
+import leftAngle from '@plone/volto/icons/left-key.svg';
+import rightAngle from '@plone/volto/icons/right-key.svg';
+import firstAngle from '@plone/volto/icons/first.svg';
+import lastAngle from '@plone/volto/icons/last.svg';
+
+import { PloneSearchApi } from '../Searchkit/ESSearchApi';
 import { CustomESRequestSerializer } from '../Searchkit/CustomESRequestSerializer';
 import { CustomESResponseSerializer } from '../Searchkit/CustomESResponseSerializer';
 import { Results } from '../Searchkit/Results';
@@ -118,6 +126,7 @@ const CustomResultsListItem = ({ result, index }) => {
                 <Button
                   key={tito}
                   as={Link}
+                  to="#"
                   onClick={() => onQueryChanged(payload)}
                 >
                   {tito}
@@ -161,6 +170,7 @@ const CustomResultsListItem = ({ result, index }) => {
                   return (
                     <Button
                       as={Link}
+                      to="#"
                       onClick={() => onQueryChanged(payloadOfFilter)}
                       key={tito}
                     >
@@ -194,6 +204,7 @@ const CustomResultsListItem = ({ result, index }) => {
                   <Button
                     key={tito}
                     as={Link}
+                    to="#"
                     onClick={() => onQueryChanged(payloadOfTag)}
                   >
                     {tito}
@@ -238,7 +249,7 @@ const myActiveFiltersElement = (props) => {
             onClick={() => removeActiveFilter(activeFilter)}
           >
             {label}
-            <Icon name="delete" />
+            <IconSemantic name="delete" />
           </Label>
         );
       })}
@@ -283,7 +294,7 @@ const customBucketAggregationElement = (props) => {
           <Dropdown.Menu>{containerCmp}</Dropdown.Menu>
         </Dropdown>
         {true && (
-          <Icon
+          <IconSemantic
             className={
               selectedFilters.length
                 ? 'deleteFilter selected'
@@ -344,16 +355,13 @@ const customEmpytResultsElement = (props) => {
   return (
     <Segment placeholder textAlign="center">
       <Header icon>
-        <Icon name="search" />
+        <IconSemantic name="search" />
         Keine Resultate gefunden.
       </Header>
-      {/* {queryString && <em>Current search "{queryString}"</em>}
-      <br /> */}
       <Button
         primary
         onClick={() => {
           resetQuery();
-          // todo click cross of search input field
         }}
       >
         Suche zurücksetzen
@@ -408,12 +416,88 @@ const customSort = ({
   );
 };
 
+const customPaginationElement = (props) => {
+  const {
+    currentPage,
+    currentSize,
+    totalResults,
+    onPageChange,
+    options,
+    ...extraParams
+  } = props;
+  const pages = Math.ceil(totalResults / currentSize);
+  const boundaryRangeCount = options.boundaryRangeCount;
+  const siblingRangeCount = options.siblingRangeCount;
+  const showEllipsis = options.showEllipsis;
+  const showFirst = options.showFirst;
+  const showLast = options.showLast;
+  const showPrev = options.showPrev;
+  const showNext = options.showNext;
+  const size = options.size || 'massive';
+  const _onPageChange = (event, { activePage }) => {
+    onPageChange(activePage);
+  };
+
+  return (
+    <Paginator
+      city="Basel"
+      activePage={currentPage}
+      totalPages={pages}
+      onPageChange={_onPageChange}
+      boundaryRange={boundaryRangeCount}
+      siblingRange={siblingRangeCount}
+      ellipsisItem={
+        showEllipsis
+          ? {
+              content: <IconSemantic name="ellipsis horizontal" />,
+              icon: true,
+            }
+          : null
+      }
+      firstItem={
+        showFirst
+          ? {
+              content: <Icon name={firstAngle} size="20px" />,
+              icon: true,
+            }
+          : null
+      }
+      lastItem={
+        showLast
+          ? {
+              content: <Icon name={lastAngle} size="20px" />,
+              icon: true,
+            }
+          : null
+      }
+      prevItem={
+        showPrev
+          ? {
+              content: <Icon name={leftAngle} size="20px" />,
+              icon: true,
+            }
+          : null
+      }
+      nextItem={
+        showNext
+          ? {
+              content: <Icon name={rightAngle} size="20px" />,
+              icon: true,
+            }
+          : null
+      }
+      size={size}
+    />
+  );
+};
+
 const defaultOverriddenComponents = {
   'ResultsList.item.elasticsearch': CustomResultsListItem,
   'Count.element': myCountElement,
   'ActiveFilters.element': myActiveFiltersElement,
   'EmptyResults.element': customEmpytResultsElement,
   'Sort.element.volto': customSort,
+  'Pagination.element': customPaginationElement,
 };
 
 const dropdownOverriddenComponents = {
@@ -467,6 +551,8 @@ const FacetedSearch = ({
     relocationcontext = data.relocationcontext || null,
   } = data;
 
+  const token = useSelector((state) => state.userSession?.token);
+
   overriddenComponents = overriddenComponents ?? {
     ...defaultOverriddenComponents,
     ...(filterLayout === 'dropdown' && dropdownOverriddenComponents),
@@ -476,7 +562,7 @@ const FacetedSearch = ({
   React.useEffect(() => setIsClient(true), []);
   let location = useLocation();
 
-  const searchApi = new ESSearchApi({
+  const ploneSearchApi = new PloneSearchApi({
     axios: {
       // url: 'http://localhost:9200/esploneindex/_search',
       url: search_url + '/' + search_index + '/_search',
@@ -487,6 +573,11 @@ const FacetedSearch = ({
       requestSerializer: CustomESRequestSerializer,
       responseSerializer: CustomESResponseSerializer,
     },
+    reviewstatemapping: {
+      Manual: ['internally_published', 'private', 'internal'],
+    },
+    backend_url: data.backend_url,
+    frontend_url: data.frontend_url,
   });
 
   const payloadOfReset = {
@@ -530,10 +621,10 @@ const FacetedSearch = ({
 
   return (
     <Segment vertical>
-      {__CLIENT__ && (
+      {true && (
         <OverridableContext.Provider value={overriddenComponents}>
           <ReactSearchKit
-            searchApi={searchApi}
+            searchApi={ploneSearchApi}
             eventListenerEnabled={true}
             initialQueryState={initialState}
           >
@@ -544,7 +635,7 @@ const FacetedSearch = ({
               relocation.length > 0 ? (
                 <Portal
                   node={
-                    __CLIENT__ &&
+                    true &&
                     document.querySelectorAll(relocation) &&
                     document.querySelectorAll(relocation)[0]
                   }
@@ -560,9 +651,7 @@ const FacetedSearch = ({
                         class: 'searchbarinput',
                       }}
                     />
-                    <Icon
-                      basic
-                      icon
+                    <IconSemantic
                       name="delete"
                       onClick={(event) => onResetHandler(event)}
                     />
@@ -582,7 +671,7 @@ const FacetedSearch = ({
                             onKeyUp: onKeyUpHandler,
                           }}
                         />
-                        <Icon
+                        <IconSemantic
                           basic
                           icon
                           name="delete"

@@ -7,6 +7,8 @@ export const SearchBlockSchema = {
       fields: [
         'elastic_search_api_url',
         'elastic_search_api_index',
+        'backend_url',
+        'frontend_url',
         'relocation',
         'relocationcontext',
       ],
@@ -20,6 +22,14 @@ export const SearchBlockSchema = {
     elastic_search_api_index: {
       title: 'Elastic Search API Index',
       default: 'esploneindex',
+    },
+    backend_url: {
+      title: 'Backend URL',
+      default: 'http://localhost:8080/Plone',
+    },
+    frontend_url: {
+      title: 'Frontend URL',
+      default: 'http://igib.example.com',
     },
     relocation: {
       title: 'Relocation',
