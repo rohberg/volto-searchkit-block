@@ -286,6 +286,7 @@ const customBucketAggregationElement = (props) => {
       <div className="bucketAE">
         <Dropdown
           fluid
+          scrolling
           text={selectedFilters.length > 0 ? selectedFilters.join(', ') : title}
           className={
             selectedFilters.length ? 'fnfilter selected' : 'fnfilter unselected'
