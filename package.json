@@ -30,9 +30,12 @@
     "version": "auto-changelog -p && git add CHANGELOG.md"
   },
   "dependencies": {
+    "@eeacms/volto-matomo": "*",
     "@plone/scripts": "*",
     "react-overridable": "^0.0.3",
-    "react-searchkit": "^v1.0.0-alpha.17",
-    "@eeacms/volto-matomo": "*"
+    "react-searchkit": "^v1.0.0-alpha.22"
+  },
+  "devDependencies": {
+    "@semantic-ui-react/css-patch": "1.0.0"
   }
 }
