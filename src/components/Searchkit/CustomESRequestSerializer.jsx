@@ -284,7 +284,7 @@ export class CustomESRequestSerializer {
                       somemoredatafromelasticsearch: {
                         top_hits: {
                           size: 1,
-                          _source: { include: [fieldName] },
+                          _source: { includes: [fieldName] },
                         },
                       },
                     },
