@@ -52,11 +52,7 @@ import './less/springisnow-volto-searchkit-block.less';
 
 import config from '@plone/volto/registry';
 
-// TODO conditional Matomo tracking: catch case if app has not volto-matomo installed
-import { trackSiteSearch } from '@eeacms/volto-matomo/utils';
-
 const OnResults = withState(Results);
-
 
 // class Tags extends Component {
 //   onClick = (event, value) => {
@@ -99,7 +95,7 @@ const CustomResultsListItem = ({ result, index }) => {
   let filterkeys = Object.keys(flts).filter((el) => result[el]?.length > 0);
   return (
     <Item
-      key={index}
+      key={`item_${index}`}
       className={cx('searchkitresultitem', result.review_state)}
     >
       <Item.Content>
@@ -528,6 +524,8 @@ const sortValues = [
 const initialState = {
   sortBy: 'bestmatch',
   sortOrder: 'asc',
+  // sortBy: 'modified',
+  // sortOrder: 'desc',
   queryString: '',
   layout: 'list',
   page: 1,
@@ -606,18 +604,6 @@ const FacetedSearch = ({
         scrollToTarget(el);
       }
     }
-    // track if enabled
-    if (config.settings.searchkitblock.trackVoltoMatomo) {
-      if (event.target.value && event.target.value.length > 4) {
-        trackSiteSearch({
-          keyword: event.target.value,
-          category: 'Suche in Dokumentation', // optional
-          // count: 4, // optional
-          documentTitle: 'Suche in Dokumentation', // optional
-          href: '/search', // optional
-        });
-      }
-    }
   };
 
   return (
@@ -649,7 +635,7 @@ const FacetedSearch = ({
                         icon: 'search',
                         iconPosition: 'left',
                         onKeyUp: onKeyUpHandler,
-                        class: 'searchbarinput',
+                        className: 'searchbarinput',
                       }}
                     />
                     <IconSemantic

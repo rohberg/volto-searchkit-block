@@ -10,10 +10,33 @@ import React, { Component } from 'react';
 import { Grid, Icon as IconSemantic } from 'semantic-ui-react';
 import { Count, Pagination, ResultsMultiLayout, Sort } from 'react-searchkit';
 
+import config from '@plone/volto/registry';
+
+// TODO conditional Matomo tracking: catch case if app has not volto-matomo installed
+import { trackSiteSearch } from '@eeacms/volto-matomo/utils';
+
 export class Results extends Component {
   componentDidMount() {
-    var evt = new CustomEvent('searchkitQueryChanged', {});
-    window && window.dispatchEvent(evt);
+    if (
+      config.settings.searchkitblock.trackVoltoMatomo &&
+      this.props.currentQueryState.queryString
+    ) {
+      let options = {
+        keyword: this.props.currentQueryState.queryString,
+        category: 'Suche in Dokumentation', // optional
+        // count: 4, // optional
+        documentTitle: 'Suche in Dokumentation', // optional
+        href: '/search', // optional
+        count: this.props.currentResultsState.data.total,
+        // customDimensions: [
+        //   {
+        //     id: 1,
+        //     value: 'loggedIn',
+        //   },
+        // ], // optional
+      };
+      trackSiteSearch(options);
+    }
   }
 
   render() {
