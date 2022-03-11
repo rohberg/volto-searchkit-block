@@ -49,7 +49,7 @@ export class CustomESRequestSerializer {
   serialize = (stateQuery) => {
     const { queryString, sortBy, sortOrder, page, size, filters } = stateQuery;
 
-    // TODO make allowed_content_types configurable
+    // TODO Make allowed_content_types configurable.
     let allowed_content_types = ['Manual'];
     // Check current users permissions
     let allowed_review_states = this.reviewstatemapping['Manual'];
@@ -57,15 +57,26 @@ export class CustomESRequestSerializer {
     const bodyParams = {};
 
     if (!isEmpty(queryString)) {
+      // - search fuzzy
+      // - search also for word parts (LSR-Lehrbetrieb: search also for LSR and Lehrbetrieb)
       let qs = queryString
         .split(' ')
-        .map((s) => s + '~')
+        .map((s) => {
+          // fuzzy search only if not wildcard and no paranthesis
+          if (s.includes('*') || s.includes('"')) {
+            return s;
+          }
+          // check if search should take word parts into account
+          let foo = s.split('-'); // common hyphens
+          if (foo.length > 1) {
+            let wordparts = foo.map((t) => `${t}~`).join(' ');
+            return `${s}~ ${wordparts}`;
+          } else {
+            return `${s}~`;
+          }
+        })
         .join(' ');
-      // bodyParams['query'] = {
-      //   query_string: {
-      //     query: qs,
-      //   },
-      // };
+      // console.debug('querystring qs', qs);
       let simpleFields = [
         'title^1.4',
         'id',
@@ -74,6 +85,7 @@ export class CustomESRequestSerializer {
         'freemanualtags^1.4',
         'blocks_plaintext',
       ];
+      // TODO Make nested fields configurable.
       let nestedFields = ['manualfile__extracted.content'];
       let shouldList = nestedFields.map((fld) => {
         return {
@@ -301,6 +313,10 @@ export class CustomESRequestSerializer {
         extend(bodyParams['aggs'], aggBucketTermsComponent);
       }
     });
+    console.debug(
+      'query_string',
+      bodyParams['query']['bool']['should'][1]['query_string'],
+    );
     return bodyParams;
   };
 }
