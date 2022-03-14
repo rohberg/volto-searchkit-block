@@ -314,8 +314,8 @@ export class CustomESRequestSerializer {
       }
     });
     console.debug(
-      'query_string',
-      bodyParams['query']['bool']['should'][1]['query_string'],
+      'CustomESRequestSerializer. query_string',
+      bodyParams['query'] ? ['bool']['should'][1]['query_string'] : 'no query',
     );
     return bodyParams;
   };
