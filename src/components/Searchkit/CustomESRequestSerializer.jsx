@@ -313,10 +313,6 @@ export class CustomESRequestSerializer {
         extend(bodyParams['aggs'], aggBucketTermsComponent);
       }
     });
-    console.debug(
-      'CustomESRequestSerializer. query_string',
-      bodyParams['query'] ? ['bool']['should'][1]['query_string'] : 'no query',
-    );
     return bodyParams;
   };
 }
