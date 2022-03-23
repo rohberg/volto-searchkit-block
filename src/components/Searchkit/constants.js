@@ -1,4 +1,5 @@
-const listFields = ['freemanualtags'];
+// const listFields = ['freemanualtags'];
+const listFields = [];
 const nestedFields = [
   'kompasscomponent',
   'targetaudience',
