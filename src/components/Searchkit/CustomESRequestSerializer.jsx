@@ -62,6 +62,19 @@ export class CustomESRequestSerializer {
       let qs = queryString
         .trim()
         .split(' ')
+        // filter out spaces and orphan "
+        .filter((word) => word !== '' && word !== '"')
+        // replace orphan "
+        .map((word) => {
+          if (
+            (word.startsWith('"') && word.endsWith('"')) ||
+            (!word.startsWith('"') && !word.endsWith('"'))
+          )
+            return word;
+          else {
+            return word.replace('"', '');
+          }
+        })
         .map((s) => {
           // fuzzy search only if not wildcard and no paranthesis
           if (s.includes('*') || s.includes('"')) {
@@ -77,7 +90,6 @@ export class CustomESRequestSerializer {
           }
         })
         .join(' ');
-      // console.debug('querystring qs', qs);
       let simpleFields = [
         'title^1.4',
         'id',
