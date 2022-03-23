@@ -82,7 +82,7 @@ export class CustomESRequestSerializer {
         'id',
         'description^1.2',
         'subjects^1.4',
-        'freemanualtags^1.4',
+        'freemanualtags_searchable^1.4',
         'blocks_plaintext',
       ];
       // TODO Make nested fields configurable.
@@ -111,6 +111,7 @@ export class CustomESRequestSerializer {
           should: shouldList,
         },
       };
+      // console.debug("bodyParams['query']", bodyParams['query']);
     }
 
     if (sortBy !== 'bestmatch') {
@@ -146,7 +147,7 @@ export class CustomESRequestSerializer {
 
     // TODO 'kompasscomponent_agg.inner.kompasscomponent_token' or without inner
     const aggFieldsMapping = {
-      freemanualtags_agg: 'freemanualtags',
+      // freemanualtags_agg: 'freemanualtags',
       'kompasscomponent_agg.inner.kompasscomponent_token': 'kompasscomponent',
       'targetaudience_agg.inner.targetaudience_token': 'targetaudience',
       'organisationunit_agg.inner.organisationunit_token': 'organisationunit',
@@ -313,6 +314,7 @@ export class CustomESRequestSerializer {
         extend(bodyParams['aggs'], aggBucketTermsComponent);
       }
     });
+    // console.debug('CustomESRequestSerializer bodyParams', bodyParams);
     return bodyParams;
   };
 }
