@@ -161,8 +161,8 @@ const CustomResultsListItem = ({ result, index }) => {
           {filterkeys.map((flt, fltindex) => {
             // return result[flt]?.length ? (
             return true ? (
-              <>
-                <span key={flts[flt].label}>{flts[flt].label}: </span>
+              <React.Fragment key={flts[flt].label}>
+                <span>{flts[flt].label}: </span>
                 {result[flt]?.map((item, index) => {
                   let tito = item.title || item.token;
                   let payloadOfFilter = {
@@ -190,7 +190,7 @@ const CustomResultsListItem = ({ result, index }) => {
                 {fltindex < filterkeys.length - 1 && (
                   <span className="metadataseparator">|</span>
                 )}
-              </>
+              </React.Fragment>
             ) : null;
           })}
           {result.freemanualtags?.length ? (
