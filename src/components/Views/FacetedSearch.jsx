@@ -608,7 +608,7 @@ const FacetedSearch = ({
 
   return (
     <Segment vertical>
-      {true && (
+      {isClient && (
         <OverridableContext.Provider value={overriddenComponents}>
           <ReactSearchKit
             searchApi={ploneSearchApi}
