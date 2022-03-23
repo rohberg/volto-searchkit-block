@@ -52,7 +52,19 @@ import './less/springisnow-volto-searchkit-block.less';
 
 import config from '@plone/volto/registry';
 
-const OnResults = withState(Results);
+const MyResults = (props) => {
+  // Add scroll to input field search
+  React.useEffect(() => {
+    const el = document.querySelector('.navigation-dropdownmenu');
+    if (el) {
+      scrollToTarget(el);
+    }
+  }, []);
+
+  return <Results {...props} />;
+};
+
+const OnResults = withState(MyResults);
 
 // class Tags extends Component {
 //   onClick = (event, value) => {
@@ -594,18 +606,6 @@ const FacetedSearch = ({
     onQueryChanged(payloadOfReset);
   };
 
-  const onKeyUpHandler = (event) => {
-    const el = document.querySelector('.navigation-dropdownmenu');
-    if (el) {
-      // Number 13 is the "Enter" key on the keyboard
-      if (event.keyCode === 13) {
-        // Cancel the default action, if needed
-        event.preventDefault();
-        scrollToTarget(el);
-      }
-    }
-  };
-
   return (
     <Segment vertical>
       {isClient && (
@@ -630,11 +630,10 @@ const FacetedSearch = ({
                   <div className="searchbar-wrapper">
                     <SearchBar
                       placeholder="Suche"
-                      autofocus="true"
+                      autofocus="false"
                       uiProps={{
                         icon: 'search',
                         iconPosition: 'left',
-                        onKeyUp: onKeyUpHandler,
                         className: 'searchbarinput',
                       }}
                     />
@@ -651,11 +650,10 @@ const FacetedSearch = ({
                       <div className="searchbar-wrapper">
                         <SearchBar
                           placeholder="Suche"
-                          autofocus="true"
+                          autofocus="false"
                           uiProps={{
                             icon: 'search',
                             iconPosition: 'left',
-                            onKeyUp: onKeyUpHandler,
                           }}
                         />
                         <IconSemantic
