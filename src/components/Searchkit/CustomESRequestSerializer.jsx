@@ -60,6 +60,7 @@ export class CustomESRequestSerializer {
       // - search fuzzy
       // - search also for word parts (LSR-Lehrbetrieb: search also for LSR and Lehrbetrieb)
       let qs = queryString
+        .trim()
         .split(' ')
         .map((s) => {
           // fuzzy search only if not wildcard and no paranthesis
@@ -244,23 +245,22 @@ export class CustomESRequestSerializer {
       const myaggs = aggName.split('.');
       const fieldName = aggFieldsMapping[aggName];
       if (nestedFields.includes(fieldName)) {
-
-        const filter_debug = {
-          nested: {
-            path: 'informationtype',
-            query: {
-              bool: {
-                must: [
-                  {
-                    terms: {
-                      'informationtype.token': ['Anleitung', 'FAQ'],
-                    },
-                  },
-                ],
-              },
-            },
-          },
-        };
+        // const filter_debug = {
+        //   nested: {
+        //     path: 'informationtype',
+        //     query: {
+        //       bool: {
+        //         must: [
+        //           {
+        //             terms: {
+        //               'informationtype.token': ['Anleitung', 'FAQ'],
+        //             },
+        //           },
+        //         ],
+        //       },
+        //     },
+        //   },
+        // };
 
         function aggregation_filter(agg) {
           // agg is a key of aggFieldsMapping.
