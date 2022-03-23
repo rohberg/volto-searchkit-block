@@ -31,8 +31,6 @@ const scrollToTarget = (target, offsetHeight = 0) => {
   const targetRect = target.getBoundingClientRect().top;
   const targetPosition = targetRect - bodyRect - offsetHeight;
 
-  console.debug('I scrolled.');
-
   return window.scrollTo({
     top: targetPosition,
     behavior: 'smooth',
