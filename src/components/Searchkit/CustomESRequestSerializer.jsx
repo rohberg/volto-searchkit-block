@@ -113,11 +113,25 @@ export class CustomESRequestSerializer {
           },
         };
       });
-      // quote_field_suffix: '.exact',
+      // quote_field_suffix
+      // This tells Elasticsearch that the words that appear in between quotes are to be redirected to a different field
+      // https://www.elastic.co/guide/en/elasticsearch/reference/current/mixing-exact-search-with-stemming.html
+      // The field xy.exact must be available. See 
+      // "title": {
+      //   "type": "text",
+      //   "analyzer": "german_analyzer",
+      //   "fields": {
+      //     "exact": {
+      //       "type": "text",
+      //       "analyzer": "german_exact_analyzer"
+      //     }
+      //   }
+      // },
       shouldList.push({
         query_string: {
           query: qs,
           fields: simpleFields,
+          quote_field_suffix: '.exact',
         },
       });
       bodyParams['query'] = {
