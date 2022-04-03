@@ -113,6 +113,7 @@ export class CustomESRequestSerializer {
           },
         };
       });
+      // quote_field_suffix: '.exact',
       shouldList.push({
         query_string: {
           query: qs,
