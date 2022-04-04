@@ -83,10 +83,10 @@ export class CustomESRequestSerializer {
           // check if search should take word parts into account
           let foo = s.split('-'); // common hyphens
           if (foo.length > 1) {
-            let wordparts = foo.map((t) => `${t}~`).join(' ');
-            return `${s}~ ${wordparts}`;
+            let wordparts = foo.map((t) => `${t}`).join(' ');
+            return `${s} ${wordparts}`;
           } else {
-            return `${s}~`;
+            return `${s}`;
           }
         })
         .join(' ');
