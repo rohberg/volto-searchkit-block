@@ -57,7 +57,7 @@ export class CustomESRequestSerializer {
     const bodyParams = {};
 
     if (!isEmpty(queryString)) {
-      // - search fuzzy
+      // - no fuzzy search since we use decompounder and stemmer
       // - search also for word parts (LSR-Lehrbetrieb: search also for LSR and Lehrbetrieb)
       let qs = queryString
         .trim()
@@ -83,10 +83,10 @@ export class CustomESRequestSerializer {
           // check if search should take word parts into account
           let foo = s.split('-'); // common hyphens
           if (foo.length > 1) {
-            let wordparts = foo.map((t) => `${t}~`).join(' ');
-            return `${s}~ ${wordparts}`;
+            let wordparts = foo.map((t) => `${t}`).join(' ');
+            return `${s} ${wordparts}`;
           } else {
-            return `${s}~`;
+            return `${s}`;
           }
         })
         .join(' ');
