@@ -92,7 +92,6 @@ export class CustomESRequestSerializer {
         .join(' ');
       let simpleFields = [
         'title^1.4',
-        'id',
         'description^1.2',
         'subjects^1.4',
         'freemanualtags_searchable^1.4',
