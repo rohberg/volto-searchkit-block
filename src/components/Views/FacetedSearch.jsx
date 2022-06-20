@@ -573,6 +573,7 @@ const FacetedSearch = ({
   React.useEffect(() => setIsClient(true), []);
   let location = useLocation();
 
+  // TODO Make reviewstatemapping configurable
   const ploneSearchApi = new PloneSearchApi({
     axios: {
       // url: 'http://localhost:9200/esploneindex/_search',
@@ -587,6 +588,9 @@ const FacetedSearch = ({
     reviewstatemapping: {
       Manual: ['internally_published', 'private', 'internal'],
     },
+    withExtraExactField: data.withExtraExactField,
+    simpleFields: data.simpleFields,
+    nestedFields: data.nestedFields,
     backend_url: data.backend_url,
     frontend_url: data.frontend_url,
   });

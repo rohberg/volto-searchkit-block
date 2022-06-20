@@ -9,6 +9,9 @@ export const SearchBlockSchema = {
         'elastic_search_api_index',
         'backend_url',
         'frontend_url',
+        'withExtraExactField',
+        'simpleFields',
+        'nestedFields',
         'relocation',
         'relocationcontext',
       ],
@@ -30,6 +33,25 @@ export const SearchBlockSchema = {
     frontend_url: {
       title: 'Frontend URL',
       default: 'http://igib.example.com',
+    },
+    withExtraExactField: {
+      title: 'with extra exact field',
+      type: 'boolean',
+      default: true,
+    },
+    simpleFields: {
+      title: 'simple fields',
+      type: 'array',
+      widget: 'array',
+      creatable: true,
+      default: ['title^1.4', 'description^1.2'],
+    },
+    nestedFields: {
+      title: 'nested fields',
+      type: 'array',
+      widget: 'array',
+      creatable: true,
+      default: [],
     },
     relocation: {
       title: 'Relocation',

@@ -41,6 +41,9 @@ export class PloneSearchApi {
 
     this.requestSerializer = new requestSerializerCls({
       reviewstatemapping: config.reviewstatemapping,
+      withExtraExactField: config.withExtraExactField,
+      simpleFields: config.simpleFields,
+      nestedFields: config.nestedFields,
     });
     this.responseSerializer = new responseSerializerCls({
       backend_url: config.backend_url,
