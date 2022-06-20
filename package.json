@@ -32,7 +32,7 @@
   "dependencies": {
     "@plone/scripts": "*",
     "react-overridable": "^0.0.3",
-    "react-searchkit": "^v1.0.0-alpha.22"
+    "react-searchkit": "v1.0.1"
   },
   "devDependencies": {
     "@eeacms/volto-matomo": "*",
