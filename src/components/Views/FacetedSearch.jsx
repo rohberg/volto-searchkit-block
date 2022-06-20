@@ -47,6 +47,7 @@ import { CustomESResponseSerializer } from '../Searchkit/CustomESResponseSeriali
 import { Results } from '../Searchkit/Results';
 
 import { flattenESUrlToPath, scrollToTarget } from '../helpers';
+import ElasticSearchHighlights from './ElasticSearchHighlights';
 
 import './less/springisnow-volto-searchkit-block.less';
 
@@ -227,6 +228,11 @@ const CustomResultsListItem = ({ result, index }) => {
             </div>
           ) : null}
         </Item.Extra>
+
+        <ElasticSearchHighlights
+          highlight={result.highlight}
+          indexResult={index}
+        />
       </Item.Content>
     </Item>
   );
