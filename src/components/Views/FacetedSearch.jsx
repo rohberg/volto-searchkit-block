@@ -47,6 +47,7 @@ import { CustomESResponseSerializer } from '../Searchkit/CustomESResponseSeriali
 import { Results } from '../Searchkit/Results';
 
 import { flattenESUrlToPath, scrollToTarget } from '../helpers';
+import ElasticSearchHighlights from './ElasticSearchHighlights';
 
 import './less/springisnow-volto-searchkit-block.less';
 
@@ -227,6 +228,11 @@ const CustomResultsListItem = ({ result, index }) => {
             </div>
           ) : null}
         </Item.Extra>
+
+        <ElasticSearchHighlights
+          highlight={result.highlight}
+          indexResult={index}
+        />
       </Item.Content>
     </Item>
   );
@@ -573,6 +579,7 @@ const FacetedSearch = ({
   React.useEffect(() => setIsClient(true), []);
   let location = useLocation();
 
+  // TODO Make reviewstatemapping configurable
   const ploneSearchApi = new PloneSearchApi({
     axios: {
       // url: 'http://localhost:9200/esploneindex/_search',
@@ -587,6 +594,9 @@ const FacetedSearch = ({
     reviewstatemapping: {
       Manual: ['internally_published', 'private', 'internal'],
     },
+    withExtraExactField: data.withExtraExactField,
+    simpleFields: data.simpleFields,
+    nestedFields: data.nestedFields,
     backend_url: data.backend_url,
     frontend_url: data.frontend_url,
   });

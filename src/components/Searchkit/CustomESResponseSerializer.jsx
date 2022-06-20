@@ -6,7 +6,11 @@ import {
   addAppURL,
   isInternalURL,
   flattenToAppURL,
+  expandToBackendURL,
+  getAuthToken,
 } from '@plone/volto/helpers';
+
+import { flattenESUrlToPath } from '../helpers';
 
 import config from '@plone/volto/registry';
 
@@ -44,12 +48,19 @@ export class CustomESResponseSerializer {
 
   _getAllowedHits(hits) {
     // return promise with array ot Promises. all of them resolve to Object(hit,status)
+    const auth_token = getAuthToken();
     let listOfPromises = hits.map((hit) => {
       return new Promise((resolve, reject) => {
         // fetch one
-        fetch(
-          hit['_source']['@id'].replace(this.backend_url, this.frontend_url),
-        )
+        let fetchurl = expandToBackendURL(
+          flattenESUrlToPath(hit['_source']['@id']),
+        );
+        fetch(fetchurl, {
+          headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${auth_token}`,
+          },
+        })
           .then((res) => {
             resolve({
               hit: hit,
@@ -73,6 +84,7 @@ export class CustomESResponseSerializer {
     const { aggregations, hits } = payload;
 
     let filtered_hits = await this._getAllowedHits(hits.hits);
+
     filtered_hits = filtered_hits
       .filter((hit_info) => {
         return hit_info.status === 200;
@@ -81,7 +93,11 @@ export class CustomESResponseSerializer {
     return new Promise((resolve, reject) => {
       resolve({
         aggregations: _pimpedAggregations(aggregations) || {},
-        hits: filtered_hits.map((hit) => hit._source),
+        hits: filtered_hits.map((hit) => {
+          // TODO Replace hack: Add highlights to _source data
+          hit._source['highlight'] = hit.highlight;
+          return hit._source;
+        }),
         total: hits.total.value < 11 ? filtered_hits.length : hits.total.value,
       });
     });

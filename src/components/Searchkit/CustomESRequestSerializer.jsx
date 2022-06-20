@@ -5,6 +5,9 @@ import { listFields, nestedFields } from './constants.js';
 export class CustomESRequestSerializer {
   constructor(config) {
     this.reviewstatemapping = config.reviewstatemapping;
+    this.withExtraExactField = config.withExtraExactField;
+    this.simpleFields = config.simpleFields;
+    this.nestedFields = config.nestedFields;
   }
   /**
    * Convert Array of filters to Object of filters
@@ -76,46 +79,30 @@ export class CustomESRequestSerializer {
           }
         })
         .map((s) => {
-          // fuzzy search only if not wildcard and no paranthesis
+          // TODO fuzzy search only if not wildcard and no paranthesis
           if (s.includes('*') || s.includes('"')) {
             return s;
           }
-          // check if search should take word parts into account
+          // Take word parts into account
           let foo = s.split('-'); // common hyphens
           if (foo.length > 1) {
-            let wordparts = foo.map((t) => `${t}`).join(' ');
-            return `${s} ${wordparts}`;
+            let wordparts = foo.join(' ');
+            return `${s}~ ${wordparts}`;
           } else {
-            return `${s}`;
+            return `${s}~`;
           }
         })
         .join(' ');
-      let simpleFields = [
-        'title^1.4',
-        'description^1.2',
-        'subjects^1.4',
-        'freemanualtags_searchable^1.4',
-        'blocks_plaintext',
-      ];
-      // TODO Make nested fields configurable.
-      let nestedFields = ['manualfile__extracted.content'];
-      let shouldList = nestedFields.map((fld) => {
-        return {
-          nested: {
-            path: fld.split('.')[0],
-            query: {
-              query_string: {
-                query: qs,
-                fields: [fld],
-              },
-            },
-          },
-        };
-      });
+      console.debug('queryString qs:', qs);
+
+      let simpleFields = this.simpleFields;
+      // let nestedFields = ['manualfile__extracted.content'];
+      let nestedFields = this.nestedFields;
+
       // quote_field_suffix
       // This tells Elasticsearch that the words that appear in between quotes are to be redirected to a different field
       // https://www.elastic.co/guide/en/elasticsearch/reference/current/mixing-exact-search-with-stemming.html
-      // The field xy.exact must be available. See 
+      // The field xy.exact must be available. See
       // "title": {
       //   "type": "text",
       //   "analyzer": "german_analyzer",
@@ -126,11 +113,29 @@ export class CustomESRequestSerializer {
       //     }
       //   }
       // },
+      let shouldList = nestedFields.map((fld) => {
+        return {
+          nested: {
+            path: fld.split('.')[0],
+            query: {
+              query_string: {
+                query: qs,
+                fields: [fld],
+                ...(this.withExtraExactField && {
+                  quote_field_suffix: '.exact',
+                }),
+              },
+            },
+          },
+        };
+      });
       shouldList.push({
         query_string: {
           query: qs,
           fields: simpleFields,
-          quote_field_suffix: '.exact',
+          ...(this.withExtraExactField && {
+            quote_field_suffix: '.exact',
+          }),
         },
       });
       bodyParams['query'] = {
@@ -138,7 +143,52 @@ export class CustomESRequestSerializer {
           should: shouldList,
         },
       };
-      // console.debug("bodyParams['query']", bodyParams['query']);
+
+      bodyParams['highlight'] = {
+        fields: [
+          {
+            title: {
+              matched_fields: ['title', 'title.exact'],
+              type: 'fvh',
+            },
+          },
+          {
+            description: {
+              matched_fields: ['description', 'description.exact'],
+              type: 'fvh',
+            },
+          },
+          {
+            freemanualtags_searchable: {
+              matched_fields: [
+                'freemanualtags_searchable',
+                'freemanualtags_searchable.exact',
+              ],
+              type: 'fvh',
+            },
+          },
+          {
+            blocks_plaintext: {
+              fragment_size: 150,
+              matched_fields: ['blocks_plaintext', 'blocks_plaintext.exact'],
+              type: 'fvh',
+            },
+          },
+          {
+            subjects: {
+              matched_fields: ['subjects', 'subjects.exact'],
+              type: 'fvh',
+            },
+          },
+          // TODO highlight / matches in PDF
+          {
+            manualfilecontent: {
+              matched_fields: ['manualfilecontent', 'manualfilecontent.exact'],
+              type: 'fvh',
+            },
+          },
+        ],
+      };
     }
 
     if (sortBy !== 'bestmatch') {
