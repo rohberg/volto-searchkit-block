@@ -13,7 +13,8 @@ MAKEFLAGS+=--no-builtin-rules
 # Project settings
 
 DIR=$(shell basename $$(pwd))
-ADDON ?= "myaddon"
+ADDON ?= "volto-searchkit-block"
+
 
 # Recipe snippets for reuse
 
@@ -48,7 +49,8 @@ all: project
 .PHONY: start-test-backend
 start-test-backend: ## Start Test Plone Backend
 	@echo "$(GREEN)==> Start Test Plone Backend$(RESET)"
-	docker run -i --rm -e ZSERVER_HOST=0.0.0.0 -e ZSERVER_PORT=55001 -p 55001:55001 -e SITE=plone -e APPLY_PROFILES=plone.app.contenttypes:plone-content,plone.restapi:default,plone.volto:default-homepage -e CONFIGURE_PACKAGES=plone.app.contenttypes,plone.restapi,plone.volto,plone.volto.cors -e ADDONS='plone.app.robotframework plone.app.contenttypes plone.restapi plone.volto' plone ./bin/robot-server plone.app.robotframework.testing.PLONE_ROBOT_TESTING
+	docker-compose -p test-backend-volto-searchkit-block -f ./testing/docker-compose.yml up
+
 
 .PHONY: start-elasticsearch
 start-elasticsearch: ## Start Elasticsearch
