@@ -3,12 +3,15 @@ services:
   backend:
     image: plone/plone-backend:5.2.8
     environment:
+      # plone.app.robotframework
       ZSERVER_HOST: "0.0.0.0"
       ZSERVER_PORT: "55001"
-      APPLY_PROFILES: "plone.app.contenttypes:plone-content,plone.restapi:default,plone.volto:default-homepage,collective.elastic.plone:default"
+      APPLY_PROFILES: "plone.app.contenttypes:plone-content,plone.restapi:default,plone.volto:default-homepage"
+      INSTALL_PRODUCTS: "collective.elastic.plone"
+      # plone-backend docker image
       ADDONS: "plone.app.robotframework==2.0.0a6 plone.app.testing==7.0.0a3 plone.app.contenttypes plone.restapi plone.volto redis"
-      CONFIGURE_PACKAGES: "plone.app.contenttypes,plone.restapi,plone.volto,plone.volto.cors,collective.elastic.plone"
-      DEVELOP: "git+https://github.com/collective/collective.elastic.plone@master#egg=collective.elastic.plone git+https://github.com/collective/collective.elastic.ingest@master#egg=collective.elastic.ingest"
+      # CONFIGURE_PACKAGES: "plone.app.contenttypes,plone.restapi,plone.volto,plone.volto.cors,collective.elastic.plone"
+      DEVELOP: "git+https://github.com/collective/collective.elastic.plone@master#egg=collective.elastic.plone git+https://github.com/collective/collective.elastic.ingest@master#egg=collective.elastic.ingest git+https://github.com/rohberg/rohberg.elasticsearchblocks.git@master#egg=rohberg.elasticsearchblocks"
       SITE: "plone"
 
       CELERY_BROKER: redis://host.docker.internal:6379
@@ -33,11 +36,15 @@ services:
     depends_on:
       - redis
       - elastic
-    # command:
-    #   - sh
-    #   - -c
-    #   - ./bin/robot-server plone.app.robotframework.testing.VOLTO_ROBOT_TESTING
-    # - ./bin/celery -A collective.elastic.ingest.celery.app worker -l info
+    command:
+      - sh
+      - -c
+      - |
+        echo "This is a multiline command"
+        echo "See how I escape $$ sign"
+        echo $$PATH
+        ./bin/celery -A collective.elastic.ingest.celery.app worker -l info
+        ./bin/robot-server rohberg.elasticsearchblocks.testing.ROHBERG_ELASTICSEARCHBLOCKS_FIXTURE
     volumes:
       - ./volumes/config/:/app/ploneconfiguration/
       - ./volumes/src/:/app/src/

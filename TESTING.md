@@ -21,5 +21,5 @@ TODO Run celery
 
 Run acceptance backend instance:
 
-    docker compose exec backend ./bin/robot-server plone.app.robotframework.testing.VOLTO_ROBOT_TESTING
+    docker compose exec backend ./bin/robot-server rohberg.elasticsearchblocks.testing.ROHBERG_ELASTICSEARCHBLOCKS_FIXTURE
 
