@@ -11,13 +11,13 @@ services:
       DEVELOP: "git+https://github.com/collective/collective.elastic.plone@master#egg=collective.elastic.plone git+https://github.com/collective/collective.elastic.ingest@master#egg=collective.elastic.ingest"
       SITE: "plone"
 
-      CELERY_BROKER: redis://localhost:6379
+      CELERY_BROKER: redis://host.docker.internal:6379
       ELASTICSEARCH_INDEX: plone
-      ELASTICSEARCH_QUERY_SERVER: http://localhost:9200
+      ELASTICSEARCH_QUERY_SERVER: http://host.docker.internal:9200
       ELASTICSEARCH_QUERY_USE_SSL: 0
 
       # CELERY_BROKER: redis://localhost:6379/0
-      ELASTICSEARCH_INGEST_SERVER: localhost:9200
+      ELASTICSEARCH_INGEST_SERVER: host.docker.internal:9200
       ELASTICSEARCH_INGEST_USE_SSL: 0
 
       PLONE_SERVICE: http://127.0.0.1:55001
