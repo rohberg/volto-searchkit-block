@@ -49,7 +49,7 @@ all: project
 .PHONY: start-test-backend
 start-test-backend: ## Start Test Plone Backend
 	@echo "$(GREEN)==> Start Test Plone Backend$(RESET)"
-	docker-compose -p test-backend-volto-searchkit-block -f ./testing/docker-compose.yml up
+	docker-compose up
 
 
 # development
