@@ -102,4 +102,5 @@ dist
 
 # TernJS port file
 .tern-port
-testing/src/collective-elastic-plone/
+testing/volumes/src/
+testing/volumes/var/
