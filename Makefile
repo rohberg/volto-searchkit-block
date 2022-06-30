@@ -51,13 +51,6 @@ start-test-backend: ## Start Test Plone Backend
 	@echo "$(GREEN)==> Start Test Plone Backend$(RESET)"
 	docker-compose up
 
-
-# development
-.PHONY: start-backend-docker
-start-backend-docker:		## Starts a Docker-based backend
-	@echo "$(GREEN)==> Start Docker-based Plone Backend$(RESET)"
-	docker run -it --rm --name=plone -p 8080:8080 -e SITE=Plone -e ADDONS="plone.volto" -e ZCML="plone.volto.cors" plone
-
 .PHONY: help
 help:		## Show this help.
 	@echo -e "$$(grep -hE '^\S+:.*##' $(MAKEFILE_LIST) | sed -e 's/:.*##\s*/:/' -e 's/^\(.\+\):\(.*\)/\\x1b[36m\1\\x1b[m:\2/' | column -c2 -t -s :)"
