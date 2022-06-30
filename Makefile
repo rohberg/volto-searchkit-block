@@ -52,14 +52,6 @@ start-test-backend: ## Start Test Plone Backend
 	docker-compose -p test-backend-volto-searchkit-block -f ./testing/docker-compose.yml up
 
 
-.PHONY: start-elasticsearch
-start-elasticsearch: ## Start Elasticsearch
-	@echo "$(GREEN)==> Start Elasticsearch$(RESET)"
-	docker run -i --rm -p 127.0.0.1:9200:9200 -p 127.0.0.1:9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.17.5
-
-
-
-
 # development
 .PHONY: start-backend-docker
 start-backend-docker:		## Starts a Docker-based backend

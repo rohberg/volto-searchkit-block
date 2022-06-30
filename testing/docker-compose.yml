@@ -1,18 +1,52 @@
 version: "3"
 services:
-  test-backend-volto-searchkit-block:
+  backend:
     image: plone/plone-backend:5.2.8
     environment:
       ZSERVER_HOST: "0.0.0.0"
       ZSERVER_PORT: "55001"
-      APPLY_PROFILES: "plone.app.contenttypes:plone-content,plone.restapi:default,plone.volto:default-homepage"
-      ADDONS: "plone.app.robotframework==2.0.0a6 plone.app.testing==7.0.0a3 plone.app.contenttypes plone.restapi plone.volto"
-      CONFIGURE_PACKAGES: "plone.app.contenttypes,plone.restapi,plone.volto,plone.volto.cors"
-      DEVELOP: "git+https://github.com/collective/collective.elastic.plone@master#egg=collective.elastic.plone git+https://github.com/collective/collective.elastic.ingest.git"
+      APPLY_PROFILES: "plone.app.contenttypes:plone-content,plone.restapi:default,plone.volto:default-homepage,collective.elastic.plone:default"
+      ADDONS: "plone.app.robotframework==2.0.0a6 plone.app.testing==7.0.0a3 plone.app.contenttypes plone.restapi plone.volto redis"
+      CONFIGURE_PACKAGES: "plone.app.contenttypes,plone.restapi,plone.volto,plone.volto.cors,collective.elastic.plone"
+      DEVELOP: "git+https://github.com/collective/collective.elastic.plone@master#egg=collective.elastic.plone git+https://github.com/collective/collective.elastic.ingest@master#egg=collective.elastic.ingest"
       SITE: "plone"
+
+      CELERY_BROKER: redis://localhost:6379/0
+      ELASTICSEARCH_INDEX: plone
+      ELASTICSEARCH_QUERY_SERVER: http://localhost:9200
+      ELASTICSEARCH_QUERY_USE_SSL: 0
+
+      # CELERY_BROKER: redis://localhost:6379/0
+      ELASTICSEARCH_INGEST_SERVER: localhost:9200
+      ELASTICSEARCH_INGEST_USE_SSL: 0
+
+      PLONE_SERVICE: http://127.0.0.1:55001
+      PLONE_PATH: plone
+      PLONE_USER: admin
+      PLONE_PASSWORD: secret
+
+      ANALYSIS_FILE: /app/config/elasticsearch-analysis.json
+      MAPPINGS_FILE: /app/config/elasticsearch-mappings.json
+      PREPROCESSINGS_FILE: /app/config/elasticsearch-preprocessings.json
     ports:
       - "55001:55001"
-    command: ./bin/robot-server plone.app.robotframework.testing.VOLTO_ROBOT_TESTING
+    depends_on:
+      - redis
+      - elastic
+    command: bash
+    # command: |
+    #   ./bin/celery -A collective.elastic.ingest.celery.app worker -l info
+    #   ./bin/robot-server plone.app.robotframework.testing.VOLTO_ROBOT_TESTING
     volumes:
-      - ./src/:/app/src/
-      # - ./var:/app/var
+      - ./volumes/config/:/app/config/
+      - ./volumes/src/:/app/src/
+      - ./volumes/var/:/app/var/
+  elastic:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.5
+    environment:
+      - discovery.type=single-node
+    ports:
+      - 127.0.0.1:9200:9200
+      - 127.0.0.1:9300:9300
+  redis:
+    image: redis
