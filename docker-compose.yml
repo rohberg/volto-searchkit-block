@@ -11,7 +11,7 @@ services:
       DEVELOP: "git+https://github.com/collective/collective.elastic.plone@master#egg=collective.elastic.plone git+https://github.com/collective/collective.elastic.ingest@master#egg=collective.elastic.ingest"
       SITE: "plone"
 
-      CELERY_BROKER: redis://localhost:6379/0
+      CELERY_BROKER: redis://localhost:6379
       ELASTICSEARCH_INDEX: plone
       ELASTICSEARCH_QUERY_SERVER: http://localhost:9200
       ELASTICSEARCH_QUERY_USE_SSL: 0
@@ -25,19 +25,21 @@ services:
       PLONE_USER: admin
       PLONE_PASSWORD: secret
 
-      ANALYSIS_FILE: /app/config/elasticsearch-analysis.json
-      MAPPINGS_FILE: /app/config/elasticsearch-mappings.json
-      PREPROCESSINGS_FILE: /app/config/elasticsearch-preprocessings.json
+      ANALYSIS_FILE: /app/ploneconfiguration/elasticsearch-analysis.json
+      MAPPINGS_FILE: /app/ploneconfiguration/elasticsearch-mappings.json
+      PREPROCESSINGS_FILE: /app/ploneconfiguration/elasticsearch-preprocessings.json
     ports:
-      - "55001:55001"
+      - 55001:55001
     depends_on:
       - redis
       - elastic
-    command: |
-      ./bin/robot-server plone.app.robotframework.testing.VOLTO_ROBOT_TESTING
-    #   ./bin/celery -A collective.elastic.ingest.celery.app worker -l info
+    # command:
+    #   - sh
+    #   - -c
+    #   - ./bin/robot-server plone.app.robotframework.testing.VOLTO_ROBOT_TESTING
+    # - ./bin/celery -A collective.elastic.ingest.celery.app worker -l info
     volumes:
-      - ./volumes/config/:/app/config/
+      - ./volumes/config/:/app/ploneconfiguration/
       - ./volumes/src/:/app/src/
       - ./volumes/var/:/app/var/
   elastic:
@@ -45,7 +47,9 @@ services:
     environment:
       - discovery.type=single-node
     ports:
-      - 127.0.0.1:9200:9200
-      - 127.0.0.1:9300:9300
+      - 9200:9200
+      - 9300:9300
   redis:
-    image: redis
+    image: redis/redis-stack-server:latest
+    ports:
+      - 6379:6379
