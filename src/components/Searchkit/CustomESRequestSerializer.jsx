@@ -394,32 +394,3 @@ export class CustomESRequestSerializer {
     return bodyParams;
   };
 }
-
-/**
- * payload demo
- */
-/*
-{
-  "size": 10,
-  "from": 0,
-  "aggs": {
-      "tags_agg": {
-          "terms": {
-              "field": "tags"
-          }
-      },
-      "type_agg": {
-          "terms": {
-              "field": "employee_type.type"
-          },
-          "aggs": {
-              "subtype_agg": {
-                  "terms": {
-                      "field": "employee_type.subtype"
-                  }
-              }
-          }
-      }
-  }
-}
-*/
