@@ -598,28 +598,6 @@ const FacetedSearch = ({
   React.useEffect(() => setIsClient(true), []);
   let location = useLocation();
 
-  // TODO Make reviewstatemapping configurable
-  const ploneSearchApi = new PloneSearchApi({
-    axios: {
-      // url: 'http://localhost:9200/esploneindex/_search',
-      url: search_url + '/' + search_index + '/_search',
-      timeout: 5000,
-      headers: { Accept: 'application/json' },
-    },
-    es: {
-      requestSerializer: CustomESRequestSerializer,
-      responseSerializer: CustomESResponseSerializer,
-    },
-    reviewstatemapping: {
-      Manual: ['internally_published', 'private', 'internal'],
-    },
-    withExtraExactField: data.withExtraExactField,
-    simpleFields: data.simpleFields,
-    nestedFields: data.nestedFields,
-    backend_url: data.backend_url,
-    frontend_url: data.frontend_url,
-  });
-
   const payloadOfReset = {
     searchQuery: {
       sortBy: 'bestmatch',
@@ -640,7 +618,7 @@ const FacetedSearch = ({
       {isClient && (
         <OverridableContext.Provider value={overriddenComponents}>
           <ReactSearchKit
-            searchApi={ploneSearchApi}
+            searchApi={ploneSearchApi(data)}
             eventListenerEnabled={true}
             initialQueryState={initialState}
           >
