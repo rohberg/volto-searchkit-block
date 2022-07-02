@@ -1,6 +1,10 @@
 import zoomSVG from '@plone/volto/icons/zoom.svg';
 
-import { FacetedSearchBlockEdit, FacetedSearchBlockView } from './components';
+import {
+  FacetedSearchBlockEdit,
+  FacetedSearchBlockView,
+  TestSearchkitQuerystrings,
+} from './components';
 import {
   ReferenceSearchBlockEdit,
   ReferenceSearchBlockView,
@@ -49,6 +53,24 @@ const applyConfig = (config) => {
       view: [],
     },
   };
+
+  // Test some querystrings
+  config.settings.controlpanels = [
+    ...(config.settings.controlpanels || []),
+    {
+      '@id': '/test-searchkit-querystrings',
+      group: 'Add-on Configuration',
+      title: 'Test searchkit querystrings',
+    },
+  ];
+
+  config.addonRoutes = [
+    ...config.addonRoutes,
+    {
+      path: '/controlpanel/test-searchkit-querystrings',
+      component: TestSearchkitQuerystrings,
+    },
+  ];
 
   return config;
 };
