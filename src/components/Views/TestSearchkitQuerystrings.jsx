@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Container, Segment, Input } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { OverridableContext } from 'react-overridable';
+import { uniq } from 'lodash';
 
 import { Icon as IconNext } from '@plone/volto/components';
 import backSVG from '@plone/volto/icons/back.svg';
@@ -20,7 +21,43 @@ import {
   Count,
 } from 'react-searchkit';
 import { ploneSearchApi } from './FacetedSearch';
-import ElasticSearchHighlights from './ElasticSearchHighlights';
+import { ElasticSearchMatches } from './ElasticSearchHighlights';
+import { listFields } from '../Searchkit/constants';
+
+const _OnHighlights = (props) => {
+  // console.debug('_OnHighlights props', props);
+  let highlights = props.currentResultsState;
+  let hits = highlights.data.hits;
+
+  const regex = /<em>(.*?)<\/em>/gm;
+  let fragments = [];
+  hits.map((hit) => {
+    Object.keys(hit.highlight).forEach((fld) => {
+      hit.highlight[fld].forEach((highlightfragment) => {
+        // console.debug('highlightfragment', highlightfragment);
+        fragments.push(highlightfragment);
+      });
+    });
+    return null;
+  });
+  let matches = new Set();
+  fragments.map((txt) => {
+    let result = [...txt.matchAll(regex)];
+    result.map((match) => {
+      matches.add(match[1]);
+    });
+  });
+  let matches_sorted = Array.from(matches);
+  matches_sorted.sort();
+  return (
+    <div>
+      {matches_sorted.map((match) => (
+        <div key={match}>{match}</div>
+      ))}
+    </div>
+  );
+};
+const OnHighlights = withState(_OnHighlights);
 
 const OnResults = withState(ResultsMultiLayout);
 
@@ -30,10 +67,7 @@ const CustomResultsListItem = ({ result, index }) => {
       <h2>
         <a href={result['@id']}>{result.title}</a>
       </h2>
-      <ElasticSearchHighlights
-        highlight={result.highlight}
-        indexResult={index}
-      />
+      <ElasticSearchMatches highlight={result.highlight} indexResult={index} />
     </div>
   );
 };
@@ -44,6 +78,8 @@ const overriddenComponents = {
 
 const TestSearchkitQuerystrings = (props) => {
   console.debug('TestSearchkitQuerystrings. props', props);
+
+  const [matchhighlights, setMatchhighlights] = React.useState([]);
   const searchconfig = {
     elastic_search_api_url: 'http://localhost:9200',
     elastic_search_api_index: 'plone2020',
@@ -89,7 +125,7 @@ const TestSearchkitQuerystrings = (props) => {
 
   return (
     <Container>
-      <h1>Test Searchkit Querystrings</h1>
+      <h1>Matches</h1>
       {isClient && (
         <OverridableContext.Provider value={overriddenComponents}>
           <ReactSearchKit
@@ -106,20 +142,25 @@ const TestSearchkitQuerystrings = (props) => {
                   onchangehandler(event, data);
                 }}
               /> */}
-              <SearchBar
-                placeholder="Suche"
-                autofocus="false"
-                uiProps={{
-                  icon: 'search',
-                  iconPosition: 'left',
-                  className: 'searchbarinput',
-                }}
-                onChange={(event, data) => {
-                  onchangehandler(event, data);
-                }}
-              />
-              <Count />
-              <OnResults />
+              <p>
+                <SearchBar
+                  placeholder="Suche"
+                  autofocus="false"
+                  uiProps={{
+                    icon: 'search',
+                    iconPosition: 'left',
+                    className: 'searchbarinput',
+                  }}
+                  onChange={(event, data) => {
+                    onchangehandler(event, data);
+                  }}
+                />
+              </p>
+              <p>
+                <Count label={(cmp) => <>{cmp} Manuals found</>} />
+              </p>
+              <OnHighlights />
+              {/* <OnResults /> */}
             </Segment>
           </ReactSearchKit>
         </OverridableContext.Provider>
