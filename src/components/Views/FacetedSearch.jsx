@@ -47,7 +47,7 @@ import { CustomESResponseSerializer } from '../Searchkit/CustomESResponseSeriali
 import { Results } from '../Searchkit/Results';
 
 import { flattenESUrlToPath, scrollToTarget } from '../helpers';
-import ElasticSearchHighlights from './ElasticSearchHighlights';
+import { ElasticSearchHighlights } from './ElasticSearchHighlights';
 
 import './less/springisnow-volto-searchkit-block.less';
 

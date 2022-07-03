@@ -1,7 +1,6 @@
 import React from 'react';
 
-const ElasticSearchHighlights = ({ highlight, indexResult }) => {
-
+export const ElasticSearchHighlights = ({ highlight, indexResult }) => {
   const [toggleDetails, setToggleDetails] = React.useState(false);
 
   // TODO Make configurable
@@ -76,4 +75,29 @@ const ElasticSearchHighlights = ({ highlight, indexResult }) => {
   }
 };
 
-export default ElasticSearchHighlights;
+export const ElasticSearchMatches = ({ highlight, indexResult }) => {
+  const regex = /<em>(.*?)<\/em>/gm;
+  let hlts = [];
+  highlight &&
+    Object.keys(highlight)
+      .reverse()
+      .forEach((fld) => {
+        highlight[fld].forEach((mtch) => {
+          hlts.push(mtch);
+        });
+      });
+  if (highlight) {
+    return (
+      <div className="highlight metadata" role="button" tabIndex={indexResult}>
+        {hlts.map((txt) => {
+          let result = [...txt.matchAll(regex)];
+          console.debug('result', result);
+          return result.map((el) => el[1]).join('|') + '|';
+        })}
+        <hr />
+      </div>
+    );
+  } else {
+    return null;
+  }
+};
