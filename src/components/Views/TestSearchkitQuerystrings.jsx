@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Segment, Input } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { OverridableContext } from 'react-overridable';
 import { uniq } from 'lodash';
 
@@ -25,13 +25,15 @@ import { ElasticSearchMatches } from './ElasticSearchHighlights';
 import { listFields } from '../Searchkit/constants';
 
 const _OnHighlights = (props) => {
-  // console.debug('_OnHighlights props', props);
+  console.debug('_OnHighlights props', props);
+  let location = useLocation();
   let highlights = props.currentResultsState;
   let hits = highlights.data.hits;
 
   const regex = /<em>(.*?)<\/em>/gm;
   let fragments = [];
   hits.map((hit) => {
+    hit.highlight = hit.highlight || [];
     Object.keys(hit.highlight).forEach((fld) => {
       hit.highlight[fld].forEach((highlightfragment) => {
         // console.debug('highlightfragment', highlightfragment);
@@ -41,7 +43,7 @@ const _OnHighlights = (props) => {
     return null;
   });
   let matches = new Set();
-  fragments.map((txt) => {
+  fragments.forEach((txt) => {
     let result = [...txt.matchAll(regex)];
     result.map((match) => {
       matches.add(match[1]);
@@ -51,8 +53,17 @@ const _OnHighlights = (props) => {
   matches_sorted.sort();
   return (
     <div>
+      <h3>Found {matches_sorted.length} matches.</h3>
       {matches_sorted.map((match) => (
-        <div key={match}>{match}</div>
+        <div key={match}>
+          <a
+            href={`${location.pathname}?q=${match}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {match}
+          </a>
+        </div>
       ))}
     </div>
   );
@@ -72,8 +83,13 @@ const CustomResultsListItem = ({ result, index }) => {
   );
 };
 
+const DocumentsCount = ({ totalResults }) => {
+  return <h3>Found {totalResults} manuals.</h3>;
+};
+
 const overriddenComponents = {
   'ResultsList.item': CustomResultsListItem,
+  'Count.element': DocumentsCount,
 };
 
 const TestSearchkitQuerystrings = (props) => {
@@ -86,7 +102,6 @@ const TestSearchkitQuerystrings = (props) => {
     // reviewstatemapping: {
     //   Manual: ['internally_published', 'private', 'internal'],
     // },
-    withExtraExactField: true,
     simpleFields: [
       'title^1.4',
       'description^1.2',
@@ -95,7 +110,6 @@ const TestSearchkitQuerystrings = (props) => {
       'blocks_plaintext',
       'manualfilecontent',
     ],
-    nestedFields: [],
     backend_url: 'http://localhost:8080/Plone',
     frontend_url: 'http://igib.example.com',
   };
@@ -132,7 +146,7 @@ const TestSearchkitQuerystrings = (props) => {
             searchApi={ploneSearchApi(searchconfig)}
             eventListenerEnabled={true}
             initialQueryState={initialState}
-            searchOnInit={false}
+            searchOnInit={true}
           >
             <Segment>
               {/* <Input
@@ -142,23 +156,19 @@ const TestSearchkitQuerystrings = (props) => {
                   onchangehandler(event, data);
                 }}
               /> */}
-              <p>
-                <SearchBar
-                  placeholder="Suche"
-                  autofocus="false"
-                  uiProps={{
-                    icon: 'search',
-                    iconPosition: 'left',
-                    className: 'searchbarinput',
-                  }}
-                  onChange={(event, data) => {
-                    onchangehandler(event, data);
-                  }}
-                />
-              </p>
-              <p>
-                <Count label={(cmp) => <>{cmp} Manuals found</>} />
-              </p>
+              <SearchBar
+                placeholder="Suche"
+                autofocus="false"
+                uiProps={{
+                  icon: 'search',
+                  iconPosition: 'left',
+                  className: 'searchbarinput',
+                }}
+                onChange={(event, data) => {
+                  onchangehandler(event, data);
+                }}
+              />
+              <Count />
               <OnHighlights />
               {/* <OnResults /> */}
             </Segment>
