@@ -1,10 +1,9 @@
-// const listFields = ['freemanualtags'];
-const listFields = [];
-const nestedFields = [
+const listFilterFields = [];
+const nestedFilterFields = [
   'kompasscomponent',
   'targetaudience',
   'organisationunit',
   'informationtype',
 ];
 
-export { listFields, nestedFields };
+export { listFilterFields, nestedFilterFields };
