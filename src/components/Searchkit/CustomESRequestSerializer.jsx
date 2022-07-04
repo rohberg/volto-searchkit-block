@@ -1,13 +1,11 @@
-import { extend, isEmpty } from 'lodash';
+import { extend, isEmpty, trim } from 'lodash';
 
-import { listFields, nestedFields } from './constants.js';
+import { listFilterFields, nestedFilterFields } from './constants.js';
 
 export class CustomESRequestSerializer {
   constructor(config) {
     this.reviewstatemapping = config.reviewstatemapping;
-    this.withExtraExactField = config.withExtraExactField;
     this.simpleFields = config.simpleFields;
-    this.nestedFields = config.nestedFields;
   }
   /**
    * Convert Array of filters to Object of filters
@@ -59,88 +57,78 @@ export class CustomESRequestSerializer {
 
     const bodyParams = {};
 
+    const _remove_orphan_leading_or_trailing_quotmarks = (word) => {
+      let word_without_plus_or_minus = trim(word, '+');
+      word_without_plus_or_minus = trim(word_without_plus_or_minus, '-');
+      if (
+        !(
+          word_without_plus_or_minus.startsWith('"') &&
+          word_without_plus_or_minus.endsWith('"')
+        ) &&
+        !(
+          !word_without_plus_or_minus.startsWith('"') &&
+          !word_without_plus_or_minus.endsWith('"')
+        )
+      ) {
+        return word.replace('"', '');
+      }
+      return word;
+    };
+
+    const _make_fuzzy_and_enrich_with_word_parts = (word) => {
+      // fuzzy search and word parts (parts separated by '-') only if no wildcard and no quotation mark
+      if (word.includes('"') || word.includes('*') || word.includes('?')) {
+        return word;
+      }
+
+      // Take word parts into account. And force fuzzy search.
+      if (word.startsWith('-')) {
+        return word;
+      }
+      let result;
+      let wordpartlist = word.split('-'); // common hyphens
+      if (wordpartlist.length > 1) {
+        let resultlist = [];
+        wordpartlist.push(word);
+        wordpartlist.forEach((el) => {
+          resultlist.push(el);
+          resultlist.push(`${el}~`);
+        });
+        console.debug('wordpartlist', wordpartlist);
+        console.debug('resultlist', resultlist);
+        result = resultlist.join(' ');
+      } else {
+        result = `${word} ${word}~`;
+      }
+      console.debug('result', result);
+      return result;
+    };
+
     if (!isEmpty(queryString)) {
       // - search fuzzy
       // - search also for word parts (LSR-Lehrbetrieb: search also for LSR and Lehrbetrieb)
-      let qs = queryString
-        .trim()
-        .split(' ')
+      let qs_tailored = [];
+      // let qs_tailored_exact = [];
+      // let qs_tailored_must = [];
+      // let qs_tailored_must_exact = [];
+      let words = queryString.trim().split(' ');
+      words = words
         // filter out spaces and orphan "
-        .filter((word) => word !== '' && word !== '"')
-        // replace orphan "
-        .map((word) => {
-          if (
-            (word.startsWith('"') && word.endsWith('"')) ||
-            (!word.startsWith('"') && !word.endsWith('"'))
-          )
-            return word;
-          else {
-            return word.replace('"', '');
-          }
-        })
-        .map((s) => {
-          // TODO fuzzy search only if not wildcard and no paranthesis
-          if (s.includes('*') || s.includes('"')) {
-            return s;
-          }
-          // Take word parts into account
-          let foo = s.split('-'); // common hyphens
-          if (foo.length > 1) {
-            let wordparts = foo.join(' ');
-            return `${s}~ ${wordparts}`;
-          } else {
-            return `${s}~`;
-          }
-        })
-        .join(' ');
-      console.debug('queryString qs:', qs);
+        .filter((word) => word !== '' && word !== '"');
+
+      words.forEach((word) => {
+        word = _remove_orphan_leading_or_trailing_quotmarks(word);
+        word = _make_fuzzy_and_enrich_with_word_parts(word);
+        qs_tailored.push(word);
+      });
+      console.debug('qs_tailored:', qs_tailored);
 
       let simpleFields = this.simpleFields;
-      // let nestedFields = ['manualfile__extracted.content'];
-      let nestedFields = this.nestedFields;
-
-      // quote_field_suffix
-      // This tells Elasticsearch that the words that appear in between quotes are to be redirected to a different field
-      // https://www.elastic.co/guide/en/elasticsearch/reference/current/mixing-exact-search-with-stemming.html
-      // The field xy.exact must be available. See
-      // "title": {
-      //   "type": "text",
-      //   "analyzer": "german_analyzer",
-      //   "fields": {
-      //     "exact": {
-      //       "type": "text",
-      //       "analyzer": "german_exact_analyzer"
-      //     }
-      //   }
-      // },
-      let shouldList = nestedFields.map((fld) => {
-        return {
-          nested: {
-            path: fld.split('.')[0],
-            query: {
-              query_string: {
-                query: qs,
-                fields: [fld],
-                ...(this.withExtraExactField && {
-                  quote_field_suffix: '.exact',
-                }),
-              },
-            },
-          },
-        };
-      });
-      shouldList.push({
-        query_string: {
-          query: qs,
-          fields: simpleFields,
-          ...(this.withExtraExactField && {
-            quote_field_suffix: '.exact',
-          }),
-        },
-      });
       bodyParams['query'] = {
-        bool: {
-          should: shouldList,
+        query_string: {
+          query: qs_tailored.join(' '),
+          fields: simpleFields,
+          quote_field_suffix: '.exact',
         },
       };
 
@@ -254,7 +242,7 @@ export class CustomESRequestSerializer {
           const obj = {};
           const fieldName = aggFieldsMapping[aggName];
           obj[fieldName] = aggValueObj[aggName];
-          if (listFields.includes(fieldName)) {
+          if (listFilterFields.includes(fieldName)) {
             accumulator.push({ terms: obj });
           }
           return accumulator;
@@ -267,7 +255,7 @@ export class CustomESRequestSerializer {
         const obj = {};
         const fieldName = aggFieldsMapping[aggName];
         obj[fieldName] = aggValueObj[aggName];
-        if (nestedFields.includes(fieldName)) {
+        if (nestedFilterFields.includes(fieldName)) {
           accumulator.push({
             nested: {
               path: fieldName,
@@ -290,9 +278,9 @@ export class CustomESRequestSerializer {
     /**
      * ES post_filter
      */
-    // listFields
+    // listFilterFields
     const post_filter = { bool: { must: terms } };
-    // nestedFields
+    // nestedFilterFields
     if (!isEmpty(filter)) {
       post_filter['bool']['filter'] = filter;
     }
@@ -308,7 +296,7 @@ export class CustomESRequestSerializer {
     // 1. aggregations of listFields
     Object.keys(aggFieldsMapping).map((aggName) => {
       const fieldName = aggFieldsMapping[aggName];
-      if (listFields.includes(fieldName)) {
+      if (listFilterFields.includes(fieldName)) {
         const aggBucketTermsComponent = {
           [aggName]: { terms: { field: fieldName } },
         };
@@ -316,11 +304,11 @@ export class CustomESRequestSerializer {
       }
     });
 
-    // 2. aggregations of nestedFields
+    // 2. aggregations of nestedFilterFields
     Object.keys(aggFieldsMapping).map((aggName) => {
       const myaggs = aggName.split('.');
       const fieldName = aggFieldsMapping[aggName];
-      if (nestedFields.includes(fieldName)) {
+      if (nestedFilterFields.includes(fieldName)) {
         // const filter_debug = {
         //   nested: {
         //     path: 'informationtype',
