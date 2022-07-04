@@ -19,6 +19,8 @@ You have ElasticSearch up and running with Plone.
 
 * Your ElasticSearch Server is available on 'myelasticsearch.acme.org'
 * Your Index is 'esploneindex'
+* You use an analyzer
+* You have extra exact fields for exact search ("Basel")
 * Check with https://myelasticsearch.acme.org/esploneindex/_count
 * CORS is configured: 
 
