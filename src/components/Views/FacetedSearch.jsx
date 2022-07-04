@@ -53,6 +53,30 @@ import './less/springisnow-volto-searchkit-block.less';
 
 import config from '@plone/volto/registry';
 
+// TODO Make reviewstatemapping configurable
+export const ploneSearchApi = (data) => {
+  const search_url = data.elastic_search_api_url || 'http://localhost:9200';
+  const search_index = data.elastic_search_api_index || 'esploneindex';
+  return new PloneSearchApi({
+    axios: {
+      // url: 'http://localhost:9200/esploneindex/_search',
+      url: search_url + '/' + search_index + '/_search',
+      timeout: 5000,
+      headers: { Accept: 'application/json' },
+    },
+    es: {
+      requestSerializer: CustomESRequestSerializer,
+      responseSerializer: CustomESResponseSerializer,
+    },
+    reviewstatemapping: {
+      Manual: ['internally_published', 'private', 'internal'],
+    },
+    simpleFields: data.simpleFields,
+    backend_url: data.backend_url,
+    frontend_url: data.frontend_url,
+  });
+};
+
 const MyResults = (props) => {
   // Add scroll to input field search
   React.useEffect(() => {
@@ -561,12 +585,7 @@ const FacetedSearch = ({
   overriddenComponents,
   filterLayout = config.settings.searchkitblock.filterLayout,
 }) => {
-  const {
-    search_url = data.elastic_search_api_url || 'http://localhost:9200',
-    search_index = data.elastic_search_api_index || 'esploneindex',
-    relocation = data.relocation || '',
-    relocationcontext = data.relocationcontext || null,
-  } = data;
+  const { relocation = data.relocation || '' } = data;
 
   const token = useSelector((state) => state.userSession?.token);
 
@@ -626,10 +645,7 @@ const FacetedSearch = ({
             initialQueryState={initialState}
           >
             <Container>
-              {typeof document !== 'undefined' &&
-              relocationcontext &&
-              location?.pathname === relocationcontext &&
-              relocation.length > 0 ? (
+              {typeof document !== 'undefined' && relocation.length > 0 ? (
                 <Portal
                   node={
                     true &&
