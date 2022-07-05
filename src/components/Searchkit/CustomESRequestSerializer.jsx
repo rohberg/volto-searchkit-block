@@ -77,6 +77,7 @@ export class CustomESRequestSerializer {
 
     const _make_fuzzy_and_enrich_with_word_parts = (word) => {
       // fuzzy search and word parts (parts separated by '-') only if no wildcard and no quotation mark
+      const force_fuzzy = true; // search for `${word}` or `${word}~`
       if (word.includes('"') || word.includes('*') || word.includes('?')) {
         return word;
       }
@@ -91,16 +92,16 @@ export class CustomESRequestSerializer {
         let resultlist = [];
         wordpartlist.push(word);
         wordpartlist.forEach((el) => {
-          resultlist.push(el);
-          resultlist.push(`${el}~`);
+          if (force_fuzzy) {
+            resultlist.push(`${el}~`);
+          } else {
+            resultlist.push(el);
+          }
         });
-        console.debug('wordpartlist', wordpartlist);
-        console.debug('resultlist', resultlist);
         result = resultlist.join(' ');
       } else {
-        result = `${word} ${word}~`;
+        result = force_fuzzy ? `${word}~` : `${word}`;
       }
-      console.debug('result', result);
       return result;
     };
 
@@ -121,10 +122,22 @@ export class CustomESRequestSerializer {
         word = _make_fuzzy_and_enrich_with_word_parts(word);
         qs_tailored.push(word);
       });
-      console.debug('qs_tailored:', qs_tailored);
 
       let simpleFields = this.simpleFields;
+
+      // let shouldList = [];
+      // shouldList.push({
+      //   query_string: {
+      //     query: qs_tailored.join(' '),
+      //     fields: simpleFields,
+      //     quote_field_suffix: '.exact',
+      //   },
+      // });
+
       bodyParams['query'] = {
+        // bool: {
+        //   should: shouldList,
+        // },
         query_string: {
           query: qs_tailored.join(' '),
           fields: simpleFields,
