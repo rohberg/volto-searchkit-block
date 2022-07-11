@@ -159,7 +159,7 @@ export class CustomESRequestSerializer {
       console.debug('simpleFields_exact', simpleFields_exact);
 
       // bodyParams['query'] = {
-      //   simple_query_string: {
+      //   query_string: {
       //     query: qs_tailored.join(' '),
       //     fields: simpleFields,
       //     quote_field_suffix: '.exact',
@@ -169,14 +169,14 @@ export class CustomESRequestSerializer {
       let shouldList = [];
       qs_tailored_should_notexact.length > 0 &&
         shouldList.push({
-          simple_query_string: {
+          query_string: {
             query: qs_tailored_should_notexact.join(' '),
             fields: simpleFields,
           },
         });
       qs_tailored_should_exact.length > 0 &&
         shouldList.push({
-          simple_query_string: {
+          query_string: {
             query: qs_tailored_should_exact.join(' '),
             fields: simpleFields_exact,
           },
@@ -185,14 +185,14 @@ export class CustomESRequestSerializer {
       let mustList = [];
       qs_tailored_must_notexact.length > 0 &&
         mustList.push({
-          simple_query_string: {
+          query_string: {
             query: qs_tailored_must_notexact.join(' '),
             fields: simpleFields,
           },
         });
       qs_tailored_must_exact.length > 0 &&
         mustList.push({
-          simple_query_string: {
+          query_string: {
             query: qs_tailored_must_exact.join(' '),
             fields: simpleFields_exact,
           },
@@ -200,7 +200,7 @@ export class CustomESRequestSerializer {
       let must_notList = [];
       qs_tailored_mustNot_exact.length > 0 &&
         must_notList.push({
-          simple_query_string: {
+          query_string: {
             query: qs_tailored_mustNot_exact.join(' '),
             fields: simpleFields_exact,
           },
