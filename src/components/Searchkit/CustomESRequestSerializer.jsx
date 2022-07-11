@@ -57,6 +57,14 @@ export class CustomESRequestSerializer {
 
     const bodyParams = {};
 
+    const force_fuzzy = true; // search for `${word}` and `${word}~`
+
+    let qs_tailored_should_notexact = [];
+    let qs_tailored_should_exact = [];
+    let qs_tailored_must_notexact = [];
+    let qs_tailored_must_exact = [];
+    let qs_tailored_mustNot_exact = [];
+
     const _remove_orphan_leading_or_trailing_quotmarks = (word) => {
       let word_without_plus_or_minus = trim(word, '+');
       word_without_plus_or_minus = trim(word_without_plus_or_minus, '-');
@@ -75,23 +83,43 @@ export class CustomESRequestSerializer {
       return word;
     };
 
-    const _make_fuzzy_and_enrich_with_word_parts = (word) => {
-      // fuzzy search and word parts (parts separated by '-') only if no wildcard and no quotation mark
-      const force_fuzzy = true; // search for `${word}` or `${word}~`
-      if (word.includes('"') || word.includes('*') || word.includes('?')) {
-        return word;
-      }
+    const _removeQuotationMarks = (word) => {
+      word.replace('"', '');
+      word.replace("'", '');
+      return word;
+    };
 
-      // Take word parts into account. And force fuzzy search.
+    const _maybeFuzzy = (word) => {
+      return force_fuzzy ? `${word} ${word}~` : `${word}`;
+    };
+
+    const _make_fuzzy_and_enrich_with_word_parts = (word) => {
       if (word.startsWith('-')) {
-        return word;
+        qs_tailored_mustNot_exact.push(_removeQuotationMarks(word));
+        return;
       }
       if (word.startsWith('+')) {
-        return word;
+        if (word.includes('"')) {
+          qs_tailored_must_exact.push(word);
+        } else {
+          qs_tailored_must_notexact.push(_maybeFuzzy(word));
+        }
+        return;
       }
+
+      if (word.includes('*') || word.includes('?')) {
+        qs_tailored_should_exact.push(_removeQuotationMarks(word));
+        return;
+      }
+      if (word.includes('"')) {
+        qs_tailored_should_exact.push(word);
+        return;
+      }
+
+      // TODO words with hyphen
       let result;
       let wordpartlist = word.split('-'); // common hyphens
-      if (wordpartlist.length > 1) {
+      if (wordpartlist.length > 1) {  // word with hyphen
         let resultlist = [];
         wordpartlist.push(word);
         wordpartlist.forEach((el) => {
@@ -102,7 +130,7 @@ export class CustomESRequestSerializer {
           }
         });
         result = resultlist.join(' ');
-      } else {
+      } else {  // no hyphen
         result = force_fuzzy ? `${word} ${word}~` : `${word}`;
       }
       return result;
@@ -111,10 +139,6 @@ export class CustomESRequestSerializer {
     if (!isEmpty(queryString)) {
       // - search fuzzy
       // - search also for word parts (LSR-Lehrbetrieb: search also for LSR and Lehrbetrieb)
-      let qs_tailored = [];
-      // let qs_tailored_exact = [];
-      // let qs_tailored_must = [];
-      // let qs_tailored_must_exact = [];
       let words = queryString.trim().split(' ');
       words = words
         // filter out spaces and orphan "
@@ -122,35 +146,71 @@ export class CustomESRequestSerializer {
 
       words.forEach((word) => {
         word = _remove_orphan_leading_or_trailing_quotmarks(word);
-        word = _make_fuzzy_and_enrich_with_word_parts(word);
-        qs_tailored.push(word);
+        _make_fuzzy_and_enrich_with_word_parts(word);
       });
 
       let simpleFields = [...this.simpleFields];
-      console.debug('simpleFields', simpleFields);
-      simpleFields.forEach((fld) => {
+      let simpleFields_exact = [...this.simpleFields];
+      simpleFields_exact = simpleFields_exact.map((fld) => {
         const fieldname = fld.split('^')[0];
-        simpleFields.push(fld.replace(fieldname, `${fieldname}.exact`));
+        return fld.replace(fieldname, `${fieldname}.exact`);
       });
       console.debug('simpleFields', simpleFields);
+      console.debug('simpleFields_exact', simpleFields_exact);
 
-      // let shouldList = [];
-      // shouldList.push({
-      //   query_string: {
+      // bodyParams['query'] = {
+      //   simple_query_string: {
       //     query: qs_tailored.join(' '),
       //     fields: simpleFields,
       //     quote_field_suffix: '.exact',
       //   },
-      // });
+      // };
+
+      let shouldList = [];
+      qs_tailored_should_notexact.length > 0 &&
+        shouldList.push({
+          simple_query_string: {
+            query: qs_tailored_should_notexact.join(' '),
+            fields: simpleFields,
+          },
+        });
+      qs_tailored_should_exact.length > 0 &&
+        shouldList.push({
+          simple_query_string: {
+            query: qs_tailored_should_exact.join(' '),
+            fields: simpleFields_exact,
+          },
+        });
+
+      let mustList = [];
+      qs_tailored_must_notexact.length > 0 &&
+        mustList.push({
+          simple_query_string: {
+            query: qs_tailored_must_notexact.join(' '),
+            fields: simpleFields,
+          },
+        });
+      qs_tailored_must_exact.length > 0 &&
+        mustList.push({
+          simple_query_string: {
+            query: qs_tailored_must_exact.join(' '),
+            fields: simpleFields_exact,
+          },
+        });
+      let must_notList = [];
+      qs_tailored_mustNot_exact.length > 0 &&
+        must_notList.push({
+          simple_query_string: {
+            query: qs_tailored_mustNot_exact.join(' '),
+            fields: simpleFields_exact,
+          },
+        });
 
       bodyParams['query'] = {
-        // bool: {
-        //   should: shouldList,
-        // },
-        simple_query_string: {
-          query: qs_tailored.join(' '),
-          fields: simpleFields,
-          quote_field_suffix: '.exact',
+        bool: {
+          should: shouldList,
+          must: mustList,
+          must_not: must_notList,
         },
       };
 
