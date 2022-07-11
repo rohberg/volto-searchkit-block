@@ -147,7 +147,7 @@ export class CustomESRequestSerializer {
         // bool: {
         //   should: shouldList,
         // },
-        query_string: {
+        simple_query_string: {
           query: qs_tailored.join(' '),
           fields: simpleFields,
           quote_field_suffix: '.exact',
