@@ -126,7 +126,13 @@ export class CustomESRequestSerializer {
         qs_tailored.push(word);
       });
 
-      let simpleFields = this.simpleFields;
+      let simpleFields = [...this.simpleFields];
+      console.debug('simpleFields', simpleFields);
+      simpleFields.forEach((fld) => {
+        const fieldname = fld.split('^')[0];
+        simpleFields.push(fld.replace(fieldname, `${fieldname}.exact`));
+      });
+      console.debug('simpleFields', simpleFields);
 
       // let shouldList = [];
       // shouldList.push({
