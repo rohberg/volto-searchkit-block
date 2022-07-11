@@ -86,6 +86,9 @@ export class CustomESRequestSerializer {
       if (word.startsWith('-')) {
         return word;
       }
+      if (word.startsWith('+')) {
+        return word;
+      }
       let result;
       let wordpartlist = word.split('-'); // common hyphens
       if (wordpartlist.length > 1) {
@@ -93,14 +96,14 @@ export class CustomESRequestSerializer {
         wordpartlist.push(word);
         wordpartlist.forEach((el) => {
           if (force_fuzzy) {
-            resultlist.push(`${el}~`);
+            resultlist.push(`${el} ${el}~`);
           } else {
             resultlist.push(el);
           }
         });
         result = resultlist.join(' ');
       } else {
-        result = force_fuzzy ? `${word}~` : `${word}`;
+        result = force_fuzzy ? `${word} ${word}~` : `${word}`;
       }
       return result;
     };
