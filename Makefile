@@ -49,7 +49,7 @@ all: project
 .PHONY: start-test-backend
 start-test-backend: ## Start Test Plone Backend
 	@echo "$(GREEN)==> Start Test Plone Backend$(RESET)"
-	docker-compose up
+	docker compose up
 
 .PHONY: help
 help:		## Show this help.
