@@ -1,49 +1,4 @@
 [
-  {
-    "match": {
-      "type": "always"
-    },
-    "action": "remove",
-    "configuration": {
-      "target": "igibhistory"
-    }
-  },
-  {
-    "match": {
-      "type": "always"
-    },
-    "action": "remove",
-    "configuration": {
-      "target": "breakingnewsHistory"
-    }
-  },
-  {
-    "match": {
-      "type": "always"
-    },
-    "action": "remove",
-    "configuration": {
-      "target": "subscribedchannels"
-    }
-  },
-  {
-    "match": {
-      "type": "always"
-    },
-    "action": "remove",
-    "configuration": {
-      "target": "messagechannels"
-    }
-  },
-  {
-    "match": {
-      "type": "always"
-    },
-    "action": "remove",
-    "configuration": {
-      "target": "manualhistory"
-    }
-  },
 
   {
     "match": {

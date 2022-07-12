@@ -6,7 +6,7 @@
           "tokenizer": "standard",
           "filter": [
             "lowercase",
-            "igib_dictionary_decompounder",
+            "custom_dictionary_decompounder",
             "light_german_stemmer"
           ]
         },
@@ -18,7 +18,7 @@
         }
       },
       "filter": {
-        "igib_dictionary_decompounder": {
+        "custom_dictionary_decompounder": {
             "type": "dictionary_decompounder",
             "word_list_path": "elasticsearch-lexicon.txt"
         },
