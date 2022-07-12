@@ -29,7 +29,7 @@ Inspect container with
 
 Run robot server:
 
-    docker compose exec backend ./bin/robot-server rohberg.elasticsearchblocks.testing.ROHBERG_ELASTICSEARCHBLOCKS_FIXTURE
+    docker compose exec backend bin/robot-server rohberg.elasticsearchblocks.testing.ROHBERG_ELASTICSEARCHBLOCKS_FIXTURE
 
 In general: Execute command on container with:
 
