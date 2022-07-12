@@ -1,5 +1,9 @@
 # Testing
 
+## TODO
+
+- View of Plone 'Document'
+- On save of Plone content, the elasticsearch index is updated: redis, celery, do their job. Check ports!
 
 ## Acceptance tests
 - redis
