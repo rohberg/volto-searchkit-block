@@ -17,6 +17,8 @@ Run robot server:
 
     docker compose exec plone ./bin/robot-server plone.app.robotframework.testing.VOLTO_ROBOT_TESTING
 
+Then robot server runs on http://localhost:55001/plone
+
 Run celery:
 
     docker compose exec backend bin/celery -A collective.elastic.ingest.celery.app multi restart workersearchkitblock --logfile="/app/celery/celery%n%I.log" --pidfile="/app/celery/celery%n.pid"
