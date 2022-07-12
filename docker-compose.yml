@@ -53,14 +53,20 @@ services:
       - ./volumes/src/:/app/src/
       - ./volumes/var/:/app/var/
       - ./volumes/celery/:/app/celery/
-  elastic:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.3.2
-    # TODO plugin ingest-attachment
+  elk:
+    image: ksuess/rohberg-elk-mac:rc2
+    # image: sebp/elk:oss-8.1.0
     environment:
-      - discovery.type=single-node
+      # ES_PACKAGE: "elasticsearch-8.3.2-darwin-aarch64.tar.gz"
+      # KIBANA_PACKAGE: "kibana-8.3.2-darwin-aarch64.tar.gz"
+      ES_CORS_ALLOW_ORIGIN: "/https?://(.*)localhost(.*)/"
     ports:
-      - 9200:9200
-      - 9300:9300
+      - "5601:5601"
+      - "9200:9200"
+      - "5044:5044"
+    volumes:
+      - .volumes/elasticsearchconfiguration/elasticsearch-keywords.txt:/etc/elasticsearch/elasticsearch-keywords.txt
+      - .volumes/elasticsearchconfiguration/elasticsearch-lexicon.txt:/etc/elasticsearch/elasticsearch-lexicon.txt
   redis:
     image: redis/redis-stack-server:latest
     ports:
