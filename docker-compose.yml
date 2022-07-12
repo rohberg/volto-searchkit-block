@@ -7,10 +7,10 @@ services:
       ZSERVER_HOST: "0.0.0.0"
       ZSERVER_PORT: "55001"
       APPLY_PROFILES: "plone.app.contenttypes:plone-content,plone.restapi:default,plone.volto:default-homepage, rohberg.elasticsearchblocks:testing"
-      INSTALL_PRODUCTS: "collective.elastic.plone collective.elastic.ingest rohberg.elasticsearchblocks"
+      # INSTALL_PRODUCTS: "collective.elastic.plone,collective.elastic.ingest,rohberg.elasticsearchblocks"
       # plone-backend docker image
-      ADDONS: "plone.app.robotframework==2.0.0a6 plone.app.testing==7.0.0a3 plone.app.contenttypes plone.restapi plone.volto redis"
-      # CONFIGURE_PACKAGES: "plone.app.contenttypes,plone.restapi,plone.volto,plone.volto.cors,collective.elastic.plone"
+      CONFIGURE_PACKAGES: "plone.app.contenttypes,plone.restapi,plone.volto,plone.volto.cors,rohberg.elasticsearchblocks"
+      ADDONS: "plone.app.robotframework==2.0.0a6 plone.app.testing==7.0.0a3 plone.app.contenttypes plone.restapi plone.volto celery redis"
       DEVELOP: "git+https://github.com/collective/collective.elastic.plone@master#egg=collective.elastic.plone git+https://github.com/collective/collective.elastic.ingest@master#egg=collective.elastic.ingest git+https://github.com/rohberg/rohberg.elasticsearchblocks.git@master#egg=rohberg.elasticsearchblocks"
       SITE: "plone"
 
@@ -37,23 +37,9 @@ services:
     depends_on:
       - redis
       - elastic
-    command:
-      - sh
-      - -c
-      - |
-        echo "This is a multiline command"
-        echo "See how I escape $$ sign"
-        echo $$PATH
-        bin/pip install --upgrade pip
-        bin/pip install celery redis
-        bin/pip install -e git+https://github.com/collective/collective.elastic.ingest.git#egg=collective.elastic.ingest
-        bin/celery -A collective.elastic.ingest.celery.app multi restart workersearchkitblock --logfile="/app/celery/celery%n%I.log" --pidfile="/app/celery/celery%n.pid"
-        tail -f /dev/null
+    command: tail -f /dev/null
     volumes:
       - ./volumes/ploneconfiguration/:/app/ploneconfiguration/
-      - ./volumes/src/:/app/src/
-      - ./volumes/var/:/app/var/
-      - ./volumes/celery/:/app/celery/
   elk:
     image: ksuess/rohberg-elk-mac:rc2
     # image: sebp/elk:oss-8.1.0
