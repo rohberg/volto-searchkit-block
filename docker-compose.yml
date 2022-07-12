@@ -7,7 +7,7 @@ services:
       ZSERVER_HOST: "0.0.0.0"
       ZSERVER_PORT: "55001"
       APPLY_PROFILES: "plone.app.contenttypes:plone-content,plone.restapi:default,plone.volto:default-homepage"
-      INSTALL_PRODUCTS: "collective.elastic.plone"
+      INSTALL_PRODUCTS: "collective.elastic.plone collective.elastic.ingest"
       # plone-backend docker image
       ADDONS: "plone.app.robotframework==2.0.0a6 plone.app.testing==7.0.0a3 plone.app.contenttypes plone.restapi plone.volto redis"
       # CONFIGURE_PACKAGES: "plone.app.contenttypes,plone.restapi,plone.volto,plone.volto.cors,collective.elastic.plone"
@@ -33,6 +33,7 @@ services:
       PREPROCESSINGS_FILE: /app/ploneconfiguration/elasticsearch-preprocessings.json
     ports:
       - 55001:55001
+      - 8080:8080
     depends_on:
       - redis
       - elastic
@@ -42,14 +43,16 @@ services:
       - |
         echo "This is a multiline command"
         echo "See how I escape $$ sign"
-        echo $$PATH
+        echo $$PATHbin/pip install --upgrade pip")
+        bin/pip install celery redis
+        bin/pip install -e git+https://github.com/collective/collective.elastic.ingest.git#egg=collective.elastic.ingest
+        ./bin/celery -A collective.elastic.ingest.celery.app multi restart worker1 --logfile="/app/celery/celery%n%I.log" --pidfile="/app/celery/celery%n.pid"
         tail -f /dev/null
-    # ./bin/celery -A collective.elastic.ingest.celery.app worker -l info
-    # ./bin/robot-server rohberg.elasticsearchblocks.testing.ROHBERG_ELASTICSEARCHBLOCKS_FIXTURE
     volumes:
       - ./volumes/ploneconfiguration/:/app/ploneconfiguration/
       - ./volumes/src/:/app/src/
       - ./volumes/var/:/app/var/
+      - ./volumes/celery/:/app/celery/
   elastic:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.3.2
     # TODO plugin ingest-attachment
