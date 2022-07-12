@@ -7,7 +7,7 @@ services:
       ZSERVER_HOST: "0.0.0.0"
       ZSERVER_PORT: "55001"
       APPLY_PROFILES: "plone.app.contenttypes:plone-content,plone.restapi:default,plone.volto:default-homepage, rohberg.elasticsearchblocks:testing"
-      INSTALL_PRODUCTS: "collective.elastic.plone collective.elastic.ingest"
+      INSTALL_PRODUCTS: "collective.elastic.plone collective.elastic.ingest rohberg.elasticsearchblocks"
       # plone-backend docker image
       ADDONS: "plone.app.robotframework==2.0.0a6 plone.app.testing==7.0.0a3 plone.app.contenttypes plone.restapi plone.volto redis"
       # CONFIGURE_PACKAGES: "plone.app.contenttypes,plone.restapi,plone.volto,plone.volto.cors,collective.elastic.plone"
