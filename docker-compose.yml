@@ -43,10 +43,11 @@ services:
       - |
         echo "This is a multiline command"
         echo "See how I escape $$ sign"
-        echo $$PATHbin/pip install --upgrade pip")
+        echo $$PATH
+        bin/pip install --upgrade pip
         bin/pip install celery redis
         bin/pip install -e git+https://github.com/collective/collective.elastic.ingest.git#egg=collective.elastic.ingest
-        ./bin/celery -A collective.elastic.ingest.celery.app multi restart worker1 --logfile="/app/celery/celery%n%I.log" --pidfile="/app/celery/celery%n.pid"
+        bin/celery -A collective.elastic.ingest.celery.app multi restart workersearchkitblock --logfile="/app/celery/celery%n%I.log" --pidfile="/app/celery/celery%n.pid"
         tail -f /dev/null
     volumes:
       - ./volumes/ploneconfiguration/:/app/ploneconfiguration/
