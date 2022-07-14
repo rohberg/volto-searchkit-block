@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
-import { Container, Segment, Input } from 'semantic-ui-react';
+import React from 'react';
+import { Container, Segment } from 'semantic-ui-react';
 import { Link, useLocation } from 'react-router-dom';
 import { OverridableContext } from 'react-overridable';
-import { uniq } from 'lodash';
 
 import { Icon as IconNext } from '@plone/volto/components';
 import backSVG from '@plone/volto/icons/back.svg';
@@ -22,7 +21,18 @@ import {
 } from 'react-searchkit';
 import { ploneSearchApi } from './FacetedSearch';
 import { ElasticSearchMatches } from './ElasticSearchHighlights';
-import { listFields } from '../Searchkit/constants';
+
+const sort_caseinsensitive = (a, b) => {
+  var nameA = a.toUpperCase(); // Groß-/Kleinschreibung ignorieren
+  var nameB = b.toUpperCase(); // Groß-/Kleinschreibung ignorieren
+  if (nameA < nameB) {
+    return -1;
+  }
+  if (nameA > nameB) {
+    return 1;
+  }
+  return 0;
+};
 
 const _OnHighlights = (props) => {
   console.debug('_OnHighlights props', props);
@@ -47,10 +57,11 @@ const _OnHighlights = (props) => {
     let result = [...txt.matchAll(regex)];
     result.map((match) => {
       matches.add(match[1]);
+      console.debug('match[1]', match[1], txt);
     });
   });
   let matches_sorted = Array.from(matches);
-  matches_sorted.sort();
+  matches_sorted.sort(sort_caseinsensitive);
   return (
     <div>
       <h3>Found {matches_sorted.length} matches.</h3>
@@ -93,7 +104,7 @@ const overriddenComponents = {
 };
 
 const TestSearchkitQuerystrings = (props) => {
-  console.debug('TestSearchkitQuerystrings. props', props);
+  // console.debug('TestSearchkitQuerystrings. props', props);
 
   const [matchhighlights, setMatchhighlights] = React.useState([]);
   const searchconfig = {
