@@ -3,15 +3,15 @@ services:
   backend:
     image: plone/plone-backend:5.2.8
     environment:
-      # plone.app.robotframework
+      # ##### plone.app.robotframework
       ZSERVER_HOST: "0.0.0.0"
       ZSERVER_PORT: "55001"
       APPLY_PROFILES: "plone.app.contenttypes:plone-content,plone.restapi:default,plone.volto:default-homepage, rohberg.elasticsearchblocks:testing"
-      # INSTALL_PRODUCTS: "collective.elastic.plone,collective.elastic.ingest,rohberg.elasticsearchblocks"
-      # plone-backend docker image
       CONFIGURE_PACKAGES: "plone.app.contenttypes,plone.restapi,plone.volto,plone.volto.cors,rohberg.elasticsearchblocks"
+      # INSTALL_PRODUCTS: "collective.elastic.plone,collective.elastic.ingest,rohberg.elasticsearchblocks"
+      # ##### plone-backend docker image
       ADDONS: "plone.app.robotframework==2.0.0a6 plone.app.testing==7.0.0a3 plone.app.contenttypes plone.restapi plone.volto celery redis"
-      DEVELOP: "git+https://github.com/collective/collective.elastic.plone@master#egg=collective.elastic.plone git+https://github.com/collective/collective.elastic.ingest@master#egg=collective.elastic.ingest git+https://github.com/rohberg/rohberg.elasticsearchblocks.git@master#egg=rohberg.elasticsearchblocks"
+      DEVELOP: "git+https://github.com/collective/collective.elastic.plone@master#egg=collective.elastic.plone git+https://github.com/collective/collective.elastic.ingest@master#egg=collective.elastic.ingest git+https://github.com/rohberg/rohberg.elasticsearchblocks@master#egg=rohberg.elasticsearchblocks"
       SITE: "plone"
 
       CELERY_BROKER: redis://host.docker.internal:6379
