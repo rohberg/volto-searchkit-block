@@ -94,32 +94,37 @@ export class CustomESRequestSerializer {
     };
 
     const _make_fuzzy_and_enrich_with_word_parts = (word) => {
+      // EXCLUDE
       if (word.startsWith('-')) {
-        qs_tailored_mustNot_exact.push(_removeQuotationMarks(word));
+        qs_tailored_mustNot_exact.push(_removeQuotationMarks(word.slice(1)));
         return;
       }
+      // MUST
       if (word.startsWith('+')) {
-        if (word.includes('"')) {
-          qs_tailored_must_exact.push(word);
+        if (word.includes('"') || word.includes('*') || word.includes('?')) {
+          qs_tailored_must_exact.push(word.slice(1));
         } else {
-          qs_tailored_must_notexact.push(_maybeFuzzy(word));
+          qs_tailored_must_notexact.push(word.slice(1));
         }
         return;
       }
 
+      // WILDCARD
       if (word.includes('*') || word.includes('?')) {
         qs_tailored_should_exact.push(_removeQuotationMarks(word));
         return;
       }
+      // EXACT
       if (word.includes('"')) {
         qs_tailored_should_exact.push(word);
         return;
       }
 
-      // TODO words with hyphen
-      let result;
+      // TODO Words with hyphen
+      let word_new;
       let wordpartlist = word.split('-'); // common hyphens
-      if (wordpartlist.length > 1) {  // word with hyphen
+      if (wordpartlist.length > 1) {
+        // word with hyphen
         let resultlist = [];
         wordpartlist.push(word);
         wordpartlist.forEach((el) => {
@@ -129,11 +134,13 @@ export class CustomESRequestSerializer {
             resultlist.push(el);
           }
         });
-        result = resultlist.join(' ');
-      } else {  // no hyphen
-        result = force_fuzzy ? `${word} ${word}~` : `${word}`;
+        word_new = resultlist.join(' ');
+      } else {
+        // word without hyphen
+        word_new = force_fuzzy ? `${word} ${word}~` : `${word}`;
       }
-      return result;
+      qs_tailored_should_notexact.push(word_new);
+      return;
     };
 
     if (!isEmpty(queryString)) {
@@ -155,18 +162,12 @@ export class CustomESRequestSerializer {
         const fieldname = fld.split('^')[0];
         return fld.replace(fieldname, `${fieldname}.exact`);
       });
-      console.debug('simpleFields', simpleFields);
-      console.debug('simpleFields_exact', simpleFields_exact);
 
-      // bodyParams['query'] = {
-      //   query_string: {
-      //     query: qs_tailored.join(' '),
-      //     fields: simpleFields,
-      //     quote_field_suffix: '.exact',
-      //   },
-      // };
-
+      // Construction of query
       let shouldList = [];
+      let mustList = [];
+      let must_notList = [];
+
       qs_tailored_should_notexact.length > 0 &&
         shouldList.push({
           query_string: {
@@ -182,7 +183,6 @@ export class CustomESRequestSerializer {
           },
         });
 
-      let mustList = [];
       qs_tailored_must_notexact.length > 0 &&
         mustList.push({
           query_string: {
@@ -197,7 +197,6 @@ export class CustomESRequestSerializer {
             fields: simpleFields_exact,
           },
         });
-      let must_notList = [];
       qs_tailored_mustNot_exact.length > 0 &&
         must_notList.push({
           query_string: {
@@ -213,6 +212,7 @@ export class CustomESRequestSerializer {
           must_not: must_notList,
         },
       };
+      console.debug("bodyParams['query']['bool']", bodyParams['query']['bool']);
 
       bodyParams['highlight'] = {
         fields: [
