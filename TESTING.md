@@ -27,6 +27,8 @@ Run celery:
 
     docker compose exec backend bin/celery -A collective.elastic.ingest.celery.app multi restart workersearchkitblock --logfile="/app/celery/celery%n%I.log" --pidfile="/app/celery/celery%n.pid"
 
+## Further topics
+
 In general: Execute command on container with:
 
     docker compose exec backend  ls -la 
