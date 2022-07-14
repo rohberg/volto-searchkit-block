@@ -114,7 +114,7 @@ const OnResults = withState(MyResults);
 // }
 
 const CustomResultsListItem = ({ result, index }) => {
-  // TODO make this configurable
+  // TODO make filter configurable
   let flts = {
     kompasscomponent: {
       label: 'Komponente',
