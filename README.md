@@ -54,6 +54,15 @@ Enable Matomo tracking via
   };
 ```
 
+## panel for testing matches
+
+/controlpanel/test-searchkit-querystrings
+
+TESTSEARCH_ELASTICSEARCH_URL
+TESTSEARCH_ELASTICSEARCH_INDEX
+TESTSEARCH_BACKEND
+TESTSEARCH_FRONTEND
+
 
 ## TODOs
 

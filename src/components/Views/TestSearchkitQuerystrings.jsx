@@ -106,8 +106,10 @@ const overriddenComponents = {
 
 const TestSearchkitQuerystrings = (props) => {
   const searchconfig = {
-    elastic_search_api_url: 'http://localhost:9200',
-    elastic_search_api_index: 'plone2020',
+    elastic_search_api_url:
+      process.env.TESTSEARCH_ELASTICSEARCH_URL || 'http://localhost:9200',
+    elastic_search_api_index:
+      process.env.TESTSEARCH_ELASTICSEARCH_INDEX || 'plone2020',
     // reviewstatemapping: {
     //   Manual: ['internally_published', 'private', 'internal'],
     // },
@@ -119,8 +121,9 @@ const TestSearchkitQuerystrings = (props) => {
       'blocks_plaintext',
       'manualfilecontent',
     ],
-    backend_url: 'http://localhost:8080/Plone',
-    frontend_url: 'http://igib.example.com',
+    backend_url:
+      process.env.TESTSEARCH_BACKEND || 'http://localhost:8080/Plone',
+    frontend_url: process.env.TESTSEARCH_FRONTEND || 'http://igib.example.com',
   };
 
   const initialState = {
