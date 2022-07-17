@@ -21,7 +21,7 @@ import {
 } from 'react-searchkit';
 import { flattenESUrlToPath } from '../helpers';
 import { ploneSearchApi } from './FacetedSearch';
-import { ElasticSearchMatches, getMatches } from './ElasticSearchHighlights';
+import { ElasticSearchMatches } from './ElasticSearchHighlights';
 
 const sort_caseinsensitive = (a, b) => {
   var nameA = a.toUpperCase(); // Groß-/Kleinschreibung ignorieren
