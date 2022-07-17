@@ -1,3 +1,7 @@
+/**
+ * Show matches per document
+ * fragment_size is set in CustomESRequestSerializer
+ */
 import React from 'react';
 
 export const ElasticSearchHighlights = ({ highlight, indexResult }) => {
@@ -17,15 +21,7 @@ export const ElasticSearchHighlights = ({ highlight, indexResult }) => {
     setToggleDetails(!toggleDetails);
   };
 
-  let hlts = [];
-  highlight &&
-    Object.keys(highlight)
-      .reverse()
-      .forEach((fld) => {
-        highlight[fld].forEach((mtch) => {
-          hlts.push(mtch);
-        });
-      });
+  const fragments = getFragments(highlight);
   if (highlight) {
     return !toggleDetails ? (
       <div
@@ -35,7 +31,7 @@ export const ElasticSearchHighlights = ({ highlight, indexResult }) => {
         onKeyPress={showDetails}
         tabIndex={indexResult}
       >
-        {hlts.slice(0, 3).map((el, index) => {
+        {fragments.slice(0, 3).map((el, index) => {
           return <div dangerouslySetInnerHTML={{ __html: el }} key={index} />;
         })}
       </div>
@@ -75,29 +71,50 @@ export const ElasticSearchHighlights = ({ highlight, indexResult }) => {
   }
 };
 
-export const ElasticSearchMatches = ({ highlight, indexResult }) => {
-  const regex = /<em>(.*?)<\/em>/gm;
-  let hlts = [];
+/**
+ * Get fragments of matches in a document
+ * @param {Object} highlight. part of response of Elasticsearch query
+ * @returns {Array} Array of strings
+ */
+export const getFragments = (highlight) => {
+  let fragments = [];
   highlight &&
     Object.keys(highlight)
       .reverse()
       .forEach((fld) => {
         highlight[fld].forEach((mtch) => {
-          hlts.push(mtch);
+          fragments.push(mtch);
         });
       });
-  if (highlight) {
-    return (
-      <div className="highlight metadata" role="button" tabIndex={indexResult}>
-        {hlts.map((txt) => {
-          let result = [...txt.matchAll(regex)];
-          console.debug('result', result);
-          return result.map((el) => el[1]).join('|') + '|';
-        })}
-        <hr />
-      </div>
-    );
-  } else {
-    return null;
-  }
+  return fragments;
+};
+
+/**
+ * Get matches in a document
+ * @param {Object} highlight. part of response of Elasticsearch query
+ * @returns {Array} Array of strings
+ */
+export const getMatches = (highlight) => {
+  console.debug('highlight', highlight);
+  const regex = /<em>(.*?)<\/em>/gm;
+  let fragments = getFragments(highlight);
+  console.debug('fragments', fragments);
+  let matches = [];
+  fragments.forEach((fragment) => {
+    const fragmentmatches = [...fragment.matchAll(regex)];
+    matches = matches.concat(fragmentmatches.map((match) => match[1]));
+  });
+  matches = [...new Set(matches)];
+  console.debug('getMatches', matches);
+  return matches;
+};
+
+export const ElasticSearchMatches = ({ highlight, indexResult }) => {
+  const matches = getMatches(highlight);
+  return (
+    <div className="highlight metadata" role="button" tabIndex={indexResult}>
+      {matches.join(' | ')}
+      <hr />
+    </div>
+  );
 };

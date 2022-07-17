@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Segment } from 'semantic-ui-react';
+import { Container, Header, Segment } from 'semantic-ui-react';
 import { Link, useLocation } from 'react-router-dom';
 import { OverridableContext } from 'react-overridable';
 
@@ -19,8 +19,9 @@ import {
   ResultsMultiLayout,
   Count,
 } from 'react-searchkit';
+import { flattenESUrlToPath } from '../helpers';
 import { ploneSearchApi } from './FacetedSearch';
-import { ElasticSearchMatches } from './ElasticSearchHighlights';
+import { ElasticSearchMatches, getMatches } from './ElasticSearchHighlights';
 
 const sort_caseinsensitive = (a, b) => {
   var nameA = a.toUpperCase(); // Groß-/Kleinschreibung ignorieren
@@ -35,7 +36,6 @@ const sort_caseinsensitive = (a, b) => {
 };
 
 const _OnHighlights = (props) => {
-  console.debug('_OnHighlights props', props);
   let location = useLocation();
   let highlights = props.currentResultsState;
   let hits = highlights.data.hits;
@@ -46,7 +46,6 @@ const _OnHighlights = (props) => {
     hit.highlight = hit.highlight || [];
     Object.keys(hit.highlight).forEach((fld) => {
       hit.highlight[fld].forEach((highlightfragment) => {
-        // console.debug('highlightfragment', highlightfragment);
         fragments.push(highlightfragment);
       });
     });
@@ -57,14 +56,13 @@ const _OnHighlights = (props) => {
     let result = [...txt.matchAll(regex)];
     result.map((match) => {
       matches.add(match[1]);
-      console.debug('match[1]', match[1], txt);
     });
   });
   let matches_sorted = Array.from(matches);
   matches_sorted.sort(sort_caseinsensitive);
   return (
     <div>
-      <h3>Found {matches_sorted.length} matches.</h3>
+      <Header as="h2">Found {matches_sorted.length} matches.</Header>
       {matches_sorted.map((match) => (
         <div key={match}>
           <a
@@ -84,18 +82,21 @@ const OnHighlights = withState(_OnHighlights);
 const OnResults = withState(ResultsMultiLayout);
 
 const CustomResultsListItem = ({ result, index }) => {
+  console.debug('** result.title', result.title);
   return (
     <div>
-      <h2>
-        <a href={result['@id']}>{result.title}</a>
-      </h2>
+      <Header as="h3">
+        <Link to={flattenESUrlToPath(result['@id'])} target="_blank">
+          {result.title}
+        </Link>
+      </Header>
       <ElasticSearchMatches highlight={result.highlight} indexResult={index} />
     </div>
   );
 };
 
 const DocumentsCount = ({ totalResults }) => {
-  return <h3>Found {totalResults} manuals.</h3>;
+  return <Header as="h2">Found {totalResults} documents.</Header>;
 };
 
 const overriddenComponents = {
@@ -104,9 +105,6 @@ const overriddenComponents = {
 };
 
 const TestSearchkitQuerystrings = (props) => {
-  // console.debug('TestSearchkitQuerystrings. props', props);
-
-  const [matchhighlights, setMatchhighlights] = React.useState([]);
   const searchconfig = {
     elastic_search_api_url: 'http://localhost:9200',
     elastic_search_api_index: 'plone2020',
@@ -126,10 +124,10 @@ const TestSearchkitQuerystrings = (props) => {
   };
 
   const initialState = {
-    // sortBy: 'bestmatch',
-    // sortOrder: 'asc',
-    sortBy: 'modified',
-    sortOrder: 'desc',
+    sortBy: 'bestmatch',
+    sortOrder: 'asc',
+    // sortBy: 'modified',
+    // sortOrder: 'desc',
     queryString: '',
     layout: 'list',
     page: 1,
@@ -150,7 +148,11 @@ const TestSearchkitQuerystrings = (props) => {
 
   return (
     <Container>
-      <h1>Matches</h1>
+      <Segment>
+        <Header as="h1" className="documentFirstHeading">
+          Matches
+        </Header>
+      </Segment>
       {isClient && (
         <OverridableContext.Provider value={overriddenComponents}>
           <ReactSearchKit
@@ -159,30 +161,35 @@ const TestSearchkitQuerystrings = (props) => {
             initialQueryState={initialState}
             searchOnInit={true}
           >
-            <Segment>
-              {/* <Input
-                id="my-field"
-                title="some strings to search for"
-                onChange={(event, data) => {
-                  onchangehandler(event, data);
-                }}
-              /> */}
-              <SearchBar
-                placeholder="Suche"
-                autofocus="false"
-                uiProps={{
-                  icon: 'search',
-                  iconPosition: 'left',
-                  className: 'searchbarinput',
-                }}
-                onChange={(event, data) => {
-                  onchangehandler(event, data);
-                }}
-              />
-              <Count />
-              <OnHighlights />
-              {/* <OnResults /> */}
-            </Segment>
+            <>
+              <Segment>
+                {/* <Input
+                  id="my-field"
+                  title="some strings to search for"
+                  onChange={(event, data) => {
+                    onchangehandler(event, data);
+                  }}
+                /> */}
+                <SearchBar
+                  placeholder="Suche"
+                  autofocus="false"
+                  uiProps={{
+                    icon: 'search',
+                    iconPosition: 'left',
+                    className: 'searchbarinput',
+                  }}
+                  onChange={(event, data) => {
+                    onchangehandler(event, data);
+                  }}
+                />
+              </Segment>
+              <Segment>
+                <Count />
+                <OnHighlights />
+                <Header as="h2">Documents with title and matches</Header>
+                <OnResults />
+              </Segment>
+            </>
           </ReactSearchKit>
         </OverridableContext.Provider>
       )}
