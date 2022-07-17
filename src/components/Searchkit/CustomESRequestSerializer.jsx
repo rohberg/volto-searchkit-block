@@ -239,7 +239,6 @@ export class CustomESRequestSerializer {
           },
           {
             blocks_plaintext: {
-              fragment_size: 150,
               matched_fields: ['blocks_plaintext', 'blocks_plaintext.exact'],
               type: 'fvh',
             },
