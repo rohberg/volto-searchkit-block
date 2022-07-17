@@ -89,10 +89,6 @@ export class CustomESRequestSerializer {
       return word;
     };
 
-    const _maybeFuzzy = (word) => {
-      return force_fuzzy ? `${word} ${word}~` : `${word}`;
-    };
-
     const _make_fuzzy_and_enrich_with_word_parts = (word) => {
       // EXCLUDE
       if (word.startsWith('-')) {
@@ -168,42 +164,47 @@ export class CustomESRequestSerializer {
       let mustList = [];
       let must_notList = [];
 
-      qs_tailored_should_notexact.length > 0 &&
+      qs_tailored_should_notexact.forEach((element) => {
         shouldList.push({
           query_string: {
-            query: qs_tailored_should_notexact.join(' '),
+            query: element,
             fields: simpleFields,
           },
         });
-      qs_tailored_should_exact.length > 0 &&
+      });
+      qs_tailored_should_exact.forEach((element) => {
         shouldList.push({
           query_string: {
-            query: qs_tailored_should_exact.join(' '),
+            query: element,
             fields: simpleFields_exact,
           },
         });
+      });
 
-      qs_tailored_must_notexact.length > 0 &&
+      qs_tailored_must_notexact.forEach((el) => {
         mustList.push({
           query_string: {
-            query: qs_tailored_must_notexact.join(' '),
+            query: el,
             fields: simpleFields,
           },
         });
-      qs_tailored_must_exact.length > 0 &&
+      });
+      qs_tailored_must_exact.forEach((element) => {
         mustList.push({
           query_string: {
-            query: qs_tailored_must_exact.join(' '),
+            query: element,
             fields: simpleFields_exact,
           },
         });
-      qs_tailored_mustNot_exact.length > 0 &&
+      });
+      qs_tailored_mustNot_exact.forEach((element) => {
         must_notList.push({
           query_string: {
-            query: qs_tailored_mustNot_exact.join(' '),
+            query: element,
             fields: simpleFields_exact,
           },
         });
+      });
 
       bodyParams['query'] = {
         bool: {
@@ -215,6 +216,7 @@ export class CustomESRequestSerializer {
       console.debug("bodyParams['query']['bool']", bodyParams['query']['bool']);
 
       bodyParams['highlight'] = {
+        number_of_fragments: 20,
         fields: [
           {
             title: {
