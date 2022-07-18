@@ -1,8 +1,11 @@
 import React from 'react';
 import { Container, Header, Segment } from 'semantic-ui-react';
 import { Link, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { OverridableContext } from 'react-overridable';
 
+import config from '@plone/volto/registry';
+import { getControlpanel } from '@plone/volto/actions';
 import { Icon as IconNext } from '@plone/volto/components';
 import backSVG from '@plone/volto/icons/back.svg';
 
@@ -105,26 +108,26 @@ const overriddenComponents = {
 };
 
 const TestSearchkitQuerystrings = (props) => {
-  const searchconfig = {
-    elastic_search_api_url:
-      process.env.TESTSEARCH_ELASTICSEARCH_URL || 'http://localhost:9200',
-    elastic_search_api_index:
-      process.env.TESTSEARCH_ELASTICSEARCH_INDEX || 'plone2020',
-    // reviewstatemapping: {
-    //   Manual: ['internally_published', 'private', 'internal'],
-    // },
-    simpleFields: [
-      'title^1.4',
-      'description^1.2',
-      'subjects^1.4',
-      'freemanualtags_searchable^1.4',
-      'blocks_plaintext',
-      'manualfilecontent',
-    ],
-    backend_url:
-      process.env.TESTSEARCH_BACKEND || 'http://localhost:8080/Plone',
-    frontend_url: process.env.TESTSEARCH_FRONTEND || 'http://igib.example.com',
-  };
+  const dispatch = useDispatch();
+  const searchkitblock_controlpanel = useSelector(
+    (state) => state.controlpanels.controlpanel?.data,
+  );
+  const searchconfig = searchkitblock_controlpanel
+    ? {
+        elastic_search_api_url:
+          searchkitblock_controlpanel?.testsearch_elasticsearch_url,
+        elastic_search_api_index:
+          searchkitblock_controlpanel?.testsearch_elasticsearch_index,
+        // reviewstatemapping: {
+        //   Manual: ['internally_published', 'private', 'internal'],
+        // },
+        simpleFields: config.settings.searchkitblock.simpleFields,
+        backend_url: searchkitblock_controlpanel?.testsearch_backend,
+        frontend_url: searchkitblock_controlpanel?.testsearch_frontend,
+      }
+    : {};
+  console.debug('TestSearchkitQuerystrings. searchconfig', searchconfig);
+  console.debug('searchkitblock_controlpanel', searchkitblock_controlpanel);
 
   const initialState = {
     sortBy: 'bestmatch',
@@ -149,6 +152,10 @@ const TestSearchkitQuerystrings = (props) => {
   const [isClient, setIsClient] = React.useState(null);
   React.useEffect(() => setIsClient(true), []);
 
+  React.useEffect(() => {
+    dispatch(getControlpanel('volto_searchkit_block_control_panel'));
+  }, [dispatch]);
+
   return (
     <Container>
       <Segment>
@@ -156,7 +163,7 @@ const TestSearchkitQuerystrings = (props) => {
           Matches
         </Header>
       </Segment>
-      {isClient && (
+      {isClient && searchkitblock_controlpanel && (
         <OverridableContext.Provider value={overriddenComponents}>
           <ReactSearchKit
             searchApi={ploneSearchApi(searchconfig)}
