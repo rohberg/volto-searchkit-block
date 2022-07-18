@@ -58,10 +58,7 @@ Enable Matomo tracking via
 
 /controlpanel/test-searchkit-querystrings
 
-TESTSEARCH_ELASTICSEARCH_URL
-TESTSEARCH_ELASTICSEARCH_INDEX
-TESTSEARCH_BACKEND
-TESTSEARCH_FRONTEND
+Please update the settings according to your deployment: /controlpanel/volto_searchkit_block_control_panel
 
 
 ## TODOs
