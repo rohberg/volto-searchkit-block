@@ -13,7 +13,14 @@ import {
 const applyConfig = (config) => {
   config.settings.searchkitblock = {
     ...(config.settings.searchkitblock ?? {}),
-    elasticurl: process.env.ELASTIC_URL || 'http://localhost:9200/esploneindex',
+    simpleFields: [
+      'title^1.4',
+      'description^1.2',
+      'subjects^1.4',
+      'freemanualtags_searchable^1.4',
+      'blocks_plaintext',
+      'manualfilecontent',
+    ],
     filterLayout: 'dropdown',
     trackVoltoMatomo: false,
   };
