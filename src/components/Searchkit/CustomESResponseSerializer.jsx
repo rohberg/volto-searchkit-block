@@ -47,6 +47,8 @@ export class CustomESResponseSerializer {
   }
 
   _getAllowedHits(hits) {
+    // TODO Do security check for array not check for each single item of array
+
     // return promise with array ot Promises. all of them resolve to Object(hit,status)
     const auth_token = getAuthToken();
     let listOfPromises = hits.map((hit) => {

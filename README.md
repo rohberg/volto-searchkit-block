@@ -63,6 +63,10 @@ Please update the settings according to your deployment: /controlpanel/volto_sea
 
 ## TODOs
 
+### Request to Elasticsearch via Plone for security check
+
+
+
 ### Configurable filters, etc
 
 - which filters should be available.
