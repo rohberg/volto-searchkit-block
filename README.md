@@ -65,6 +65,12 @@ Please update the settings according to your deployment: /controlpanel/volto_sea
 
 ### Request to Elasticsearch via Plone for security check
 
+backend add-on with endpoint:
+
+- Post service with argument: json (with aggs, post_filter)
+- Request elasticsearch
+- Filter search results by "View" permission
+  https://6.dev-docs.plone.org/plone.api/user.html?highlight=has_permission#check-user-permission
 
 
 ### Configurable filters, etc
