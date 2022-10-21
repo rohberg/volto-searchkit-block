@@ -42,10 +42,12 @@ addon-testing-project: ## Create Volto project
 .PHONY: all
 all: addon-testing-project
 
+.PHONY: start-addon-testing-project
 start-addon-testing-project: addon-testing-project ## Start Volto project
 	(cd addon-testing-project &&	yarn start)
 
-consolidate-addon-testing-project:
+.PHONY: consolidate-addon-testing-project
+consolidate-addon-testing-project: addon-testing-project ## Consolidate add-on changes
 	npx -p @plone/scripts addon consolidate
 
 
