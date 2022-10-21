@@ -27,29 +27,44 @@ YELLOW=`tput setaf 3`
 
 
 # Top-level targets
+########################
 
-.PHONY: project
-project:
+project: ## Create Volto project
 	npm install -g yo
 	npm install -g @plone/generator-volto
 	npm install -g mrs-developer
-	yo @plone/volto project --addon ${ADDON} --workspace "src/addons/${DIR}" --no-interactive
+	yo @plone/volto project --addon ${ADDON} --workspace "src/addons/${DIR}" --no-interactive --canary
 	ln -sf $$(pwd) project/src/addons/
 	cp .project.eslintrc.js .eslintrc.js
 	cd project && yarn
 	@echo "-------------------"
 	@echo "$(GREEN)Volto project is ready!$(RESET)"
-	@echo "$(RED)Now run: cd project && yarn start$(RESET)"
+	@echo "$(RED)Now run: yarn start$(RESET)"
 
 .PHONY: all
 all: project
 
+start-project: project ## Start Volto project
+	cd project &&	yarn start
 
-# testing
-.PHONY: start-test-backend
-start-test-backend: ## Start Test Plone Backend
+
+# Testing
+########################
+
+.PHONY: test-start-backend-plone6-mac
+test-start-backend-plone6-mac: ## Start Test Plone Backend
 	@echo "$(GREEN)==> Start Test Plone Backend$(RESET)"
+	cd docker/mac/Plone6/
 	docker compose up
+	docker compose exec backend bin/robot-server plone.app.robotframework.testing.VOLTO_ROBOT_TESTING
+	docker compose exec backend bin/celery -A collective.elastic.ingest.celery.app multi restart workersearchkitblock --logfile="/app/celery/celery%n%I.log" --pidfile="/app/celery/celery%n.pid"
+
+##########################
+
+.PHONY: start-backend-docker
+start-backend-docker:		## Starts a Docker-based backend
+	@echo "$(GREEN)==> Start Docker-based Plone Backend$(RESET)"
+	docker run -it --rm --name=plone -p 8080:8080 -e SITE=Plone -e ADDONS="plone.volto" -e ZCML="plone.volto.cors" plone
 
 .PHONY: help
 help:		## Show this help.
