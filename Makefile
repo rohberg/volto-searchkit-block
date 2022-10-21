@@ -29,23 +29,24 @@ YELLOW=`tput setaf 3`
 # Top-level targets
 ########################
 
-project: ## Create Volto project
+addon-testing-project: ## Create Volto project
 	npm install -g yo
 	npm install -g @plone/generator-volto
 	npm install -g mrs-developer
-	yo @plone/volto project --addon ${ADDON} --workspace "src/addons/${DIR}" --no-interactive --canary
-	ln -sf $$(pwd) project/src/addons/
-	cp .project.eslintrc.js .eslintrc.js
-	cd project && yarn
+	npx -p @plone/scripts addon clone .
+	cd addon-testing-project && yarn
 	@echo "-------------------"
 	@echo "$(GREEN)Volto project is ready!$(RESET)"
 	@echo "$(RED)Now run: yarn start$(RESET)"
 
 .PHONY: all
-all: project
+all: addon-testing-project
 
-start-project: project ## Start Volto project
-	cd project &&	yarn start
+start-addon-testing-project: addon-testing-project ## Start Volto project
+	(cd addon-testing-project &&	yarn start)
+
+consolidate-addon-testing-project:
+	npx -p @plone/scripts addon consolidate
 
 
 # Testing
