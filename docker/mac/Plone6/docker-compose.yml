@@ -1,0 +1,59 @@
+version: "3"
+services:
+  backend:
+    image: plone/plone-backend:6.0.0b3
+    environment:
+      # ##### plone.app.robotframework
+      ZSERVER_HOST: "0.0.0.0"
+      ZSERVER_PORT: "55001"
+      APPLY_PROFILES: "plone.app.contenttypes:plone-content,plone.restapi:default,plone.volto:default-homepage, rohberg.elasticsearchblocks:testing,collective.elastic.plone:default"
+      CONFIGURE_PACKAGES: "plone.app.contenttypes,plone.restapi,plone.volto,plone.volto.cors,rohberg.elasticsearchblocks,collective.elastic.plone"
+      # INSTALL_PRODUCTS: "collective.elastic.plone,collective.elastic.ingest,rohberg.elasticsearchblocks"
+      # ##### plone-backend docker image
+      ADDONS: "plone.app.robotframework==2.0.0a6 plone.app.testing==7.0.0a3 plone.app.contenttypes plone.restapi plone.volto celery redis collective.elastic.plone@git+https://github.com/collective/collective.elastic.plone.git collective.elastic.ingest@git+https://github.com/collective/collective.elastic.ingest.git rohberg.elasticsearchblocks@git+https://github.com/rohberg/rohberg.elasticsearchblocks"
+      SITE: "plone"
+
+      CELERY_BROKER: redis://host.docker.internal:6379
+      ELASTICSEARCH_INDEX: plone
+      ELASTICSEARCH_QUERY_SERVER: http://host.docker.internal:9200
+      ELASTICSEARCH_QUERY_USE_SSL: 0
+
+      # CELERY_BROKER: redis://localhost:6379/0
+      ELASTICSEARCH_INGEST_SERVER: host.docker.internal:9200
+      ELASTICSEARCH_INGEST_USE_SSL: 0
+
+      PLONE_SERVICE: http://127.0.0.1:55001
+      PLONE_PATH: plone
+      PLONE_USER: admin
+      PLONE_PASSWORD: secret
+
+      ANALYSIS_FILE: /app/ploneconfiguration/elasticsearch-analysis.json
+      MAPPINGS_FILE: /app/ploneconfiguration/elasticsearch-mappings.json
+      PREPROCESSINGS_FILE: /app/ploneconfiguration/elasticsearch-preprocessings.json
+    ports:
+      - 55001:55001
+      - 8080:8080
+    depends_on:
+      - redis
+      - elk
+    command: tail -f /dev/null
+    volumes:
+      - ./volumes/ploneconfiguration/:/app/ploneconfiguration/
+  elk:
+    image: ksuess/rohberg-elk-mac:rc2
+    # image: sebp/elk:oss-8.1.0
+    environment:
+      # ES_PACKAGE: "elasticsearch-8.3.2-darwin-aarch64.tar.gz"
+      # KIBANA_PACKAGE: "kibana-8.3.2-darwin-aarch64.tar.gz"
+      ES_CORS_ALLOW_ORIGIN: "/https?://(.*)localhost(.*)/"
+    ports:
+      - "5601:5601"
+      - "9200:9200"
+      - "5044:5044"
+    volumes:
+      - ./volumes/elasticsearchconfiguration/elasticsearch-keywords.txt:/etc/elasticsearch/elasticsearch-keywords.txt
+      - ./volumes/elasticsearchconfiguration/elasticsearch-lexicon.txt:/etc/elasticsearch/elasticsearch-lexicon.txt
+  redis:
+    image: redis/redis-stack-server:latest
+    ports:
+      - 6379:6379
