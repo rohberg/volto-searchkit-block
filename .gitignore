@@ -106,3 +106,5 @@ testing/volumes/src/
 testing/volumes/var/
 volumes/src/
 volumes/var/
+
+addon-testing-project
