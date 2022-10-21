@@ -29,6 +29,9 @@
     "i18n": "rm -rf build/messages && NODE_ENV=production i18n --addon",
     "version": "auto-changelog -p && git add CHANGELOG.md"
   },
+  "addons": [
+    "@eeacms/volto-matomo"
+  ],
   "dependencies": {
     "@plone/scripts": "*",
     "react-overridable": "^0.0.3",
