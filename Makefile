@@ -29,7 +29,7 @@ YELLOW=`tput setaf 3`
 # Top-level targets
 ########################
 
-addon-testing-project: ## Create Volto project
+addon-testing-project:  ## Create Volto project
 	npm install -g yo
 	npm install -g @plone/generator-volto
 	npm install -g mrs-developer
@@ -43,11 +43,11 @@ addon-testing-project: ## Create Volto project
 all: addon-testing-project
 
 .PHONY: start-addon-testing-project
-start-addon-testing-project: addon-testing-project ## Start Volto project
+start-addon-testing-project: addon-testing-project  ## Start Volto project
 	(cd addon-testing-project &&	yarn start)
 
 .PHONY: consolidate-addon-testing-project
-consolidate-addon-testing-project: addon-testing-project ## Consolidate add-on changes
+consolidate-addon-testing-project: addon-testing-project  ## Consolidate add-on changes
 	npx -p @plone/scripts addon consolidate
 
 
@@ -55,7 +55,7 @@ consolidate-addon-testing-project: addon-testing-project ## Consolidate add-on c
 ########################
 
 .PHONY: test-start-backend-plone6-mac
-test-start-backend-plone6-mac: ## Start Test Plone Backend
+test-start-backend-plone6-mac:  ## Start Test Plone Backend
 	@echo "$(GREEN)==> Start Test Plone Backend$(RESET)"
 	cd docker/mac/Plone6/
 	docker compose up
