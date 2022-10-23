@@ -33,27 +33,26 @@ services:
     ports:
       - 55001:55001
       - 8080:8080
-    depends_on:
-      - redis
-      - elk
-    command: tail -f /dev/null
+    # depends_on:
+    #   - redis
+    #   - elk
+    command: bin/robot-server plone.app.robotframework.testing.VOLTO_ROBOT_TESTING > /dev/null 2>&1 &; bin/celery -A collective.elastic.ingest.celery.app multi restart workersearchkitblock --logfile="/app/celery/celery%n%I.log" --pidfile="/app/celery/celery%n.pid" > /dev/null 2>&1 &
     volumes:
-      - ./volumes/ploneconfiguration/:/app/ploneconfiguration/
-  elk:
-    image: ksuess/rohberg-elk-mac:rc2
-    # image: sebp/elk:oss-8.1.0
-    environment:
-      # ES_PACKAGE: "elasticsearch-8.3.2-darwin-aarch64.tar.gz"
-      # KIBANA_PACKAGE: "kibana-8.3.2-darwin-aarch64.tar.gz"
-      ES_CORS_ALLOW_ORIGIN: "/https?://(.*)localhost(.*)/"
-    ports:
-      - "5601:5601"
-      - "9200:9200"
-      - "5044:5044"
-    volumes:
-      - ./volumes/elasticsearchconfiguration/elasticsearch-keywords.txt:/etc/elasticsearch/elasticsearch-keywords.txt
-      - ./volumes/elasticsearchconfiguration/elasticsearch-lexicon.txt:/etc/elasticsearch/elasticsearch-lexicon.txt
-  redis:
-    image: redis/redis-stack-server:latest
-    ports:
-      - 6379:6379
+      - ../../../volumes/ploneconfiguration/:/app/ploneconfiguration/
+  # elk:
+  #   image: ksuess/rohberg-elk-mac:rc2
+  #   # image: sebp/elk:oss-8.1.0
+  #   environment:
+  #     # ES_CORS_ALLOW_ORIGIN: "/https?://(.*)localhost(.*)/"
+  #     ES_CORS_ALLOW_ORIGIN: "*"
+  #   ports:
+  #     - "5601:5601"
+  #     - "9200:9200"
+  #     - "5044:5044"
+  #   volumes:
+  #     - ./volumes/elasticsearchconfiguration/elasticsearch-keywords.txt:/etc/elasticsearch/elasticsearch-keywords.txt
+  #     - ./volumes/elasticsearchconfiguration/elasticsearch-lexicon.txt:/etc/elasticsearch/elasticsearch-lexicon.txt
+  # redis:
+  #   image: redis/redis-stack-server:latest
+  #   ports:
+  #     - 6379:6379
