@@ -59,8 +59,6 @@ test-start-backend-plone6-mac:  ## Start Test Plone Backend
 	@echo "$(GREEN)==> Start Test Plone Backend$(RESET)"
 	cd docker/mac/Plone6/
 	docker compose up
-	docker compose exec backend bin/robot-server plone.app.robotframework.testing.VOLTO_ROBOT_TESTING
-	docker compose exec backend bin/celery -A collective.elastic.ingest.celery.app multi restart workersearchkitblock --logfile="/app/celery/celery%n%I.log" --pidfile="/app/celery/celery%n.pid"
 
 ##########################
 
