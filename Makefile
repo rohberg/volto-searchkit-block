@@ -60,6 +60,13 @@ test-start-backend-plone6-mac:  ## Start Test Plone Backend
 	cd docker/mac/Plone6/
 	docker compose up
 
+##### Acceptance tests (Cypress)
+
+.PHONY: start-test
+start-test: ## Start Test
+	@echo "$(GREEN)==> Start Test$(RESET)"
+	(cd addon-testing-project &&	yarn cypress:open)
+
 ##########################
 
 .PHONY: start-backend-docker
