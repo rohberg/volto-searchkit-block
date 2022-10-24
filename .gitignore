@@ -108,3 +108,4 @@ volumes/src/
 volumes/var/
 
 addon-testing-project
+addon-testing-project_cypress
