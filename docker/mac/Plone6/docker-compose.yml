@@ -38,7 +38,7 @@ services:
       - redis
       - elk
     # command: tail -f /dev/null
-    command: bin/robot-server plone.app.robotframework.testing.VOLTO_ROBOT_TESTING > /dev/null 2>&1 &; bin/celery -A collective.elastic.ingest.celery.app multi restart workersearchkitblock --logfile="/app/celery/celery%n%I.log" --pidfile="/app/celery/celery%n.pid" > /dev/null 2>&1 &
+    command: bin/celery -A collective.elastic.ingest.celery.app multi restart workersearchkitblock --logfile="/app/celery/celery%n%I.log" --pidfile="/app/celery/celery%n.pid" > /dev/null 2>&1 &; bin/robot-server plone.app.robotframework.testing.VOLTO_ROBOT_TESTING > /dev/null 2>&1 &;
     volumes:
       - ../../../volumes/ploneconfiguration/:/app/ploneconfiguration/
   elk:
