@@ -30,10 +30,13 @@ YELLOW=`tput setaf 3`
 ########################
 
 addon-testing-project:  ## Create Volto project
-	npm install -g yo
-	npm install -g @plone/generator-volto
-	npm install -g mrs-developer
+	# npm install -g yo
+	# npm install -g @plone/generator-volto
+	# npm install -g mrs-developer
 	npx -p @plone/scripts addon clone .
+	cp -r webpack.config.js addon-testing-project/src/addons/volto-searchkit-block/webpack.config.js
+	cp -r cypress.config.js addon-testing-project/src/addons/volto-searchkit-block/cypress.config.js
+	cp -r cypress addon-testing-project/src/addons/volto-searchkit-block/cypress
 	cd addon-testing-project && yarn
 	@echo "-------------------"
 	@echo "$(GREEN)Volto project is ready!$(RESET)"
