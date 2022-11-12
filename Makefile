@@ -34,7 +34,7 @@ addon-testing-project:  ## Create Volto project
 	# npm install -g yo
 	# npm install -g @plone/generator-volto
 	# npm install -g mrs-developer
-	npx -p @plone/scripts addon clone .
+	npx -p @plone/scripts addon clone --canary .
 	cp -r webpack.config.js addon-testing-project/src/addons/volto-searchkit-block/webpack.config.js
 	cp -r cypress.config.js addon-testing-project/src/addons/volto-searchkit-block/cypress.config.js
 	cp -r cypress addon-testing-project/src/addons/volto-searchkit-block/cypress
