@@ -1,0 +1,13 @@
+default_context:
+  initial_user_name: "admin"
+  initial_user_password: "secret"
+
+  # wsgi_listen: localhost:8082
+
+  load_zcml:
+    package_includes: ["Products.PDBDebugMode", "rohberg.elasticsearchblocks"]
+
+    # include meta.zcml of collective.monkeypatcher to provide directive monkey:patch for Products.PDBDebugMode
+    package_metas: ["collective.monkeypatcher"]
+
+  db_storage: direct
