@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "volto-searchkit-block: Volto add-on",
   "main": "src/index.js",
-  "author": "Katja Süss, https://github.com/ksuess",
+  "author": "Katja Süss, https://github.com/rohberg",
   "license": "MIT",
   "homepage": "https://github.com/rohberg/volto-searchkit-block",
   "keywords": [
