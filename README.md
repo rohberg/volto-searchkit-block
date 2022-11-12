@@ -38,6 +38,14 @@ Start ElasticSearch with ELASTIC_URL=myelasticsearch.acme.org/esploneindex ./bin
 
 ## Configuration
 
+The block is not for editors. So please enable adding searchkitblock once by
+
+```js
+config.blocks.blocksConfig.searchkitblock.restricted = true;
+```
+
+and disable the block after adding it to a page of your choice.
+
 The block can be configured by 
 
 - url of elastic search server
