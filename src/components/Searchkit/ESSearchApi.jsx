@@ -40,8 +40,9 @@ export class PloneSearchApi {
     );
 
     this.requestSerializer = new requestSerializerCls({
-      reviewstatemapping: config.reviewstatemapping,
       simpleFields: config.simpleFields,
+      allowed_content_types: config.allowed_content_types,
+      allowed_review_states: config.allowed_review_states,
     });
     this.responseSerializer = new responseSerializerCls({
       backend_url: config.backend_url,

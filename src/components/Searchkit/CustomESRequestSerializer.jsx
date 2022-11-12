@@ -6,6 +6,8 @@ export class CustomESRequestSerializer {
   constructor(config) {
     this.reviewstatemapping = config.reviewstatemapping;
     this.simpleFields = config.simpleFields;
+    this.allowed_content_types = config.allowed_content_types;
+    this.allowed_review_states = config.allowed_review_states;
   }
   /**
    * Convert Array of filters to Object of filters
@@ -49,14 +51,7 @@ export class CustomESRequestSerializer {
    */
   serialize = (stateQuery) => {
     const { queryString, sortBy, sortOrder, page, size, filters } = stateQuery;
-
-    // TODO Make allowed_content_types configurable.
-    let allowed_content_types = ['Manual'];
-    // Check current users permissions
-    let allowed_review_states = this.reviewstatemapping['Manual'];
-
     const bodyParams = {};
-
     const force_fuzzy = true; // search for `${word}` and `${word}~`
 
     let qs_tailored_should_notexact = [];
@@ -305,13 +300,12 @@ export class CustomESRequestSerializer {
     let terms = [];
     terms.push({
       terms: {
-        portal_type: allowed_content_types,
+        portal_type: this.allowed_content_types,
       },
     });
-    // TODO check current user for review_state he has access to
     terms.push({
       terms: {
-        review_state: allowed_review_states,
+        review_state: this.allowed_review_states,
       },
     });
 

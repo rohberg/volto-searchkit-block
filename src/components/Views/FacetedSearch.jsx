@@ -68,10 +68,9 @@ export const ploneSearchApi = (data) => {
       requestSerializer: CustomESRequestSerializer,
       responseSerializer: CustomESResponseSerializer,
     },
-    reviewstatemapping: {
-      Manual: ['internally_published', 'private', 'internal'],
-    },
     simpleFields: data.simpleFields,
+    allowed_content_types: data.allowed_content_types,
+    allowed_review_states: data.allowed_review_states,
     backend_url: data.backend_url,
     frontend_url: data.frontend_url,
   });
