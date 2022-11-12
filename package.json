@@ -25,10 +25,10 @@
   "dependencies": {
     "@plone/scripts": "*",
     "react-overridable": "^0.0.3",
-    "react-searchkit": "v1.0.1"
+    "react-searchkit": "v1.0.1",
+    "@eeacms/volto-matomo": "*"
   },
   "devDependencies": {
-    "@eeacms/volto-matomo": "*",
     "@semantic-ui-react/css-patch": "1.0.0",
     "cypress": "^10.10.0"
   }
