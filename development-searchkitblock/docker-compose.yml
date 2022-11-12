@@ -13,5 +13,9 @@ services:
       - "9200:9200"
       - "5044:5044"
     volumes:
-      - /Users/katjasuss/Volto/volto-searchkit-block_Plone6/development-searchkitblock/elasticsearch/elasticsearch-keywords.txt:/etc/elasticsearch/elasticsearch-keywords.txt
-      - /Users/katjasuss/Volto/volto-searchkit-block_Plone6/development-searchkitblock/elasticsearch/elasticsearch-lexicon.txt:/etc/elasticsearch/elasticsearch-lexicon.txt
+      - type: bind
+        source: ../configuration/elasticsearchconfiguration/elasticsearch-keywords.txt
+        target: /etc/elasticsearch/elasticsearch-keywords.txt
+      - type: bind
+        source: ../configuration/elasticsearchconfiguration/elasticsearch-lexicon.txt
+        target: /etc/elasticsearch/elasticsearch-lexicon.txt
