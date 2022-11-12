@@ -5,9 +5,6 @@ default_context:
   # wsgi_listen: localhost:8082
 
   load_zcml:
-    package_includes: ["Products.PDBDebugMode", "rohberg.elasticsearchblocks"]
-
-    # include meta.zcml of collective.monkeypatcher to provide directive monkey:patch for Products.PDBDebugMode
-    package_metas: ["collective.monkeypatcher"]
+    package_includes: ["rohberg.elasticsearchblocks"]
 
   db_storage: direct

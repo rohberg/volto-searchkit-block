@@ -4,7 +4,6 @@ cookiecutter
 
 Plone
 zope.testrunner
-Products.PDBDebugMode
 
 
 # List of add-ons that are needed.
