@@ -1,0 +1,17 @@
+version: "3"
+services:
+  elk:
+    image: ksuess/rohberg-elk-mac:rc2
+    # image: sebp/elk:oss-8.1.0
+    container_name: elk-searchkitblock
+    environment:
+      ES_PACKAGE: "elasticsearch-8.4.3-darwin-aarch64.tar.gz"
+      KIBANA_PACKAGE: "kibana-8.4.3-darwin-aarch64.tar.gz"
+      ES_CORS_ALLOW_ORIGIN: "*"
+    ports:
+      - "5601:5601"
+      - "9200:9200"
+      - "5044:5044"
+    volumes:
+      - /Users/katjasuss/Volto/volto-searchkit-block_Plone6/development-searchkitblock/elasticsearch/elasticsearch-keywords.txt:/etc/elasticsearch/elasticsearch-keywords.txt
+      - /Users/katjasuss/Volto/volto-searchkit-block_Plone6/development-searchkitblock/elasticsearch/elasticsearch-lexicon.txt:/etc/elasticsearch/elasticsearch-lexicon.txt
