@@ -1,4 +1,5 @@
 # Yeoman Volto App development
+# TODO testing searchkitblock: docker containers with backend, elasticsearch, redis, celery
 
 ### Defensive settings for make:
 #     https://tech.davis-hansson.com/p/make/
@@ -70,12 +71,15 @@ start-test: ## Start Test
 	@echo "$(GREEN)==> Start Test$(RESET)"
 	(cd addon-testing-project &&	yarn cypress:open)
 
+
+# Development
 ##########################
 
-.PHONY: start-backend-docker
-start-backend-docker:		## Starts a Docker-based backend
-	@echo "$(GREEN)==> Start Docker-based Plone Backend$(RESET)"
-	docker run -it --rm --name=plone -p 8080:8080 -e SITE=Plone -e ADDONS="plone.volto" -e ZCML="plone.volto.cors" plone
+.PHONY: dev-start-backend
+dev-start-backend:		## Start a local dev backend
+	@echo "$(GREEN)==> Start local Plone Backend$(RESET)"
+	$(MAKE) -C "./api/" start
+
 
 .PHONY: help
 help:		## Show this help.

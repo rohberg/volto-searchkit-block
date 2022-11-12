@@ -109,3 +109,9 @@ volumes/var/
 
 addon-testing-project
 addon-testing-project_cypress
+
+api/venv/
+api/instance/
+api/sources/
+api/constraints-mxdev.txt
+api/requirements-mxdev.txt
