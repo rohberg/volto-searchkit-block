@@ -5,6 +5,7 @@ default_context:
   # wsgi_listen: localhost:8082
 
   load_zcml:
-    package_includes: ["rohberg.elasticsearchblocks"]
+    package_includes:
+      ["rohberg.elasticsearchblocks", "collective.elastic.plone"]
 
   db_storage: direct
