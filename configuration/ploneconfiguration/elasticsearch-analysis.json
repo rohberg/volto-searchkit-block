@@ -7,6 +7,7 @@
           "filter": [
             "lowercase",
             "custom_dictionary_decompounder",
+            "no_stem",
             "light_german_stemmer"
           ]
         },
@@ -21,6 +22,10 @@
         "custom_dictionary_decompounder": {
             "type": "dictionary_decompounder",
             "word_list_path": "elasticsearch-lexicon.txt"
+        },
+        "no_stem": {
+          "type": "keyword_marker",
+          "keywords_path": "elasticsearch-keywords.txt"
         },
         "light_german_stemmer": {
           "type": "stemmer",

@@ -1,17 +1,4 @@
 {
-  "behaviors/rohberg.elasticsearchblocks.manualfields/informationtype": {
-    "type": "nested",
-    "dynamic": false,
-    "properties": {
-      "token": {
-        "type": "keyword"
-      },
-      "title": {
-        "type": "text"
-      }
-    }
-  },
-
   "behaviors/plone.basic/title": {
     "type": "text",
     "analyzer": "german_analyzer",
@@ -142,7 +129,8 @@
     "pipeline": {
       "source": "{name}__data",
       "target": "{name}__extracted",
-      "processors": [{
+            "processors": [
+                {
           "attachment": {
             "field": "{source}",
             "target_field": "{target}",
@@ -217,7 +205,8 @@
     "pipeline": {
       "source": "{name}__data",
       "target": "{name}__extracted",
-      "processors": [{
+            "processors": [
+                {
           "attachment": {
             "field": "{source}",
             "target_field": "{target}",
