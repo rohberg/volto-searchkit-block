@@ -1,18 +1,20 @@
 # Development
 
+## Backend
+
+    make dev-start-backend
+
 ## Elasticsearch
 
 Run with Docker.
 
-Change directory to ./development-projectname and run:
+Change directory to ./development-searchkitblock and run:
 
     docker compose up
 
 Inspect with 
 
     docker exec -it <container-id> bash
-
-    docker compose exec elk more /etc/elasticsearch/elasticsearch.yml
 
 ## Redis
 
@@ -22,12 +24,26 @@ Start with
 
 ## Celery
 
-TODO Celery
+Change directory to ./development-searchkitblock/celery and install:
 
-    cd ./api/
+Install with:
+
+    python -m venv venv
+    source venv/bin/activate
+    pip install -U pip wheel mxdev
+    mxdev -c mx.ini
+
+    pip install -r requirements-mxdev.txt
+
+Run with:
+
     source .env
     ./bin/celery -A collective.elastic.ingest.celery.app worker -l info
 
     # or with more info:
     ./bin/celery -A collective.elastic.ingest.celery.app worker -l debug
 
+
+## Frontend
+
+    make start-addon-testing-project
