@@ -1,7 +1,7 @@
 version: "3"
 services:
   backend:
-    image: plone/plone-backend:5.2.9
+    image: plone/plone-backend:6.0.0b3
     environment:
       # ##### plone.app.robotframework
       ZSERVER_HOST: "0.0.0.0"
@@ -10,8 +10,9 @@ services:
       CONFIGURE_PACKAGES: "plone.app.contenttypes,plone.restapi,plone.volto,plone.volto.cors,rohberg.elasticsearchblocks,collective.elastic.plone"
       # INSTALL_PRODUCTS: "collective.elastic.plone,collective.elastic.ingest,rohberg.elasticsearchblocks"
       # ##### plone-backend docker image
-      ADDONS: "plone.app.robotframework==2.0.0a6 plone.app.testing==7.0.0a3 plone.app.contenttypes plone.restapi plone.volto celery redis collective.elastic.plone@git+https://github.com/collective/collective.elastic.plone.git collective.elastic.ingest@git+https://github.com/collective/collective.elastic.ingest.git rohberg.elasticsearchblocks@git+https://github.com/rohberg/rohberg.elasticsearchblocks"
+      ADDONS: "plone.app.robotframework==2.0.0a6 plone.app.testing==7.0.0a3 plone.app.contenttypes plone.restapi plone.volto celery redis collective.elastic.plone@git+https://github.com/collective/collective.elastic.plone.git#branch=plone6 collective.elastic.ingest@git+https://github.com/collective/collective.elastic.ingest.git#branch=plone6 rohberg.elasticsearchblocks@git+https://github.com/rohberg/rohberg.elasticsearchblocks"
       SITE: "plone"
+      DEVELOP: "git+https://github.com/collective/collective.elastic.plone.git@plone6#egg=collective.elastic.plone"
 
       CELERY_BROKER: redis://host.docker.internal:6379
       ELASTICSEARCH_INDEX: plone
@@ -23,7 +24,7 @@ services:
       ELASTICSEARCH_INGEST_USE_SSL: 0
 
       PLONE_SERVICE: http://127.0.0.1:55001
-      PLONE_PATH: plone
+      PLONE_PATH: Plone
       PLONE_USER: admin
       PLONE_PASSWORD: secret
 
@@ -35,24 +36,25 @@ services:
       - 8080:8080
     depends_on:
       - redis
-      - elastic
-    command: tail -f /dev/null
+      - elk
+    # command: tail -f /dev/null
+    # command: bin/celery -A collective.elastic.ingest.celery.app multi restart workersearchkitblock --logfile="/app/celery/celery%n%I.log" --pidfile="/app/celery/celery%n.pid" > /dev/null 2>&1 &; bin/robot-server plone.app.robotframework.testing.VOLTO_ROBOT_TESTING > /dev/null 2>&1 &;
+    command: bin/robot-server plone.app.robotframework.testing.VOLTO_ROBOT_TESTING > /dev/null 2>&1 &;
     volumes:
-      - ./volumes/ploneconfiguration/:/app/ploneconfiguration/
+      - ../../../configuration/ploneconfiguration/:/app/ploneconfiguration/
   elk:
     image: ksuess/rohberg-elk-mac:rc2
     # image: sebp/elk:oss-8.1.0
     environment:
-      # ES_PACKAGE: "elasticsearch-8.3.2-darwin-aarch64.tar.gz"
-      # KIBANA_PACKAGE: "kibana-8.3.2-darwin-aarch64.tar.gz"
-      ES_CORS_ALLOW_ORIGIN: "/https?://(.*)localhost(.*)/"
+      # ES_CORS_ALLOW_ORIGIN: "/https?://(.*)localhost(.*)/"
+      ES_CORS_ALLOW_ORIGIN: "*"
     ports:
       - "5601:5601"
       - "9200:9200"
       - "5044:5044"
     volumes:
-      - ./volumes/elasticsearchconfiguration/elasticsearch-keywords.txt:/etc/elasticsearch/elasticsearch-keywords.txt
-      - ./volumes/elasticsearchconfiguration/elasticsearch-lexicon.txt:/etc/elasticsearch/elasticsearch-lexicon.txt
+      - ./configuration/elasticsearchconfiguration/elasticsearch-keywords.txt:/etc/elasticsearch/elasticsearch-keywords.txt
+      - ./configuration/elasticsearchconfiguration/elasticsearch-lexicon.txt:/etc/elasticsearch/elasticsearch-lexicon.txt
   redis:
     image: redis/redis-stack-server:latest
     ports:
