@@ -27,11 +27,11 @@ const applyConfig = (config) => {
 
   config.blocks.blocksConfig.searchkitblock = {
     id: 'searchkitblock',
-    title: 'Search',
+    title: 'Searchkit',
     edit: FacetedSearchBlockEdit,
     view: FacetedSearchBlockView,
     icon: zoomSVG,
-    group: 'text',
+    group: 'common',
     restricted: true,
     mostUsed: false,
     sidebarTab: 1,
