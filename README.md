@@ -17,10 +17,10 @@ Highly overridable components for searching, filtering and displaying search res
 
 You have ElasticSearch up and running with Plone. 
 
-* Your ElasticSearch Server is available on 'myelasticsearch.acme.org'
-* Your Index is 'esploneindex'
-* You use an analyzer
-* You have extra exact fields for exact search ("Basel")
+* Your ElasticSearch Server is up and running.
+* You have an index
+* You use an analyzer.
+* You have extra exact fields for exact search.
 * Check with https://myelasticsearch.acme.org/esploneindex/_count
 * CORS is configured: 
 
@@ -34,6 +34,7 @@ http.cors.allow-origin : /https?:\/\/(.*)acme.org(.*)/
 
 Start ElasticSearch with ELASTIC_URL=myelasticsearch.acme.org/esploneindex ./bin/elasticsearch
 
+For searching in blocks content, install `rohberg.elasticsearchblocks` and enable its behavior.
 
 
 ## Configuration
