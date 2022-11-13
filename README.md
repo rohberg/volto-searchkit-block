@@ -48,8 +48,9 @@ and disable the block after adding it to a page of your choice.
 
 The block can be configured by 
 
-- url of elastic search server
-- relocation of the search bar
+- searchable fields with boosting
+- facets
+- types
 
 ![Configuration](https://github.com/rohberg/volto-searchkit-block/raw/master/public/configuration.png)
 
