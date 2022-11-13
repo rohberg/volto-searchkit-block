@@ -11,7 +11,7 @@ This package is a Plone Volto integration of react-searchkit https://www.npmjs.c
 Highly overridable components for searching, filtering and displaying search results. Sometimes also called faceted navigation.
 
 
-![Search @rohberg/volto-searchkit-block](https://github.com/rohberg/volto-searchkit-block/raw/master/public/search.png)
+![Search @rohberg/volto-searchkit-block](public/search.png)
 
 ## Getting started
 
