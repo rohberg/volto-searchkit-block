@@ -1,8 +1,8 @@
-// TODO Make filter configurable
 const listFilterFields = [];
-const nestedFilterFields = [
-  // 'kompasscomponent',
-  'informationtype'
-];
 
-export { listFilterFields, nestedFilterFields };
+// Nested fields are configurable via block
+// const nestedFilterFields = [
+//   'informationtype'
+// ];
+
+export { listFilterFields };

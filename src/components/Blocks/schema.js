@@ -10,6 +10,7 @@ export const SearchBlockSchema = {
         'backend_url',
         'frontend_url',
         'simpleFields',
+        'nestedFilterFields',
         'allowed_content_types',
         'allowed_review_states',
         'relocation',
@@ -34,19 +35,29 @@ export const SearchBlockSchema = {
       default: 'http://igib.example.com',
     },
     simpleFields: {
-      title: 'Fields',
+      title: 'Searchable fields with boosting',
+      description: 'Type fieldnames to search in field names. Type title^1.4 to boost the title 40%.',
       type: 'array',
       creatable: true,
       default: ['title^1.4', 'description^1.2'],
     },
+    nestedFilterFields: {
+      title: 'Facets',
+      description: 'Fields to filter on.',
+      type: 'array',
+      creatable: true,
+      default: ['informationtype'],
+    },
     allowed_content_types: {
       title: 'Types',
+      description: 'Restrict types to display.',
       type: 'array',
       creatable: true,
       default: ['News Item', 'Document'],
     },
     allowed_review_states: {
       title: 'States',
+      description: 'Restrict states to display.',
       type: 'array',
       creatable: true,
       default: ['published'],
@@ -54,7 +65,7 @@ export const SearchBlockSchema = {
     relocation: {
       title: 'Relocation',
       description:
-        'Selector for relocation of search bar. Leave empty to keep search bar in block.',
+        'CSS selector for relocation of search bar. Leave empty to keep search bar in block.',
     },
   },
   required: ['elastic_search_api_url', 'elastic_search_api_index'],

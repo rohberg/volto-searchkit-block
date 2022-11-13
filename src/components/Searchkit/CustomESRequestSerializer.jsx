@@ -1,11 +1,12 @@
 import { extend, isEmpty, trim } from 'lodash';
 
-import { listFilterFields, nestedFilterFields } from './constants.js';
+import { listFilterFields } from './constants.js';
 
 export class CustomESRequestSerializer {
   constructor(config) {
     this.reviewstatemapping = config.reviewstatemapping;
     this.simpleFields = config.simpleFields;
+    this.nestedFilterFields = config.nestedFilterFields;
     this.allowed_content_types = config.allowed_content_types;
     this.allowed_review_states = config.allowed_review_states;
   }
@@ -328,7 +329,7 @@ export class CustomESRequestSerializer {
         const obj = {};
         const fieldName = aggFieldsMapping[aggName];
         obj[fieldName] = aggValueObj[aggName];
-        if (nestedFilterFields.includes(fieldName)) {
+        if (this.nestedFilterFields.includes(fieldName)) {
           accumulator.push({
             nested: {
               path: fieldName,
@@ -378,7 +379,7 @@ export class CustomESRequestSerializer {
     Object.keys(aggFieldsMapping).map((aggName) => {
       const myaggs = aggName.split('.');
       const fieldName = aggFieldsMapping[aggName];
-      if (nestedFilterFields.includes(fieldName)) {
+      if (this.nestedFilterFields.includes(fieldName)) {
         // const filter_debug = {
         //   nested: {
         //     path: 'informationtype',

@@ -69,6 +69,7 @@ export const ploneSearchApi = (data) => {
       responseSerializer: CustomESResponseSerializer,
     },
     simpleFields: data.simpleFields,
+    nestedFilterFields: data.nestedFilterFields,
     allowed_content_types: data.allowed_content_types,
     allowed_review_states: data.allowed_review_states,
     backend_url: data.backend_url,
@@ -660,7 +661,7 @@ const FacetedSearch = ({
                           }}
                         />
                         <IconSemantic
-                          basic
+                          basic="true"
                           icon
                           name="delete"
                           onClick={(event) => onResetHandler(event)}
