@@ -38,10 +38,10 @@ Install with:
 Run with:
 
     source .env
-    ./bin/celery -A collective.elastic.ingest.celery.app worker -l info
+    venv/bin/celery -A collective.elastic.ingest.celery.app worker -l info
 
     # or with more info:
-    ./bin/celery -A collective.elastic.ingest.celery.app worker -l debug
+    venv/bin/celery -A collective.elastic.ingest.celery.app worker -l debug
 
 
 ## Frontend
