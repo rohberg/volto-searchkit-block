@@ -660,7 +660,7 @@ const FacetedSearch = ({
                         />
                         <IconSemantic
                           basic="true"
-                          icon
+                          icon="true"
                           name="delete"
                           onClick={(event) => onResetHandler(event)}
                         />
