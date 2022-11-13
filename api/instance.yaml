@@ -6,6 +6,10 @@ default_context:
 
   load_zcml:
     package_includes:
-      ["rohberg.elasticsearchblocks", "collective.elastic.plone"]
+      [
+        "rohberg.elasticsearchblocks",
+        "collective.elastic.plone",
+        "rohberg.examplemetadata",
+      ]
 
   db_storage: direct

@@ -10,3 +10,5 @@ zope.testrunner
 rohberg.elasticsearchblocks
 redis
 collective.elastic.plone
+
+rohberg.examplemetadata
