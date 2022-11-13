@@ -425,7 +425,7 @@ const customSort = ({
   //   };
   // });
   return (
-    <div class="header-content">
+    <div className="header-content">
       <span className="sort-by">
         <FormattedMessage id="Sort By:" defaultMessage="Sort by:" />
       </span>{' '}
