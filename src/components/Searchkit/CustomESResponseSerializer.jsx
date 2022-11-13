@@ -43,38 +43,6 @@ export class CustomESResponseSerializer {
     this.serialize = this.serialize.bind(this);
     this.backend_url = config.backend_url;
     this.frontend_url = config.frontend_url;
-    this._getAllowedHits = this._getAllowedHits.bind(this);
-  }
-
-  _getAllowedHits(hits) {
-    // TODO Do security check for array not check for each single item of array
-
-    // return promise with array ot Promises. all of them resolve to Object(hit,status)
-    const auth_token = getAuthToken();
-    let listOfPromises = hits.map((hit) => {
-      return new Promise((resolve, reject) => {
-        // fetch one
-        let fetchurl = expandToBackendURL(
-          flattenESUrlToPath(hit['_source']['@id']),
-        );
-        fetch(fetchurl, {
-          headers: {
-            Accept: 'application/json',
-            Authorization: `Bearer ${auth_token}`,
-          },
-        })
-          .then((res) => {
-            resolve({
-              hit: hit,
-              status: res.status,
-            });
-          })
-          .catch((err) => {
-            console.error('error while fetching', err);
-          });
-      });
-    });
-    return Promise.all(listOfPromises);
   }
 
   /**
