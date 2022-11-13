@@ -85,9 +85,8 @@ backend add-on with endpoint:
 
 ### Configurable filters, etc
 
-- which filters should be available.
-- portal types
-- workflow states
+- highlights of matches
+
 
 ### Restrict block creation to Site Admins.
 
