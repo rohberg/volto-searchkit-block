@@ -53,7 +53,7 @@ The block can be configured by
 - facets
 - types
 
-![Configuration](https://github.com/rohberg/volto-searchkit-block/raw/master/public/configuration.png)
+![Configuration](public/configuration.png)
 
 Enable Matomo tracking via
 
