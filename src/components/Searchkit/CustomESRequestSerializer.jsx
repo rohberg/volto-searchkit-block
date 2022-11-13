@@ -227,30 +227,8 @@ export class CustomESRequestSerializer {
             },
           },
           {
-            freemanualtags_searchable: {
-              matched_fields: [
-                'freemanualtags_searchable',
-                'freemanualtags_searchable.exact',
-              ],
-              type: 'fvh',
-            },
-          },
-          {
             blocks_plaintext: {
               matched_fields: ['blocks_plaintext', 'blocks_plaintext.exact'],
-              type: 'fvh',
-            },
-          },
-          {
-            subjects: {
-              matched_fields: ['subjects', 'subjects.exact'],
-              type: 'fvh',
-            },
-          },
-          // TODO highlight / matches in PDF
-          {
-            manualfilecontent: {
-              matched_fields: ['manualfilecontent', 'manualfilecontent.exact'],
               type: 'fvh',
             },
           },
