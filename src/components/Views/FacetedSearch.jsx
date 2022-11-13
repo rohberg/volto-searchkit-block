@@ -425,33 +425,31 @@ const customSort = ({
   //   };
   // });
   return (
-    <Header>
-      <Header.Content className="header-content">
-        <span className="sort-by">
-          <FormattedMessage id="Sort By:" defaultMessage="Sort by:" />
-        </span>
-        <Button
-          onClick={(e) => onValueChange('bestmatch-asc')}
-          name="bestmatch-asc"
-          size="tiny"
-          className={cx('button-sort', {
-            'button-active': selected === 'bestmatch-asc',
-          })}
-        >
-          <FormattedMessage id="Relevance" defaultMessage="Relevance" />
-        </Button>
-        <Button
-          onClick={(e) => onValueChange('modified-desc')}
-          name="modified-desc"
-          size="tiny"
-          className={cx('button-sort', {
-            'button-active': selected === 'modified-desc',
-          })}
-        >
-          Datum
-        </Button>
-      </Header.Content>
-    </Header>
+    <div class="header-content">
+      <span className="sort-by">
+        <FormattedMessage id="Sort By:" defaultMessage="Sort by:" />
+      </span>{' '}
+      <Button
+        onClick={(e) => onValueChange('bestmatch-asc')}
+        name="bestmatch-asc"
+        size="tiny"
+        className={cx('button-sort', {
+          'button-active': selected === 'bestmatch-asc',
+        })}
+      >
+        <FormattedMessage id="Relevance" defaultMessage="Relevance" />
+      </Button>
+      <Button
+        onClick={(e) => onValueChange('modified-desc')}
+        name="modified-desc"
+        size="tiny"
+        className={cx('button-sort', {
+          'button-active': selected === 'modified-desc',
+        })}
+      >
+        Datum
+      </Button>
+    </div>
   );
 };
 
