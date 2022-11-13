@@ -84,30 +84,17 @@ export class CustomESResponseSerializer {
 
   async serialize(payload) {
     const { aggregations, hits } = payload;
-    // console.debug('hits.hits', hits.hits);
 
-    let filtered_hits = await this._getAllowedHits(hits.hits);
-    // DEBUG
-    // let filtered_hits = hits.hits.map((hit) => {
-    //   return { hit: hit, status: 200 };
-    // });
-
-
-    filtered_hits = filtered_hits
-      .filter((hit_info) => {
-        return hit_info.status === 200;
-      })
-      .map((hit_info) => hit_info.hit);
     return new Promise((resolve, reject) => {
       resolve({
         aggregations: _pimpedAggregations(aggregations) || {},
-        hits: filtered_hits.map((hit) => {
+        hits: hits.hits.map((hit) => {
           // TODO Replace hack: Add highlights to _source data
           hit._source['highlight'] = hit.highlight;
           // console.debug('hit.highlight', hit.highlight);
           return hit._source;
         }),
-        total: hits.total.value < 11 ? filtered_hits.length : hits.total.value,
+        total: hits.total.value < 11 ? hits.hits.length : hits.total.value,
       });
     });
   }
