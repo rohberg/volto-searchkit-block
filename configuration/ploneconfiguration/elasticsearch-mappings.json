@@ -1,6 +1,6 @@
 {
 
-  "behaviors/rohberg.geosphere-features.metafields/informationtype": {
+  "behaviors/rohberg.examplemetadata.metadata_fields/informationtype": {
     "type": "nested",
     "dynamic": false,
     "properties": {
@@ -11,7 +11,7 @@
             "type": "text"
         }
     }
-},
+  },
 
   "behaviors/plone.basic/title": {
     "type": "text",
