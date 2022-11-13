@@ -1,11 +1,14 @@
 import { extend, isEmpty, trim } from 'lodash';
 
-import { listFilterFields, nestedFilterFields } from './constants.js';
+import { listFilterFields } from './constants.js';
 
 export class CustomESRequestSerializer {
   constructor(config) {
     this.reviewstatemapping = config.reviewstatemapping;
     this.simpleFields = config.simpleFields;
+    this.nestedFilterFields = config.nestedFilterFields;
+    this.allowed_content_types = config.allowed_content_types;
+    this.allowed_review_states = config.allowed_review_states;
   }
   /**
    * Convert Array of filters to Object of filters
@@ -49,14 +52,7 @@ export class CustomESRequestSerializer {
    */
   serialize = (stateQuery) => {
     const { queryString, sortBy, sortOrder, page, size, filters } = stateQuery;
-
-    // TODO Make allowed_content_types configurable.
-    let allowed_content_types = ['Manual'];
-    // Check current users permissions
-    let allowed_review_states = this.reviewstatemapping['Manual'];
-
     const bodyParams = {};
-
     const force_fuzzy = true; // search for `${word}` and `${word}~`
 
     let qs_tailored_should_notexact = [];
@@ -231,30 +227,8 @@ export class CustomESRequestSerializer {
             },
           },
           {
-            freemanualtags_searchable: {
-              matched_fields: [
-                'freemanualtags_searchable',
-                'freemanualtags_searchable.exact',
-              ],
-              type: 'fvh',
-            },
-          },
-          {
             blocks_plaintext: {
               matched_fields: ['blocks_plaintext', 'blocks_plaintext.exact'],
-              type: 'fvh',
-            },
-          },
-          {
-            subjects: {
-              matched_fields: ['subjects', 'subjects.exact'],
-              type: 'fvh',
-            },
-          },
-          // TODO highlight / matches in PDF
-          {
-            manualfilecontent: {
-              matched_fields: ['manualfilecontent', 'manualfilecontent.exact'],
               type: 'fvh',
             },
           },
@@ -293,25 +267,20 @@ export class CustomESRequestSerializer {
     //   }
     // },
 
-    // TODO 'kompasscomponent_agg.inner.kompasscomponent_token' or without inner
     const aggFieldsMapping = {
-      // freemanualtags_agg: 'freemanualtags',
-      'kompasscomponent_agg.inner.kompasscomponent_token': 'kompasscomponent',
-      'targetaudience_agg.inner.targetaudience_token': 'targetaudience',
-      'organisationunit_agg.inner.organisationunit_token': 'organisationunit',
+      // 'kompasscomponent_agg.inner.kompasscomponent_token': 'kompasscomponent',
       'informationtype_agg.inner.informationtype_token': 'informationtype',
     };
 
     let terms = [];
     terms.push({
       terms: {
-        portal_type: allowed_content_types,
+        portal_type: this.allowed_content_types,
       },
     });
-    // TODO check current user for review_state he has access to
     terms.push({
       terms: {
-        review_state: allowed_review_states,
+        review_state: this.allowed_review_states,
       },
     });
 
@@ -338,7 +307,7 @@ export class CustomESRequestSerializer {
         const obj = {};
         const fieldName = aggFieldsMapping[aggName];
         obj[fieldName] = aggValueObj[aggName];
-        if (nestedFilterFields.includes(fieldName)) {
+        if (this.nestedFilterFields.includes(fieldName)) {
           accumulator.push({
             nested: {
               path: fieldName,
@@ -377,21 +346,18 @@ export class CustomESRequestSerializer {
     bodyParams['aggs'] = {};
 
     // 1. aggregations of listFields
-    Object.keys(aggFieldsMapping).map((aggName) => {
-      const fieldName = aggFieldsMapping[aggName];
-      if (listFilterFields.includes(fieldName)) {
-        const aggBucketTermsComponent = {
-          [aggName]: { terms: { field: fieldName } },
-        };
-        extend(bodyParams['aggs'], aggBucketTermsComponent);
-      }
+    listFilterFields.map((fieldName) => {
+      const aggBucketTermsComponent = {
+        [`${fieldName}_agg`]: { terms: { field: fieldName } },
+      };
+      extend(bodyParams['aggs'], aggBucketTermsComponent);
     });
 
     // 2. aggregations of nestedFilterFields
     Object.keys(aggFieldsMapping).map((aggName) => {
       const myaggs = aggName.split('.');
       const fieldName = aggFieldsMapping[aggName];
-      if (nestedFilterFields.includes(fieldName)) {
+      if (this.nestedFilterFields.includes(fieldName)) {
         // const filter_debug = {
         //   nested: {
         //     path: 'informationtype',

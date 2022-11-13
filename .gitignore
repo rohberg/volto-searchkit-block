@@ -106,3 +106,14 @@ testing/volumes/src/
 testing/volumes/var/
 volumes/src/
 volumes/var/
+
+addon-testing-project
+addon-testing-project_cypress
+
+api/venv/
+api/instance/
+api/sources/
+api/constraints-mxdev.txt
+api/requirements-mxdev.txt
+development-searchkitblock/celery/venv/
+development-searchkitblock/celery/sources/

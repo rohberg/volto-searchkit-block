@@ -68,10 +68,10 @@ export const ploneSearchApi = (data) => {
       requestSerializer: CustomESRequestSerializer,
       responseSerializer: CustomESResponseSerializer,
     },
-    reviewstatemapping: {
-      Manual: ['internally_published', 'private', 'internal'],
-    },
     simpleFields: data.simpleFields,
+    nestedFilterFields: data.nestedFilterFields,
+    allowed_content_types: data.allowed_content_types,
+    allowed_review_states: data.allowed_review_states,
     backend_url: data.backend_url,
     frontend_url: data.frontend_url,
   });
@@ -425,33 +425,31 @@ const customSort = ({
   //   };
   // });
   return (
-    <Header>
-      <Header.Content className="header-content">
-        <div className="sort-by">
-          <FormattedMessage id="Sort By:" defaultMessage="Sort by:" />
-        </div>
-        <Button
-          onClick={(e) => onValueChange('bestmatch-asc')}
-          name="bestmatch-asc"
-          size="tiny"
-          className={cx('button-sort', {
-            'button-active': selected === 'bestmatch-asc',
-          })}
-        >
-          <FormattedMessage id="Relevance" defaultMessage="Relevance" />
-        </Button>
-        <Button
-          onClick={(e) => onValueChange('modified-desc')}
-          name="modified-desc"
-          size="tiny"
-          className={cx('button-sort', {
-            'button-active': selected === 'modified-desc',
-          })}
-        >
-          Datum
-        </Button>
-      </Header.Content>
-    </Header>
+    <div class="header-content">
+      <span className="sort-by">
+        <FormattedMessage id="Sort By:" defaultMessage="Sort by:" />
+      </span>{' '}
+      <Button
+        onClick={(e) => onValueChange('bestmatch-asc')}
+        name="bestmatch-asc"
+        size="tiny"
+        className={cx('button-sort', {
+          'button-active': selected === 'bestmatch-asc',
+        })}
+      >
+        <FormattedMessage id="Relevance" defaultMessage="Relevance" />
+      </Button>
+      <Button
+        onClick={(e) => onValueChange('modified-desc')}
+        name="modified-desc"
+        size="tiny"
+        className={cx('button-sort', {
+          'button-active': selected === 'modified-desc',
+        })}
+      >
+        Datum
+      </Button>
+    </div>
   );
 };
 
@@ -661,7 +659,7 @@ const FacetedSearch = ({
                           }}
                         />
                         <IconSemantic
-                          basic
+                          basic="true"
                           icon
                           name="delete"
                           onClick={(event) => onResetHandler(event)}
@@ -679,37 +677,21 @@ const FacetedSearch = ({
                     className={'facetedsearch_filter ' + filterLayout}
                   >
                     <BucketAggregation
-                      title="Komponenten"
-                      agg={{
-                        field: 'kompasscomponent',
-                        aggName:
-                          'kompasscomponent_agg.inner.kompasscomponent_token',
-                      }}
-                    />
-                    <BucketAggregation
-                      title="Informationstyp"
+                      title="Informationtype"
                       agg={{
                         field: 'informationtype',
                         aggName:
                           'informationtype_agg.inner.informationtype_token',
                       }}
                     />
-                    <BucketAggregation
-                      title="Zielpublikum"
+                    {/* <BucketAggregation
+                      title="Komponenten"
                       agg={{
-                        field: 'targetaudience',
+                        field: 'kompasscomponent',
                         aggName:
-                          'targetaudience_agg.inner.targetaudience_token',
+                          'kompasscomponent_agg.inner.kompasscomponent_token',
                       }}
-                    />
-                    <BucketAggregation
-                      title="Organisationseinheit"
-                      agg={{
-                        field: 'organisationunit',
-                        aggName:
-                          'organisationunit_agg.inner.organisationunit_token',
-                      }}
-                    />
+                    /> */}
                   </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>

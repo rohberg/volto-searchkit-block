@@ -1,9 +1,8 @@
 const listFilterFields = [];
-const nestedFilterFields = [
-  'kompasscomponent',
-  'targetaudience',
-  'organisationunit',
-  'informationtype',
-];
 
-export { listFilterFields, nestedFilterFields };
+// Nested fields are configurable via block
+// const nestedFilterFields = [
+//   'informationtype'
+// ];
+
+export { listFilterFields };

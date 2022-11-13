@@ -17,9 +17,7 @@ const applyConfig = (config) => {
       'title^1.4',
       'description^1.2',
       'subjects^1.4',
-      'freemanualtags_searchable^1.4',
       'blocks_plaintext',
-      'manualfilecontent',
     ],
     filterLayout: 'dropdown',
     trackVoltoMatomo: false,
@@ -27,11 +25,11 @@ const applyConfig = (config) => {
 
   config.blocks.blocksConfig.searchkitblock = {
     id: 'searchkitblock',
-    title: 'Search',
+    title: 'Searchkit',
     edit: FacetedSearchBlockEdit,
     view: FacetedSearchBlockView,
     icon: zoomSVG,
-    group: 'text',
+    group: 'common',
     restricted: true,
     mostUsed: false,
     sidebarTab: 1,

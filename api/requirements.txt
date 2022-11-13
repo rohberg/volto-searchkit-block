@@ -1,0 +1,14 @@
+-c constraints.txt
+
+cookiecutter
+
+Plone
+zope.testrunner
+
+
+# List of add-ons that are needed.
+rohberg.elasticsearchblocks
+redis
+collective.elastic.plone
+
+rohberg.examplemetadata

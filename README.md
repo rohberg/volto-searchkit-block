@@ -11,16 +11,16 @@ This package is a Plone Volto integration of react-searchkit https://www.npmjs.c
 Highly overridable components for searching, filtering and displaying search results. Sometimes also called faceted navigation.
 
 
-![Search @rohberg/volto-searchkit-block](https://github.com/rohberg/volto-searchkit-block/raw/master/public/search.png)
+![Search @rohberg/volto-searchkit-block](public/search.png)
 
 ## Getting started
 
 You have ElasticSearch up and running with Plone. 
 
-* Your ElasticSearch Server is available on 'myelasticsearch.acme.org'
-* Your Index is 'esploneindex'
-* You use an analyzer
-* You have extra exact fields for exact search ("Basel")
+* Your ElasticSearch Server is up and running.
+* You have an index
+* You use an analyzer.
+* You have extra exact fields for exact search.
 * Check with https://myelasticsearch.acme.org/esploneindex/_count
 * CORS is configured: 
 
@@ -34,16 +34,26 @@ http.cors.allow-origin : /https?:\/\/(.*)acme.org(.*)/
 
 Start ElasticSearch with ELASTIC_URL=myelasticsearch.acme.org/esploneindex ./bin/elasticsearch
 
+For searching in blocks content, install `rohberg.elasticsearchblocks` and enable its behavior.
 
 
 ## Configuration
 
+The block is not for editors. So please enable adding searchkitblock once by
+
+```js
+config.blocks.blocksConfig.searchkitblock.restricted = true;
+```
+
+and disable the block after adding it to a page of your choice.
+
 The block can be configured by 
 
-- url of elastic search server
-- relocation of the search bar
+- searchable fields with boosting
+- facets
+- types
 
-![Configuration](https://github.com/rohberg/volto-searchkit-block/raw/master/public/configuration.png)
+![Configuration](public/configuration.png)
 
 Enable Matomo tracking via
 
@@ -75,9 +85,8 @@ backend add-on with endpoint:
 
 ### Configurable filters, etc
 
-- which filters should be available.
-- portal types
-- workflow states
+- highlights of matches
+
 
 ### Restrict block creation to Site Admins.
 

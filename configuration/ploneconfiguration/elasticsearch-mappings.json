@@ -1,14 +1,15 @@
 {
-  "behaviors/rohberg.elasticsearchblocks.manualfields/informationtype": {
+
+  "behaviors/rohberg.examplemetadata.metadata_fields/informationtype": {
     "type": "nested",
     "dynamic": false,
     "properties": {
-      "token": {
-        "type": "keyword"
-      },
-      "title": {
-        "type": "text"
-      }
+        "token": {
+            "type": "keyword"
+        },
+        "title": {
+            "type": "text"
+        }
     }
   },
 
@@ -37,16 +38,16 @@
     }
   },
   "behaviors/plone.categorization/subjects": {
-    "type": "text",
-    "analyzer": "german_analyzer",
-    "term_vector": "with_positions_offsets",
-    "fields": {
-      "exact": {
-        "type": "text",
-        "analyzer": "german_exact_analyzer",
-        "term_vector": "with_positions_offsets"
+      "type": "text",
+      "analyzer": "german_analyzer",
+      "term_vector": "with_positions_offsets",
+      "fields": {
+          "exact": {
+              "type": "text",
+              "analyzer": "german_exact_analyzer",
+              "term_vector": "with_positions_offsets"
+          }
       }
-    }
   },
   "behaviors/rohberg.elasticsearchblocks.elastic_search_blocks/blocks_plaintext": {
     "type": "text",
@@ -142,7 +143,8 @@
     "pipeline": {
       "source": "{name}__data",
       "target": "{name}__extracted",
-      "processors": [{
+            "processors": [
+                {
           "attachment": {
             "field": "{source}",
             "target_field": "{target}",
@@ -217,7 +219,8 @@
     "pipeline": {
       "source": "{name}__data",
       "target": "{name}__extracted",
-      "processors": [{
+            "processors": [
+                {
           "attachment": {
             "field": "{source}",
             "target_field": "{target}",

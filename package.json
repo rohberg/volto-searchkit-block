@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "volto-searchkit-block: Volto add-on",
   "main": "src/index.js",
-  "author": "Katja Süss, https://github.com/ksuess",
+  "author": "Katja Süss, https://github.com/rohberg",
   "license": "MIT",
   "homepage": "https://github.com/rohberg/volto-searchkit-block",
   "keywords": [
@@ -17,25 +17,19 @@
     "url": "git@github.com:rohberg/volto-searchkit-block.git"
   },
   "scripts": {
-    "release": "release-it",
-    "bootstrap": "node bootstrap",
-    "stylelint": "../../../node_modules/stylelint/bin/stylelint.js --allow-empty-input 'src/**/*.{css,less}'",
-    "stylelint:overrides": "../../../node_modules/.bin/stylelint --syntax less --allow-empty-input 'theme/**/*.overrides' 'src/**/*.overrides'",
-    "stylelint:fix": "yarn stylelint --fix && yarn stylelint:overrides --fix",
-    "prettier": "../../../node_modules/.bin/prettier --single-quote --check 'src/**/*.{js,jsx,json,css,less,md}'",
-    "prettier:fix": "../../../node_modules/.bin/prettier --single-quote --write 'src/**/*.{js,jsx,json,css,less,md}'",
-    "lint": "../../../node_modules/eslint/bin/eslint.js --max-warnings=0 'src/**/*.{js,jsx}'",
-    "lint:fix": "../../../node_modules/eslint/bin/eslint.js --fix 'src/**/*.{js,jsx}'",
-    "i18n": "rm -rf build/messages && NODE_ENV=production i18n --addon",
-    "version": "auto-changelog -p && git add CHANGELOG.md"
+    "i18n": "rm -rf build/messages && NODE_ENV=production i18n --addon"
   },
+  "addons": [
+    "@eeacms/volto-matomo"
+  ],
   "dependencies": {
     "@plone/scripts": "*",
     "react-overridable": "^0.0.3",
-    "react-searchkit": "v1.0.1"
+    "react-searchkit": "v1.0.1",
+    "@eeacms/volto-matomo": "*"
   },
   "devDependencies": {
-    "@eeacms/volto-matomo": "*",
-    "@semantic-ui-react/css-patch": "1.0.0"
+    "@semantic-ui-react/css-patch": "1.0.0",
+    "cypress": "^10.10.0"
   }
 }

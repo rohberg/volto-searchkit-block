@@ -1,7 +1,7 @@
 version: "3"
 services:
   backend:
-    image: plone/plone-backend:5.2.8
+    image: plone/plone-backend:5.2.9
     environment:
       # ##### plone.app.robotframework
       ZSERVER_HOST: "0.0.0.0"
@@ -23,7 +23,7 @@ services:
       ELASTICSEARCH_INGEST_USE_SSL: 0
 
       PLONE_SERVICE: http://127.0.0.1:55001
-      PLONE_PATH: plone
+      PLONE_PATH: Plone
       PLONE_USER: admin
       PLONE_PASSWORD: secret
 
@@ -38,7 +38,7 @@ services:
       - elastic
     command: tail -f /dev/null
     volumes:
-      - ./volumes/ploneconfiguration/:/app/ploneconfiguration/
+      - ./configuration/ploneconfiguration/:/app/ploneconfiguration/
   elk:
     image: ksuess/rohberg-elk-mac:rc2
     # image: sebp/elk:oss-8.1.0
@@ -51,8 +51,8 @@ services:
       - "9200:9200"
       - "5044:5044"
     volumes:
-      - ./volumes/elasticsearchconfiguration/elasticsearch-keywords.txt:/etc/elasticsearch/elasticsearch-keywords.txt
-      - ./volumes/elasticsearchconfiguration/elasticsearch-lexicon.txt:/etc/elasticsearch/elasticsearch-lexicon.txt
+      - ./configuration/elasticsearchconfiguration/elasticsearch-keywords.txt:/etc/elasticsearch/elasticsearch-keywords.txt
+      - ./configuration/elasticsearchconfiguration/elasticsearch-lexicon.txt:/etc/elasticsearch/elasticsearch-lexicon.txt
   redis:
     image: redis/redis-stack-server:latest
     ports:

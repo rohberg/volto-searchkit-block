@@ -1,0 +1,6 @@
+-c https://dist.plone.org/release/6.0.0b3/constraints.txt
+
+# Here contstraints can be added. constraints of packages included in https://dist.plone.org/release/6.0.0a4/constraints.txt cannot be modified. Here does mxdev it's purpose:
+# mx.ini, the configuration file of mxdev allows to, for example, force an increased version of a core package like plone.restapi.
+
+

@@ -8,6 +8,16 @@
 
 @import (multiple) '../../theme.config';
 
+.meta {
+    .ui.button {
+        background-color: transparent;
+        padding: 0;
+        &:hover {
+            background-color: transparent;
+        }
+    }
+}
+
 .searchbar-wrapper {
     display: flex;
     align-items: baseline;
@@ -84,10 +94,9 @@
     font-weight: bold;
 }
 
-div.searchkitsearch {
-    min-height: 40rem;
-    .ui.placeholder.segment {
-    }
+// No results
+.ui.placeholder.segment .search.icon {
+    display: none;
 }
 
 .highlight {
