@@ -426,9 +426,9 @@ const customSort = ({
   return (
     <Header>
       <Header.Content className="header-content">
-        <div className="sort-by">
+        <span className="sort-by">
           <FormattedMessage id="Sort By:" defaultMessage="Sort by:" />
-        </div>
+        </span>
         <Button
           onClick={(e) => onValueChange('bestmatch-asc')}
           name="bestmatch-asc"
@@ -678,37 +678,21 @@ const FacetedSearch = ({
                     className={'facetedsearch_filter ' + filterLayout}
                   >
                     <BucketAggregation
-                      title="Komponenten"
-                      agg={{
-                        field: 'kompasscomponent',
-                        aggName:
-                          'kompasscomponent_agg.inner.kompasscomponent_token',
-                      }}
-                    />
-                    <BucketAggregation
-                      title="Informationstyp"
+                      title="Informationtype"
                       agg={{
                         field: 'informationtype',
                         aggName:
                           'informationtype_agg.inner.informationtype_token',
                       }}
                     />
-                    <BucketAggregation
-                      title="Zielpublikum"
+                    {/* <BucketAggregation
+                      title="Komponenten"
                       agg={{
-                        field: 'targetaudience',
+                        field: 'kompasscomponent',
                         aggName:
-                          'targetaudience_agg.inner.targetaudience_token',
+                          'kompasscomponent_agg.inner.kompasscomponent_token',
                       }}
-                    />
-                    <BucketAggregation
-                      title="Organisationseinheit"
-                      agg={{
-                        field: 'organisationunit',
-                        aggName:
-                          'organisationunit_agg.inner.organisationunit_token',
-                      }}
-                    />
+                    /> */}
                   </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>

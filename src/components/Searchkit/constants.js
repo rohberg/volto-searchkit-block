@@ -1,9 +1,8 @@
+// TODO Make filter configurable
 const listFilterFields = [];
 const nestedFilterFields = [
-  'kompasscomponent',
-  'targetaudience',
-  'organisationunit',
-  'informationtype',
+  // 'kompasscomponent',
+  'informationtype'
 ];
 
 export { listFilterFields, nestedFilterFields };

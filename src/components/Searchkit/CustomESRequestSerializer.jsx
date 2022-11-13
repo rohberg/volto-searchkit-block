@@ -288,12 +288,8 @@ export class CustomESRequestSerializer {
     //   }
     // },
 
-    // TODO 'kompasscomponent_agg.inner.kompasscomponent_token' or without inner
     const aggFieldsMapping = {
-      // freemanualtags_agg: 'freemanualtags',
-      'kompasscomponent_agg.inner.kompasscomponent_token': 'kompasscomponent',
-      'targetaudience_agg.inner.targetaudience_token': 'targetaudience',
-      'organisationunit_agg.inner.organisationunit_token': 'organisationunit',
+      // 'kompasscomponent_agg.inner.kompasscomponent_token': 'kompasscomponent',
       'informationtype_agg.inner.informationtype_token': 'informationtype',
     };
 
@@ -371,14 +367,11 @@ export class CustomESRequestSerializer {
     bodyParams['aggs'] = {};
 
     // 1. aggregations of listFields
-    Object.keys(aggFieldsMapping).map((aggName) => {
-      const fieldName = aggFieldsMapping[aggName];
-      if (listFilterFields.includes(fieldName)) {
-        const aggBucketTermsComponent = {
-          [aggName]: { terms: { field: fieldName } },
-        };
-        extend(bodyParams['aggs'], aggBucketTermsComponent);
-      }
+    listFilterFields.map((fieldName) => {
+      const aggBucketTermsComponent = {
+        [`${fieldName}_agg`]: { terms: { field: fieldName } },
+      };
+      extend(bodyParams['aggs'], aggBucketTermsComponent);
     });
 
     // 2. aggregations of nestedFilterFields
