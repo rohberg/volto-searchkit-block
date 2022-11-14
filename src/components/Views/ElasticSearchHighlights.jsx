@@ -95,10 +95,8 @@ export const getFragments = (highlight) => {
  * @returns {Array} Array of strings
  */
 export const getMatches = (highlight) => {
-  console.debug('highlight', highlight);
   const regex = /<em>(.*?)<\/em>/gm;
   let fragments = getFragments(highlight);
-  console.debug('fragments', fragments);
   let matches = [];
   fragments.forEach((fragment) => {
     const fragmentmatches = [...fragment.matchAll(regex)];
