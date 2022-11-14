@@ -59,7 +59,6 @@ export class CustomESResponseSerializer {
         hits: hits.hits.map((hit) => {
           // TODO Replace hack: Add highlights to _source data
           hit._source['highlight'] = hit.highlight;
-          // console.debug('hit.highlight', hit.highlight);
           return hit._source;
         }),
         total: hits.total.value < 11 ? hits.hits.length : hits.total.value,
