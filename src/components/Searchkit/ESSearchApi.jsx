@@ -85,13 +85,14 @@ export class PloneSearchApi {
 
     const payload = this.requestSerializer.serialize(stateQuery);
     // Extend paylod with url and index to address elasticsearch server
-    payload.elasticsearch_url = this.elastic_search_api_url
-    payload.elasticsearch_index = this.elastic_search_api_index
-
     try {
       const response = await this.http.request({
         method: 'POST',
-        data: payload,
+        data: {
+          elasticsearch_payload: payload,
+          elasticsearch_url: this.elastic_search_api_url,
+          elasticsearch_index: this.elastic_search_api_index,
+        },
       });
 
       // await backend permission check
