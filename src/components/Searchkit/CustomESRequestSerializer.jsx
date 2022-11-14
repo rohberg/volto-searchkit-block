@@ -209,7 +209,7 @@ export class CustomESRequestSerializer {
           must_not: must_notList,
         },
       };
-      console.debug("bodyParams['query']['bool']", bodyParams['query']['bool']);
+      // console.debug("bodyParams['query']['bool']", bodyParams['query']['bool']);
 
       bodyParams['highlight'] = {
         number_of_fragments: 20,
