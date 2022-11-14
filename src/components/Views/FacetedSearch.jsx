@@ -35,6 +35,7 @@ import {
   // updateQueryString,
 } from 'react-searchkit';
 
+import { expandToBackendURL } from '@plone/volto/helpers';
 import { Icon } from '@plone/volto/components';
 import leftAngle from '@plone/volto/icons/left-key.svg';
 import rightAngle from '@plone/volto/icons/right-key.svg';
@@ -55,12 +56,9 @@ import config from '@plone/volto/registry';
 
 // TODO Make reviewstatemapping configurable
 export const ploneSearchApi = (data) => {
-  const search_url = data.elastic_search_api_url || 'http://localhost:9200';
-  const search_index = data.elastic_search_api_index || 'esploneindex';
   return new PloneSearchApi({
     axios: {
-      // url: 'http://localhost:9200/esploneindex/_search',
-      url: search_url + '/' + search_index + '/_search',
+      url: expandToBackendURL('/@kitsearch'),
       timeout: 5000,
       headers: { Accept: 'application/json' },
     },
@@ -74,6 +72,8 @@ export const ploneSearchApi = (data) => {
     allowed_review_states: data.allowed_review_states,
     backend_url: data.backend_url,
     frontend_url: data.frontend_url,
+    elastic_search_api_url: data.elastic_search_api_url,
+    elastic_search_api_index: data.elastic_search_api_index,
   });
 };
 

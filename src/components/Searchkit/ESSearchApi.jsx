@@ -14,6 +14,8 @@ export class PloneSearchApi {
     this.initAxios();
     this.search = this.search.bind(this);
     this.axiosCancelToken = axios.CancelToken;
+    this.elastic_search_api_url = config.elastic_search_api_url;
+    this.elastic_search_api_index = config.elastic_search_api_index;
   }
 
   validateAxiosConfig() {
@@ -82,6 +84,9 @@ export class PloneSearchApi {
     this.axiosCancel = this.axiosCancelToken.source();
 
     const payload = this.requestSerializer.serialize(stateQuery);
+    // Extend paylod with url and index to address elasticsearch server
+    payload.elasticsearch_url = this.elastic_search_api_url
+    payload.elasticsearch_index = this.elastic_search_api_index
 
     try {
       const response = await this.http.request({
