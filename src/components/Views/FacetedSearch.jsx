@@ -650,7 +650,7 @@ const FacetedSearch = ({
           <ReactSearchKit
             searchApi={ploneSearchApi(data)}
             eventListenerEnabled={true}
-            initialQueryState={initialState}
+            initialQueryState={{...initialState, data: data}}
           >
             <Container>
               {typeof document !== 'undefined' && relocation.length > 0 ? (
