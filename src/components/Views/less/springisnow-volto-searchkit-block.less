@@ -6,6 +6,12 @@
 @type: 'extra';
 @element: 'custom';
 
+.description {
+    a {
+        color: @textColor;
+    }
+}
+
 @import (multiple) '../../theme.config';
 
 .meta,
@@ -54,14 +60,14 @@
                 font-family: @fontName;
                 font-size: 1rem;
                 margin: 0;
-                background-color: #f3f1f1;
+                background-color: #edf1f2;
                 // padding: 0 0 0 .3rem;
                 padding: 0.8rem 1.8rem;
                 & > .dropdown.icon {
                     font-size: 1rem;
                 }
                 &.selected {
-                    background-color: #e8e3e3;
+                    background-color: #c4d5da;
                     color: @black;
                     .text {
                         max-width: 95%;
@@ -69,7 +75,7 @@
                 }
                 .menu {
                     width: 100%;
-                    background-color: #d8d2d2;
+                    background-color: #edf1f2;
                     border: none;
                     box-shadow: none;
                     & > .item {
