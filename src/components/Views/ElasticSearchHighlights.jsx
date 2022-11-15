@@ -103,7 +103,6 @@ export const getMatches = (highlight) => {
     matches = matches.concat(fragmentmatches.map((match) => match[1]));
   });
   matches = [...new Set(matches)];
-  console.debug('getMatches', matches);
   return matches;
 };
 

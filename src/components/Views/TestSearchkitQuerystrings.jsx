@@ -85,7 +85,6 @@ const OnHighlights = withState(_OnHighlights);
 const OnResults = withState(ResultsMultiLayout);
 
 const CustomResultsListItem = ({ result, index }) => {
-  console.debug('** result.title', result.title);
   return (
     <div>
       <Header as="h3">
@@ -121,13 +120,15 @@ const TestSearchkitQuerystrings = (props) => {
         // reviewstatemapping: {
         //   Manual: ['internally_published', 'private', 'internal'],
         // },
-        simpleFields: config.settings.searchkitblock.simpleFields,
+        
+        simpleFields: [],
+        nestedFilterFields: [],
+        allowed_content_types: searchkitblock_controlpanel?.allowed_content_types,
+        allowed_review_states: searchkitblock_controlpanel?.allowed_review_states,
         backend_url: searchkitblock_controlpanel?.testsearch_backend,
         frontend_url: searchkitblock_controlpanel?.testsearch_frontend,
       }
     : {};
-  console.debug('TestSearchkitQuerystrings. searchconfig', searchconfig);
-  console.debug('searchkitblock_controlpanel', searchkitblock_controlpanel);
 
   const initialState = {
     sortBy: 'bestmatch',
