@@ -13,13 +13,6 @@ import {
 const applyConfig = (config) => {
   config.settings.searchkitblock = {
     ...(config.settings.searchkitblock ?? {}),
-    simpleFields: [
-      'title^1.4',
-      'description^1.2',
-      'subjects^1.4',
-      'blocks_plaintext',
-    ],
-    filterLayout: 'dropdown',
     trackVoltoMatomo: false,
   };
 
