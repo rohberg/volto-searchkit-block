@@ -11,7 +11,7 @@ const Edit = ({ data, onChangeBlock, block, selected }) => {
         <Sidebar data={data} block={block} onChangeBlock={onChangeBlock} />
       </SidebarPortal>
 
-      <p>Search with bucket aggregation of ElasticSearch</p>
+      <p><b>Searchkit search. Voll elastisch.</b></p>
     </div>
   );
 };
