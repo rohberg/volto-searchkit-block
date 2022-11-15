@@ -12,6 +12,18 @@
         }
     }
   },
+  "behaviors/rohberg.examplemetadata.metadata_fields/informationsource": {
+    "type": "nested",
+    "dynamic": false,
+    "properties": {
+        "token": {
+            "type": "keyword"
+        },
+        "title": {
+            "type": "text"
+        }
+    }
+  },
 
   "behaviors/plone.basic/title": {
     "type": "text",
