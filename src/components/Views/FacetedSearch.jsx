@@ -49,6 +49,7 @@ import { Results } from '../Searchkit/Results';
 
 import { flattenESUrlToPath, scrollToTarget } from '../helpers';
 import { ElasticSearchHighlights } from './ElasticSearchHighlights';
+import StateLogger from '../StateLogger';
 
 import './less/springisnow-volto-searchkit-block.less';
 
@@ -91,6 +92,7 @@ const MyResults = (props) => {
 
 const OnResults = withState(MyResults);
 
+
 // class Tags extends Component {
 //   onClick = (event, value) => {
 //     window.history.push({
@@ -113,9 +115,94 @@ const OnResults = withState(MyResults);
 //   }
 // }
 
-const CustomResultsListItem = ({ result, index }) => {
-  // TODO make filter configurable
-  let flts = {
+
+class _ExtraInfo extends React.Component {
+  render() {
+    const {result, extrainfo} = this.props;
+    const extrainfo_keys = Object.keys(extrainfo).filter((el) => result[el]?.length > 0);
+    // TODO Get subjectsfieldname from block data.
+    let subjectsfieldname = "freemanualtags";
+    return (
+      <Item.Extra className="metadata">
+        {extrainfo_keys.map((extrainfo_key, idx) => {
+          // return result[extrainfo_key]?.length ? (
+          return true ? (
+            <React.Fragment key={extrainfo[extrainfo_key].label}>
+              <span>{extrainfo[extrainfo_key].label}: </span>
+              {result[extrainfo_key]?.map((item, index) => {
+                let tito = item.title || item.token;
+                let payloadOfFilter = {
+                  searchQuery: {
+                    sortBy: 'bestmatch',
+                    sortOrder: 'asc',
+                    layout: 'list',
+                    page: 1,
+                    size: 10,
+                    filters: [[extrainfo[extrainfo_key].bucket, item.token]],
+                  },
+                };
+                return (
+                  <Button
+                    as={Link}
+                    to="#"
+                    onClick={() => onQueryChanged(payloadOfFilter)}
+                    key={tito}
+                  >
+                    {tito}
+                    {index < result[extrainfo_key].length - 1 ? ',' : null}
+                  </Button>
+                );
+              })}
+              {idx < extrainfo_keys.length - 1 && (
+                <span className="metadataseparator">|</span>
+              )}
+            </React.Fragment>
+          ) : null;
+        })}
+        {result[subjectsfieldname]?.length ? (
+          <div className="freemanualtags">
+            <span>Tags: </span>
+            {result[subjectsfieldname]?.map((item, index) => {
+              let tito = item;
+              let payloadOfTag = {
+                searchQuery: {
+                  sortBy: 'bestmatch',
+                  sortOrder: 'asc',
+                  layout: 'list',
+                  page: 1,
+                  size: 10,
+                  queryString: tito,
+                },
+              };
+              return (
+                <Button
+                  key={tito}
+                  as={Link}
+                  to="#"
+                  onClick={() => onQueryChanged(payloadOfTag)}
+                >
+                  {tito}
+                  {index < result[subjectsfieldname].length - 1 ? (
+                    ','
+                  ) : (
+                    <span></span>
+                  )}
+                </Button>
+              );
+            })}
+          </div>
+        ) : null}
+      </Item.Extra>
+    )
+  }
+}
+
+const ExtraInfo = withState(_ExtraInfo);
+
+const CustomResultsListItem = (props) => {
+  const { result, index } = props;
+  // TODO make metadata configurable
+  let extrainfo = {
     kompasscomponent: {
       label: 'Komponente',
       bucket: 'kompasscomponent_agg.inner.kompasscomponent_token',
@@ -128,8 +215,12 @@ const CustomResultsListItem = ({ result, index }) => {
       label: 'Organistionseinheit',
       bucket: 'organisationunit_agg.inner.organisationunit_token',
     },
+    informationtype: {
+      label: 'Info Typ',
+      bucket: 'informationtype_agg.inner.informationtype_token',
+    },
   };
-  let filterkeys = Object.keys(flts).filter((el) => result[el]?.length > 0);
+  // TODO add class per filter opiton (result.informationsource.token)
   return (
     <Item
       key={`item_${index}`}
@@ -182,77 +273,10 @@ const CustomResultsListItem = ({ result, index }) => {
             {truncate(result.description, { length: 200 })}
           </Link>
         </Item.Description>
-        <Item.Extra className="metadata">
-          {filterkeys.map((flt, fltindex) => {
-            // return result[flt]?.length ? (
-            return true ? (
-              <React.Fragment key={flts[flt].label}>
-                <span>{flts[flt].label}: </span>
-                {result[flt]?.map((item, index) => {
-                  let tito = item.title || item.token;
-                  let payloadOfFilter = {
-                    searchQuery: {
-                      sortBy: 'bestmatch',
-                      sortOrder: 'asc',
-                      layout: 'list',
-                      page: 1,
-                      size: 10,
-                      filters: [[flts[flt].bucket, item.token]],
-                    },
-                  };
-                  return (
-                    <Button
-                      as={Link}
-                      to="#"
-                      onClick={() => onQueryChanged(payloadOfFilter)}
-                      key={tito}
-                    >
-                      {tito}
-                      {index < result[flt].length - 1 ? ',' : null}
-                    </Button>
-                  );
-                })}
-                {fltindex < filterkeys.length - 1 && (
-                  <span className="metadataseparator">|</span>
-                )}
-              </React.Fragment>
-            ) : null;
-          })}
-          {result.freemanualtags?.length ? (
-            <div className="freemanualtags">
-              <span>Tags: </span>
-              {result.freemanualtags?.map((item, index) => {
-                let tito = item;
-                let payloadOfTag = {
-                  searchQuery: {
-                    sortBy: 'bestmatch',
-                    sortOrder: 'asc',
-                    layout: 'list',
-                    page: 1,
-                    size: 10,
-                    queryString: tito,
-                  },
-                };
-                return (
-                  <Button
-                    key={tito}
-                    as={Link}
-                    to="#"
-                    onClick={() => onQueryChanged(payloadOfTag)}
-                  >
-                    {tito}
-                    {index < result.freemanualtags.length - 1 ? (
-                      ','
-                    ) : (
-                      <span></span>
-                    )}
-                  </Button>
-                );
-              })}
-            </div>
-          ) : null}
-        </Item.Extra>
-
+        <ExtraInfo
+          result={result}
+          extrainfo= {extrainfo}
+        />
         <ElasticSearchHighlights
           highlight={result.highlight}
           indexResult={index}
@@ -301,6 +325,7 @@ const myActiveFiltersElement = (props) => {
  */
 const customBucketAggregationElement = (props) => {
   const { title, containerCmp, updateQueryFilters } = props;
+  console.debug('containerCmp', containerCmp);
   // Get label from token
   let buckets = containerCmp.props.buckets;
   let allFilters = Object.fromEntries(
@@ -584,6 +609,13 @@ const FacetedSearch = ({
   filterLayout = config.settings.searchkitblock.filterLayout,
 }) => {
   const { relocation = data.relocation || '' } = data;
+  const facets = data.nestedFilterFields.map((fld) => {
+    return {
+      label: fld,
+      fieldname: fld,
+    }
+  })
+  console.debug('FacetedSearch. facets', facets);
 
   const token = useSelector((state) => state.userSession?.token);
 
@@ -676,22 +708,16 @@ const FacetedSearch = ({
                     width={12}
                     className={'facetedsearch_filter ' + filterLayout}
                   >
-                    <BucketAggregation
-                      title="Informationtype"
-                      agg={{
-                        field: 'informationtype',
-                        aggName:
-                          'informationtype_agg.inner.informationtype_token',
-                      }}
-                    />
-                    {/* <BucketAggregation
-                      title="Komponenten"
-                      agg={{
-                        field: 'kompasscomponent',
-                        aggName:
-                          'kompasscomponent_agg.inner.kompasscomponent_token',
-                      }}
-                    /> */}
+                    {facets.map((facet) => (
+                      <BucketAggregation
+                        title={facet.label}
+                        agg={{
+                          field: facet.fieldname,
+                          aggName:
+                          `${facet.fieldname}_agg.inner.${facet.fieldname}_token`,
+                        }}
+                      />
+                    ))}
                   </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>
@@ -701,6 +727,7 @@ const FacetedSearch = ({
                       <Error />
                       <OnResults sortValues={sortValues} />
                     </ResultsLoader>
+                    <StateLogger />
                   </Grid.Column>
                 </Grid.Row>
               </Grid>
