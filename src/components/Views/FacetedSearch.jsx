@@ -32,7 +32,6 @@ import {
   ResultsLoader,
   SearchBar,
   withState,
-  // updateQueryString,
 } from 'react-searchkit';
 
 import { expandToBackendURL } from '@plone/volto/helpers';
@@ -380,13 +379,14 @@ const customBucketAggregationValuesElement = (props) => {
 const customEmpytResultsElement = (props) => {
   const { queryString, resetQuery } = props;
   return (
-    <Segment placeholder textAlign="center">
+    <Segment>
       <Header icon>
-        <IconSemantic name="search" />
-        Keine Resultate gefunden.
+        <FormattedMessage
+                id="No results"
+                defaultMessage="No results"
+              />
       </Header>
-      <Button
-        primary
+      <Button        
         onClick={() => {
           resetQuery();
         }}
