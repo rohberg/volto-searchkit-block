@@ -41,7 +41,9 @@ The block can be configured by
 - facets
 - restricting types and states
 
-![Configuration](public/configuration.png)
+<div style="width:30%">
+  ![Configuration](public/configuration.png)
+</div>
 
 Enable Matomo tracking via
 
