@@ -14,5 +14,9 @@
   {
     "id": "Relevance",
     "defaultMessage": "Relevance"
+  },
+  {
+    "id": "Date",
+    "defaultMessage": "Date"
   }
 ]

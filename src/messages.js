@@ -33,21 +33,17 @@ const messages = defineMessages({
     id: 'Facet widget',
     defaultMessage: 'Facet widget',
   },
-  views: {
-    id: 'views',
-    defaultMessage: 'Views',
-  },
-  availableViews: {
-    id: 'availableViews',
-    defaultMessage: 'Available views',
-  },
-  showTotalResults: {
-    id: 'Show total results',
-    defaultMessage: 'Show total results',
-  },
   metadata: {
     id: 'Meta data',
     defaultMessage: 'Meta data',
+  },
+  searchresult: {
+    id: 'Search result',
+    defaultMessage: 'Search result',
+  },
+  searchresults: {
+    id: 'Search results',
+    defaultMessage: 'Search results',
   },
   // highlights
   title: {

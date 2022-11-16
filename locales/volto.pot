@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone\n"
-"POT-Creation-Date: 2022-11-16T11:48:44.909Z\n"
+"POT-Creation-Date: 2022-11-16T13:30:38.785Z\n"
 "Last-Translator: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
 "Language-Team: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -13,47 +13,52 @@ msgstr ""
 "Preferred-Encodings: utf-8\n"
 "Domain: volto\n"
 
-#: components/Views/ElasticSearchHighlights
+#: messages
 # defaultMessage: Content
 msgid "Content"
 msgstr ""
 
-#: components/Views/ElasticSearchHighlights
+#: components/Views/FacetedSearch
+# defaultMessage: Date
+msgid "Date"
+msgstr ""
+
+#: messages
 # defaultMessage: Description
 msgid "Description"
 msgstr ""
 
-#: components/Blocks/schema
+#: messages
 # defaultMessage: Facet
 msgid "Facet"
 msgstr ""
 
-#: components/Blocks/schema
+#: messages
 # defaultMessage: Facet widget
 msgid "Facet widget"
 msgstr ""
 
-#: components/Blocks/schema
+#: messages
 # defaultMessage: Facets
 msgid "Facets"
 msgstr ""
 
-#: components/Blocks/schema
+#: messages
 # defaultMessage: Field
 msgid "Field"
 msgstr ""
 
-#: components/Blocks/schema
+#: messages
 # defaultMessage: Label
 msgid "Label"
 msgstr ""
 
-#: components/Blocks/schema
+#: messages
 # defaultMessage: Meta data
 msgid "Meta data"
 msgstr ""
 
-#: components/Blocks/schema
+#: messages
 # defaultMessage: Multiple choices?
 msgid "Multiple choices?"
 msgstr ""
@@ -68,14 +73,19 @@ msgstr ""
 msgid "Relevance"
 msgstr ""
 
-#: components/Blocks/schema
+#: messages
 # defaultMessage: Search block
 msgid "Search block"
 msgstr ""
 
-#: components/Blocks/schema
-# defaultMessage: Show total results
-msgid "Show total results"
+#: messages
+# defaultMessage: Search result
+msgid "Search result"
+msgstr ""
+
+#: messages
+# defaultMessage: Search results
+msgid "Search results"
 msgstr ""
 
 #: components/Views/FacetedSearch
@@ -83,23 +93,18 @@ msgstr ""
 msgid "Sort By:"
 msgstr ""
 
-#: components/Views/ElasticSearchHighlights
 #: components/Views/FacetedSearch
+#: messages
 # defaultMessage: Tags
 msgid "Tags"
 msgstr ""
 
-#: components/Views/ElasticSearchHighlights
+#: messages
 # defaultMessage: Title
 msgid "Title"
 msgstr ""
 
-#: components/Blocks/schema
-# defaultMessage: Available views
-msgid "availableViews"
-msgstr ""
-
-#: components/Blocks/schema
-# defaultMessage: Views
-msgid "views"
+#: messages
+# defaultMessage: search
+msgid "search"
 msgstr ""

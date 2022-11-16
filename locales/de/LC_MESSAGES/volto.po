@@ -11,47 +11,52 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#: components/Views/ElasticSearchHighlights
+#: messages
 # defaultMessage: Content
 msgid "Content"
 msgstr "Inhalt"
 
-#: components/Views/ElasticSearchHighlights
+#: components/Views/FacetedSearch
+# defaultMessage: Date
+msgid "Date"
+msgstr "Datum"
+
+#: messages
 # defaultMessage: Description
 msgid "Description"
 msgstr "Beschreibung"
 
-#: components/Blocks/schema
+#: messages
 # defaultMessage: Facet
 msgid "Facet"
 msgstr "Facette"
 
-#: components/Blocks/schema
+#: messages
 # defaultMessage: Facet widget
 msgid "Facet widget"
 msgstr "Facetten-Widget"
 
-#: components/Blocks/schema
+#: messages
 # defaultMessage: Facets
 msgid "Facets"
 msgstr "Facetten"
 
-#: components/Blocks/schema
+#: messages
 # defaultMessage: Field
 msgid "Field"
 msgstr "Feld"
 
-#: components/Blocks/schema
+#: messages
 # defaultMessage: Label
 msgid "Label"
 msgstr "Label"
 
-#: components/Blocks/schema
+#: messages
 # defaultMessage: Meta data
 msgid "Meta data"
 msgstr "Metadaten"
 
-#: components/Blocks/schema
+#: messages
 # defaultMessage: Multiple choices?
 msgid "Multiple choices?"
 msgstr "Multiple Choices?"
@@ -66,38 +71,38 @@ msgstr "Keine Resultate"
 msgid "Relevance"
 msgstr "Relevanz"
 
-#: components/Blocks/schema
+#: messages
 # defaultMessage: Search block
 msgid "Search block"
 msgstr "Such-Block"
 
-#: components/Blocks/schema
-# defaultMessage: Show total results
-msgid "Show total results"
-msgstr ""
+#: messages
+# defaultMessage: Search result
+msgid "Search result"
+msgstr "Suchergebnis"
+
+#: messages
+# defaultMessage: Search results
+msgid "Search results"
+msgstr "Suchergebnisse"
 
 #: components/Views/FacetedSearch
 # defaultMessage: Sort by:
 msgid "Sort By:"
 msgstr "Sortiere nach:"
 
-#: components/Views/ElasticSearchHighlights
 #: components/Views/FacetedSearch
+#: messages
 # defaultMessage: Tags
 msgid "Tags"
-msgstr ""
+msgstr "Tags"
 
-#: components/Views/ElasticSearchHighlights
+#: messages
 # defaultMessage: Title
 msgid "Title"
 msgstr "Titel"
 
-#: components/Blocks/schema
-# defaultMessage: Available views
-msgid "availableViews"
-msgstr ""
-
-#: components/Blocks/schema
-# defaultMessage: Views
-msgid "views"
-msgstr ""
+#: messages
+# defaultMessage: search
+msgid "search"
+msgstr "suchen"

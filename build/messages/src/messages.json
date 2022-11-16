@@ -4,6 +4,10 @@
     "defaultMessage": "Search block"
   },
   {
+    "id": "search",
+    "defaultMessage": "search"
+  },
+  {
     "id": "Facets",
     "defaultMessage": "Facets"
   },
@@ -28,19 +32,31 @@
     "defaultMessage": "Facet widget"
   },
   {
-    "id": "views",
-    "defaultMessage": "Views"
-  },
-  {
-    "id": "availableViews",
-    "defaultMessage": "Available views"
-  },
-  {
-    "id": "Show total results",
-    "defaultMessage": "Show total results"
-  },
-  {
     "id": "Meta data",
     "defaultMessage": "Meta data"
+  },
+  {
+    "id": "Search result",
+    "defaultMessage": "Search result"
+  },
+  {
+    "id": "Search results",
+    "defaultMessage": "Search results"
+  },
+  {
+    "id": "Title",
+    "defaultMessage": "Title"
+  },
+  {
+    "id": "Description",
+    "defaultMessage": "Description"
+  },
+  {
+    "id": "Tags",
+    "defaultMessage": "Tags"
+  },
+  {
+    "id": "Content",
+    "defaultMessage": "Content"
   }
 ]

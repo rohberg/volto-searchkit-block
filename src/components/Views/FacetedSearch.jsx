@@ -1,4 +1,3 @@
-// TODO lacales actionProps, placeholder
 import React from 'react';
 import { useSelector } from 'react-redux';
 
@@ -252,9 +251,9 @@ const CustomResultsListItem = (props) => {
 };
 
 const myCountElement = ({ totalResults }) => {
-  // TODO translation search result label
-  let labelSearchResults = 'Suchergebnis';
-  let labelSearchResultsPlural = 'Suchergebnisse';
+  const intl = useIntl();
+  let labelSearchResults = intl.formatMessage(messages.searchresult);
+  let labelSearchResultsPlural = intl.formatMessage(messages.searchresults);
   return (
     <div className="countlabel">
       {totalResults}{' '}
