@@ -10,15 +10,10 @@ import { Icon as IconNext } from '@plone/volto/components';
 import backSVG from '@plone/volto/icons/back.svg';
 
 import {
-  // BucketAggregation,
-  // EmptyResults,
-  // Error,
   onQueryChanged,
   ReactSearchKit,
-  // ResultsLoader,
   SearchBar,
   withState,
-  // updateQueryString,
   ResultsMultiLayout,
   Count,
 } from 'react-searchkit';
