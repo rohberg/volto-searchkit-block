@@ -688,7 +688,7 @@ const FacetedSearch = ({
                       <Error />
                       <OnResults sortValues={sortValues} />
                     </ResultsLoader>
-                    <StateLogger />
+                    {/* <StateLogger /> */}
                   </Grid.Column>
                 </Grid.Row>
               </Grid>
