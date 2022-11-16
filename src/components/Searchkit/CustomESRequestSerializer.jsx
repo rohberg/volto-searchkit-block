@@ -1,12 +1,15 @@
 import { extend, isEmpty, trim } from 'lodash';
+import { getObjectFromObjectList } from '../helpers.jsx';
 
 import { listFilterFields } from './constants.js';
 
 export class CustomESRequestSerializer {
   constructor(config) {
     this.reviewstatemapping = config.reviewstatemapping;
-    this.simpleFields = config.simpleFields;
-    this.nestedFilterFields = config.nestedFilterFields;
+    this.searchedFields = config.searchedFields;
+    console.debug('config.facet_fields', config.facet_fields);
+    this.facet_fields = getObjectFromObjectList(config.facet_fields);
+    console.debug('this.facet_fields', this.facet_fields);
     this.allowed_content_types = config.allowed_content_types;
     this.allowed_review_states = config.allowed_review_states;
   }
@@ -148,9 +151,9 @@ export class CustomESRequestSerializer {
         _make_fuzzy_and_enrich_with_word_parts(word);
       });
 
-      let simpleFields = [...this.simpleFields];
-      let simpleFields_exact = [...this.simpleFields];
-      simpleFields_exact = simpleFields_exact.map((fld) => {
+      let searchedFields = [...this.searchedFields];
+      let searchedFields_exact = [...this.searchedFields];
+      searchedFields_exact = searchedFields_exact.map((fld) => {
         const fieldname = fld.split('^')[0];
         return fld.replace(fieldname, `${fieldname}.exact`);
       });
@@ -164,7 +167,7 @@ export class CustomESRequestSerializer {
         shouldList.push({
           query_string: {
             query: element,
-            fields: simpleFields,
+            fields: searchedFields,
           },
         });
       });
@@ -172,7 +175,7 @@ export class CustomESRequestSerializer {
         shouldList.push({
           query_string: {
             query: element,
-            fields: simpleFields_exact,
+            fields: searchedFields_exact,
           },
         });
       });
@@ -181,7 +184,7 @@ export class CustomESRequestSerializer {
         mustList.push({
           query_string: {
             query: el,
-            fields: simpleFields,
+            fields: searchedFields,
           },
         });
       });
@@ -189,7 +192,7 @@ export class CustomESRequestSerializer {
         mustList.push({
           query_string: {
             query: element,
-            fields: simpleFields_exact,
+            fields: searchedFields_exact,
           },
         });
       });
@@ -197,7 +200,7 @@ export class CustomESRequestSerializer {
         must_notList.push({
           query_string: {
             query: element,
-            fields: simpleFields_exact,
+            fields: searchedFields_exact,
           },
         });
       });
@@ -253,25 +256,6 @@ export class CustomESRequestSerializer {
       bodyParams['from'] = from;
     }
 
-    // create post filters with the given filters
-    // TODO fieldvalues with list of token, title dicts
-    // "post_filter": {
-    //   "bool": {
-    //       "must": [
-    //           {
-    //               "terms": {
-    //                   "kompasscomponent.token": ["BEW"]
-    //               }
-    //           }
-    //       ]
-    //   }
-    // },
-
-    // TODO Make filter configurable
-    // const aggFieldsMapping = {
-    //   // 'kompasscomponent_agg.inner.kompasscomponent_token': 'kompasscomponent',
-    //   'informationtype_agg.inner.informationtype_token': 'informationtype',
-    // };
     const getFieldnameFromAgg = (agg) => {
       return agg.split(".")[0].replace("_agg", "")
     }
@@ -311,7 +295,7 @@ export class CustomESRequestSerializer {
         const obj = {};
         const fieldName = getFieldnameFromAgg(aggName);
         obj[fieldName] = aggValueObj[aggName];
-        if (this.nestedFilterFields.includes(fieldName)) {
+        if (Object.keys(this.facet_fields).includes(fieldName)) {
           accumulator.push({
             nested: {
               path: fieldName,
@@ -336,7 +320,7 @@ export class CustomESRequestSerializer {
      */
     // listFilterFields
     const post_filter = { bool: { must: terms } };
-    // nestedFilterFields
+    // facet_fields
     if (!isEmpty(filter)) {
       post_filter['bool']['filter'] = filter;
     }
@@ -357,30 +341,13 @@ export class CustomESRequestSerializer {
       extend(bodyParams['aggs'], aggBucketTermsComponent);
     });
 
-    // 2. aggregations of nestedFilterFields
-    this.nestedFilterFields.map((fieldName) => {
+    // 2. aggregations of facet_fields
+    Object.keys(this.facet_fields)?.map((fieldName) => {
       const myaggs = [`${fieldName}_agg`, 'inner', `${fieldName}_token`];
-      // const filter_debug = {
-      //   nested: {
-      //     path: 'informationtype',
-      //     query: {
-      //       bool: {
-      //         must: [
-      //           {
-      //             terms: {
-      //               'informationtype.token': ['Anleitung', 'FAQ'],
-      //             },
-      //           },
-      //         ],
-      //       },
-      //     },
-      //   },
-      // };
 
       function aggregation_filter(agg) {
         // agg is a key of aggFieldsMapping.
         // something like 'kompasscomponent_agg.inner.kompasscomponent_token'
-        // return filter_debug;
         return isEmpty(filter)
           ? { match_all: {} }
           : {

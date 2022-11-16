@@ -37,4 +37,12 @@ const scrollToTarget = (target, offsetHeight = 0) => {
   });
 };
 
-export { NoSSR, flattenESUrlToPath, scrollToTarget };
+function getObjectFromObjectList(objlst) {
+  let obj = {}
+  objlst.forEach((listitem) => {
+    obj[listitem.field.value] = listitem.title;
+  })
+  return obj
+}
+
+export { NoSSR, flattenESUrlToPath, scrollToTarget, getObjectFromObjectList };

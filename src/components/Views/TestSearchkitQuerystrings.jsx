@@ -117,12 +117,9 @@ const TestSearchkitQuerystrings = (props) => {
           searchkitblock_controlpanel?.testsearch_elasticsearch_url,
         elastic_search_api_index:
           searchkitblock_controlpanel?.testsearch_elasticsearch_index,
-        // reviewstatemapping: {
-        //   Manual: ['internally_published', 'private', 'internal'],
-        // },
         
-        simpleFields: [],
-        nestedFilterFields: [],
+        searchedFields: [],
+        facet_fields: [],
         allowed_content_types: searchkitblock_controlpanel?.allowed_content_types,
         allowed_review_states: searchkitblock_controlpanel?.allowed_review_states,
         backend_url: searchkitblock_controlpanel?.testsearch_backend,

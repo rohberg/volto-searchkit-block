@@ -42,8 +42,8 @@ export class PloneSearchApi {
     );
 
     this.requestSerializer = new requestSerializerCls({
-      simpleFields: config.simpleFields,
-      nestedFilterFields: config.nestedFilterFields,
+      searchedFields: config.searchedFields,
+      facet_fields: config.facet_fields,
       allowed_content_types: config.allowed_content_types,
       allowed_review_states: config.allowed_review_states,
     });

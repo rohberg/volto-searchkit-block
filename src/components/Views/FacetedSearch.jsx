@@ -47,7 +47,7 @@ import { CustomESRequestSerializer } from '../Searchkit/CustomESRequestSerialize
 import { CustomESResponseSerializer } from '../Searchkit/CustomESResponseSerializer';
 import { Results } from '../Searchkit/Results';
 
-import { flattenESUrlToPath, scrollToTarget } from '../helpers';
+import { flattenESUrlToPath, getObjectFromObjectList, scrollToTarget } from '../helpers';
 import { ElasticSearchHighlights } from './ElasticSearchHighlights';
 import StateLogger from '../StateLogger';
 
@@ -67,8 +67,8 @@ export const ploneSearchApi = (data) => {
       requestSerializer: CustomESRequestSerializer,
       responseSerializer: CustomESResponseSerializer,
     },
-    simpleFields: data.simpleFields,
-    nestedFilterFields: data.nestedFilterFields,
+    searchedFields: data.searchedFields,
+    facet_fields: data.facet_fields,
     allowed_content_types: data.allowed_content_types,
     allowed_review_states: data.allowed_review_states,
     backend_url: data.backend_url,
@@ -93,43 +93,23 @@ const MyResults = (props) => {
 const OnResults = withState(MyResults);
 
 
-// class Tags extends Component {
-//   onClick = (event, value) => {
-//     window.history.push({
-//       search: `${window.location.search}&f=tags_agg:${value}`,
-//     });
-//     event.preventDefault();
-//   };
-
-//   render() {
-//     if (!this.props.tags) return null;
-//     return this.props.tags?.map((tag, index) => (
-//       <Button
-//         key={index}
-//         size="mini"
-//         onClick={(event) => this.onClick(event, tag)}
-//       >
-//         {tag}
-//       </Button>
-//     ));
-//   }
-// }
-
-
 class _ExtraInfo extends React.Component {
   render() {
-    const {result, extrainfo} = this.props;
-    const extrainfo_keys = Object.keys(extrainfo).filter((el) => result[el]?.length > 0);
-    // TODO Get subjectsfieldname from block data.
-    let subjectsfieldname = "freemanualtags";
+    const {result} = this.props;
+    const extrainfo_fields = getObjectFromObjectList(this.props.currentQueryState.data.extrainfo_fields);
+    let subjectsFieldname = this.props.currentQueryState.data.subjectsFieldname;  // "subjects";
     return (
-      <Item.Extra className="metadata">
-        {extrainfo_keys.map((extrainfo_key, idx) => {
-          // return result[extrainfo_key]?.length ? (
-          return true ? (
-            <React.Fragment key={extrainfo[extrainfo_key].label}>
-              <span>{extrainfo[extrainfo_key].label}: </span>
-              {result[extrainfo_key]?.map((item, index) => {
+      <Item.Extra>
+        {Object.keys(extrainfo_fields).map((extrainfo_key, idx) => {
+          if (! result[extrainfo_key]) {
+            return
+          }
+          const extrainfo_value = Array.isArray(result[extrainfo_key]) ? result[extrainfo_key] : [result[extrainfo_key]];
+
+          return (
+            <React.Fragment key={extrainfo_key}>
+              <span className='label'>{extrainfo_fields[extrainfo_key]}:</span>
+              {extrainfo_value?.map((item, index) => {
                 let tito = item.title || item.token;
                 let payloadOfFilter = {
                   searchQuery: {
@@ -138,7 +118,7 @@ class _ExtraInfo extends React.Component {
                     layout: 'list',
                     page: 1,
                     size: 10,
-                    filters: [[extrainfo[extrainfo_key].bucket, item.token]],
+                    filters: [[`${extrainfo_key}_agg.inner.${extrainfo_key}_token`, item.token]],
                   },
                 };
                 return (
@@ -149,20 +129,26 @@ class _ExtraInfo extends React.Component {
                     key={tito}
                   >
                     {tito}
-                    {index < result[extrainfo_key].length - 1 ? ',' : null}
+                    {index < extrainfo_value.length - 1 ? ',' : null}
                   </Button>
                 );
               })}
-              {idx < extrainfo_keys.length - 1 && (
+              {idx < Object.keys(extrainfo_fields).length - 1 && (
                 <span className="metadataseparator">|</span>
               )}
             </React.Fragment>
-          ) : null;
+          );
         })}
-        {result[subjectsfieldname]?.length ? (
-          <div className="freemanualtags">
-            <span>Tags: </span>
-            {result[subjectsfieldname]?.map((item, index) => {
+
+        {result[subjectsFieldname]?.length > 0 ? (
+          <div className="metadata-tags">
+            <span className='label'>
+              <FormattedMessage
+                id="Tags"
+                defaultMessage="Tags"
+              />:
+            </span>
+            {result[subjectsFieldname]?.map((item, index) => {
               let tito = item;
               let payloadOfTag = {
                 searchQuery: {
@@ -182,7 +168,7 @@ class _ExtraInfo extends React.Component {
                   onClick={() => onQueryChanged(payloadOfTag)}
                 >
                   {tito}
-                  {index < result[subjectsfieldname].length - 1 ? (
+                  {index < result[subjectsFieldname].length - 1 ? (
                     ','
                   ) : (
                     <span></span>
@@ -201,26 +187,7 @@ const ExtraInfo = withState(_ExtraInfo);
 
 const CustomResultsListItem = (props) => {
   const { result, index } = props;
-  // TODO make metadata configurable
-  let extrainfo = {
-    kompasscomponent: {
-      label: 'Komponente',
-      bucket: 'kompasscomponent_agg.inner.kompasscomponent_token',
-    },
-    targetaudience: {
-      label: 'Zielgruppe',
-      bucket: 'targetaudience_agg.inner.targetaudience_token',
-    },
-    organisationunit: {
-      label: 'Organistionseinheit',
-      bucket: 'organisationunit_agg.inner.organisationunit_token',
-    },
-    informationtype: {
-      label: 'Info Typ',
-      bucket: 'informationtype_agg.inner.informationtype_token',
-    },
-  };
-  // TODO add class per filter opiton (result.informationsource.token)
+  // TODO add class per filter option (result.informationsource.token)
   return (
     <Item
       key={`item_${index}`}
@@ -275,7 +242,6 @@ const CustomResultsListItem = (props) => {
         </Item.Description>
         <ExtraInfo
           result={result}
-          extrainfo= {extrainfo}
         />
         <ElasticSearchHighlights
           highlight={result.highlight}
@@ -325,7 +291,6 @@ const myActiveFiltersElement = (props) => {
  */
 const customBucketAggregationElement = (props) => {
   const { title, containerCmp, updateQueryFilters } = props;
-  console.debug('containerCmp', containerCmp);
   // Get label from token
   let buckets = containerCmp.props.buckets;
   let allFilters = Object.fromEntries(
@@ -357,17 +322,15 @@ const customBucketAggregationElement = (props) => {
         >
           <Dropdown.Menu>{containerCmp}</Dropdown.Menu>
         </Dropdown>
-        {true && (
-          <IconSemantic
-            className={
-              selectedFilters.length
-                ? 'deleteFilter selected'
-                : 'deleteFilter unselected'
-            }
-            name="delete"
-            onClick={(e) => removeAggFilters(e)}
-          />
-        )}
+        <IconSemantic
+          className={
+            selectedFilters.length
+              ? 'deleteFilter selected'
+              : 'deleteFilter unselected'
+          }
+          name="delete"
+          onClick={(e) => removeAggFilters(e)}
+        />
       </div>
     )
   );
@@ -500,57 +463,56 @@ const customPaginationElement = (props) => {
     onPageChange(activePage);
   };
 
-  return (
+  return pages > 1 ? (
     <Paginator
-      city="Basel"
-      activePage={currentPage}
-      totalPages={pages}
-      onPageChange={_onPageChange}
-      boundaryRange={boundaryRangeCount}
-      siblingRange={siblingRangeCount}
-      ellipsisItem={
-        showEllipsis
-          ? {
-              content: <IconSemantic name="ellipsis horizontal" />,
-              icon: true,
-            }
-          : null
-      }
-      firstItem={
-        showFirst
-          ? {
-              content: <Icon name={firstAngle} size="20px" />,
-              icon: true,
-            }
-          : null
-      }
-      lastItem={
-        showLast
-          ? {
-              content: <Icon name={lastAngle} size="20px" />,
-              icon: true,
-            }
-          : null
-      }
-      prevItem={
-        showPrev
-          ? {
-              content: <Icon name={leftAngle} size="20px" />,
-              icon: true,
-            }
-          : null
-      }
-      nextItem={
-        showNext
-          ? {
-              content: <Icon name={rightAngle} size="20px" />,
-              icon: true,
-            }
-          : null
-      }
-      size={size}
-    />
-  );
+    activePage={currentPage}
+    totalPages={pages}
+    onPageChange={_onPageChange}
+    boundaryRange={boundaryRangeCount}
+    siblingRange={siblingRangeCount}
+    ellipsisItem={
+      showEllipsis
+        ? {
+            content: <IconSemantic name="ellipsis horizontal" />,
+            icon: true,
+          }
+        : null
+    }
+    firstItem={
+      showFirst
+        ? {
+            content: <Icon name={firstAngle} size="20px" />,
+            icon: true,
+          }
+        : null
+    }
+    lastItem={
+      showLast
+        ? {
+            content: <Icon name={lastAngle} size="20px" />,
+            icon: true,
+          }
+        : null
+    }
+    prevItem={
+      showPrev
+        ? {
+            content: <Icon name={leftAngle} size="20px" />,
+            icon: true,
+          }
+        : null
+    }
+    nextItem={
+      showNext
+        ? {
+            content: <Icon name={rightAngle} size="20px" />,
+            icon: true,
+          }
+        : null
+    }
+    size={size}
+  />
+  ) : null;
 };
 
 const defaultOverriddenComponents = {
@@ -606,17 +568,11 @@ const initialState = {
 const FacetedSearch = ({
   data,
   overriddenComponents,
-  filterLayout = config.settings.searchkitblock.filterLayout,
 }) => {
-  const { relocation = data.relocation || '' } = data;
-  const facets = data.nestedFilterFields.map((fld) => {
-    return {
-      label: fld,
-      fieldname: fld,
-    }
-  })
-  console.debug('FacetedSearch. facets', facets);
+  const { facet_fields, relocation, filterLayout } = data;
 
+  const facet_fields_object = getObjectFromObjectList(facet_fields);
+  
   const token = useSelector((state) => state.userSession?.token);
 
   overriddenComponents = overriddenComponents ?? {
@@ -653,7 +609,7 @@ const FacetedSearch = ({
             initialQueryState={{...initialState, data: data}}
           >
             <Container>
-              {typeof document !== 'undefined' && relocation.length > 0 ? (
+              {typeof document !== 'undefined' && relocation?.length > 0 ? (
                 <Portal
                   node={
                     true &&
@@ -708,15 +664,15 @@ const FacetedSearch = ({
                     width={12}
                     className={'facetedsearch_filter ' + filterLayout}
                   >
-                    {facets.map((facet) => (
-                      <BucketAggregation
-                        title={facet.label}
-                        agg={{
-                          field: facet.fieldname,
-                          aggName:
-                          `${facet.fieldname}_agg.inner.${facet.fieldname}_token`,
-                        }}
-                      />
+                    {Object.keys(facet_fields_object)?.map((facet) => (
+                        <BucketAggregation
+                          title={facet_fields_object[facet]}
+                          agg={{
+                            field: facet,
+                            aggName:
+                            `${facet}_agg.inner.${facet}_token`,
+                          }}
+                        />
                     ))}
                   </Grid.Column>
                 </Grid.Row>

@@ -1,7 +1,7 @@
 const listFilterFields = [];
 
 // Nested fields are configurable via block
-// const nestedFilterFields = [
+// const facet_fields = [
 //   'informationtype'
 // ];
 
