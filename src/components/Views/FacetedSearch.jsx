@@ -7,8 +7,9 @@ import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { compact, truncate } from 'lodash';
 import cx from 'classnames';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Portal } from 'react-portal';
+import messages from '../../messages';
 
 import {
   Button,
@@ -434,7 +435,7 @@ const customSort = ({
           'button-active': selected === 'modified-desc',
         })}
       >
-        Datum
+        <FormattedMessage id="Date" defaultMessage="Date" />
       </Button>
     </div>
   );
@@ -569,10 +570,9 @@ const FacetedSearch = ({
   overriddenComponents,
 }) => {
   const { facet_fields, relocation, filterLayout } = data;
-
   const facet_fields_object = getObjectFromObjectList(facet_fields);
-  
   const token = useSelector((state) => state.userSession?.token);
+  const intl = useIntl();
 
   overriddenComponents = overriddenComponents ?? {
     ...defaultOverriddenComponents,

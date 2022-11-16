@@ -4,7 +4,7 @@
  */
 import React from 'react';
 import { useIntl } from 'react-intl';
-import messages from '../..//messages';
+import messages from '../../messages';
 
 export const ElasticSearchHighlights = ({ highlight, indexResult }) => {
   const [toggleDetails, setToggleDetails] = React.useState(false);
