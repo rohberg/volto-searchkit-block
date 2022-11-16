@@ -1,9 +1,5 @@
-# TODO
 
-- Makefile: consolidate-addon-testing-project What does consolidate do?
+# TODOs
 
-
-
-- häh? Cypress test: copy to test project "addon-testing-project"
-  - todo in generator volto add-on
-- 
+- Restrict block creation to Site Admins.
+  In future, blocks creation can be restricted by permission / role. Then change attribute "restricted" to false. Until then: download add-on, change restricted to false, add block, switch back to restricted true.
