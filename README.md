@@ -1,8 +1,5 @@
 # volto-searchkit-block
 
-[Volto](https://github.com/plone/volto) add-on
-
-This package is a Plone Volto integration of react-searchkit https://www.npmjs.com/package/react-searchkit
 
 ## Features
 
@@ -10,29 +7,20 @@ This package is a Plone Volto integration of react-searchkit https://www.npmjs.c
 
 Highly overridable components for searching, filtering and displaying search results. Sometimes also called faceted navigation.
 
+As this search is addressing `ElasticSearch` with Analysis, the search does understand flexation of words and tolerates typos by fuzzy searching.
+
+Matched phrases are shown with matches highlighted.
+
+Additional metadata per result item can be configured easily.
+
+The block is prepared for Matomo analytics.
+
 
 ![Search @rohberg/volto-searchkit-block](public/search.png)
 
 ## Getting started
 
-You have ElasticSearch up and running with Plone. 
-
-* Your ElasticSearch Server is up and running.
-* You have an index
-* You use an analyzer.
-* You have extra exact fields for exact search.
-* Check with https://myelasticsearch.acme.org/esploneindex/_count
-* CORS is configured: 
-
-elasticsearch.yml
-
-```
-http.cors.enabled : true
-http.cors.allow-origin : /https?:\/\/(.*)acme.org(.*)/
-```
-  
-
-Start ElasticSearch with ELASTIC_URL=myelasticsearch.acme.org/esploneindex ./bin/elasticsearch
+You have ElasticSearch up and running with Plone. See `collective.elastic.ingest` and `collective.elastic.ingest` how to set up.
 
 For searching in blocks content, install `rohberg.elasticsearchblocks` and enable its behavior.
 
@@ -51,7 +39,7 @@ The block can be configured by
 
 - searchable fields with boosting
 - facets
-- types
+- restricting types and states
 
 ![Configuration](public/configuration.png)
 
@@ -73,24 +61,9 @@ Please update the settings according to your deployment: /controlpanel/volto_sea
 
 ## TODOs
 
-### Request to Elasticsearch via Plone for security check
-
-backend add-on with endpoint:
-
-- Post service with argument: json (with aggs, post_filter)
-- Request elasticsearch
-- Filter search results by "View" permission
-  https://6.dev-docs.plone.org/plone.api/user.html?highlight=has_permission#check-user-permission
-
-
-### Configurable filters, etc
-
-- highlights of matches
-
-
 ### Restrict block creation to Site Admins.
 
-In future blocks creation can be restricted by permission / role. Then change attribute "restricted" to false. Until then: download add-on, change restricted to false, add block, switch back to restricted true.
+In future, blocks creation can be restricted by permission / role. Then change attribute "restricted" to false. Until then: download add-on, change restricted to false, add block, switch back to restricted true.
 
 
 ## Credits
