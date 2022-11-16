@@ -1,3 +1,5 @@
-export FacetedSearchBlockEdit from './Blocks/FacetedSearchBlockEdit';
-export FacetedSearchBlockView from './Blocks/FacetedSearchBlockView';
-export TestSearchkitQuerystrings from './Views/TestSearchkitQuerystrings';
+import FacetedSearchBlockEdit from './Blocks/FacetedSearchBlockEdit';
+import FacetedSearchBlockView from './Blocks/FacetedSearchBlockView';
+import TestSearchkitQuerystrings from './Views/TestSearchkitQuerystrings';
+
+export { FacetedSearchBlockEdit, FacetedSearchBlockView, TestSearchkitQuerystrings }

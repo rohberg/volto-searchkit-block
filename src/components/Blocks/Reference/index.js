@@ -1,2 +1,4 @@
-export ReferenceSearchBlockEdit from './ReferenceSearchBlockEdit';
-export ReferenceSearchBlockView from './ReferenceSearchBlockView';
+import ReferenceSearchBlockEdit from './ReferenceSearchBlockEdit';
+import ReferenceSearchBlockView from './ReferenceSearchBlockView';
+
+export { ReferenceSearchBlockEdit, ReferenceSearchBlockView};
