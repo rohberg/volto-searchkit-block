@@ -3,18 +3,39 @@
  * fragment_size is set in CustomESRequestSerializer
  */
 import React from 'react';
+import { defineMessages, useIntl } from 'react-intl';
+
+const messages = defineMessages({
+  title: {
+    id: 'Title',
+    defaultMessage: 'Title',
+  },
+  description: {
+    id: 'Description',
+    defaultMessage: 'Description',
+  },
+  tags: {
+    id: 'Tags',
+    defaultMessage: 'Tags',
+  },
+  content: {
+    id: 'Content',
+    defaultMessage: 'Content',
+  },
+})
 
 export const ElasticSearchHighlights = ({ highlight, indexResult }) => {
   const [toggleDetails, setToggleDetails] = React.useState(false);
 
-  // TODO Make configurable
+  const intl = useIntl();
+
   let fieldmapping = {
-    title: 'Titel',
-    description: 'Beschreibung',
-    subjects: 'allgemeine Tags',
-    freemanualtags_searchable: 'Tags',
-    blocks_plaintext: 'Inhalt',
-    manualfilecontent: 'Inhalt PDF',
+    title: intl.formatMessage(messages.title),
+    description: intl.formatMessage(messages.description),
+    subjects: intl.formatMessage(messages.tags),
+    freemanualtags_searchable: intl.formatMessage(messages.tags),
+    blocks_plaintext: intl.formatMessage(messages.content),
+    manualfilecontent: intl.formatMessage(messages.content),
   };
 
   const showDetails = () => {
@@ -49,7 +70,7 @@ export const ElasticSearchHighlights = ({ highlight, indexResult }) => {
             return (
               <div className="highlighfld" key={fld}>
                 <div>
-                  Matches in <b>{fieldmapping[fld]}:</b>
+                  Matches in <b>{fieldmapping[fld] || fld}:</b>
                 </div>
                 <ul>
                   {highlight[fld].map((el, index) => {
