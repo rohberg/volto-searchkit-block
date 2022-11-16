@@ -1,28 +1,29 @@
-# volto-searchkit-block
+# @rohberg/volto-searchkit-block
 
 
 ## Features
 
 ### Search
 
-Highly overridable components for searching, filtering and displaying search results. Sometimes also called faceted navigation.
+Search block with highly overridable components for searching, filtering and displaying search results. Sometimes also called faceted navigation.
 
-As this search is addressing `ElasticSearch` with Analysis, the search does understand flexation of words and tolerates typos by fuzzy searching.
+As this search is addressing `ElasticSearch` with Analysis, the search does understand inflection of words and tolerates typos by fuzzy searching.
 
-Matched phrases are shown with matches highlighted.
+Matched phrases are shown with highlighted matches.
 
 Additional metadata per result item can be configured easily.
+Meta data values are clickable to find related content.
 
 The block is prepared for Matomo analytics.
 
-
 ![Search @rohberg/volto-searchkit-block](public/search.png)
+
 
 ## Getting started
 
 You have ElasticSearch up and running with Plone. See `collective.elastic.ingest` and `collective.elastic.ingest` how to set up.
 
-For searching in blocks content, install `rohberg.elasticsearchblocks` and enable its behavior.
+For searching in blocks content, install [`rohberg.elasticsearchblocks`](https://github.com/rohberg/rohberg.elasticsearchblocks) and enable its behavior.
 
 
 ## Configuration
@@ -41,33 +42,31 @@ The block can be configured by
 - facets
 - restricting types and states
 
-<div style="width:30%">
-  ![Configuration](public/configuration.png)
-</div>
+![Configuration](public/configuration.png)
+
 
 Enable Matomo tracking via
 
 ```js
-  config.settings.searchkitblock = {
-    ...config.settings.searchkitblock,
-    trackVoltoMatomo: true,
-  };
+  config.settings.searchkitblock.trackVoltoMatomo = true
 ```
 
-## panel for testing matches
 
-/controlpanel/test-searchkit-querystrings
+## Panel for testing matches
 
-Please update the settings according to your deployment: /controlpanel/volto_searchkit_block_control_panel
+`/controlpanel/test-searchkit-querystrings`
+
+Please update the settings according to your deployment: `/controlpanel/volto_searchkit_block_control_panel`
+
 
 ## Credits
 
-This package is a Plone Volto integration of react-searchkit https://www.npmjs.com/package/react-searchkit
+This package is a Plone Volto integration of react-searchkit https://www.npmjs.com/package/react-searchkit Copyright (C) 2015-2019 CERN.
 
 
 ## Copyright and license
 
-The Initial Owner of the Original Code is Rohberg, Zürich.
-All Rights Reserved.
+Copyright (C) 2022 Rohberg.
 
-See [LICENSE.md](https://github.com/rohberg/volto-searchkit-block/blob/master/LICENSE.md) for details.
+The project is licensed.
+See [LICENSE](https://github.com/rohberg/volto-searchkit-block/blob/master/LICENSE) for details.
