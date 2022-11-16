@@ -1,0 +1,103 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language: \n"
+"Language-Team: \n"
+"Content-Type: \n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#: components/Views/ElasticSearchHighlights
+# defaultMessage: Content
+msgid "Content"
+msgstr "Inhalt"
+
+#: components/Views/ElasticSearchHighlights
+# defaultMessage: Description
+msgid "Description"
+msgstr "Beschreibung"
+
+#: components/Blocks/schema
+# defaultMessage: Facet
+msgid "Facet"
+msgstr "Facette"
+
+#: components/Blocks/schema
+# defaultMessage: Facet widget
+msgid "Facet widget"
+msgstr "Facetten-Widget"
+
+#: components/Blocks/schema
+# defaultMessage: Facets
+msgid "Facets"
+msgstr "Facetten"
+
+#: components/Blocks/schema
+# defaultMessage: Field
+msgid "Field"
+msgstr "Feld"
+
+#: components/Blocks/schema
+# defaultMessage: Label
+msgid "Label"
+msgstr "Label"
+
+#: components/Blocks/schema
+# defaultMessage: Meta data
+msgid "Meta data"
+msgstr "Metadaten"
+
+#: components/Blocks/schema
+# defaultMessage: Multiple choices?
+msgid "Multiple choices?"
+msgstr "Multiple Choices?"
+
+#: components/Views/FacetedSearch
+# defaultMessage: No results
+msgid "No results"
+msgstr "Keine Resultate"
+
+#: components/Views/FacetedSearch
+# defaultMessage: Relevance
+msgid "Relevance"
+msgstr "Relevanz"
+
+#: components/Blocks/schema
+# defaultMessage: Search block
+msgid "Search block"
+msgstr "Such-Block"
+
+#: components/Blocks/schema
+# defaultMessage: Show total results
+msgid "Show total results"
+msgstr ""
+
+#: components/Views/FacetedSearch
+# defaultMessage: Sort by:
+msgid "Sort By:"
+msgstr "Sortiere nach:"
+
+#: components/Views/ElasticSearchHighlights
+#: components/Views/FacetedSearch
+# defaultMessage: Tags
+msgid "Tags"
+msgstr ""
+
+#: components/Views/ElasticSearchHighlights
+# defaultMessage: Title
+msgid "Title"
+msgstr "Titel"
+
+#: components/Blocks/schema
+# defaultMessage: Available views
+msgid "availableViews"
+msgstr ""
+
+#: components/Blocks/schema
+# defaultMessage: Views
+msgid "views"
+msgstr ""
