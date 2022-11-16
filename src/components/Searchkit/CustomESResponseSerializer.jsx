@@ -1,18 +1,4 @@
-// TODO add data of .title to serialized response
-// aggregations.organisationunit_agg.organisationunit_token.buckets[1].somemoredatafromelasticsearch.hits.hits[0]._source.title
-
 import { forEach, has } from 'lodash';
-import {
-  addAppURL,
-  isInternalURL,
-  flattenToAppURL,
-  expandToBackendURL,
-  getAuthToken,
-} from '@plone/volto/helpers';
-
-import { flattenESUrlToPath } from '../helpers';
-
-import config from '@plone/volto/registry';
 
 function _pimpedAggregations(aggregations) {
   let result = Object.assign({}, aggregations);

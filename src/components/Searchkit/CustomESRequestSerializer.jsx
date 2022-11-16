@@ -115,7 +115,7 @@ export class CustomESRequestSerializer {
         return;
       }
 
-      // TODO Words with hyphen
+      // Words with hyphen
       let word_new;
       let wordpartlist = word.split('-'); // common hyphens
       if (wordpartlist.length > 1) {

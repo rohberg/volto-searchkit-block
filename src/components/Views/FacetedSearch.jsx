@@ -1,4 +1,3 @@
-// TODO update counts of BucketAggregation on selection of filter
 // TODO lacales actionProps, placeholder
 import React from 'react';
 import { useSelector } from 'react-redux';
