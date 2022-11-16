@@ -1,0 +1,18 @@
+[
+  {
+    "id": "Title",
+    "defaultMessage": "Title"
+  },
+  {
+    "id": "Description",
+    "defaultMessage": "Description"
+  },
+  {
+    "id": "Tags",
+    "defaultMessage": "Tags"
+  },
+  {
+    "id": "Content",
+    "defaultMessage": "Content"
+  }
+]

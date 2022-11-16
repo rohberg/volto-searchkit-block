@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone\n"
-"POT-Creation-Date: 2022-11-16T11:02:43.886Z\n"
+"POT-Creation-Date: 2022-11-16T11:48:44.909Z\n"
 "Last-Translator: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
 "Language-Team: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -12,6 +12,16 @@ msgstr ""
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8\n"
 "Domain: volto\n"
+
+#: components/Views/ElasticSearchHighlights
+# defaultMessage: Content
+msgid "Content"
+msgstr ""
+
+#: components/Views/ElasticSearchHighlights
+# defaultMessage: Description
+msgid "Description"
+msgstr ""
 
 #: components/Blocks/schema
 # defaultMessage: Facet
@@ -73,9 +83,15 @@ msgstr ""
 msgid "Sort By:"
 msgstr ""
 
+#: components/Views/ElasticSearchHighlights
 #: components/Views/FacetedSearch
 # defaultMessage: Tags
 msgid "Tags"
+msgstr ""
+
+#: components/Views/ElasticSearchHighlights
+# defaultMessage: Title
+msgid "Title"
 msgstr ""
 
 #: components/Blocks/schema
