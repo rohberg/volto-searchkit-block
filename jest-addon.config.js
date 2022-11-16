@@ -14,7 +14,7 @@ module.exports = {
     '~/(.*)$': '<rootDir>/src/$1',
     'load-volto-addons':
       '<rootDir>/node_modules/@plone/volto/jest-addons-loader.js',
-      '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
   },
   transform: {
     '^.+\\.js(x)?$': 'babel-jest',
