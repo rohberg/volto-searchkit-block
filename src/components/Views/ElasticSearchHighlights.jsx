@@ -3,26 +3,8 @@
  * fragment_size is set in CustomESRequestSerializer
  */
 import React from 'react';
-import { defineMessages, useIntl } from 'react-intl';
-
-const messages = defineMessages({
-  title: {
-    id: 'Title',
-    defaultMessage: 'Title',
-  },
-  description: {
-    id: 'Description',
-    defaultMessage: 'Description',
-  },
-  tags: {
-    id: 'Tags',
-    defaultMessage: 'Tags',
-  },
-  content: {
-    id: 'Content',
-    defaultMessage: 'Content',
-  },
-})
+import { useIntl } from 'react-intl';
+import messages from '../..//messages';
 
 export const ElasticSearchHighlights = ({ highlight, indexResult }) => {
   const [toggleDetails, setToggleDetails] = React.useState(false);

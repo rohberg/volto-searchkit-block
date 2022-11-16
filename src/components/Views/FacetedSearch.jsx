@@ -618,12 +618,15 @@ const FacetedSearch = ({
                 >
                   <div className="searchbar-wrapper">
                     <SearchBar
-                      placeholder="Suche"
+                      placeholder={intl.formatMessage(messages.search)}
                       autofocus="false"
                       uiProps={{
                         icon: 'search',
                         iconPosition: 'left',
                         className: 'searchbarinput',
+                      }}
+                      actionProps={{
+                        content: intl.formatMessage(messages.search)
                       }}
                     />
                     <IconSemantic
@@ -638,11 +641,14 @@ const FacetedSearch = ({
                     <Grid.Column width={12}>
                       <div className="searchbar-wrapper">
                         <SearchBar
-                          placeholder="Suche"
+                          placeholder={intl.formatMessage(messages.search)}
                           autofocus="false"
                           uiProps={{
                             icon: 'search',
                             iconPosition: 'left',
+                          }}
+                          actionProps={{
+                            content: intl.formatMessage(messages.search)
                           }}
                         />
                         <IconSemantic

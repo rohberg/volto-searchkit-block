@@ -1,54 +1,7 @@
-import { defineMessages } from 'react-intl';
 import { SelectWidget } from '@plone/volto/components';
 import { hasNonValueOperation, hasDateOperation } from '@plone/volto/components/manage/Blocks/Search/utils';
+import messages from '../../messages';
 
-
-const messages = defineMessages({
-  searchBlock: {
-    id: 'Search block',
-    defaultMessage: 'Search block',
-  },
-  facets: {
-    id: 'Facets',
-    defaultMessage: 'Facets',
-  },
-  facet: {
-    id: 'Facet',
-    defaultMessage: 'Facet',
-  },
-  label: {
-    id: 'Label',
-    defaultMessage: 'Label',
-  },
-  field: {
-    id: 'Field',
-    defaultMessage: 'Field',
-  },
-  multipleChoices: {
-    id: 'Multiple choices?',
-    defaultMessage: 'Multiple choices?',
-  },
-  facetWidget: {
-    id: 'Facet widget',
-    defaultMessage: 'Facet widget',
-  },
-  views: {
-    id: 'views',
-    defaultMessage: 'Views',
-  },
-  availableViews: {
-    id: 'availableViews',
-    defaultMessage: 'Available views',
-  },
-  showTotalResults: {
-    id: 'Show total results',
-    defaultMessage: 'Show total results',
-  },
-  metadata: {
-    id: 'Meta data',
-    defaultMessage: 'Meta data',
-  }
-});
 
 const FacetSchema = ({ intl }) => ({
   title: intl.formatMessage(messages.facet),
