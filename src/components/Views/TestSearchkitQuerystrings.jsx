@@ -174,7 +174,7 @@ const TestSearchkitQuerystrings = (props) => {
                   }}
                 /> */}
                 <SearchBar
-                  placeholder="Suche"
+                  placeholder={intl.formatMessage(messages.search)}
                   autofocus="false"
                   uiProps={{
                     icon: 'search',
