@@ -7,9 +7,7 @@ export class CustomESRequestSerializer {
   constructor(config) {
     this.reviewstatemapping = config.reviewstatemapping;
     this.searchedFields = config.searchedFields;
-    console.debug('config.facet_fields', config.facet_fields);
     this.facet_fields = getObjectFromObjectList(config.facet_fields);
-    console.debug('this.facet_fields', this.facet_fields);
     this.allowed_content_types = config.allowed_content_types;
     this.allowed_review_states = config.allowed_review_states;
   }
