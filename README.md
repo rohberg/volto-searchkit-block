@@ -3,7 +3,7 @@
 
 ## Features
 
-### Search
+### Find
 
 Search block with highly overridable components for searching, filtering and displaying search results. Sometimes also called faceted navigation.
 
