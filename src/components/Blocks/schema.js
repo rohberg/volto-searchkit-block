@@ -92,15 +92,19 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
         title: 'Types',
         description: 'Restrict types to display.',
         type: 'array',
-        creatable: true,
-        default: ['News Item', 'Document'],
+        widget: 'array',
+        items: {
+          vocabulary: { '@id': 'plone.app.vocabularies.UserFriendlyTypes' },
+        },
       },
       allowed_review_states: {
         title: 'States',
-        description: 'Restrict states to display.',
+        description: 'Restrict review states.',
         type: 'array',
-        creatable: true,
-        default: ['published'],
+        widget: 'array',
+        items: {
+          vocabulary: { '@id': 'plone.app.vocabularies.WorkflowStates' },
+        },
       },
       searchedFields: {
         title: 'Searchable fields with boosting',
@@ -117,12 +121,12 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
       },
       filterLayout: {
         title: intl.formatMessage(messages.facetWidget),
-        widget: SelectWidget,
+        // widget: SelectWidget,
         choices: [
           ['dropdown', 'Dropdown'],
           ['checkboxes', 'Checkboxes'],
         ],
-        defaultValue: 'dropdown'
+        default: 'dropdown'
       },
       extrainfo_fields: {
         title: intl.formatMessage(messages.metadata),
@@ -141,6 +145,6 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
         default: '',
       },
     },
-    required: ['elastic_search_api_url', 'elastic_search_api_index'],
+    required: ['elastic_search_api_url', 'elastic_search_api_index', 'backend_url', 'frontend_url'],
   }
 };
