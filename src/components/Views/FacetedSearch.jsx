@@ -97,7 +97,6 @@ class _ExtraInfo extends React.Component {
     const {result} = this.props;
     const extrainfo_fields = getObjectFromObjectList(this.props.currentQueryState.data.extrainfo_fields);
     const facet_fields = getObjectFromObjectList(this.props.currentQueryState.data.facet_fields);
-    console.debug('extrainfo_fields', extrainfo_fields);
     let subjectsFieldname = this.props.currentQueryState.data.subjectsFieldname;  // "subjects";
     return (
       <Item.Extra>
@@ -107,7 +106,6 @@ class _ExtraInfo extends React.Component {
             return
           }
           const extrainfo_value = Array.isArray(result[extrainfo_key]) ? result[extrainfo_key] : [result[extrainfo_key]];
-          console.debug("extrainfo_value", extrainfo_value)
 
           return Object.keys(facet_fields).includes(extrainfo_key) ? (
             <React.Fragment key={extrainfo_key}>
