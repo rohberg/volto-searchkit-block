@@ -373,13 +373,11 @@ const customBucketAggregationValuesElement = (props) => {
     bucket,
     isSelected,
     onFilterClicked,
-    getChildAggCmps,
     keyField,
   } = props;
   const label = bucket.label
     ? `${bucket.label} (${bucket.doc_count})`
     : `${keyField} (${bucket.doc_count})`;
-  const childAggCmps = getChildAggCmps(bucket);
   return (
     <Dropdown.Item key={bucket.key}>
       <Item
@@ -388,7 +386,7 @@ const customBucketAggregationValuesElement = (props) => {
       >
         {label}
       </Item>
-      {childAggCmps}
+      
     </Dropdown.Item>
   );
 };
@@ -419,16 +417,8 @@ const customSort = ({
   currentSortOrder,
   options,
   onValueChange,
-  computeValue,
 }) => {
-  const selected = computeValue(currentSortBy, currentSortOrder);
-  // const _options = options.map((element, index) => {
-  //   return {
-  //     key: index,
-  //     text: element.text,
-  //     value: element.value,
-  //   };
-  // });
+  const selected = currentSortBy.concat('-', currentSortOrder);
   return (
     <div className="header-content">
       <span className="sort-by">

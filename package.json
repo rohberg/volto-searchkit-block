@@ -24,7 +24,7 @@
   ],
   "dependencies": {
     "react-overridable": "^0.0.3",
-    "react-searchkit": "v1.0.1",
+    "react-searchkit": "v2.0.2",
     "@eeacms/volto-matomo": "*"
   },
   "devDependencies": {
