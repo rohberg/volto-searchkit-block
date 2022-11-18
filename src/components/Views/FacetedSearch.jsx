@@ -51,8 +51,6 @@ import StateLogger from '../StateLogger';
 
 import './less/springisnow-volto-searchkit-block.less';
 
-import config from '@plone/volto/registry';
-import { list } from 'postcss';
 
 // TODO Make reviewstatemapping configurable
 export const ploneSearchApi = (data) => {
