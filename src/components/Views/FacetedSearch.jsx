@@ -45,12 +45,15 @@ import { CustomESRequestSerializer } from '../Searchkit/CustomESRequestSerialize
 import { CustomESResponseSerializer } from '../Searchkit/CustomESResponseSerializer';
 import { Results } from '../Searchkit/Results';
 
-import { flattenESUrlToPath, getObjectFromObjectList, scrollToTarget } from '../helpers';
+import {
+  flattenESUrlToPath,
+  getObjectFromObjectList,
+  scrollToTarget,
+} from '../helpers';
 import { ElasticSearchHighlights } from './ElasticSearchHighlights';
 import StateLogger from '../StateLogger';
 
 import './less/springisnow-volto-searchkit-block.less';
-
 
 // TODO Make reviewstatemapping configurable
 export const ploneSearchApi = (data) => {
@@ -89,25 +92,30 @@ const MyResults = (props) => {
 
 const OnResults = withState(MyResults);
 
-
 class _ExtraInfo extends React.Component {
   render() {
-    const {result} = this.props;
-    const extrainfo_fields = getObjectFromObjectList(this.props.currentQueryState.data.extrainfo_fields);
-    const facet_fields = getObjectFromObjectList(this.props.currentQueryState.data.facet_fields);
-    let subjectsFieldname = this.props.currentQueryState.data.subjectsFieldname;  // "subjects";
+    const { result } = this.props;
+    const extrainfo_fields = getObjectFromObjectList(
+      this.props.currentQueryState.data.extrainfo_fields,
+    );
+    const facet_fields = getObjectFromObjectList(
+      this.props.currentQueryState.data.facet_fields,
+    );
+    let subjectsFieldname = this.props.currentQueryState.data?.subjectsFieldname; // "subjects";
     return (
       <Item.Extra>
         {Object.keys(extrainfo_fields).map((extrainfo_key, idx) => {
-          if (! result[extrainfo_key]) {
-            console.debug("not indexed:", extrainfo_key)
-            return
+          if (!result[extrainfo_key]) {
+            console.debug('not indexed:', extrainfo_key);
+            return;
           }
-          const extrainfo_value = Array.isArray(result[extrainfo_key]) ? result[extrainfo_key] : [result[extrainfo_key]];
+          const extrainfo_value = Array.isArray(result[extrainfo_key])
+            ? result[extrainfo_key]
+            : [result[extrainfo_key]];
 
           return Object.keys(facet_fields).includes(extrainfo_key) ? (
             <React.Fragment key={extrainfo_key}>
-              <span className='label'>{extrainfo_fields[extrainfo_key]}:</span>
+              <span className="label">{extrainfo_fields[extrainfo_key]}:</span>
               {extrainfo_value?.map((item, index) => {
                 let tito = item.title || item.token;
                 let payloadOfFilter = {
@@ -117,7 +125,12 @@ class _ExtraInfo extends React.Component {
                     layout: 'list',
                     page: 1,
                     size: 10,
-                    filters: [[`${extrainfo_key}_agg.inner.${extrainfo_key}_token`, item.token]],
+                    filters: [
+                      [
+                        `${extrainfo_key}_agg.inner.${extrainfo_key}_token`,
+                        item.token,
+                      ],
+                    ],
                   },
                 };
                 return (
@@ -137,9 +150,8 @@ class _ExtraInfo extends React.Component {
               )}
             </React.Fragment>
           ) : (
-            
             <React.Fragment key={extrainfo_key}>
-              <span className='label'>{extrainfo_fields[extrainfo_key]}:</span>
+              <span className="label">{extrainfo_fields[extrainfo_key]}:</span>
               {extrainfo_value?.map((item, index) => {
                 let tito = item.title || item.token || item;
                 return (
@@ -156,13 +168,11 @@ class _ExtraInfo extends React.Component {
           );
         })}
 
-        {result[subjectsFieldname]?.length > 0 ? (
+        {Array.isArray(result[subjectsFieldname]) &&
+        result[subjectsFieldname]?.length > 0 ? (
           <div className="metadata-tags">
-            <span className='label'>
-              <FormattedMessage
-                id="Tags"
-                defaultMessage="Tags"
-              />:
+            <span className="label">
+              <FormattedMessage id="Tags" defaultMessage="Tags" />:
             </span>
             {result[subjectsFieldname]?.map((item, index) => {
               let tito = item;
@@ -195,7 +205,7 @@ class _ExtraInfo extends React.Component {
           </div>
         ) : null}
       </Item.Extra>
-    )
+    );
   }
 }
 
@@ -256,9 +266,7 @@ const CustomResultsListItem = (props) => {
             {truncate(result.description, { length: 200 })}
           </Link>
         </Item.Description>
-        <ExtraInfo
-          result={result}
-        />
+        <ExtraInfo result={result} />
         <ElasticSearchHighlights
           highlight={result.highlight}
           indexResult={index}
@@ -369,12 +377,7 @@ const customBucketAggregationContainerElement = ({ valuesCmp }) => {
 };
 
 const customBucketAggregationValuesElement = (props) => {
-  const {
-    bucket,
-    isSelected,
-    onFilterClicked,
-    keyField,
-  } = props;
+  const { bucket, keyField, isSelected, onFilterClicked, childAggCmps } = props;
   const label = bucket.label
     ? `${bucket.label} (${bucket.doc_count})`
     : `${keyField} (${bucket.doc_count})`;
@@ -386,7 +389,7 @@ const customBucketAggregationValuesElement = (props) => {
       >
         {label}
       </Item>
-      
+      {childAggCmps}
     </Dropdown.Item>
   );
 };
@@ -396,12 +399,9 @@ const customEmpytResultsElement = (props) => {
   return (
     <Segment>
       <Header icon>
-        <FormattedMessage
-                id="No results"
-                defaultMessage="No results"
-              />
+        <FormattedMessage id="No results" defaultMessage="No results" />
       </Header>
-      <Button        
+      <Button
         onClick={() => {
           resetQuery();
         }}
@@ -472,53 +472,53 @@ const customPaginationElement = (props) => {
 
   return pages > 1 ? (
     <Paginator
-    activePage={currentPage}
-    totalPages={pages}
-    onPageChange={_onPageChange}
-    boundaryRange={boundaryRangeCount}
-    siblingRange={siblingRangeCount}
-    ellipsisItem={
-      showEllipsis
-        ? {
-            content: <IconSemantic name="ellipsis horizontal" />,
-            icon: true,
-          }
-        : null
-    }
-    firstItem={
-      showFirst
-        ? {
-            content: <Icon name={firstAngle} size="20px" />,
-            icon: true,
-          }
-        : null
-    }
-    lastItem={
-      showLast
-        ? {
-            content: <Icon name={lastAngle} size="20px" />,
-            icon: true,
-          }
-        : null
-    }
-    prevItem={
-      showPrev
-        ? {
-            content: <Icon name={leftAngle} size="20px" />,
-            icon: true,
-          }
-        : null
-    }
-    nextItem={
-      showNext
-        ? {
-            content: <Icon name={rightAngle} size="20px" />,
-            icon: true,
-          }
-        : null
-    }
-    size={size}
-  />
+      activePage={currentPage}
+      totalPages={pages}
+      onPageChange={_onPageChange}
+      boundaryRange={boundaryRangeCount}
+      siblingRange={siblingRangeCount}
+      ellipsisItem={
+        showEllipsis
+          ? {
+              content: <IconSemantic name="ellipsis horizontal" />,
+              icon: true,
+            }
+          : null
+      }
+      firstItem={
+        showFirst
+          ? {
+              content: <Icon name={firstAngle} size="20px" />,
+              icon: true,
+            }
+          : null
+      }
+      lastItem={
+        showLast
+          ? {
+              content: <Icon name={lastAngle} size="20px" />,
+              icon: true,
+            }
+          : null
+      }
+      prevItem={
+        showPrev
+          ? {
+              content: <Icon name={leftAngle} size="20px" />,
+              icon: true,
+            }
+          : null
+      }
+      nextItem={
+        showNext
+          ? {
+              content: <Icon name={rightAngle} size="20px" />,
+              icon: true,
+            }
+          : null
+      }
+      size={size}
+    />
   ) : null;
 };
 
@@ -572,10 +572,7 @@ const initialState = {
  * @param {object} overriddenComponents Override with custom components, ignore to stay with default 'dropdown' or step back to react-searchkit default components with value {}
  * @returns
  */
-const FacetedSearch = ({
-  data,
-  overriddenComponents,
-}) => {
+const FacetedSearch = ({ data, overriddenComponents }) => {
   const { facet_fields, relocation, filterLayout } = data;
   const facet_fields_object = getObjectFromObjectList(facet_fields);
   const token = useSelector((state) => state.userSession?.token);
@@ -612,7 +609,7 @@ const FacetedSearch = ({
           <ReactSearchKit
             searchApi={ploneSearchApi(data)}
             eventListenerEnabled={true}
-            initialQueryState={{...initialState, data: data}}
+            initialQueryState={{ ...initialState, data: data }}
           >
             <Container>
               {typeof document !== 'undefined' && relocation?.length > 0 ? (
@@ -633,7 +630,7 @@ const FacetedSearch = ({
                         className: 'searchbarinput',
                       }}
                       actionProps={{
-                        content: intl.formatMessage(messages.search)
+                        content: intl.formatMessage(messages.search),
                       }}
                     />
                     <IconSemantic
@@ -655,7 +652,7 @@ const FacetedSearch = ({
                             iconPosition: 'left',
                           }}
                           actionProps={{
-                            content: intl.formatMessage(messages.search)
+                            content: intl.formatMessage(messages.search),
                           }}
                         />
                         <IconSemantic
@@ -677,14 +674,13 @@ const FacetedSearch = ({
                     className={'facetedsearch_filter ' + filterLayout}
                   >
                     {Object.keys(facet_fields_object)?.map((facet) => (
-                        <BucketAggregation
-                          title={facet_fields_object[facet]}
-                          agg={{
-                            field: facet,
-                            aggName:
-                            `${facet}_agg.inner.${facet}_token`,
-                          }}
-                        />
+                      <BucketAggregation
+                        title={facet_fields_object[facet]}
+                        agg={{
+                          field: facet,
+                          aggName: `${facet}_agg.inner.${facet}_token`,
+                        }}
+                      />
                     ))}
                   </Grid.Column>
                 </Grid.Row>
