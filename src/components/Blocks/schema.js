@@ -1,7 +1,8 @@
-import { SelectWidget } from '@plone/volto/components';
-import { hasNonValueOperation, hasDateOperation } from '@plone/volto/components/manage/Blocks/Search/utils';
+import {
+  hasNonValueOperation,
+  hasDateOperation,
+} from '@plone/volto/components/manage/Blocks/Search/utils';
 import messages from '../../messages';
-
 
 const FacetSchema = ({ intl }) => ({
   title: intl.formatMessage(messages.facet),
@@ -41,10 +42,9 @@ const FacetSchema = ({ intl }) => ({
   required: ['field'],
 });
 
-
 export const SearchBlockSchema = ({ data = {}, intl }) => {
   return {
-    title: intl.formatMessage(messages.searchBlock),    
+    title: intl.formatMessage(messages.searchBlock),
     fieldsets: [
       {
         id: 'default',
@@ -108,7 +108,8 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
       },
       searchedFields: {
         title: 'Searchable fields with boosting',
-        description: 'Type fieldnames to search in field names. Type title^1.4 to boost the title 40%.',
+        description:
+          'Type fieldnames to search in field names. Type title^1.4 to boost the title 40%.',
         type: 'array',
         creatable: true,
         default: ['title^1.4', 'description^1.2'],
@@ -126,7 +127,7 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
           ['dropdown', 'Dropdown'],
           ['checkboxes', 'Checkboxes'],
         ],
-        default: 'dropdown'
+        default: 'dropdown',
       },
       extrainfo_fields: {
         title: intl.formatMessage(messages.metadata),
@@ -135,7 +136,8 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
       },
       subjectsFieldname: {
         title: 'Field name of tags field',
-        description: 'Show tags to search for. Let the field empty to not show tags.',
+        description:
+          'Show tags to search for. Let the field empty to not show tags.',
         default: '',
       },
       relocation: {
@@ -145,6 +147,11 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
         default: '',
       },
     },
-    required: ['elastic_search_api_url', 'elastic_search_api_index', 'backend_url', 'frontend_url'],
-  }
+    required: [
+      'elastic_search_api_url',
+      'elastic_search_api_index',
+      'backend_url',
+      'frontend_url',
+    ],
+  };
 };
