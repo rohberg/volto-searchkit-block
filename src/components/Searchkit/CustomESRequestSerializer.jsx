@@ -255,8 +255,8 @@ export class CustomESRequestSerializer {
     }
 
     const getFieldnameFromAgg = (agg) => {
-      return agg.split(".")[0].replace("_agg", "")
-    }
+      return agg.split('.')[0].replace('_agg', '');
+    };
 
     let terms = [];
     terms.push({
@@ -340,44 +340,47 @@ export class CustomESRequestSerializer {
     });
 
     // 2. aggregations of facet_fields
-    Object.keys(this.facet_fields)?.map((fieldName) => {
-      const myaggs = [`${fieldName}_agg`, 'inner', `${fieldName}_token`];
 
-      function aggregation_filter(agg) {
-        // agg is a key of aggFieldsMapping.
-        // something like 'kompasscomponent_agg.inner.kompasscomponent_token'
-        return isEmpty(filter)
-          ? { match_all: {} }
-          : {
-              bool: {
-                filter: filter.filter(
-                  (el) => !agg[0].startsWith(el.nested.path),
-                ),
-              },
-            };
-      }
+    if (Object.keys(this.facet_fields).length > 0) {
+      Object.keys(this.facet_fields).map((fieldName) => {
+        const myaggs = [`${fieldName}_agg`, 'inner', `${fieldName}_token`];
 
-      const aggBucketTermsComponent = {
-        [myaggs[0]]: {
-          aggs: {
-            inner: {
-              nested: {
-                path: fieldName,
-              },
-              aggs: {
-                [myaggs[2]]: {
-                  terms: {
-                    field: fieldName + '.token',
-                    order: {
-                      _key: 'asc',
+        function aggregation_filter(agg) {
+          // agg is a key of aggFieldsMapping.
+          // something like 'kompasscomponent_agg.inner.kompasscomponent_token'
+          return isEmpty(filter)
+            ? { match_all: {} }
+            : {
+                bool: {
+                  filter: filter.filter(
+                    (el) => !agg[0].startsWith(el.nested.path),
+                  ),
+                },
+              };
+        }
+
+        const aggBucketTermsComponent = {
+          [myaggs[0]]: {
+            aggs: {
+              inner: {
+                nested: {
+                  path: fieldName,
+                },
+                aggs: {
+                  [myaggs[2]]: {
+                    terms: {
+                      field: fieldName + '.token',
+                      order: {
+                        _key: 'asc',
+                      },
+                      size: 30, // number of buckets
                     },
-                    size: 30, // number of buckets
-                  },
-                  aggs: {
-                    somemoredatafromelasticsearch: {
-                      top_hits: {
-                        size: 1,
-                        _source: { includes: [fieldName] },
+                    aggs: {
+                      somemoredatafromelasticsearch: {
+                        top_hits: {
+                          size: 1,
+                          _source: { includes: [fieldName] },
+                        },
                       },
                     },
                   },
@@ -385,14 +388,15 @@ export class CustomESRequestSerializer {
               },
             },
           },
-        },
-      };
-      const flt = aggregation_filter(myaggs);
-      if (!isEmpty(flt)) {
-        aggBucketTermsComponent[myaggs[0]].filter = flt;
-      }
-      extend(bodyParams['aggs'], aggBucketTermsComponent);
-    });
+        };
+        const flt = aggregation_filter(myaggs);
+        if (!isEmpty(flt)) {
+          aggBucketTermsComponent[myaggs[0]].filter = flt;
+        }
+        extend(bodyParams['aggs'], aggBucketTermsComponent);
+      });
+    }
+
     // console.debug('CustomESRequestSerializer bodyParams', bodyParams);
     return bodyParams;
   };

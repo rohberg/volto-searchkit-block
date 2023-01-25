@@ -101,7 +101,8 @@ class _ExtraInfo extends React.Component {
     const facet_fields = getObjectFromObjectList(
       this.props.currentQueryState.data.facet_fields,
     );
-    let subjectsFieldname = this.props.currentQueryState.data?.subjectsFieldname; // "subjects";
+    let subjectsFieldname = this.props.currentQueryState.data
+      ?.subjectsFieldname; // "subjects";
     return (
       <Item.Extra>
         {Object.keys(extrainfo_fields).map((extrainfo_key, idx) => {
@@ -276,7 +277,7 @@ const CustomResultsListItem = (props) => {
   );
 };
 
-const myCountElement = ({ totalResults }) => {
+const MyCountElement = ({ totalResults }) => {
   const intl = useIntl();
   let labelSearchResults = intl.formatMessage(messages.searchresult);
   let labelSearchResultsPlural = intl.formatMessage(messages.searchresults);
@@ -524,7 +525,7 @@ const customPaginationElement = (props) => {
 
 const defaultOverriddenComponents = {
   'ResultsList.item.elasticsearch': CustomResultsListItem,
-  'Count.element': myCountElement,
+  'Count.element': MyCountElement,
   'ActiveFilters.element': myActiveFiltersElement,
   'EmptyResults.element': customEmpytResultsElement,
   'Sort.element.volto': customSort,
