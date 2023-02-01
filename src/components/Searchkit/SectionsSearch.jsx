@@ -12,7 +12,7 @@ const _SectionsSearch = ({
   const restrictSearchToSection = (section) => {
     console.debug('restrictSearchToSection');
     setActiveSection(section);
-    let foo = {
+    let kitquerystate = {
       sortBy: 'modified',
       sortOrder: 'desc',
       layout: 'list',
@@ -21,13 +21,22 @@ const _SectionsSearch = ({
       filters: currentQueryState.filters,
     };
     if (currentQueryState.queryString) {
-      foo.queryString = currentQueryState.queryString;
+      kitquerystate.queryString = currentQueryState.queryString;
     }
-    if (section !== 'all') {
-      foo.filters.push(['sectionpath', section]);
+    // Replace filter 'section'
+    kitquerystate.filters = kitquerystate.filters.filter((el) => {
+      return el[0] !== 'section';
+    });
+    if (section === 'all') {
+      // pass
+    } else if (section === 'others') {
+      kitquerystate.filters.push(['section', section]);
+    } else {
+      kitquerystate.filters.push(['section', section]);
     }
-    console.debug('foo', foo);
-    updateQueryState(foo);
+
+    console.debug('kitquerystate.filters', kitquerystate.filters);
+    updateQueryState(kitquerystate);
   };
 
   return (
@@ -43,8 +52,8 @@ const _SectionsSearch = ({
         ) : null}
         {search_sections.items?.length > 0 && allow_search_excluded_sections ? (
           <button
-            className={activeSection === 'website' ? 'active' : ''}
-            onClick={() => restrictSearchToSection('website')}
+            className={activeSection === 'others' ? 'active' : ''}
+            onClick={() => restrictSearchToSection('others')}
           >
             Website
           </button>

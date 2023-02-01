@@ -1,4 +1,4 @@
-import { extend, isEmpty, trim } from 'lodash';
+import { extend, isEmpty, keyBy, trim } from 'lodash';
 import { getObjectFromObjectList } from '../helpers.jsx';
 
 import { listFilterFields } from './constants.js';
@@ -10,6 +10,7 @@ export class CustomESRequestSerializer {
     this.facet_fields = getObjectFromObjectList(config.facet_fields);
     this.allowed_content_types = config.allowed_content_types;
     this.allowed_review_states = config.allowed_review_states;
+    this.search_sections = config.search_sections;
   }
   /**
    * Convert Array of filters to Object of filters
@@ -277,6 +278,18 @@ export class CustomESRequestSerializer {
         review_state: this.allowed_review_states,
       },
     });
+    // Push section.
+    const filters_dict = keyBy(filters, (e) => {
+      return e[0];
+    });
+    const section = filters_dict['section'];
+    if (section && section[1] !== 'others') {
+      terms.push({
+        terms: {
+          section: [section[1]],
+        },
+      });
+    }
 
     let filter = [];
     if (filters.length) {
@@ -331,16 +344,24 @@ export class CustomESRequestSerializer {
     if (!isEmpty(filter)) {
       post_filter['bool']['filter'] = [...filter];
     }
-    // TODO section path
-    // Obsolete with portal types configurable in block
-    // if (true) {
-    //   post_filter['bool']['must'].push({
-    //     terms: {
-    //       portal_type: ['Manual'],
-    //     },
-    //   });
-    // }
+
+    // Exclude sections
+    if (section && section[1] === 'others') {
+      post_filter['bool']['must_not'] = [
+        {
+          terms: {
+            section: this.search_sections.items.map((el) => {
+              return el.section;
+            }),
+          },
+        },
+      ];
+    }
     bodyParams['post_filter'] = post_filter;
+    console.debug(
+      "bodyParams['post_filter']['bool']",
+      bodyParams['post_filter']['bool'],
+    );
 
     /**
      * Aggregations

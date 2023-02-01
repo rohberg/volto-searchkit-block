@@ -77,6 +77,7 @@ export const ploneSearchApi = (data) => {
     facet_fields: data.facet_fields,
     allowed_content_types: data.allowed_content_types,
     allowed_review_states: data.allowed_review_states,
+    search_sections: data.search_sections,
     backend_url: data.backend_url,
     frontend_url: data.frontend_url,
     elastic_search_api_url: data.elastic_search_api_url,
@@ -113,8 +114,8 @@ class _ExtraInfo extends React.Component {
       <Item.Extra>
         {Object.keys(extrainfo_fields).map((extrainfo_key, idx) => {
           if (!result[extrainfo_key]) {
-            console.debug('not indexed:', extrainfo_key);
-            return;
+            // console.debug('not indexed:', extrainfo_key);
+            return null;
           }
           const extrainfo_value = Array.isArray(result[extrainfo_key])
             ? result[extrainfo_key]
