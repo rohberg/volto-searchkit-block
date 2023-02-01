@@ -52,7 +52,15 @@ export class CustomESRequestSerializer {
    * @param {object} stateQuery the `query` state to serialize
    */
   serialize = (stateQuery) => {
-    const { queryString, sortBy, sortOrder, page, size, filters } = stateQuery;
+    const {
+      queryString,
+      sortBy,
+      sortOrder,
+      page,
+      size,
+      filters,
+      hiddenParams,
+    } = stateQuery;
     const bodyParams = {};
     const force_fuzzy = true; // search for `${word}` and `${word}~`
 
@@ -312,6 +320,7 @@ export class CustomESRequestSerializer {
         return accumulator;
       }, []);
     }
+    // console.debug('filter', filter);
 
     /**
      * ES post_filter
@@ -320,8 +329,17 @@ export class CustomESRequestSerializer {
     const post_filter = { bool: { must: terms } };
     // facet_fields
     if (!isEmpty(filter)) {
-      post_filter['bool']['filter'] = filter;
+      post_filter['bool']['filter'] = [...filter];
     }
+    // TODO section path
+    // Obsolete with portal types configurable in block
+    // if (true) {
+    //   post_filter['bool']['must'].push({
+    //     terms: {
+    //       portal_type: ['Manual'],
+    //     },
+    //   });
+    // }
     bodyParams['post_filter'] = post_filter;
 
     /**

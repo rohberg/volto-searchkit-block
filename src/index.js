@@ -10,6 +10,8 @@ import {
   ReferenceSearchBlockView,
 } from './components/Blocks/Reference';
 
+import SearchSectionsWidget from './components/Blocks/SearchSectionsWidget';
+
 const applyConfig = (config) => {
   config.settings.searchkitblock = {
     ...(config.settings.searchkitblock ?? {}),
@@ -31,6 +33,8 @@ const applyConfig = (config) => {
       view: [],
     },
   };
+
+  config.widgets.widget.searchsectionswidget = SearchSectionsWidget;
 
   /**
    * A reference block with default components from react-searchkit

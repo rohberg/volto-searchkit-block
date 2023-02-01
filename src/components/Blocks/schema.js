@@ -60,6 +60,8 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
         id: 'search',
         title: 'Facets and results',
         fields: [
+          'search_sections',
+          'allow_search_excluded_sections',
           'allowed_content_types',
           'allowed_review_states',
           'searchedFields',
@@ -87,6 +89,17 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
       frontend_url: {
         title: 'Frontend URL',
         default: 'http://acme.example.com',
+      },
+      search_sections: {
+        title: 'Search in sections',
+        description: 'Search can be restricted by sections / paths',
+        type: 'dict',
+        factory: 'JSONField',
+        widget: 'searchsectionswidget',
+      },
+      allow_search_excluded_sections: {
+        title: 'Allow search everywhere except in sections',
+        type: 'boolean',
       },
       allowed_content_types: {
         title: 'Types',

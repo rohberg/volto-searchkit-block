@@ -1,4 +1,5 @@
 import React from 'react';
+import Cookies from 'universal-cookie';
 import { useSelector } from 'react-redux';
 
 import { OverridableContext } from 'react-overridable';
@@ -44,6 +45,7 @@ import { PloneSearchApi } from '../Searchkit/ESSearchApi';
 import { CustomESRequestSerializer } from '../Searchkit/CustomESRequestSerializer';
 import { CustomESResponseSerializer } from '../Searchkit/CustomESResponseSerializer';
 import { Results } from '../Searchkit/Results';
+import SectionsSearch from '../Searchkit/SectionsSearch';
 
 import {
   flattenESUrlToPath,
@@ -51,17 +53,21 @@ import {
   scrollToTarget,
 } from '../helpers';
 import { ElasticSearchHighlights } from './ElasticSearchHighlights';
-import StateLogger from '../StateLogger';
 
 import './less/springisnow-volto-searchkit-block.less';
 
 // TODO Make reviewstatemapping configurable
 export const ploneSearchApi = (data) => {
+  const cookies = new Cookies();
+  const authToken = cookies.get('auth_token');
   return new PloneSearchApi({
     axios: {
       url: expandToBackendURL('/@kitsearch'),
       timeout: 5000,
-      headers: { Accept: 'application/json' },
+      headers: { 
+        Accept: 'application/json',
+        Authorization: `Bearer ${authToken}`,
+      },
     },
     es: {
       requestSerializer: CustomESRequestSerializer,
@@ -81,7 +87,7 @@ export const ploneSearchApi = (data) => {
 const MyResults = (props) => {
   // Add scroll to input field search
   React.useEffect(() => {
-    const el = document.querySelector('.navigation-dropdownmenu');
+    const el = document.querySelector('.searchkitsearch');
     if (el) {
       scrollToTarget(el);
     }
@@ -574,7 +580,13 @@ const initialState = {
  * @returns
  */
 const FacetedSearch = ({ data, overriddenComponents }) => {
-  const { facet_fields, relocation, filterLayout } = data;
+  const {
+    allow_search_excluded_sections,
+    facet_fields,
+    relocation,
+    filterLayout,
+    search_sections,
+  } = data;
   const facet_fields_object = getObjectFromObjectList(facet_fields);
   const token = useSelector((state) => state.userSession?.token);
   const intl = useIntl();
@@ -667,8 +679,20 @@ const FacetedSearch = ({ data, overriddenComponents }) => {
                   </Grid.Row>
                 </Grid>
               )}
-
               <Grid relaxed style={{ padding: '2em 0' }}>
+                <Grid.Row>
+                  <Grid.Column
+                    width={12}
+                    className={'facetedsearch_sections ' + filterLayout}
+                  >
+                    <SectionsSearch
+                      search_sections={search_sections}
+                      allow_search_excluded_sections={
+                        allow_search_excluded_sections
+                      }
+                    />
+                  </Grid.Column>
+                </Grid.Row>
                 <Grid.Row>
                   <Grid.Column
                     width={12}

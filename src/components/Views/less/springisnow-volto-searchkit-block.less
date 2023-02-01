@@ -27,10 +27,13 @@
 .searchbar-wrapper {
     display: flex;
     align-items: center;
-    .ui.fluid.input > input {
+    .ui.fluid.action.input > input {
         width: unset !important;
-        height: 3rem;
         border-radius: 0;
+        border-color: rgba(0, 0, 0, 0.13) !important;
+        &:focus {
+            border-color: #85B7D9 !important;
+        }
     }
     .button {
         border-radius: 0;
@@ -132,6 +135,20 @@
                     opacity: 0;
                 }
             }
+        }
+    }
+}
+
+.searchsections {
+    display: flex;
+    gap: 20px;
+    button {
+        border: none;
+        padding: 0.7rem 1rem 0.7rem 1rem;
+        background-color: #f3f1f1;
+        color: #6e6a6a;
+        &.active {
+            background-color: #e8e3e3;
         }
     }
 }
