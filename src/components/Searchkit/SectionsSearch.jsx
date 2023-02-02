@@ -82,17 +82,19 @@ const _SectionsSearch = ({
             Website
           </button>
         ) : null}
-        {search_sections.items.map((el) => {
-          return (
-            <button
-              key={el.section}
-              className={activeSection === el.section ? 'active' : ''}
-              onClick={() => restrictSearchToSection(el.section)}
-            >
-              {el.label}
-            </button>
-          );
-        })}
+        {search_sections
+          ? search_sections.items.map((el) => {
+              return (
+                <button
+                  key={el.section}
+                  className={activeSection === el.section ? 'active' : ''}
+                  onClick={() => restrictSearchToSection(el.section)}
+                >
+                  {el.label}
+                </button>
+              );
+            })
+          : null}
       </div>
       {/* <StateLogger /> */}
     </>
