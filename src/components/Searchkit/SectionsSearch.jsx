@@ -66,7 +66,7 @@ const _SectionsSearch = ({
         }
       />
       <div className="searchsections">
-        {search_sections.items?.length > 0 ? (
+        {search_sections?.items?.length > 0 ? (
           <button
             className={activeSection === 'all' ? 'active' : ''}
             onClick={() => restrictSearchToSection('all')}
@@ -74,7 +74,7 @@ const _SectionsSearch = ({
             Überall
           </button>
         ) : null}
-        {search_sections.items?.length > 0 && allow_search_excluded_sections ? (
+        {search_sections?.items?.length > 0 && allow_search_excluded_sections ? (
           <button
             className={activeSection === 'others' ? 'active' : ''}
             onClick={() => restrictSearchToSection('others')}
