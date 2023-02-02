@@ -358,10 +358,6 @@ export class CustomESRequestSerializer {
       ];
     }
     bodyParams['post_filter'] = post_filter;
-    console.debug(
-      "bodyParams['post_filter']['bool']",
-      bodyParams['post_filter']['bool'],
-    );
 
     /**
      * Aggregations

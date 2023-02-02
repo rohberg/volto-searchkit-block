@@ -8,10 +8,7 @@ const Edit = ({ data, onChangeBlock, block, selected }) => {
   return (
     <div className="block searchkitsearch">
       <SidebarPortal selected={selected}>
-        <Sidebar 
-          data={data}
-          block={block}
-          onChangeBlock={onChangeBlock} />
+        <Sidebar data={data} block={block} onChangeBlock={onChangeBlock} />
       </SidebarPortal>
 
       <div className="block searchkitsearch">

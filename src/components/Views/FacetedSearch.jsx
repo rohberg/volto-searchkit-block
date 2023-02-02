@@ -64,7 +64,7 @@ export const ploneSearchApi = (data) => {
     axios: {
       url: expandToBackendURL('/@kitsearch'),
       timeout: 5000,
-      headers: { 
+      headers: {
         Accept: 'application/json',
         Authorization: `Bearer ${authToken}`,
       },
@@ -163,7 +163,7 @@ class _ExtraInfo extends React.Component {
               {extrainfo_value?.map((item, index) => {
                 let tito = item.title || item.token || item;
                 return (
-                  <span>
+                  <span key={index}>
                     {tito}
                     {index < extrainfo_value.length - 1 ? ',' : null}
                   </span>
@@ -583,6 +583,7 @@ const initialState = {
 const FacetedSearch = ({ data, overriddenComponents }) => {
   const {
     allow_search_excluded_sections,
+    show_filter_for_excluded_sections,
     facet_fields,
     relocation,
     filterLayout,
@@ -681,26 +682,24 @@ const FacetedSearch = ({ data, overriddenComponents }) => {
                 </Grid>
               )}
               <Grid relaxed style={{ padding: '2em 0' }}>
-                <Grid.Row>
-                  <Grid.Column
-                    width={12}
-                    className={'facetedsearch_sections ' + filterLayout}
-                  >
+                <Grid.Row className={'facetedsearch_sections ' + filterLayout}>
+                  <Grid.Column width={12}>
                     <SectionsSearch
                       search_sections={search_sections}
                       allow_search_excluded_sections={
                         allow_search_excluded_sections
                       }
+                      show_filter_for_excluded_sections={
+                        show_filter_for_excluded_sections
+                      }
                     />
                   </Grid.Column>
                 </Grid.Row>
-                <Grid.Row>
-                  <Grid.Column
-                    width={12}
-                    className={'facetedsearch_filter ' + filterLayout}
-                  >
+                <Grid.Row className={'facetedsearch_filter ' + filterLayout}>
+                  <Grid.Column width={12}>
                     {Object.keys(facet_fields_object)?.map((facet) => (
                       <BucketAggregation
+                        key={facet}
                         title={facet_fields_object[facet]}
                         agg={{
                           field: facet,

@@ -1,16 +1,23 @@
 import React from 'react';
+import { keyBy } from 'lodash';
 import { withState } from 'react-searchkit';
-import StateLogger from '../StateLogger';
+import { BodyClass } from '@plone/volto/helpers';
+// import StateLogger from '../StateLogger';
 
 const _SectionsSearch = ({
   allow_search_excluded_sections,
+  show_filter_for_excluded_sections,
   search_sections,
   currentQueryState,
   updateQueryState,
 }) => {
   const [activeSection, setActiveSection] = React.useState('all');
+
+  const search_sections_dict = keyBy(search_sections.items, (el) => {
+    return el.section;
+  });
+
   const restrictSearchToSection = (section) => {
-    console.debug('restrictSearchToSection');
     setActiveSection(section);
     let kitquerystate = {
       sortBy: 'modified',
@@ -23,6 +30,15 @@ const _SectionsSearch = ({
     if (currentQueryState.queryString) {
       kitquerystate.queryString = currentQueryState.queryString;
     }
+
+    // Empty filters for sections without filter
+    if (
+      (search_sections_dict[section] &&
+        !search_sections_dict[section].show_filter) ||
+      (section === 'others' && !show_filter_for_excluded_sections)
+    ) {
+      kitquerystate.filters = [];
+    }
     // Replace filter 'section'
     kitquerystate.filters = kitquerystate.filters.filter((el) => {
       return el[0] !== 'section';
@@ -34,13 +50,21 @@ const _SectionsSearch = ({
     } else {
       kitquerystate.filters.push(['section', section]);
     }
-
-    console.debug('kitquerystate.filters', kitquerystate.filters);
+    // Do search!
     updateQueryState(kitquerystate);
   };
 
   return (
     <>
+      <BodyClass
+        className={
+          (search_sections_dict[activeSection] &&
+            !search_sections_dict[activeSection].show_filter) ||
+          (activeSection === 'others' && !show_filter_for_excluded_sections)
+            ? 'section_without_filter'
+            : ''
+        }
+      />
       <div className="searchsections">
         {search_sections.items?.length > 0 ? (
           <button
@@ -61,6 +85,7 @@ const _SectionsSearch = ({
         {search_sections.items.map((el) => {
           return (
             <button
+              key={el.section}
               className={activeSection === el.section ? 'active' : ''}
               onClick={() => restrictSearchToSection(el.section)}
             >

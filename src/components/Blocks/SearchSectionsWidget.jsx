@@ -20,6 +20,10 @@ const messages = defineMessages({
     id: 'Add search section',
     defaultMessage: 'Add search section',
   },
+  showFilter: {
+    id: 'Show filters',
+    defineMessage: 'Show filter',
+  },
 });
 
 const ItemSchema = ({ intl }) => {
@@ -33,12 +37,17 @@ const ItemSchema = ({ intl }) => {
       label: {
         title: intl.formatMessage(messages.searchsectionlabel),
       },
+      show_filter: {
+        title: intl.formatMessage(messages.showFilter),
+        type: 'boolean',
+        default: true,
+      },
     },
     fieldsets: [
       {
         id: 'default',
         title: 'History-Eintrag',
-        fields: ['section', 'label'],
+        fields: ['section', 'label', 'show_filter'],
       },
     ],
     required: [],
