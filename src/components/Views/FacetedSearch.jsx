@@ -111,7 +111,7 @@ class _ExtraInfo extends React.Component {
     let subjectsFieldname = this.props.currentQueryState.data
       ?.subjectsFieldname; // "subjects";
     return (
-      <Item.Extra>
+      <Item.Extra className="metadata">
         {Object.keys(extrainfo_fields).map((extrainfo_key, idx) => {
           if (!result[extrainfo_key]) {
             // console.debug('not indexed:', extrainfo_key);
