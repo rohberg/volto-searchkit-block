@@ -13,7 +13,7 @@ const _SectionsSearch = ({
 }) => {
   const [activeSection, setActiveSection] = React.useState('all');
 
-  const search_sections_dict = keyBy(search_sections.items, (el) => {
+  const search_sections_dict = keyBy(search_sections?.items || [], (el) => {
     return el.section;
   });
 
