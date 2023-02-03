@@ -155,8 +155,19 @@ body.section_without_filter .facetedsearch_filter {
         padding: 0.7rem 1rem 0.7rem 1rem;
         background-color: #f3f1f1;
         color: #6e6a6a;
+        cursor: pointer;
         &.active {
             background-color: #dfd8d8;
+        }
+    }
+}
+// Mobile
+@media only screen and (max-width: 767px) {
+    .searchsections {
+        flex-direction: column;
+        gap: 0.5rem;
+        button {
+            display: inline-block;
         }
     }
 }
