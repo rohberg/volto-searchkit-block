@@ -655,7 +655,7 @@ const FacetedSearch = ({ data, overriddenComponents }) => {
                   </div>
                 </Portal>
               ) : (
-                <Grid relaxed style={{ padding: '2em 0' }}>
+                <Grid relaxed style={{ padding: '1em 0' }}>
                   <Grid.Row>
                     <Grid.Column width={12}>
                       <div className="searchbar-wrapper">
@@ -681,7 +681,7 @@ const FacetedSearch = ({ data, overriddenComponents }) => {
                   </Grid.Row>
                 </Grid>
               )}
-              <Grid relaxed style={{ padding: '2em 0' }}>
+              <Grid relaxed style={{ padding: '1em 0' }}>
                 <Grid.Row className={'facetedsearch_sections ' + filterLayout}>
                   <Grid.Column width={12}>
                     <SectionsSearch
