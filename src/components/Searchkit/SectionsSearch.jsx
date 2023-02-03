@@ -4,18 +4,80 @@ import { withState } from 'react-searchkit';
 import { BodyClass } from '@plone/volto/helpers';
 // import StateLogger from '../StateLogger';
 
-const _SectionsSearch = ({
-  allow_search_excluded_sections,
-  show_filter_for_excluded_sections,
-  search_sections,
-  currentQueryState,
-  updateQueryState,
-}) => {
+const _SectionsSearch = (props) => {
+  const {
+    allow_search_excluded_sections,
+    show_filter_for_excluded_sections,
+    search_sections,
+    currentQueryState,
+    updateQueryState,
+  } = props;
+  // DEBUG
+  console.debug(
+    '** props.currentResultsState.data.total',
+    props.currentResultsState.data.total,
+  );
+  // console.debug(
+  //   'props.currentResultsState.data.aggregations',
+  //   props.currentResultsState.data.aggregations,
+  // );
+  // console.debug(
+  //   'props.currentResultsState.data.aggregations.section_agg',
+  //   props.currentResultsState.data.aggregations.section_agg,
+  // );
+  console.debug(
+    'props.currentResultsState.data.aggregations.section_agg?.section_foodidoo?.buckets',
+    props.currentResultsState.data.aggregations.section_agg?.section_foodidoo
+      ?.buckets,
+  );
   const [activeSection, setActiveSection] = React.useState('all');
+  const [doc_count_others, setDoc_count_others] = React.useState(0);
+  const [doc_count_all, setDoc_count_all] = React.useState(0);
+  const [search_sections_dict, setSearch_sections_dict] = React.useState({});
 
-  const search_sections_dict = keyBy(search_sections?.items || [], (el) => {
-    return el.section;
-  });
+  React.useEffect(() => {
+    setSearch_sections_dict(
+      keyBy(search_sections?.items || [], (el) => {
+        return el.section;
+      }),
+    );
+
+    if (
+      props.currentResultsState.data.aggregations.section_agg?.section_foodidoo
+        ?.buckets
+    ) {
+      const buckets =
+        props.currentResultsState.data.aggregations.section_agg
+          ?.section_foodidoo?.buckets;
+      console.debug('buckets', buckets);
+      let bucket_dict = {};
+      buckets.forEach((el) => {
+        console.debug('el.key', el.key);
+        bucket_dict[el.key] = el.doc_count;
+      });
+      console.debug('bucket_dict', bucket_dict);
+
+      // calculate doc_counts of others and all
+      let count_others = 0;
+      let count_all = 0;
+      Object.keys(bucket_dict).forEach((el) => {
+        if (!Object.keys(search_sections_dict).includes(el)) {
+          count_others = count_others + bucket_dict[el];
+        }
+      });
+      Object.keys(bucket_dict).forEach((el) => {
+        count_all = count_all + bucket_dict[el];
+      });
+      setDoc_count_others(count_others);
+      setDoc_count_all(count_all);
+    }
+    console.debug('doc_count_others', doc_count_others);
+    console.debug('doc_count_all', doc_count_all);
+  }, [
+    props.currentResultsState.data.aggregations,
+    activeSection,
+    search_sections,
+  ]);
 
   const restrictSearchToSection = (section) => {
     setActiveSection(section);
@@ -71,15 +133,16 @@ const _SectionsSearch = ({
             className={activeSection === 'all' ? 'active' : ''}
             onClick={() => restrictSearchToSection('all')}
           >
-            Überall
+            Überall <span class="count">{`(${doc_count_all})`}</span>
           </button>
         ) : null}
-        {search_sections?.items?.length > 0 && allow_search_excluded_sections ? (
+        {search_sections?.items?.length > 0 &&
+        allow_search_excluded_sections ? (
           <button
             className={activeSection === 'others' ? 'active' : ''}
             onClick={() => restrictSearchToSection('others')}
           >
-            Website
+            Website <span class="count">{`(${doc_count_others})`}</span>
           </button>
         ) : null}
         {search_sections
@@ -90,7 +153,15 @@ const _SectionsSearch = ({
                   className={activeSection === el.section ? 'active' : ''}
                   onClick={() => restrictSearchToSection(el.section)}
                 >
-                  {el.label}
+                  {el.label}{' '}
+                  <span class="count">{`(${
+                    props.currentResultsState.data.aggregations.section_agg
+                      ?.section_foodidoo?.buckets
+                      ? props.currentResultsState.data.aggregations.section_agg.section_foodidoo.buckets.find(
+                          (bucket) => bucket.key === el.section,
+                        )?.doc_count || 0
+                      : 0
+                  })`}</span>
                 </button>
               );
             })
