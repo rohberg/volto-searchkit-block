@@ -117,3 +117,4 @@ api/constraints-mxdev.txt
 api/requirements-mxdev.txt
 development-searchkitblock/celery/venv/
 development-searchkitblock/celery/sources/
+build/
