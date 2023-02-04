@@ -110,7 +110,7 @@ const _SectionsSearch = (props) => {
             className={activeSection === 'all' ? 'active' : ''}
             onClick={() => restrictSearchToSection('all')}
           >
-            Überall <span class="count">{`(${doc_count_all})`}</span>
+            Überall <span className="count">{`(${doc_count_all})`}</span>
           </button>
         ) : null}
         {search_sections?.items?.length > 0 &&
@@ -119,7 +119,7 @@ const _SectionsSearch = (props) => {
             className={activeSection === 'others' ? 'active' : ''}
             onClick={() => restrictSearchToSection('others')}
           >
-            Website <span class="count">{`(${doc_count_others})`}</span>
+            Website <span className="count">{`(${doc_count_others})`}</span>
           </button>
         ) : null}
         {search_sections
@@ -131,7 +131,7 @@ const _SectionsSearch = (props) => {
                   onClick={() => restrictSearchToSection(el.section)}
                 >
                   {el.label}{' '}
-                  <span class="count">{`(${
+                  <span className="count">{`(${
                     props.currentResultsState.data.aggregations.section_agg
                       ?.section_foodidoo?.buckets
                       ? props.currentResultsState.data.aggregations.section_agg.section_foodidoo.buckets.find(
