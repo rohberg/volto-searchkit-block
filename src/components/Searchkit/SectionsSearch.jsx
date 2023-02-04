@@ -12,24 +12,6 @@ const _SectionsSearch = (props) => {
     currentQueryState,
     updateQueryState,
   } = props;
-  // DEBUG
-  console.debug(
-    '** props.currentResultsState.data.total',
-    props.currentResultsState.data.total,
-  );
-  // console.debug(
-  //   'props.currentResultsState.data.aggregations',
-  //   props.currentResultsState.data.aggregations,
-  // );
-  // console.debug(
-  //   'props.currentResultsState.data.aggregations.section_agg',
-  //   props.currentResultsState.data.aggregations.section_agg,
-  // );
-  console.debug(
-    'props.currentResultsState.data.aggregations.section_agg?.section_foodidoo?.buckets',
-    props.currentResultsState.data.aggregations.section_agg?.section_foodidoo
-      ?.buckets,
-  );
   const [activeSection, setActiveSection] = React.useState('all');
   const [doc_count_others, setDoc_count_others] = React.useState(0);
   const [doc_count_all, setDoc_count_all] = React.useState(0);
@@ -49,13 +31,10 @@ const _SectionsSearch = (props) => {
       const buckets =
         props.currentResultsState.data.aggregations.section_agg
           ?.section_foodidoo?.buckets;
-      console.debug('buckets', buckets);
       let bucket_dict = {};
       buckets.forEach((el) => {
-        console.debug('el.key', el.key);
         bucket_dict[el.key] = el.doc_count;
       });
-      console.debug('bucket_dict', bucket_dict);
 
       // calculate doc_counts of others and all
       let count_others = 0;
@@ -71,8 +50,6 @@ const _SectionsSearch = (props) => {
       setDoc_count_others(count_others);
       setDoc_count_all(count_all);
     }
-    console.debug('doc_count_others', doc_count_others);
-    console.debug('doc_count_all', doc_count_all);
   }, [
     props.currentResultsState.data.aggregations,
     activeSection,
