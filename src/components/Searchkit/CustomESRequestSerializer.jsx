@@ -384,7 +384,11 @@ export class CustomESRequestSerializer {
           // agg is a key of aggFieldsMapping.
           // something like 'kompasscomponent_agg.inner.kompasscomponent_token'
           return isEmpty(filter)
-            ? { match_all: {} }
+            ? {
+                bool: {
+                  filter: [],
+                },
+              }
             : {
                 bool: {
                   filter: filter.filter(
