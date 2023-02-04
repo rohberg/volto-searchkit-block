@@ -11,6 +11,11 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
+#: components/Blocks/SearchSectionsWidget
+# defaultMessage: Add search section
+msgid "Add search section"
+msgstr ""
+
 #: messages
 # defaultMessage: Content
 msgid "Content"
@@ -85,6 +90,26 @@ msgstr "Suchergebnis"
 # defaultMessage: Search results
 msgid "Search results"
 msgstr "Suchergebnisse"
+
+#: components/Blocks/SearchSectionsWidget
+# defaultMessage: Search section
+msgid "Search section"
+msgstr "Suche in Sektion"
+
+#: components/Blocks/SearchSectionsWidget
+# defaultMessage: Search section label
+msgid "Search section label"
+msgstr ""
+
+#: components/Views/FacetedSearch
+# defaultMessage: Select all
+msgid "Select all"
+msgstr "Wähle alle"
+
+#: components/Blocks/SearchSectionsWidget
+# defaultMessage: undefined
+msgid "Show filters"
+msgstr "Zeige Filter"
 
 #: components/Views/FacetedSearch
 # defaultMessage: Sort by:

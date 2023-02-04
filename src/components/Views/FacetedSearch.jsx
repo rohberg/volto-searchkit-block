@@ -1,10 +1,8 @@
 import React from 'react';
 import Cookies from 'universal-cookie';
-import { useSelector } from 'react-redux';
 
 import { OverridableContext } from 'react-overridable';
 import { Link } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
 import { compact, truncate } from 'lodash';
 import cx from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -325,13 +323,18 @@ const customBucketAggregationElement = (props) => {
   const { title, containerCmp, updateQueryFilters } = props;
   // Get label from token
   let buckets = containerCmp.props.buckets;
-  let allFilters = Object.fromEntries(
+  let filter_labels_dict = Object.fromEntries(
     Array.from(buckets, (x) => [x.key, x.label]),
   );
+  // List of labels of selected options
   let selectedFilters = containerCmp.props.selectedFilters
     .map((el) => el[1])
-    .map((token) => allFilters[token]);
+    .map((token) => filter_labels_dict[token]);
   selectedFilters = compact(selectedFilters);
+  // List of all available options
+  let all_filters = containerCmp.props.buckets.map((el) => {
+    return [containerCmp.props.aggName, el.key];
+  });
 
   const removeAggFilters = (event) => {
     if (containerCmp.props.selectedFilters.length) {
@@ -339,6 +342,15 @@ const customBucketAggregationElement = (props) => {
     }
     event.preventDefault();
     event.stopPropagation();
+  };
+
+  const selectAllAggFilters = (event) => {
+    if (containerCmp.props.selectedFilters.length) {
+      updateQueryFilters(containerCmp.props.selectedFilters);
+    }
+    updateQueryFilters(all_filters);
+    // event.preventDefault();
+    // event.stopPropagation();
   };
 
   return (
@@ -352,7 +364,17 @@ const customBucketAggregationElement = (props) => {
             selectedFilters.length ? 'fnfilter selected' : 'fnfilter unselected'
           }
         >
-          <Dropdown.Menu>{containerCmp}</Dropdown.Menu>
+          <Dropdown.Menu>
+            <Dropdown.Item>
+              <Item
+                onClick={(e) => selectAllAggFilters(e)}
+                className="select_all"
+              >
+                <FormattedMessage id="Select all" defaultMessage="Select all" />
+              </Item>
+            </Dropdown.Item>
+            {containerCmp}
+          </Dropdown.Menu>
         </Dropdown>
         <IconSemantic
           className={
@@ -590,7 +612,6 @@ const FacetedSearch = ({ data, overriddenComponents }) => {
     search_sections,
   } = data;
   const facet_fields_object = getObjectFromObjectList(facet_fields);
-  const token = useSelector((state) => state.userSession?.token);
   const intl = useIntl();
 
   overriddenComponents = overriddenComponents ?? {
@@ -600,7 +621,6 @@ const FacetedSearch = ({ data, overriddenComponents }) => {
 
   const [isClient, setIsClient] = React.useState(null);
   React.useEffect(() => setIsClient(true), []);
-  let location = useLocation();
 
   const payloadOfReset = {
     searchQuery: {

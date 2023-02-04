@@ -4,6 +4,10 @@
     "defaultMessage": "Tags"
   },
   {
+    "id": "Select all",
+    "defaultMessage": "Select all"
+  },
+  {
     "id": "No results",
     "defaultMessage": "No results"
   },
