@@ -44,6 +44,7 @@ import { CustomESRequestSerializer } from '../Searchkit/CustomESRequestSerialize
 import { CustomESResponseSerializer } from '../Searchkit/CustomESResponseSerializer';
 import { Results } from '../Searchkit/Results';
 import SectionsSearch from '../Searchkit/SectionsSearch';
+import SearchBarSection from '../Searchkit/SearchBarSection';
 
 import {
   flattenESUrlToPath,
@@ -655,48 +656,13 @@ const FacetedSearch = ({ data, overriddenComponents }) => {
                     document.querySelectorAll(relocation)[0]
                   }
                 >
-                  <div className="searchbar-wrapper">
-                    <SearchBar
-                      placeholder={intl.formatMessage(messages.search)}
-                      autofocus="false"
-                      uiProps={{
-                        icon: 'search',
-                        iconPosition: 'left',
-                        className: 'searchbarinput',
-                      }}
-                      actionProps={{
-                        content: intl.formatMessage(messages.search),
-                      }}
-                    />
-                    <IconSemantic
-                      name="delete"
-                      onClick={(event) => onResetHandler(event)}
-                    />
-                  </div>
+                  <SearchBarSection />
                 </Portal>
               ) : (
                 <Grid relaxed style={{ padding: '1em 0' }}>
                   <Grid.Row>
                     <Grid.Column width={12}>
-                      <div className="searchbar-wrapper">
-                        <SearchBar
-                          placeholder={intl.formatMessage(messages.search)}
-                          autofocus="false"
-                          uiProps={{
-                            icon: 'search',
-                            iconPosition: 'left',
-                          }}
-                          actionProps={{
-                            content: intl.formatMessage(messages.search),
-                          }}
-                        />
-                        <IconSemantic
-                          basic="true"
-                          icon="true"
-                          name="delete"
-                          onClick={(event) => onResetHandler(event)}
-                        />
-                      </div>
+                      <SearchBarSection />
                     </Grid.Column>
                   </Grid.Row>
                 </Grid>
