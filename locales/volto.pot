@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone\n"
-"POT-Creation-Date: 2022-11-16T13:30:38.785Z\n"
+"POT-Creation-Date: 2023-02-04T11:20:54.169Z\n"
 "Last-Translator: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
 "Language-Team: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -12,6 +12,11 @@ msgstr ""
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8\n"
 "Domain: volto\n"
+
+#: components/Blocks/SearchSectionsWidget
+# defaultMessage: Add search section
+msgid "Add search section"
+msgstr ""
 
 #: messages
 # defaultMessage: Content
@@ -86,6 +91,26 @@ msgstr ""
 #: messages
 # defaultMessage: Search results
 msgid "Search results"
+msgstr ""
+
+#: components/Blocks/SearchSectionsWidget
+# defaultMessage: Search section
+msgid "Search section"
+msgstr ""
+
+#: components/Blocks/SearchSectionsWidget
+# defaultMessage: Search section label
+msgid "Search section label"
+msgstr ""
+
+#: components/Views/FacetedSearch
+# defaultMessage: Select all
+msgid "Select all"
+msgstr ""
+
+#: components/Blocks/SearchSectionsWidget
+# defaultMessage: undefined
+msgid "Show filters"
 msgstr ""
 
 #: components/Views/FacetedSearch

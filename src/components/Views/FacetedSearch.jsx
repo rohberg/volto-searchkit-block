@@ -1,9 +1,8 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import Cookies from 'universal-cookie';
 
 import { OverridableContext } from 'react-overridable';
 import { Link } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
 import { compact, truncate } from 'lodash';
 import cx from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -44,6 +43,8 @@ import { PloneSearchApi } from '../Searchkit/ESSearchApi';
 import { CustomESRequestSerializer } from '../Searchkit/CustomESRequestSerializer';
 import { CustomESResponseSerializer } from '../Searchkit/CustomESResponseSerializer';
 import { Results } from '../Searchkit/Results';
+import SectionsSearch from '../Searchkit/SectionsSearch';
+import SearchBarSection from '../Searchkit/SearchBarSection';
 
 import {
   flattenESUrlToPath,
@@ -51,17 +52,21 @@ import {
   scrollToTarget,
 } from '../helpers';
 import { ElasticSearchHighlights } from './ElasticSearchHighlights';
-import StateLogger from '../StateLogger';
 
 import './less/springisnow-volto-searchkit-block.less';
 
 // TODO Make reviewstatemapping configurable
 export const ploneSearchApi = (data) => {
+  const cookies = new Cookies();
+  const authToken = cookies.get('auth_token');
   return new PloneSearchApi({
     axios: {
       url: expandToBackendURL('/@kitsearch'),
       timeout: 5000,
-      headers: { Accept: 'application/json' },
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${authToken}`,
+      },
     },
     es: {
       requestSerializer: CustomESRequestSerializer,
@@ -71,6 +76,7 @@ export const ploneSearchApi = (data) => {
     facet_fields: data.facet_fields,
     allowed_content_types: data.allowed_content_types,
     allowed_review_states: data.allowed_review_states,
+    search_sections: data.search_sections,
     backend_url: data.backend_url,
     frontend_url: data.frontend_url,
     elastic_search_api_url: data.elastic_search_api_url,
@@ -81,7 +87,7 @@ export const ploneSearchApi = (data) => {
 const MyResults = (props) => {
   // Add scroll to input field search
   React.useEffect(() => {
-    const el = document.querySelector('.navigation-dropdownmenu');
+    const el = document.querySelector('.searchkitsearch');
     if (el) {
       scrollToTarget(el);
     }
@@ -104,11 +110,11 @@ class _ExtraInfo extends React.Component {
     let subjectsFieldname = this.props.currentQueryState.data
       ?.subjectsFieldname; // "subjects";
     return (
-      <Item.Extra>
+      <Item.Extra className="metadata">
         {Object.keys(extrainfo_fields).map((extrainfo_key, idx) => {
           if (!result[extrainfo_key]) {
-            console.debug('not indexed:', extrainfo_key);
-            return;
+            // console.debug('not indexed:', extrainfo_key);
+            return null;
           }
           const extrainfo_value = Array.isArray(result[extrainfo_key])
             ? result[extrainfo_key]
@@ -156,7 +162,7 @@ class _ExtraInfo extends React.Component {
               {extrainfo_value?.map((item, index) => {
                 let tito = item.title || item.token || item;
                 return (
-                  <span>
+                  <span key={index}>
                     {tito}
                     {index < extrainfo_value.length - 1 ? ',' : null}
                   </span>
@@ -318,13 +324,18 @@ const customBucketAggregationElement = (props) => {
   const { title, containerCmp, updateQueryFilters } = props;
   // Get label from token
   let buckets = containerCmp.props.buckets;
-  let allFilters = Object.fromEntries(
+  let filter_labels_dict = Object.fromEntries(
     Array.from(buckets, (x) => [x.key, x.label]),
   );
+  // List of labels of selected options
   let selectedFilters = containerCmp.props.selectedFilters
     .map((el) => el[1])
-    .map((token) => allFilters[token]);
+    .map((token) => filter_labels_dict[token]);
   selectedFilters = compact(selectedFilters);
+  // List of all available options
+  let all_filters = containerCmp.props.buckets.map((el) => {
+    return [containerCmp.props.aggName, el.key];
+  });
 
   const removeAggFilters = (event) => {
     if (containerCmp.props.selectedFilters.length) {
@@ -332,6 +343,16 @@ const customBucketAggregationElement = (props) => {
     }
     event.preventDefault();
     event.stopPropagation();
+  };
+
+  const selectAllAggFilters = (event) => {
+    // toggle! updateQueryFilters toggles filter selection
+    if (containerCmp.props.selectedFilters.length) {
+      updateQueryFilters(containerCmp.props.selectedFilters);
+    }
+    updateQueryFilters(all_filters);
+    // event.preventDefault();
+    // event.stopPropagation();
   };
 
   return (
@@ -345,7 +366,17 @@ const customBucketAggregationElement = (props) => {
             selectedFilters.length ? 'fnfilter selected' : 'fnfilter unselected'
           }
         >
-          <Dropdown.Menu>{containerCmp}</Dropdown.Menu>
+          <Dropdown.Menu>
+            <Dropdown.Item>
+              <Item
+                onClick={(e) => selectAllAggFilters(e)}
+                className="select_all"
+              >
+                <FormattedMessage id="Select all" defaultMessage="Select all" />
+              </Item>
+            </Dropdown.Item>
+            {containerCmp}
+          </Dropdown.Menu>
         </Dropdown>
         <IconSemantic
           className={
@@ -378,14 +409,47 @@ const customBucketAggregationContainerElement = ({ valuesCmp }) => {
 };
 
 const customBucketAggregationValuesElement = (props) => {
-  const { bucket, keyField, isSelected, onFilterClicked, childAggCmps } = props;
+  const {
+    bucket,
+    keyField,
+    isSelected,
+    onFilterClicked,
+    childAggCmps,
+    updateQueryState,
+    currentQueryState,
+  } = props;
   const label = bucket.label
     ? `${bucket.label} (${bucket.doc_count})`
     : `${keyField} (${bucket.doc_count})`;
+
+  const onFilterClickedCustom = (filter, event) => {
+    // TODO If  cmd-key down: select option, but do not trigger search
+    // else: trigger search
+    // console.debug('** onFilterClickedCustom. event', event);
+    // console.debug('filter', filter);
+    // console.debug('all props', props);
+    // console.debug('currentQueryState.filters', currentQueryState.filters);
+    onFilterClicked(filter);
+
+    // // Draft
+    // let kitquerystate = {
+    //   sortBy: 'modified',
+    //   sortOrder: 'desc',
+    //   layout: 'list',
+    //   page: 1,
+    //   size: 10,
+    //   filters: currentQueryState.filters,
+    // };
+
+    // // if (event.metaKey || event.ctrlKey) {
+    // //   isSelected = true;
+    // // }
+    // updateQueryState(kitquerystate);
+  };
   return (
     <Dropdown.Item key={bucket.key}>
       <Item
-        onClick={() => onFilterClicked(bucket.key)}
+        onClick={(event) => onFilterClickedCustom(bucket.key, event)}
         className={isSelected ? 'isSelected' : ''}
       >
         {label}
@@ -535,7 +599,9 @@ const defaultOverriddenComponents = {
 const dropdownOverriddenComponents = {
   'BucketAggregation.element': customBucketAggregationElement,
   'BucketAggregationContainer.element': customBucketAggregationContainerElement,
-  'BucketAggregationValues.element': customBucketAggregationValuesElement,
+  'BucketAggregationValues.element': withState(
+    customBucketAggregationValuesElement,
+  ),
 };
 
 const sortValues = [
@@ -574,9 +640,15 @@ const initialState = {
  * @returns
  */
 const FacetedSearch = ({ data, overriddenComponents }) => {
-  const { facet_fields, relocation, filterLayout } = data;
+  const {
+    allow_search_excluded_sections,
+    show_filter_for_excluded_sections,
+    facet_fields,
+    relocation,
+    filterLayout,
+    search_sections,
+  } = data;
   const facet_fields_object = getObjectFromObjectList(facet_fields);
-  const token = useSelector((state) => state.userSession?.token);
   const intl = useIntl();
 
   overriddenComponents = overriddenComponents ?? {
@@ -586,22 +658,6 @@ const FacetedSearch = ({ data, overriddenComponents }) => {
 
   const [isClient, setIsClient] = React.useState(null);
   React.useEffect(() => setIsClient(true), []);
-  let location = useLocation();
-
-  const payloadOfReset = {
-    searchQuery: {
-      sortBy: 'bestmatch',
-      sortOrder: 'asc',
-      layout: 'list',
-      page: 1,
-      size: 10,
-      queryString: '',
-    },
-  };
-
-  const onResetHandler = (event) => {
-    onQueryChanged(payloadOfReset);
-  };
 
   return (
     <Segment vertical>
@@ -621,61 +677,36 @@ const FacetedSearch = ({ data, overriddenComponents }) => {
                     document.querySelectorAll(relocation)[0]
                   }
                 >
-                  <div className="searchbar-wrapper">
-                    <SearchBar
-                      placeholder={intl.formatMessage(messages.search)}
-                      autofocus="false"
-                      uiProps={{
-                        icon: 'search',
-                        iconPosition: 'left',
-                        className: 'searchbarinput',
-                      }}
-                      actionProps={{
-                        content: intl.formatMessage(messages.search),
-                      }}
-                    />
-                    <IconSemantic
-                      name="delete"
-                      onClick={(event) => onResetHandler(event)}
-                    />
-                  </div>
+                  <SearchBarSection />
                 </Portal>
               ) : (
-                <Grid relaxed style={{ padding: '2em 0' }}>
+                <Grid relaxed style={{ padding: '1em 0' }}>
                   <Grid.Row>
                     <Grid.Column width={12}>
-                      <div className="searchbar-wrapper">
-                        <SearchBar
-                          placeholder={intl.formatMessage(messages.search)}
-                          autofocus="false"
-                          uiProps={{
-                            icon: 'search',
-                            iconPosition: 'left',
-                          }}
-                          actionProps={{
-                            content: intl.formatMessage(messages.search),
-                          }}
-                        />
-                        <IconSemantic
-                          basic="true"
-                          icon="true"
-                          name="delete"
-                          onClick={(event) => onResetHandler(event)}
-                        />
-                      </div>
+                      <SearchBarSection />
                     </Grid.Column>
                   </Grid.Row>
                 </Grid>
               )}
-
-              <Grid relaxed style={{ padding: '2em 0' }}>
-                <Grid.Row>
-                  <Grid.Column
-                    width={12}
-                    className={'facetedsearch_filter ' + filterLayout}
-                  >
+              <Grid relaxed style={{ padding: '1em 0' }}>
+                <Grid.Row className={'facetedsearch_sections ' + filterLayout}>
+                  <Grid.Column width={12}>
+                    <SectionsSearch
+                      search_sections={search_sections}
+                      allow_search_excluded_sections={
+                        allow_search_excluded_sections
+                      }
+                      show_filter_for_excluded_sections={
+                        show_filter_for_excluded_sections
+                      }
+                    />
+                  </Grid.Column>
+                </Grid.Row>
+                <Grid.Row className={'facetedsearch_filter ' + filterLayout}>
+                  <Grid.Column width={12}>
                     {Object.keys(facet_fields_object)?.map((facet) => (
                       <BucketAggregation
+                        key={facet}
                         title={facet_fields_object[facet]}
                         agg={{
                           field: facet,

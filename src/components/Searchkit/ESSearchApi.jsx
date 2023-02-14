@@ -46,6 +46,7 @@ export class PloneSearchApi {
       facet_fields: config.facet_fields,
       allowed_content_types: config.allowed_content_types,
       allowed_review_states: config.allowed_review_states,
+      search_sections: config.search_sections,
     });
     this.responseSerializer = new responseSerializerCls({
       backend_url: config.backend_url,
