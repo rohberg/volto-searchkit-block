@@ -346,6 +346,7 @@ const customBucketAggregationElement = (props) => {
   };
 
   const selectAllAggFilters = (event) => {
+    // toggle! updateQueryFilters toggles filter selection
     if (containerCmp.props.selectedFilters.length) {
       updateQueryFilters(containerCmp.props.selectedFilters);
     }
@@ -408,14 +409,47 @@ const customBucketAggregationContainerElement = ({ valuesCmp }) => {
 };
 
 const customBucketAggregationValuesElement = (props) => {
-  const { bucket, keyField, isSelected, onFilterClicked, childAggCmps } = props;
+  const {
+    bucket,
+    keyField,
+    isSelected,
+    onFilterClicked,
+    childAggCmps,
+    updateQueryState,
+    currentQueryState,
+  } = props;
   const label = bucket.label
     ? `${bucket.label} (${bucket.doc_count})`
     : `${keyField} (${bucket.doc_count})`;
+
+  const onFilterClickedCustom = (filter, event) => {
+    // TODO If  cmd-key down: select option, but do not trigger search
+    // else: trigger search
+    // console.debug('** onFilterClickedCustom. event', event);
+    // console.debug('filter', filter);
+    // console.debug('all props', props);
+    // console.debug('currentQueryState.filters', currentQueryState.filters);
+    onFilterClicked(filter);
+
+    // // Draft
+    // let kitquerystate = {
+    //   sortBy: 'modified',
+    //   sortOrder: 'desc',
+    //   layout: 'list',
+    //   page: 1,
+    //   size: 10,
+    //   filters: currentQueryState.filters,
+    // };
+
+    // // if (event.metaKey || event.ctrlKey) {
+    // //   isSelected = true;
+    // // }
+    // updateQueryState(kitquerystate);
+  };
   return (
     <Dropdown.Item key={bucket.key}>
       <Item
-        onClick={() => onFilterClicked(bucket.key)}
+        onClick={(event) => onFilterClickedCustom(bucket.key, event)}
         className={isSelected ? 'isSelected' : ''}
       >
         {label}
@@ -565,7 +599,9 @@ const defaultOverriddenComponents = {
 const dropdownOverriddenComponents = {
   'BucketAggregation.element': customBucketAggregationElement,
   'BucketAggregationContainer.element': customBucketAggregationContainerElement,
-  'BucketAggregationValues.element': customBucketAggregationValuesElement,
+  'BucketAggregationValues.element': withState(
+    customBucketAggregationValuesElement,
+  ),
 };
 
 const sortValues = [
@@ -622,21 +658,6 @@ const FacetedSearch = ({ data, overriddenComponents }) => {
 
   const [isClient, setIsClient] = React.useState(null);
   React.useEffect(() => setIsClient(true), []);
-
-  const payloadOfReset = {
-    searchQuery: {
-      sortBy: 'bestmatch',
-      sortOrder: 'asc',
-      layout: 'list',
-      page: 1,
-      size: 10,
-      queryString: '',
-    },
-  };
-
-  const onResetHandler = (event) => {
-    onQueryChanged(payloadOfReset);
-  };
 
   return (
     <Segment vertical>
