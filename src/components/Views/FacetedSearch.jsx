@@ -28,7 +28,6 @@ import {
   onQueryChanged,
   ReactSearchKit,
   ResultsLoader,
-  SearchBar,
   withState,
 } from 'react-searchkit';
 
@@ -415,8 +414,8 @@ const customBucketAggregationValuesElement = (props) => {
     isSelected,
     onFilterClicked,
     childAggCmps,
-    updateQueryState,
-    currentQueryState,
+    // updateQueryState,
+    // currentQueryState,
   } = props;
   const label = bucket.label
     ? `${bucket.label} (${bucket.doc_count})`
@@ -460,7 +459,7 @@ const customBucketAggregationValuesElement = (props) => {
 };
 
 const customEmpytResultsElement = (props) => {
-  const { queryString, resetQuery } = props;
+  const { resetQuery } = props;
   return (
     <Segment>
       <Header icon>
@@ -520,7 +519,6 @@ const customPaginationElement = (props) => {
     totalResults,
     onPageChange,
     options,
-    ...extraParams
   } = props;
   const pages = Math.ceil(totalResults / currentSize);
   const boundaryRangeCount = options.boundaryRangeCount;
@@ -649,7 +647,6 @@ const FacetedSearch = ({ data, overriddenComponents }) => {
     search_sections,
   } = data;
   const facet_fields_object = getObjectFromObjectList(facet_fields);
-  const intl = useIntl();
 
   overriddenComponents = overriddenComponents ?? {
     ...defaultOverriddenComponents,

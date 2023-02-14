@@ -1,10 +1,9 @@
 import React from 'react';
+import { useIntl } from 'react-intl';
 import { Container, Header, Segment } from 'semantic-ui-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { OverridableContext } from 'react-overridable';
-
-import config from '@plone/volto/registry';
 import { getControlpanel } from '@plone/volto/actions';
 import { Icon as IconNext } from '@plone/volto/components';
 import backSVG from '@plone/volto/icons/back.svg';
@@ -20,6 +19,7 @@ import {
 import { flattenESUrlToPath } from '../helpers';
 import { ploneSearchApi } from './FacetedSearch';
 import { ElasticSearchMatches } from './ElasticSearchHighlights';
+import messages from '../../messages';
 
 const sort_caseinsensitive = (a, b) => {
   var nameA = a.toUpperCase(); // Groß-/Kleinschreibung ignorieren
@@ -52,7 +52,7 @@ const _OnHighlights = (props) => {
   let matches = new Set();
   fragments.forEach((txt) => {
     let result = [...txt.matchAll(regex)];
-    result.map((match) => {
+    result.forEach((match) => {
       matches.add(match[1]);
     });
   });
@@ -102,6 +102,7 @@ const overriddenComponents = {
 };
 
 const TestSearchkitQuerystrings = (props) => {
+  const intl = useIntl();
   const dispatch = useDispatch();
   const searchkitblock_controlpanel = useSelector(
     (state) => state.controlpanels.controlpanel?.data,
@@ -112,11 +113,13 @@ const TestSearchkitQuerystrings = (props) => {
           searchkitblock_controlpanel?.testsearch_elasticsearch_url,
         elastic_search_api_index:
           searchkitblock_controlpanel?.testsearch_elasticsearch_index,
-        
+
         searchedFields: [],
         facet_fields: [],
-        allowed_content_types: searchkitblock_controlpanel?.allowed_content_types,
-        allowed_review_states: searchkitblock_controlpanel?.allowed_review_states,
+        allowed_content_types:
+          searchkitblock_controlpanel?.allowed_content_types,
+        allowed_review_states:
+          searchkitblock_controlpanel?.allowed_review_states,
         backend_url: searchkitblock_controlpanel?.testsearch_backend,
         frontend_url: searchkitblock_controlpanel?.testsearch_frontend,
       }
