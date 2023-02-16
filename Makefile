@@ -30,7 +30,7 @@ YELLOW=`tput setaf 3`
 # Top-level targets
 ########################
 
-addon-testing-project:  ## Create Volto project
+addon-testing-project:  ## Create Volto project with this add-on
 	# npm install -g yo
 	# npm install -g @plone/generator-volto
 	# npm install -g mrs-developer
