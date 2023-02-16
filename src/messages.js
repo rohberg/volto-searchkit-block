@@ -62,6 +62,6 @@ const messages = defineMessages({
     id: 'Content',
     defaultMessage: 'Content',
   },
-})
+});
 
 export default messages;

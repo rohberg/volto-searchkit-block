@@ -4,17 +4,13 @@ import { defineMessages } from 'react-intl';
 import ObjectListWidget from '@plone/volto/components/manage/Widgets/ObjectListWidget';
 
 const messages = defineMessages({
-  searchsection: {
-    id: 'Search section',
-    defaultMessage: 'Search section',
-  },
-  searchsectionlabel: {
-    id: 'Search section label',
-    defaultMessage: 'Search section label',
-  },
   searchSection: {
     id: 'Search section',
     defaultMessage: 'Search section',
+  },
+  searchSectionLabel: {
+    id: 'Search section label',
+    defaultMessage: 'Search section label',
   },
   addSearchSection: {
     id: 'Add search section',
@@ -32,10 +28,10 @@ const ItemSchema = ({ intl }) => {
     addMessage: intl.formatMessage(messages.addSearchSection),
     properties: {
       section: {
-        title: intl.formatMessage(messages.searchsection),
+        title: intl.formatMessage(messages.searchSection),
       },
       label: {
-        title: intl.formatMessage(messages.searchsectionlabel),
+        title: intl.formatMessage(messages.searchSectionLabel),
       },
       show_filter: {
         title: intl.formatMessage(messages.showFilter),
