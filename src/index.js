@@ -13,10 +13,8 @@ import {
 import SearchSectionsWidget from './components/Blocks/SearchSectionsWidget';
 
 const applyConfig = (config) => {
-  config.settings.searchkitblock = {
-    ...(config.settings.searchkitblock ?? {}),
-    trackVoltoMatomo: false,
-  };
+  config.settings.searchkitblock = {};
+  config.settings.searchkitblock.trackVoltoMatomo = false;
 
   config.blocks.blocksConfig.searchkitblock = {
     id: 'searchkitblock',
