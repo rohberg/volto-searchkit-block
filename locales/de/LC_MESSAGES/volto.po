@@ -14,7 +14,7 @@ msgstr ""
 #: components/Blocks/SearchSectionsWidget
 # defaultMessage: Add search section
 msgid "Add search section"
-msgstr ""
+msgstr "Füge Suchsektion hinzu"
 
 #: messages
 # defaultMessage: Content
@@ -100,6 +100,11 @@ msgstr "Suche in Sektion"
 # defaultMessage: Search section label
 msgid "Search section label"
 msgstr ""
+
+#: messages
+# defaultMessage: Searchkit
+msgid "Searchkit"
+msgstr "Searchkit"
 
 #: components/Views/FacetedSearch
 # defaultMessage: Select all

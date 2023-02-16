@@ -1,6 +1,11 @@
 import { defineMessages } from 'react-intl';
 
 const messages = defineMessages({
+  // block title translation for slash menu
+  blocktitle: {
+    id: 'Searchkit',
+    defaultMessage: 'Searchkit',
+  },
   searchBlock: {
     id: 'Search block',
     defaultMessage: 'Search block',
