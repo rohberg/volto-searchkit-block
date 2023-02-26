@@ -1,13 +1,21 @@
 import React, { Component } from 'react';
-import { Grid, Icon as IconSemantic } from 'semantic-ui-react';
-import { Count, Pagination, ResultsMultiLayout, Sort } from 'react-searchkit';
+import { Grid } from 'semantic-ui-react';
+import {
+  Count,
+  Pagination,
+  ResultsMultiLayout,
+  Sort,
+  withState,
+} from 'react-searchkit';
 
 import config from '@plone/volto/registry';
 
 // TODO conditional Matomo tracking: catch case if app has not volto-matomo installed
 import { trackSiteSearch } from '@eeacms/volto-matomo/utils';
 
-export class Results extends Component {
+import { scrollToTarget } from '../helpers';
+
+class Results extends Component {
   componentDidMount() {
     if (
       config.settings.searchkitblock.trackVoltoMatomo &&
@@ -62,3 +70,17 @@ export class Results extends Component {
 Results.propTypes = {};
 
 Results.defaultProps = {};
+
+const MyResults = (props) => {
+  // Add scroll to input field search
+  React.useEffect(() => {
+    const el = document.querySelector('.searchkitsearch');
+    if (el) {
+      scrollToTarget(el);
+    }
+  }, []);
+
+  return <Results {...props} />;
+};
+
+export const OnResults = withState(MyResults);

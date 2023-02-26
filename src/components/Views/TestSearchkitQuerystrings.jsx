@@ -18,7 +18,7 @@ import {
 } from 'react-searchkit';
 import { flattenESUrlToPath } from '../helpers';
 import { ploneSearchApi } from './FacetedSearch';
-import { ElasticSearchMatches } from './ElasticSearchHighlights';
+import { ElasticSearchMatches } from '../Searchkit/ElasticSearchHighlights';
 import messages from '../../messages';
 
 const sort_caseinsensitive = (a, b) => {

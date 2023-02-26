@@ -1,8 +1,6 @@
 import { extend, isEmpty, keyBy, trim } from 'lodash';
 import { getObjectFromObjectList } from '../helpers.jsx';
 
-import { listFilterFields } from './constants.js';
-
 export class CustomESRequestSerializer {
   constructor(config) {
     this.reviewstatemapping = config.reviewstatemapping;
@@ -53,15 +51,7 @@ export class CustomESRequestSerializer {
    * @param {object} stateQuery the `query` state to serialize
    */
   serialize = (stateQuery) => {
-    const {
-      queryString,
-      sortBy,
-      sortOrder,
-      page,
-      size,
-      filters,
-      hiddenParams,
-    } = stateQuery;
+    const { queryString, sortBy, sortOrder, page, size, filters } = stateQuery;
     const bodyParams = {};
     const force_fuzzy = true; // search for `${word}` and `${word}~`
 
@@ -219,7 +209,6 @@ export class CustomESRequestSerializer {
           must_not: must_notList,
         },
       };
-      // console.debug("bodyParams['query']['bool']", bodyParams['query']['bool']);
 
       bodyParams['highlight'] = {
         number_of_fragments: 20,
@@ -264,9 +253,10 @@ export class CustomESRequestSerializer {
     }
 
     const getFieldnameFromAgg = (agg) => {
-      return agg.split('.')[0].replace('_agg', '');
+      return agg.replace('_agg', '');
     };
 
+    // Generate terms of global filters
     let terms = [];
     terms.push({
       terms: {
@@ -278,72 +268,46 @@ export class CustomESRequestSerializer {
         review_state: this.allowed_review_states,
       },
     });
-    // Push section.
+
     const filters_dict = keyBy(filters, (e) => {
       return e[0];
     });
     const section = filters_dict['section'];
-    if (section && section[1] !== 'others') {
-      terms.push({
-        terms: {
-          section: [section[1]],
-        },
-      });
-    }
 
-    let filter = [];
+    // Generate terms of selected options
+    let terms_of_selected_options = [];
     if (filters.length) {
-      // ES needs the field name as field, get the field name from the aggregation name
+      // Convert to object.
       const aggValueObj = this.getFilters(filters);
-      // convert to object
-      const additionalterms = Object.keys(aggValueObj).reduce(
+
+      terms_of_selected_options = Object.keys(aggValueObj).reduce(
         (accumulator, aggName) => {
           const obj = {};
           const fieldName = getFieldnameFromAgg(aggName);
-          obj[fieldName] = aggValueObj[aggName];
-          if (listFilterFields.includes(fieldName)) {
+          if (fieldName === 'subjects') {
+            obj['subjects.keyword'] = aggValueObj[aggName];
+          } else {
+            obj[fieldName] = aggValueObj[aggName];
+          }
+          if (
+            aggName !== 'section' ||
+            JSON.stringify(aggValueObj[aggName]) !== '["others"]'
+          ) {
             accumulator.push({ terms: obj });
           }
           return accumulator;
         },
         [],
       );
-      terms = terms.concat(additionalterms);
-
-      filter = Object.keys(aggValueObj).reduce((accumulator, aggName) => {
-        const obj = {};
-        const fieldName = getFieldnameFromAgg(aggName);
-        obj[fieldName] = aggValueObj[aggName];
-        if (Object.keys(this.facet_fields).includes(fieldName)) {
-          accumulator.push({
-            nested: {
-              path: fieldName,
-              query: {
-                bool: {
-                  must: [
-                    {
-                      terms: { [fieldName + '.token']: aggValueObj[aggName] },
-                    },
-                  ],
-                },
-              },
-            },
-          });
-        }
-        return accumulator;
-      }, []);
     }
-    // console.debug('filter', filter);
 
     /**
      * ES post_filter
      */
-    // listFilterFields
-    const post_filter = { bool: { must: terms } };
-    // facet_fields
-    if (!isEmpty(filter)) {
-      post_filter['bool']['filter'] = [...filter];
-    }
+
+    const post_filter = {
+      bool: { must: terms.concat(terms_of_selected_options) },
+    };
 
     // Exclude sections
     if (section && section[1] === 'others') {
@@ -357,86 +321,104 @@ export class CustomESRequestSerializer {
         },
       ];
     }
+
     bodyParams['post_filter'] = post_filter;
 
     /**
      * Aggregations
      */
+    const filter = (fieldName) => {
+      let myAggsFilter = terms;
+      // Add selected filters
+      const terms_of_selected_options_without_self = terms_of_selected_options.filter(
+        (el) => !Object.keys(el.terms).includes(fieldName),
+      );
+      myAggsFilter = myAggsFilter.concat(
+        terms_of_selected_options_without_self,
+      );
 
-    // aggregations
-    bodyParams['aggs'] = {};
+      // So far
+      let res = myAggsFilter
+        ? {
+            bool: {
+              must: myAggsFilter,
+            },
+          }
+        : null;
 
-    // 1. aggregations of listFields
-    listFilterFields.map((fieldName) => {
-      const aggBucketTermsComponent = {
-        [`${fieldName}_agg`]: { terms: { field: fieldName } },
-      };
-      extend(bodyParams['aggs'], aggBucketTermsComponent);
-    });
-
-    // 2. aggregations of facet_fields
-
-    if (Object.keys(this.facet_fields).length > 0) {
-      Object.keys(this.facet_fields).map((fieldName) => {
-        const myaggs = [`${fieldName}_agg`, 'inner', `${fieldName}_token`];
-
-        function aggregation_filter(agg) {
-          // agg is a key of aggFieldsMapping.
-          // something like 'kompasscomponent_agg.inner.kompasscomponent_token'
-          return isEmpty(filter)
-            ? {
-                bool: {
-                  filter: [],
+      // TODO Add section filter
+      if (fieldName !== 'section') {
+        if (section) {
+          if (section[1] === 'others') {
+            // TODO must not section
+            res = res || {
+              bool: {},
+            };
+            res.bool.must_not = [
+              {
+                terms: {
+                  section: this.search_sections.items.map((el) => {
+                    return el.section;
+                  }),
                 },
-              }
-            : {
-                bool: {
-                  filter: filter.filter(
-                    (el) => !agg[0].startsWith(el.nested.path),
-                  ),
-                },
-              };
+              },
+            ];
+          } else {
+            // // Must section
+            // res = res || {
+            //   bool: {
+            //     must: [],
+            //   },
+            // };
+            // res.bool.must.push([section[1]]);
+          }
         }
+      }
 
-        const aggBucketTermsComponent = {
-          [myaggs[0]]: {
-            aggs: {
-              inner: {
-                nested: {
-                  path: fieldName,
+      return res;
+    };
+
+    bodyParams['aggs'] = {};
+    let aggregations = Object.keys(this.facet_fields);
+    aggregations.push('section');
+    aggregations.forEach((fieldName) => {
+      let aggName = `${fieldName}_agg`;
+      let field = fieldName;
+      if (fieldName === 'Subject') {
+        field = 'subjects.keyword';
+        aggName = 'subjects_agg';
+      }
+      if (fieldName === 'section') {
+        field = 'section.keyword';
+      }
+      let aggBucketTermsComponent = {
+        [aggName]: {
+          aggs: {
+            [aggName]: {
+              terms: {
+                field: `${field}`,
+                order: {
+                  _key: 'asc',
                 },
-                aggs: {
-                  [myaggs[2]]: {
-                    terms: {
-                      field: fieldName + '.token',
-                      order: {
-                        _key: 'asc',
-                      },
-                      size: 30, // number of buckets
-                    },
-                    aggs: {
-                      somemoredatafromelasticsearch: {
-                        top_hits: {
-                          size: 1,
-                          _source: { includes: [fieldName] },
-                        },
-                      },
-                    },
-                  },
-                },
+                size: 500, // number of buckets
+              },
+            },
+            somemoredatafromelasticsearch: {
+              top_hits: {
+                size: 1,
+                _source: { includes: [field] },
               },
             },
           },
-        };
-        const flt = aggregation_filter(myaggs);
-        if (!isEmpty(flt)) {
-          aggBucketTermsComponent[myaggs[0]].filter = flt;
-        }
-        extend(bodyParams['aggs'], aggBucketTermsComponent);
-      });
-    }
+        },
+      };
+      const filter_fieldname = filter(fieldName);
+      if (filter_fieldname) {
+        aggBucketTermsComponent[aggName].filter = filter_fieldname;
+      }
+      extend(bodyParams['aggs'], aggBucketTermsComponent);
+    });
 
-    // console.debug('CustomESRequestSerializer bodyParams', bodyParams);
     return bodyParams;
   };
 }

@@ -1,5 +1,5 @@
 /**
- * Show matches per document
+ * Component to show matches per document
  * fragment_size is set in CustomESRequestSerializer
  */
 import React from 'react';

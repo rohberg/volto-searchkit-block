@@ -1,3 +1,0 @@
-const listFilterFields = [];
-
-export { listFilterFields };

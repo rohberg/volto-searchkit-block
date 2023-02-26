@@ -57,6 +57,17 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
         ],
       },
       {
+        id: 'facets',
+        title: 'Facets',
+        fields: [
+          'search_sections',
+          'allow_search_excluded_sections',
+          'show_filter_for_excluded_sections',
+          'facet_fields',
+          'filterLayout',
+        ],
+      },
+      {
         id: 'search',
         title: 'Search',
         fields: [
@@ -69,17 +80,6 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
         id: 'results',
         title: 'Results',
         fields: ['extrainfo_fields', 'subjectsFieldname'],
-      },
-      {
-        id: 'facets',
-        title: 'Facets',
-        fields: [
-          'search_sections',
-          'allow_search_excluded_sections',
-          'show_filter_for_excluded_sections',
-          'facet_fields',
-          'filterLayout',
-        ],
       },
       {
         id: 'divers',

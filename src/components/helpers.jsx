@@ -38,21 +38,20 @@ const scrollToTarget = (target, offsetHeight = 0) => {
 };
 
 /**
- * 
  * @param {Array} objlst array of Objects with ...
  * @returns Object with fieldname as key and title as value
  */
 function getObjectFromObjectList(objlst) {
-  let obj = {}
+  let obj = {};
   if (!objlst) {
     return {};
   }
-  objlst?.forEach((listitem) => {
+  objlst.forEach((listitem) => {
     if (listitem.field) {
       obj[listitem.field.value] = listitem.title;
     }
-  })
-  return obj
+  });
+  return obj;
 }
 
 export { NoSSR, flattenESUrlToPath, scrollToTarget, getObjectFromObjectList };

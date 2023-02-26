@@ -1,13 +1,12 @@
 import React from 'react';
-import Cookies from 'universal-cookie';
-
-import { OverridableContext } from 'react-overridable';
-import { Link } from 'react-router-dom';
 import { compact, truncate } from 'lodash';
 import cx from 'classnames';
+import Cookies from 'universal-cookie';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Portal } from 'react-portal';
-import messages from '../../messages';
+import { OverridableContext } from 'react-overridable';
 
 import {
   Button,
@@ -38,19 +37,17 @@ import rightAngle from '@plone/volto/icons/right-key.svg';
 import firstAngle from '@plone/volto/icons/first.svg';
 import lastAngle from '@plone/volto/icons/last.svg';
 
+import messages from '../../messages';
+import { flattenESUrlToPath, getObjectFromObjectList } from '../helpers';
+
 import { PloneSearchApi } from '../Searchkit/ESSearchApi';
 import { CustomESRequestSerializer } from '../Searchkit/CustomESRequestSerializer';
 import { CustomESResponseSerializer } from '../Searchkit/CustomESResponseSerializer';
-import { Results } from '../Searchkit/Results';
+import { OnResults } from '../Searchkit/Results';
 import SectionsSearch from '../Searchkit/SectionsSearch';
 import SearchBarSection from '../Searchkit/SearchBarSection';
 
-import {
-  flattenESUrlToPath,
-  getObjectFromObjectList,
-  scrollToTarget,
-} from '../helpers';
-import { ElasticSearchHighlights } from './ElasticSearchHighlights';
+import { ElasticSearchHighlights } from '../Searchkit/ElasticSearchHighlights';
 
 import './less/springisnow-volto-searchkit-block.less';
 
@@ -83,143 +80,143 @@ export const ploneSearchApi = (data) => {
   });
 };
 
-const MyResults = (props) => {
-  // Add scroll to input field search
-  React.useEffect(() => {
-    const el = document.querySelector('.searchkitsearch');
-    if (el) {
-      scrollToTarget(el);
+const _ExtraInfo = (props) => {
+  const { result } = props;
+
+  const extrainfo_fields = getObjectFromObjectList(
+    props.currentQueryState.data.extrainfo_fields,
+  );
+  const facet_fields = getObjectFromObjectList(
+    props.currentQueryState.data.facet_fields,
+  );
+  let subjectsFieldname = props.currentQueryState.data?.subjectsFieldname; // "subjects";
+
+  const querystringindexes = useSelector(
+    (state) => state.query?.data?.querystringindexes,
+  );
+
+  const translate = (key, fieldname) => {
+    let label = key;
+    if (querystringindexes || querystringindexes[fieldname]) {
+      label = querystringindexes[fieldname]?.values[key]?.title || key;
     }
-  }, []);
+    return label;
+  };
 
-  return <Results {...props} />;
-};
+  return (
+    <Item.Extra className="metadata">
+      {Object.keys(extrainfo_fields).map((extrainfo_key, idx) => {
+        if (!result[extrainfo_key]) {
+          return null;
+        }
+        const extrainfo_value = Array.isArray(result[extrainfo_key])
+          ? result[extrainfo_key]
+          : [result[extrainfo_key]];
 
-const OnResults = withState(MyResults);
-
-class _ExtraInfo extends React.Component {
-  render() {
-    const { result } = this.props;
-    const extrainfo_fields = getObjectFromObjectList(
-      this.props.currentQueryState.data.extrainfo_fields,
-    );
-    const facet_fields = getObjectFromObjectList(
-      this.props.currentQueryState.data.facet_fields,
-    );
-    let subjectsFieldname = this.props.currentQueryState.data
-      ?.subjectsFieldname; // "subjects";
-    return (
-      <Item.Extra className="metadata">
-        {Object.keys(extrainfo_fields).map((extrainfo_key, idx) => {
-          if (!result[extrainfo_key]) {
-            // console.debug('not indexed:', extrainfo_key);
-            return null;
-          }
-          const extrainfo_value = Array.isArray(result[extrainfo_key])
-            ? result[extrainfo_key]
-            : [result[extrainfo_key]];
-
-          return Object.keys(facet_fields).includes(extrainfo_key) ? (
-            <React.Fragment key={extrainfo_key}>
-              <span className="label">{extrainfo_fields[extrainfo_key]}:</span>
-              {extrainfo_value?.map((item, index) => {
-                let tito = item.title || item.token;
-                let payloadOfFilter = {
-                  searchQuery: {
-                    sortBy: 'bestmatch',
-                    sortOrder: 'asc',
-                    layout: 'list',
-                    page: 1,
-                    size: 10,
-                    filters: [
-                      [
-                        `${extrainfo_key}_agg.inner.${extrainfo_key}_token`,
-                        item.token,
-                      ],
-                    ],
-                  },
-                };
-                return (
-                  <Button
-                    as={Link}
-                    to="#"
-                    onClick={() => onQueryChanged(payloadOfFilter)}
-                    key={tito}
-                  >
-                    {tito}
-                    {index < extrainfo_value.length - 1 ? ',' : null}
-                  </Button>
-                );
-              })}
-              {idx < Object.keys(extrainfo_fields).length - 1 && (
-                <span className="metadataseparator">|</span>
-              )}
-            </React.Fragment>
-          ) : (
-            <React.Fragment key={extrainfo_key}>
-              <span className="label">{extrainfo_fields[extrainfo_key]}:</span>
-              {extrainfo_value?.map((item, index) => {
-                let tito = item.title || item.token || item;
-                return (
-                  <span key={index}>
-                    {tito}
-                    {index < extrainfo_value.length - 1 ? ',' : null}
-                  </span>
-                );
-              })}
-              {idx < Object.keys(extrainfo_fields).length - 1 && (
-                <span className="metadataseparator">|</span>
-              )}
-            </React.Fragment>
-          );
-        })}
-
-        {Array.isArray(result[subjectsFieldname]) &&
-        result[subjectsFieldname]?.length > 0 ? (
-          <div className="metadata-tags">
-            <span className="label">
-              <FormattedMessage id="Tags" defaultMessage="Tags" />:
-            </span>
-            {result[subjectsFieldname]?.map((item, index) => {
-              let tito = item;
-              let payloadOfTag = {
+        return Object.keys(facet_fields).includes(extrainfo_key) ? (
+          <React.Fragment key={extrainfo_key}>
+            <span className="label">{extrainfo_fields[extrainfo_key]}:</span>
+            {extrainfo_value?.map((item, index) => {
+              let tito = translate(item, extrainfo_key);
+              let payloadOfFilter = {
                 searchQuery: {
                   sortBy: 'bestmatch',
                   sortOrder: 'asc',
                   layout: 'list',
                   page: 1,
                   size: 10,
-                  queryString: tito,
+                  filters: [[`${extrainfo_key}_agg`, item]],
                 },
               };
               return (
-                <Button
+                <button
+                  onClick={() => onQueryChanged(payloadOfFilter)}
                   key={tito}
-                  as={Link}
-                  to="#"
-                  onClick={() => onQueryChanged(payloadOfTag)}
                 >
                   {tito}
-                  {index < result[subjectsFieldname].length - 1 ? (
-                    ','
-                  ) : (
-                    <span></span>
-                  )}
-                </Button>
+                  {index < extrainfo_value.length - 1 ? ',' : null}
+                </button>
               );
             })}
-          </div>
-        ) : null}
-      </Item.Extra>
-    );
-  }
-}
+            {idx < Object.keys(extrainfo_fields).length - 1 && (
+              <span className="metadataseparator">|</span>
+            )}
+          </React.Fragment>
+        ) : (
+          <React.Fragment key={extrainfo_key}>
+            <span className="label">{extrainfo_fields[extrainfo_key]}:</span>
+            {extrainfo_value?.map((item, index) => {
+              let tito = item.title || item.token || item;
+              return (
+                <span key={index}>
+                  {tito}
+                  {index < extrainfo_value.length - 1 ? ',' : null}
+                </span>
+              );
+            })}
+            {idx < Object.keys(extrainfo_fields).length - 1 && (
+              <span className="metadataseparator">|</span>
+            )}
+          </React.Fragment>
+        );
+      })}
+
+      {Array.isArray(result[subjectsFieldname]) &&
+      result[subjectsFieldname]?.length > 0 ? (
+        <div className="metadata-tags">
+          <span className="label">
+            <FormattedMessage id="Tags" defaultMessage="Tags" />:
+          </span>
+          {result[subjectsFieldname]?.map((item, index) => {
+            let tito = item;
+            let payloadOfTag = {
+              searchQuery: {
+                sortBy: 'bestmatch',
+                sortOrder: 'asc',
+                layout: 'list',
+                page: 1,
+                size: 10,
+                queryString: tito,
+              },
+            };
+            return (
+              <Button
+                key={tito}
+                as={Link}
+                to="#"
+                onClick={() => onQueryChanged(payloadOfTag)}
+              >
+                {tito}
+                {index < result[subjectsFieldname].length - 1 ? (
+                  ','
+                ) : (
+                  <span></span>
+                )}
+              </Button>
+            );
+          })}
+        </div>
+      ) : null}
+    </Item.Extra>
+  );
+};
 
 const ExtraInfo = withState(_ExtraInfo);
 
 const CustomResultsListItem = (props) => {
   const { result, index } = props;
-  // TODO add class per filter option (result.informationsource.token)
+  const querystringindexes = useSelector(
+    (state) => state.query?.data?.querystringindexes,
+  );
+
+  const translate = (key) => {
+    let label = key;
+    if (querystringindexes?.informationtype) {
+      label = querystringindexes.informationtype.values[key].title;
+    }
+    return label;
+  };
+
   return (
     <Item
       key={`item_${index}`}
@@ -229,7 +226,7 @@ const CustomResultsListItem = (props) => {
         {result.informationtype?.length ? (
           <Item.Meta>
             {result.informationtype?.map((item, index) => {
-              let tito = item.title || item.token;
+              let tito = translate(item);
               const payload = {
                 searchQuery: {
                   sortBy: 'bestmatch',
@@ -237,24 +234,14 @@ const CustomResultsListItem = (props) => {
                   layout: 'list',
                   page: 1,
                   size: 10,
-                  filters: [
-                    [
-                      'informationtype_agg.inner.informationtype_token',
-                      item.token,
-                    ],
-                  ],
+                  filters: [['informationtype_agg', item]],
                 },
               };
               return (
-                <Button
-                  key={tito}
-                  as={Link}
-                  to="#"
-                  onClick={() => onQueryChanged(payload)}
-                >
+                <button key={item} onClick={() => onQueryChanged(payload)}>
                   {tito}
                   {index < result['informationtype'].length - 1 ? ', ' : null}
-                </Button>
+                </button>
               );
             })}
           </Item.Meta>
@@ -316,15 +303,31 @@ const myActiveFiltersElement = (props) => {
 };
 
 /**
- * customBucketAggregationElement
+ * CustomBucketAggregationElement
  * One single Filter of Faceted Navigation
+ * props.agg.field: field name
  */
-const customBucketAggregationElement = (props) => {
+const CustomBucketAggregationElement = (props) => {
   const { title, containerCmp, updateQueryFilters } = props;
+  const fieldname = props.agg.field;
+  const querystringindexes = useSelector(
+    (state) => state.query?.data?.querystringindexes,
+  );
+
+  const translate = (bucks) => {
+    if (querystringindexes[fieldname]) {
+      bucks.forEach((element) => {
+        element.label = querystringindexes[fieldname].values[element.key].title;
+      });
+    }
+    return bucks;
+  };
+
   // Get label from token
   let buckets = containerCmp.props.buckets;
+  buckets = translate(buckets);
   let filter_labels_dict = Object.fromEntries(
-    Array.from(buckets, (x) => [x.key, x.label]),
+    Array.from(buckets, (x) => [x.key, x.label]), // TODO Translate label
   );
   // List of labels of selected options
   let selectedFilters = containerCmp.props.selectedFilters
@@ -354,41 +357,39 @@ const customBucketAggregationElement = (props) => {
     // event.stopPropagation();
   };
 
-  return (
-    containerCmp && (
-      <div className="bucketAE">
-        <Dropdown
-          fluid
-          scrolling
-          text={selectedFilters.length > 0 ? selectedFilters.join(', ') : title}
-          className={
-            selectedFilters.length ? 'fnfilter selected' : 'fnfilter unselected'
-          }
-        >
-          <Dropdown.Menu>
-            <Dropdown.Item>
-              <Item
-                onClick={(e) => selectAllAggFilters(e)}
-                className="select_all"
-              >
-                <FormattedMessage id="Select all" defaultMessage="Select all" />
-              </Item>
-            </Dropdown.Item>
-            {containerCmp}
-          </Dropdown.Menu>
-        </Dropdown>
-        <IconSemantic
-          className={
-            selectedFilters.length
-              ? 'deleteFilter selected'
-              : 'deleteFilter unselected'
-          }
-          name="delete"
-          onClick={(e) => removeAggFilters(e)}
-        />
-      </div>
-    )
-  );
+  return containerCmp ? (
+    <div className="bucketAE">
+      <Dropdown
+        fluid
+        scrolling
+        text={selectedFilters.length > 0 ? selectedFilters.join(', ') : title}
+        className={
+          selectedFilters.length ? 'fnfilter selected' : 'fnfilter unselected'
+        }
+      >
+        <Dropdown.Menu>
+          <Dropdown.Item>
+            <Item
+              onClick={(e) => selectAllAggFilters(e)}
+              className="select_all"
+            >
+              <FormattedMessage id="Select all" defaultMessage="Select all" />
+            </Item>
+          </Dropdown.Item>
+          {containerCmp}
+        </Dropdown.Menu>
+      </Dropdown>
+      <IconSemantic
+        className={
+          selectedFilters.length
+            ? 'deleteFilter selected'
+            : 'deleteFilter unselected'
+        }
+        name="delete"
+        onClick={(e) => removeAggFilters(e)}
+      />
+    </div>
+  ) : null;
 };
 
 function choicesSorter(a, b) {
@@ -401,13 +402,13 @@ function choicesSorter(a, b) {
   }
   return 0;
 }
-const customBucketAggregationContainerElement = ({ valuesCmp }) => {
+const CustomBucketAggregationContainerElement = ({ valuesCmp }) => {
   let foo = valuesCmp;
   foo.sort(choicesSorter);
   return <>{foo}</>;
 };
 
-const customBucketAggregationValuesElement = (props) => {
+const CustomBucketAggregationValuesElement = (props) => {
   const {
     bucket,
     keyField,
@@ -423,28 +424,9 @@ const customBucketAggregationValuesElement = (props) => {
 
   const onFilterClickedCustom = (filter, event) => {
     // TODO If  cmd-key down: select option, but do not trigger search
-    // else: trigger search
-    // console.debug('** onFilterClickedCustom. event', event);
-    // console.debug('filter', filter);
-    // console.debug('all props', props);
-    // console.debug('currentQueryState.filters', currentQueryState.filters);
     onFilterClicked(filter);
-
-    // // Draft
-    // let kitquerystate = {
-    //   sortBy: 'modified',
-    //   sortOrder: 'desc',
-    //   layout: 'list',
-    //   page: 1,
-    //   size: 10,
-    //   filters: currentQueryState.filters,
-    // };
-
-    // // if (event.metaKey || event.ctrlKey) {
-    // //   isSelected = true;
-    // // }
-    // updateQueryState(kitquerystate);
   };
+
   return (
     <Dropdown.Item key={bucket.key}>
       <Item
@@ -484,14 +466,15 @@ const customSort = ({
 }) => {
   const selected = currentSortBy.concat('-', currentSortOrder);
   return (
-    <div className="header-content">
+    <div className="sortby">
       <span className="sort-by">
         <FormattedMessage id="Sort By:" defaultMessage="Sort by:" />
       </span>{' '}
       <Button
+        as={Link}
+        to="#"
         onClick={(e) => onValueChange('bestmatch-asc')}
         name="bestmatch-asc"
-        size="tiny"
         className={cx('button-sort', {
           'button-active': selected === 'bestmatch-asc',
         })}
@@ -501,7 +484,6 @@ const customSort = ({
       <Button
         onClick={(e) => onValueChange('modified-desc')}
         name="modified-desc"
-        size="tiny"
         className={cx('button-sort', {
           'button-active': selected === 'modified-desc',
         })}
@@ -595,10 +577,10 @@ const defaultOverriddenComponents = {
 };
 
 const dropdownOverriddenComponents = {
-  'BucketAggregation.element': customBucketAggregationElement,
-  'BucketAggregationContainer.element': customBucketAggregationContainerElement,
+  'BucketAggregation.element': CustomBucketAggregationElement,
+  'BucketAggregationContainer.element': CustomBucketAggregationContainerElement,
   'BucketAggregationValues.element': withState(
-    customBucketAggregationValuesElement,
+    CustomBucketAggregationValuesElement,
   ),
 };
 
@@ -639,20 +621,28 @@ const initialState = {
  */
 const FacetedSearch = ({ data, overriddenComponents }) => {
   const {
+    facet_fields,
     allow_search_excluded_sections,
     show_filter_for_excluded_sections,
-    facet_fields,
     relocation,
     filterLayout,
     search_sections,
   } = data;
-  const facet_fields_object = getObjectFromObjectList(facet_fields);
+
+  const querystringindexes = useSelector((state) => state.querystring?.indexes);
+
+  let facet_fields_object = getObjectFromObjectList(facet_fields);
+  if ('Subject' in facet_fields_object) {
+    facet_fields_object.subjects = facet_fields_object.Subject;
+    delete facet_fields_object.Subject;
+  }
 
   overriddenComponents = overriddenComponents ?? {
     ...defaultOverriddenComponents,
     ...(filterLayout === 'dropdown' && dropdownOverriddenComponents),
   };
 
+  // TODO Check if check on client could be made simpler
   const [isClient, setIsClient] = React.useState(null);
   React.useEffect(() => setIsClient(true), []);
 
@@ -663,7 +653,11 @@ const FacetedSearch = ({ data, overriddenComponents }) => {
           <ReactSearchKit
             searchApi={ploneSearchApi(data)}
             eventListenerEnabled={true}
-            initialQueryState={{ ...initialState, data: data }}
+            initialQueryState={{
+              ...initialState,
+              data: { ...data, querystringindexes: querystringindexes },
+            }}
+            urlHandlerApi={{ enabled: true }}
           >
             <Container>
               {typeof document !== 'undefined' && relocation?.length > 0 ? (
@@ -685,6 +679,7 @@ const FacetedSearch = ({ data, overriddenComponents }) => {
                   </Grid.Row>
                 </Grid>
               )}
+
               <Grid relaxed style={{ padding: '1em 0' }}>
                 <Grid.Row className={'facetedsearch_sections ' + filterLayout}>
                   <Grid.Column width={12}>
@@ -701,16 +696,18 @@ const FacetedSearch = ({ data, overriddenComponents }) => {
                 </Grid.Row>
                 <Grid.Row className={'facetedsearch_filter ' + filterLayout}>
                   <Grid.Column width={12}>
-                    {Object.keys(facet_fields_object)?.map((facet) => (
-                      <BucketAggregation
-                        key={facet}
-                        title={facet_fields_object[facet]}
-                        agg={{
-                          field: facet,
-                          aggName: `${facet}_agg.inner.${facet}_token`,
-                        }}
-                      />
-                    ))}
+                    <div className="bucketaggregations">
+                      {Object.keys(facet_fields_object)?.map((facet) => (
+                        <BucketAggregation
+                          key={facet}
+                          title={facet_fields_object[facet]}
+                          agg={{
+                            field: facet,
+                            aggName: `${facet}_agg`,
+                          }}
+                        />
+                      ))}
+                    </div>
                   </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>
