@@ -1,4 +1,5 @@
 import zoomSVG from '@plone/volto/icons/zoom.svg';
+import { getQuerystring } from '@plone/volto/actions';
 
 import {
   FacetedSearchBlockEdit,
@@ -69,6 +70,31 @@ const applyConfig = (config) => {
     {
       path: '/controlpanel/test-searchkit-querystrings',
       component: TestSearchkitQuerystrings,
+    },
+  ];
+
+  // Fetch querystring indexes.
+  // See /effective-volto/addons/asyncconnect
+  config.settings.asyncPropsExtenders = [
+    ...(config.settings.asyncPropsExtenders || []),
+    {
+      path: '',
+      extend: (dispatchActions) => {
+        const action = {
+          key: 'querystringindexes',
+          promise: ({ store }) => {
+            const state = store.getState();
+            if (state.querystring?.indexes?.Title) {
+              return;
+            }
+            const action = getQuerystring();
+            return store.dispatch(action).catch((e) => {
+              console.error('fetch of getQuerystring failed');
+            });
+          },
+        };
+        return [...dispatchActions, action];
+      },
     },
   ];
 

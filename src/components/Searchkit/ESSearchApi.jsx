@@ -2,8 +2,8 @@ import _get from 'lodash/get';
 import _hasIn from 'lodash/hasIn';
 import axios from 'axios';
 import { RequestCancelledError } from 'react-searchkit';
-import { ESRequestSerializer } from './ESRequestSerializer';
-import { ESResponseSerializer } from './ESResponseSerializer';
+import { CustomESRequestSerializer } from './CustomESRequestSerializer';
+import { CustomESResponseSerializer } from './CustomESResponseSerializer';
 
 export class PloneSearchApi {
   constructor(config) {
@@ -33,12 +33,12 @@ export class PloneSearchApi {
     const requestSerializerCls = _get(
       config,
       'es.requestSerializer',
-      ESRequestSerializer,
+      CustomESRequestSerializer,
     );
     const responseSerializerCls = _get(
       config,
       'es.responseSerializer',
-      ESResponseSerializer,
+      CustomESResponseSerializer,
     );
 
     this.requestSerializer = new requestSerializerCls({
@@ -96,7 +96,6 @@ export class PloneSearchApi {
         },
       });
 
-      // await backend permission check
       let results = await this.responseSerializer.serialize(response.data);
       return results;
     } catch (error) {

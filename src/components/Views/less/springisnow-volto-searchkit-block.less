@@ -9,7 +9,13 @@
 @import (multiple) '../../theme.config';
 
 .fnresults .ui.items > .item {
+    &.private > .content > a.header {
+        color: red;
+    }
+    button,
     .ui.button {
+        cursor: pointer;
+        border: none;
         background-color: transparent;
         padding: 0;
         &:hover {
@@ -27,12 +33,19 @@
 .searchbar-wrapper {
     display: flex;
     align-items: stretch;
-    .ui.fluid.action.input > input {
-        width: unset !important;
-        border-radius: 0;
-        border-color: rgba(0, 0, 0, 0.13) !important;
-        &:focus {
-            border-color: #85B7D9 !important;
+    .ui.fluid.action.input {
+        width: 50%;
+        @media only screen and (max-width: 767px) {
+            width: 100%;
+        }
+        & > input {
+            width: unset !important;
+            flex: 1;
+            border-radius: 0;
+            border-color: rgba(0, 0, 0, 0.13) !important;
+            &:focus {
+                border-color: #85B7D9 !important;
+            }
         }
     }
     .button {
@@ -47,6 +60,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        margin: 0;
         width: 3rem;
         height: 3rem;
         min-width: 3rem;
@@ -76,69 +90,75 @@
         }
     }
     &.dropdown {
-        .bucketAE {
-            display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            justify-content: space-between;
-            width: 50%;
-            margin: 0 0 0.5rem 0;
-            padding-right: 1rem;
-            align-content: stretch;
-            .ui.dropdown.fnfilter {
+        .bucketaggregations {
+            display: grid;
+            gap: 10px;
+            grid-template-columns: 1fr 1fr;
+            @media only screen and (max-width: 767px) {
+                grid-template-columns: 1fr;
+            }
+            .bucketAE {
                 display: flex;
+                flex-direction: row;
                 align-items: flex-start;
                 justify-content: space-between;
-                font-family: @fontName;
-                font-size: 1rem;
-                margin: 0;
-                background-color: #edf1f2;
-                // padding: 0 0 0 .3rem;
-                padding: 0.7rem 1rem 0.4rem 1rem;
-                min-height: 3rem;
-                & > .dropdown.icon {
+                // width: 50%;
+                .ui.dropdown.fnfilter {
+                    display: flex;
+                    align-items: flex-start;
+                    justify-content: space-between;
+                    font-family: @fontName;
                     font-size: 1rem;
-                }
-                &.selected {
-                    background-color: #c4d5da;
-                    color: @black;
-                    .text {
-                        max-width: 95%;
-                    }
-                }
-                .menu {
-                    width: 100%;
+                    margin: 0;
                     background-color: #edf1f2;
-                    border: none;
-                    box-shadow: none;
-                    & > .item {
-                        padding: 0.8rem 1.8rem 0.8rem 1rem !important;
-                        line-height: 1.4em;
-                        // color: @white;
-                        & > .item.isSelected {
-                            font-weight: bold;
+                    // padding: 0 0 0 .3rem;
+                    padding: 0.7rem 1rem 0.4rem 1rem;
+                    min-height: 3rem;
+                    & > .dropdown.icon {
+                        font-size: 1rem;
+                    }
+                    &.selected {
+                        background-color: #c4d5da;
+                        color: @black;
+                        .text {
+                            max-width: 95%;
                         }
                     }
+                    .menu {
+                        width: 100%;
+                        background-color: #edf1f2;
+                        border: none;
+                        box-shadow: none;
+                        & > .item {
+                            padding: 0.8rem 1.8rem 0.8rem 1rem !important;
+                            line-height: 1.4em;
+                            // color: @white;
+                            & > .item.isSelected {
+                                font-weight: bold;
+                            }
+                        }
+                    }
+                    div.visible .menu {
+                        display: block !important;
+                        visibility: visible !important;
+                    }
                 }
-                div.visible .menu {
-                    display: block !important;
-                    visibility: visible !important;
-                }
-            }
-            .deleteFilter {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 3rem;
-                height: 3rem;
-                min-width: 3rem;
-                background-color: #878686;
-                color: #fff;
-                font-size: 1.2rem;
-                font-weight: 700;
-                cursor: pointer;
-                &.unselected {
-                    opacity: 0;
+                .deleteFilter {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin: 0;
+                    width: 3rem;
+                    height: 3rem;
+                    min-width: 3rem;
+                    background-color: #878686;
+                    color: #fff;
+                    font-size: 1.2rem;
+                    font-weight: 700;
+                    cursor: pointer;
+                    &.unselected {
+                        opacity: 0;
+                    }
                 }
             }
         }
@@ -178,8 +198,23 @@ body.section_without_filter .facetedsearch_filter {
 .countlabel {
     font-weight: bold;
 }
-.ui.button.button-active {
-    background-color: #c4d5da;
+.sortby {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    .ui.button {
+        color: rgba(70, 92, 98, 0.77);
+        background-color: transparent;
+        padding: 0;
+        font-weight: normal;
+        &.button-active {
+            color: @textColor;
+        }
+        &:hover {
+            color: @textColor;
+            background-color: transparent;
+        }
+    }
 }
 
 // No results

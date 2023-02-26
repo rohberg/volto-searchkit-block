@@ -25,12 +25,12 @@ const _SectionsSearch = (props) => {
     );
 
     if (
-      props.currentResultsState.data.aggregations.section_agg?.section_foodidoo
+      props.currentResultsState.data.aggregations.section_agg?.section_agg
         ?.buckets
     ) {
       const buckets =
-        props.currentResultsState.data.aggregations.section_agg
-          ?.section_foodidoo?.buckets;
+        props.currentResultsState.data.aggregations.section_agg?.section_agg
+          ?.buckets;
       let bucket_dict = {};
       buckets.forEach((el) => {
         bucket_dict[el.key] = el.doc_count;
@@ -133,8 +133,8 @@ const _SectionsSearch = (props) => {
                   {el.label}{' '}
                   <span className="count">{`(${
                     props.currentResultsState.data.aggregations.section_agg
-                      ?.section_foodidoo?.buckets
-                      ? props.currentResultsState.data.aggregations.section_agg.section_foodidoo.buckets.find(
+                      ?.section_agg?.buckets
+                      ? props.currentResultsState.data.aggregations.section_agg.section_agg.buckets.find(
                           (bucket) => bucket.key === el.section,
                         )?.doc_count || 0
                       : 0

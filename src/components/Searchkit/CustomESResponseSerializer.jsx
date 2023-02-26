@@ -1,17 +1,12 @@
-import { forEach, has } from 'lodash';
-
 function _pimpedAggregations(aggregations) {
   let result = Object.assign({}, aggregations);
   let buckets = [];
   Object.keys(result).forEach((element) => {
-    if (result[element].buckets) {
+    if (result[element] && result[element][element].buckets) {
+      result[element].buckets = result[element][element].buckets;
       buckets = result[element].buckets;
     } else {
-      forEach(result[element].inner, function (value, key) {
-        if (has(value, 'buckets')) {
-          buckets = result[element].inner[key].buckets;
-        }
-      });
+      buckets = [];
     }
     buckets &&
       buckets.forEach((bucket) => {
@@ -36,19 +31,17 @@ export class CustomESResponseSerializer {
    * @param {object} payload the backend response payload
    */
 
-  async serialize(payload) {
+  serialize(payload) {
     const { aggregations, hits } = payload;
-
-    return new Promise((resolve, reject) => {
-      resolve({
-        aggregations: _pimpedAggregations(aggregations) || {},
-        hits: hits.hits.map((hit) => {
-          // TODO Replace hack: Add highlights to _source data
-          hit._source['highlight'] = hit.highlight;
-          return hit._source;
-        }),
-        total: hits.total.value < 11 ? hits.hits.length : hits.total.value,
-      });
-    });
+    const foo = {
+      aggregations: _pimpedAggregations(aggregations) || {},
+      hits: hits.hits.map((hit) => {
+        // TODO Replace hack: Add highlights to _source data
+        hit._source['highlight'] = hit.highlight;
+        return hit._source;
+      }),
+      total: hits.total.value < 11 ? hits.hits.length : hits.total.value,
+    };
+    return foo;
   }
 }
