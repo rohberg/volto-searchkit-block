@@ -7,7 +7,7 @@
 
 Search block with highly overridable components for searching, filtering and displaying search results. Sometimes also called faceted navigation.
 
-As this search is addressing `ElasticSearch` with Analysis, the search does understand inflection of words and tolerates typos by fuzzy searching.
+As this search is addressing `ElasticSearch` with text analysis, the search does understand inflection of words and tolerates typos by fuzzy searching.
 
 Matched phrases are shown with highlighted matches.
 
@@ -23,12 +23,12 @@ The block is prepared for Matomo analytics.
 
 You have ElasticSearch up and running with Plone. See `collective.elastic.ingest` and `collective.elastic.ingest` how to set up.
 
-For searching in blocks content, install [`rohberg.elasticsearchblocks`](https://github.com/rohberg/rohberg.elasticsearchblocks) and enable its behavior.
+For searching in blocks content, install [`rohberg.elasticsearchblocks`](https://github.com/rohberg/rohberg.elasticsearchblocks) and enable its behavior on your content types.
 
 
 ## Configuration
 
-The block is not for editors. So please enable adding searchkitblock once by
+The block is not for editors. So please enable adding a searchkit block once by
 
 ```js
 config.blocks.blocksConfig.searchkitblock.restricted = true;
@@ -41,6 +41,7 @@ The block can be configured by
 - searchable fields with boosting
 - facets
 - restricting types and states
+- results meta data
 
 ![Configuration](public/configuration.png)
 
