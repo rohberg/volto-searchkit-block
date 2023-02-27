@@ -180,7 +180,7 @@ const _ExtraInfo = (props) => {
               },
             };
             return (
-              <Button
+              <button
                 key={tito}
                 as={Link}
                 to="#"
@@ -192,7 +192,7 @@ const _ExtraInfo = (props) => {
                 ) : (
                   <span></span>
                 )}
-              </Button>
+              </button>
             );
           })}
         </div>
