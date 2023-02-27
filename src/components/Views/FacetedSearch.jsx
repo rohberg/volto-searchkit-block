@@ -180,12 +180,7 @@ const _ExtraInfo = (props) => {
               },
             };
             return (
-              <button
-                key={tito}
-                as={Link}
-                to="#"
-                onClick={() => onQueryChanged(payloadOfTag)}
-              >
+              <button key={tito} onClick={() => onQueryChanged(payloadOfTag)}>
                 {tito}
                 {index < result[subjectsFieldname].length - 1 ? (
                   ','
