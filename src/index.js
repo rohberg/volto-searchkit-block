@@ -78,7 +78,7 @@ const applyConfig = (config) => {
   config.settings.asyncPropsExtenders = [
     ...(config.settings.asyncPropsExtenders || []),
     {
-      path: '',
+      path: '/',
       extend: (dispatchActions) => {
         const action = {
           key: 'querystringindexes',
@@ -87,9 +87,9 @@ const applyConfig = (config) => {
             if (state.querystring?.indexes?.Title) {
               return;
             }
-            const action = getQuerystring();
-            return store.dispatch(action).catch((e) => {
-              console.error('fetch of getQuerystring failed');
+            const myaction = getQuerystring();
+            return store.dispatch(myaction).catch((e) => {
+              console.error('Fetch of getQuerystring failed');
             });
           },
         };
