@@ -1,4 +1,0 @@
-export CELERY_BROKER=redis://localhost:6379/0
-export ELASTICSEARCH_INDEX=plone
-export ELASTICSEARCH_QUERY_SERVER=http://localhost:9200
-export ELASTICSEARCH_QUERY_USE_SSL=0

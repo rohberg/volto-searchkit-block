@@ -16,8 +16,21 @@
     "type": "git",
     "url": "git@github.com:rohberg/volto-searchkit-block.git"
   },
+  "bugs": {
+    "url": "https://github.com/rohberg/volto-searchkit-block/issues"
+  },
   "scripts": {
-    "i18n": "rm -rf build/messages && NODE_ENV=production i18n --addon"
+    "i18n": "rm -rf build/messages && NODE_ENV=production i18n -a",
+    "cypress:open": "NODE_ENV=production ../../../node_modules/cypress/bin/cypress open",
+    "cypress:run": "NODE_ENV=test ../../../node_modules/cypress/bin/cypress run",
+    "cypress:start-frontend": "cd ../../../ && RAZZLE_API_PATH=http://localhost:55001/plone yarn start",
+    "ci:test-acceptance-server": "make test-acceptance-server",
+    "cy:test:fixture:setup": "node cypress/support/reset-fixture.js",
+    "cy:test:fixture:teardown": "node cypress/support/reset-fixture.js teardown",
+    "dry-release": "release-it --dry-run",
+    "release": "release-it",
+    "release-major-alpha": "release-it major --preRelease=alpha",
+    "release-alpha": "release-it --preRelease=alpha"
   },
   "addons": [
     "@eeacms/volto-matomo"
@@ -28,8 +41,12 @@
     "react-searchkit": "v2.0.2"
   },
   "devDependencies": {
-    "@plone/scripts": "*",
+    "@plone/scripts": "^2.3.0",
+    "release-it": "^15.6.0",
     "@semantic-ui-react/css-patch": "1.0.0",
     "cypress": "^10.10.0"
+  },
+  "peerDependencies": {
+    "@plone/volto": ">=16.0.0"
   }
 }

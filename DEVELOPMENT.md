@@ -8,7 +8,7 @@
 
 Run with Docker.
 
-Change directory to ./development-searchkitblock and run:
+Change directory to ./development-searchkitblock/mac/ or ./development-searchkitblock/linux/ and run:
 
     docker compose up
 
