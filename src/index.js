@@ -24,7 +24,7 @@ const applyConfig = (config) => {
     view: FacetedSearchBlockView,
     icon: zoomSVG,
     group: 'common',
-    restricted: true,
+    restricted: false,
     mostUsed: false,
     sidebarTab: 1,
     security: {
