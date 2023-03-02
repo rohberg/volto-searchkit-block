@@ -23,7 +23,6 @@ import {
 import {
   BucketAggregation,
   EmptyResults,
-  Error,
   onQueryChanged,
   ReactSearchKit,
   ResultsLoader,
@@ -48,6 +47,7 @@ import SectionsSearch from '../Searchkit/SectionsSearch';
 import SearchBarSection from '../Searchkit/SearchBarSection';
 
 import { ElasticSearchHighlights } from '../Searchkit/ElasticSearchHighlights';
+import Error from '../Searchkit/Error';
 
 import './less/springisnow-volto-searchkit-block.less';
 
@@ -569,6 +569,7 @@ const defaultOverriddenComponents = {
   'EmptyResults.element': customEmpytResultsElement,
   'Sort.element.volto': customSort,
   'Pagination.element': customPaginationElement,
+  'Error.element': Error,
 };
 
 const dropdownOverriddenComponents = {
