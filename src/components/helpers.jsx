@@ -1,5 +1,4 @@
 import React from 'react';
-import { flattenToAppURL } from '@plone/volto/helpers';
 
 class NoSSR extends React.Component {
   state = {

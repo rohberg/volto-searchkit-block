@@ -54,6 +54,7 @@ const _SectionsSearch = (props) => {
     props.currentResultsState.data.aggregations,
     activeSection,
     search_sections,
+    search_sections_dict,
   ]);
 
   const restrictSearchToSection = (section) => {
