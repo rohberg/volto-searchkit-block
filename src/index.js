@@ -89,6 +89,7 @@ const applyConfig = (config) => {
             }
             const myaction = getQuerystring();
             return store.dispatch(myaction).catch((e) => {
+              // eslint-disable-next-line no-console
               console.error('Fetch of getQuerystring failed');
             });
           },
