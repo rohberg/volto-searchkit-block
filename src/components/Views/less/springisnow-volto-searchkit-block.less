@@ -9,237 +9,268 @@
 @import (multiple) '../../theme.config';
 
 .fnresults .ui.items > .item {
-    &.private > .content > a.header {
-        color: red;
+  &.private > .content > a.header {
+    color: red;
+  }
+
+  button,
+  .ui.button {
+    padding: 0;
+    border: none;
+    margin: 0.25rem 0.1rem 0.25rem 0em;
+    background-color: transparent;
+    color: rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+    font-weight: bold;
+
+    &:hover {
+      background-color: transparent;
     }
-    button,
-    .ui.button {
-        cursor: pointer;
-        border: none;
-        background-color: transparent;
-        padding: 0;
-        margin: 0.25rem 0.1rem 0.25rem 0em;
-        color: rgba(0, 0, 0, 0.6);
-        font-weight: bold;
-        &:hover {
-            background-color: transparent;
-        }
+  }
+
+  .extra {
+    color: @textColor;
+
+    .label {
+      margin-right: 0.5em;
     }
-    .extra {
-        color: @textColor;
-        .label {
-            margin-right: 0.5em;
-        }
-    }
+  }
 }
 
 .searchbar-wrapper {
+  display: flex;
+  align-items: stretch;
+
+  .ui.fluid.action.input {
+    width: 50%;
+    @media only screen and (max-width: 767px) {
+      width: 100%;
+    }
+
+    & > input {
+      width: unset !important;
+      flex: 1;
+      border-color: rgba(0, 0, 0, 0.13) !important;
+      border-radius: 0;
+
+      &:focus {
+        border-color: #85b7d9 !important;
+      }
+    }
+  }
+
+  .button {
+    border-radius: 0;
+  }
+  // Search button
+  .ui.action.input > button.ui.button {
+    display: none;
+  }
+
+  .icon.delete {
     display: flex;
-    align-items: stretch;
-    .ui.fluid.action.input {
-        width: 50%;
-        @media only screen and (max-width: 767px) {
-            width: 100%;
-        }
-        & > input {
-            width: unset !important;
-            flex: 1;
-            border-radius: 0;
-            border-color: rgba(0, 0, 0, 0.13) !important;
-            &:focus {
-                border-color: #85B7D9 !important;
-            }
-        }
+    width: 3rem;
+    min-width: 3rem;
+    height: 3rem;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    background-color: #878686;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: 700;
+
+    &.unselected {
+      opacity: 0;
     }
-    .button {
-        border-radius: 0;
-    }
-    // Search button
-    .ui.action.input > button.ui.button {
-        display: none;
-    }
-    .icon.delete {
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0;
-        width: 3rem;
-        height: 3rem;
-        min-width: 3rem;
-        background-color: #878686;
-        color: #fff;
-        font-size: 1.2rem;
-        font-weight: 700;
-        &.unselected {
-            opacity: 0;
-        }
-    }
+  }
 }
 
 // .ui.grid > .row > .column.facetedsearch_filter {
 .facetedsearch_filter {
-    visibility: visible;
-    opacity: 1;
-    transition: opacity 1s, visibility 1s;
-    &.cards {
+  opacity: 1;
+  transition: opacity 1s, visibility 1s;
+  visibility: visible;
+
+  &.cards {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-evenly;
+
+    .ui.card {
+      margin: 1em 0.5em 1em 0em;
+    }
+  }
+
+  &.dropdown {
+    .bucketaggregations {
+      display: grid;
+      width: 100%;
+      gap: 10px;
+      grid-template-columns: 1fr 1fr;
+      @media only screen and (max-width: 767px) {
+        grid-template-columns: 1fr;
+      }
+
+      .bucketAE {
         display: flex;
         flex-direction: row;
-        flex-wrap: wrap;
-        align-items: baseline;
-        justify-content: space-evenly;
-        .ui.card {
-            margin: 1em 0.5em 1em 0em;
-        }
-    }
-    &.dropdown {
-        .bucketaggregations {
-            display: grid;
-            gap: 10px;
-            grid-template-columns: 1fr 1fr;
+        align-items: flex-start;
+        justify-content: space-between;
+        // width: 50%;
+        .ui.dropdown.fnfilter {
+          display: flex;
+          min-height: 3rem;
+          align-items: center;
+          justify-content: space-between;
+          // padding: 0 0 0 .3rem;
+          padding: 0.7rem 1rem 0.4rem 1rem;
+          margin: 0;
+          background-color: #edf1f2;
+          font-family: @fontName;
+          font-size: 1rem;
+
+          & > .dropdown.icon {
+            font-size: 1rem;
+          }
+
+          &.selected {
+            background-color: #c4d5da;
+            color: @black;
+
+            .text {
+              max-width: 95%;
+            }
+          }
+
+          .menu {
             width: 100%;
-            @media only screen and (max-width: 767px) {
-                grid-template-columns: 1fr;
+            border: none;
+            background-color: #edf1f2;
+            box-shadow: none;
+
+            & > .item {
+              padding: 0.8rem 1.8rem 0.8rem 1rem !important;
+              line-height: 1.4em;
+              // color: @white;
+              & > .item.isSelected {
+                font-weight: bold;
+              }
             }
-            .bucketAE {
-                display: flex;
-                flex-direction: row;
-                align-items: flex-start;
-                justify-content: space-between;
-                // width: 50%;
-                .ui.dropdown.fnfilter {
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    font-family: @fontName;
-                    font-size: 1rem;
-                    margin: 0;
-                    background-color: #edf1f2;
-                    // padding: 0 0 0 .3rem;
-                    padding: 0.7rem 1rem 0.4rem 1rem;
-                    min-height: 3rem;
-                    & > .dropdown.icon {
-                        font-size: 1rem;
-                    }
-                    &.selected {
-                        background-color: #c4d5da;
-                        color: @black;
-                        .text {
-                            max-width: 95%;
-                        }
-                    }
-                    .menu {
-                        width: 100%;
-                        background-color: #edf1f2;
-                        border: none;
-                        box-shadow: none;
-                        & > .item {
-                            padding: 0.8rem 1.8rem 0.8rem 1rem !important;
-                            line-height: 1.4em;
-                            // color: @white;
-                            & > .item.isSelected {
-                                font-weight: bold;
-                            }
-                        }
-                    }
-                    div.visible .menu {
-                        display: block !important;
-                        visibility: visible !important;
-                    }
-                }
-                .deleteFilter {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    margin: 0;
-                    width: 3rem;
-                    height: 3rem;
-                    min-width: 3rem;
-                    background-color: #878686;
-                    color: #fff;
-                    font-size: 1.2rem;
-                    font-weight: 700;
-                    cursor: pointer;
-                    &.unselected {
-                        opacity: 0;
-                    }
-                }
-            }
+          }
+
+          div.visible .menu {
+            display: block !important;
+            visibility: visible !important;
+          }
         }
+
+        .deleteFilter {
+          display: flex;
+          width: 3rem;
+          min-width: 3rem;
+          height: 3rem;
+          align-items: center;
+          justify-content: center;
+          margin: 0;
+          background-color: #878686;
+          color: #fff;
+          cursor: pointer;
+          font-size: 1.2rem;
+          font-weight: 700;
+
+          &.unselected {
+            opacity: 0;
+          }
+        }
+      }
     }
+  }
 }
 // No filter according to block configuration
 body.section_without_filter .facetedsearch_filter {
-    visibility: hidden;
-    opacity: 0;
+  opacity: 0;
+  visibility: hidden;
 }
 
 .searchsections {
-    display: flex;
-    gap: 20px;
-    button {
-        border: none;
-        padding: 0.7rem 1rem 0.7rem 1rem;
-        background-color: #f3f1f1;
-        color: #6e6a6a;
-        cursor: pointer;
-        &.active {
-            background-color: #dfd8d8;
-        }
+  display: flex;
+  gap: 20px;
+
+  button {
+    padding: 0.7rem 1rem 0.7rem 1rem;
+    border: none;
+    background-color: #f3f1f1;
+    color: #6e6a6a;
+    cursor: pointer;
+
+    &.active {
+      background-color: #dfd8d8;
     }
+  }
 }
 // Mobile
 @media only screen and (max-width: 767px) {
-    .searchsections {
-        flex-direction: column;
-        gap: 0.5rem;
-        button {
-            display: inline-block;
-        }
+  .searchsections {
+    flex-direction: column;
+    gap: 0.5rem;
+
+    button {
+      display: inline-block;
     }
+  }
 }
 
 .countlabel {
-    font-weight: bold;
+  font-weight: bold;
 }
+
 .sortby {
-    display: flex;
-    align-items: baseline;
-    gap: 5px;
-    .ui.button {
-        color: rgba(70, 92, 98, 0.77);
-        background-color: transparent;
-        padding: 0;
-        font-weight: normal;
-        &.button-active {
-            color: @textColor;
-        }
-        &:hover {
-            color: @textColor;
-            background-color: transparent;
-        }
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+
+  .ui.button {
+    padding: 0;
+    background-color: transparent;
+    color: rgba(70, 92, 98, 0.77);
+    font-weight: normal;
+
+    &.button-active {
+      color: @textColor;
     }
+
+    &:hover {
+      background-color: transparent;
+      color: @textColor;
+    }
+  }
 }
 
 // No results
 .ui.placeholder.segment .search.icon {
-    display: none;
+  display: none;
 }
 
 .highlight {
-    cursor: zoom-in;
-    margin-top: .5rem;
-    div {
-        margin-bottom: .5rem;
-    }
-    em {
-        background-color: #e6f2ce;
-    }
+  margin-top: 0.5rem;
+  cursor: zoom-in;
+
+  div {
+    margin-bottom: 0.5rem;
+  }
+
+  em {
+    background-color: #e6f2ce;
+  }
 }
 
 // debug
 body.section-test-searchkit-querystrings {
-    .ui.segment.top-wrapper {
-        display: none;
-    }
+  .ui.segment.top-wrapper {
+    display: none;
+  }
 }
