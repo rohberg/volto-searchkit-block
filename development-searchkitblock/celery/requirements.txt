@@ -1,5 +1,0 @@
--c constraints.txt
-
-elasticsearch
-redis
-collective.elastic.ingest

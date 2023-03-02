@@ -1,7 +1,7 @@
 import { getSlateEditorAndType } from '../support/slate';
 
 context('Blocks Acceptance Tests', () => {
-  describe('Text Block Tests', () => {
+  describe('Searchkit Block Tests', () => {
     beforeEach(() => {
       // given a logged in editor and a page in edit mode
       cy.visit('/');
@@ -85,117 +85,5 @@ context('Blocks Acceptance Tests', () => {
       cy.get('.block.__grid').findByText('My Page');
     });
 
-    it('As editor I can add a Teaser Grid', function () {
-      cy.getSlate().click();
-      cy.get('.button .block-add-button').click({ force: true });
-      cy.get('.blocks-chooser .mostUsed .button.teaserGrid').click({
-        force: true,
-      });
-      cy.findByText('2 columns').click();
-      cy.get(
-        '.teaserGrid.two [data-rbd-draggable-context-id]:first-child',
-      ).click();
-      cy.get(
-        '#sidebar-properties .inline.field.text:first-of-type() .objectbrowser-field:first-of-type() .ui.button.action svg',
-      ).click();
-      cy.findByLabelText('Select My Page').dblclick();
-      // This is because the objectbrowser doesn't shows the content
-      cy.wait(500);
-      cy.get(
-        '#sidebar-properties .inline.field.text:nth-of-type(5) .objectbrowser-field:first-of-type() .ui.button.action svg',
-      ).click();
-      cy.findByText('My Image', { selector: 'span' }).click();
-      cy.get(
-        '.teaserGrid.two [data-rbd-draggable-context-id]:nth-child(2)',
-      ).click();
-      cy.get(
-        '#sidebar-properties .inline.field.text:first-of-type() .objectbrowser-field:first-of-type() .ui.button.action svg',
-      ).click();
-      cy.findByLabelText('Select My Page').dblclick();
-
-      // This is because the objectbrowser doesn't shows the content
-      cy.wait(500);
-      cy.get(
-        '#sidebar-properties .inline.field.text:nth-of-type(5) .objectbrowser-field:first-of-type() .ui.button.action svg',
-      ).click();
-      cy.findByLabelText('Select My Image').dblclick();
-
-      cy.get('#toolbar-save').click();
-      cy.wait(500);
-
-      //then we are able to get the My Page in view Mode.
-      cy.get('.block.teaserGrid .two.column .column:first-child h2').should(
-        'have.text',
-        'My Page',
-      );
-    });
-
-    it('As editor I can add an Image Grid', function () {
-      cy.getSlate().click();
-      cy.get('.button .block-add-button').click({ force: true });
-      cy.get('.blocks-chooser .mostUsed .button.imagesGrid').click({
-        force: true,
-      });
-      cy.findByText('2 columns').click();
-      cy.get(
-        '.imagesGrid.two [data-rbd-draggable-context-id]:first-child .toolbar-inner .buttons:first-child button',
-      ).click();
-      cy.findByLabelText('Select My Image').dblclick();
-      cy.get(
-        '.imagesGrid.two [data-rbd-draggable-context-id]:first-child',
-      ).click();
-      cy.get('#field-alt').click().type('My Image');
-
-      cy.get(
-        '.imagesGrid.two [data-rbd-draggable-context-id]:last-child .toolbar-inner .buttons:first-child button',
-      ).click();
-      cy.findByLabelText('Select My Image').dblclick();
-      cy.get(
-        '.imagesGrid.two [data-rbd-draggable-context-id]:last-child',
-      ).click();
-      cy.get('#field-alt').click().type('My Image');
-
-      cy.get('#toolbar-save').click();
-
-      //then we should have AltText My Image present in view mode
-      cy.findAllByAltText('My Image').should('have.length', 2);
-    });
-
-    it('As editor I can add a Grid with slate block on it', function () {
-      cy.get('.block .slate-editor [contenteditable=true]').click();
-
-      cy.get('.button .block-add-button').click({ force: true });
-      cy.get('.blocks-chooser .mostUsed .button.__grid').click({ force: true });
-      cy.findByText('2 columns').click();
-
-      cy.get('button[aria-label="Add grid block in position 1"]').click();
-      cy.get('.blocks-chooser [aria-label="Unfold Text blocks"]').click();
-      cy.get('.blocks-chooser .text .button.slate').click();
-      // cy.get('.block.__grid.selected .slate-editor [contenteditable=true]')
-      //   .wait(10000)
-      //   .type('Colorless green ideas sleep furiously.');
-      cy.scrollTo('top');
-
-      getSlateEditorAndType(
-        '.block.__grid.selected .slate-editor [contenteditable=true]',
-        'Colorless green ideas sleep furiously.',
-      ).setSelection('furiously');
-      cy.scrollTo('top');
-      cy.wait(1000);
-      cy.scrollTo('top');
-      cy.get(
-        '.slate-inline-toolbar .ui.buttons .button-wrapper a[title="Add link"]',
-      ).click();
-      cy.get('.link-form-container input').type('https://google.com{enter}');
-
-      cy.get('#toolbar-save').click();
-
-      cy.get('.block.__grid.centered.two p').contains(
-        'Colorless green ideas sleep furiously.',
-      );
-      cy.get('.block.__grid.centered.two p a')
-        .should('have.attr', 'href')
-        .and('include', 'https://google.com');
-    });
   });
 });

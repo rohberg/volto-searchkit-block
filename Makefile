@@ -22,7 +22,7 @@ RESET=`tput sgr0`
 YELLOW=`tput setaf 3`
 
 PLONE_VERSION=6
-VOLTO_VERSION=16.10.0
+VOLTO_VERSION=16.12.0
 
 ADDON_NAME='@rohberg/volto-searchkit-block'
 ADDON_PATH='volto-searchkit-block'
