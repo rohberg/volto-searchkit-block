@@ -1,4 +1,4 @@
-# Makefile according '@kitconcept/volto-blocks-grid'
+# Makefile according 'volto-blocks-grid'
 
 ### Defensive settings for make:
 #     https://tech.davis-hansson.com/p/make/
