@@ -1,0 +1,16 @@
+name: Code analysis checks
+on: [push]
+jobs:
+  codeanalysis:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+        python-version: [3.8]
+
+    steps:
+      - name: Main checkout
+        uses: actions/checkout@v3
+
+      - name: Linting
+        run: make lint
