@@ -59,17 +59,21 @@ consolidate-addon-testing-project: addon-testing-project  ## Consolidate add-on 
 ########################
 
 .PHONY: test-start-backend-plone6-mac
-test-start-backend-plone6-mac:  ## Start Test Plone Backend
+test-start-backend-plone6-mac:  ## Start Test Plone Backend, elk, redis, TODO celery
 	@echo "$(GREEN)==> Start Test Plone Backend$(RESET)"
-	cd docker/mac/Plone6/
+	cd testing/mac/Plone6/
 	docker compose up
 
-##### Acceptance tests (Cypress)
+### Acceptance tests (Cypress)
 
-.PHONY: start-test
-start-test: ## Start Test
+.PHONY: start-cypress-frontend
+start-cypress-frontend: addon-testing-project ## Start Test
 	@echo "$(GREEN)==> Start Test$(RESET)"
 	(cd addon-testing-project &&	yarn cypress:open)
+
+
+# TODO make run-acceptence-tests-headless
+# TODO make run-acceptence-tests-visible
 
 
 # Development
