@@ -18,11 +18,10 @@ const _SectionsSearch = (props) => {
   const [search_sections_dict, setSearch_sections_dict] = React.useState({});
 
   React.useEffect(() => {
-    setSearch_sections_dict(
-      keyBy(search_sections?.items || [], (el) => {
-        return el.section;
-      }),
-    );
+    const ssd = keyBy(search_sections?.items || [], (el) => {
+      return el.section;
+    });
+    setSearch_sections_dict(ssd);
 
     if (
       props.currentResultsState.data.aggregations.section_agg?.section_agg
@@ -40,7 +39,7 @@ const _SectionsSearch = (props) => {
       let count_others = 0;
       let count_all = 0;
       Object.keys(bucket_dict).forEach((el) => {
-        if (!Object.keys(search_sections_dict).includes(el)) {
+        if (!Object.keys(ssd).includes(el)) {
           count_others = count_others + bucket_dict[el];
         }
       });
@@ -54,7 +53,6 @@ const _SectionsSearch = (props) => {
     props.currentResultsState.data.aggregations,
     activeSection,
     search_sections,
-    search_sections_dict,
   ]);
 
   const restrictSearchToSection = (section) => {
