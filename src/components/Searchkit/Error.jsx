@@ -3,7 +3,7 @@ import { Header, Segment } from 'semantic-ui-react';
 import { FormattedMessage } from 'react-intl';
 
 const Error = () => {
-  const error = useSelector((state) => state.results.error);
+  const error = useSelector((state) => state.results?.error);
 
   return (
     <Segment>
@@ -13,7 +13,7 @@ const Error = () => {
           defaultMessage="Check the configuration of your searchkit block!"
         />
       </Header>
-      <i>{error.message}</i>
+      <i>{error?.message}</i>
     </Segment>
   );
 };

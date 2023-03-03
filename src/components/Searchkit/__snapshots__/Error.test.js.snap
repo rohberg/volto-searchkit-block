@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Generic Error renders a simple error component 1`] = `
+<div
+  className="ui segment"
+>
+  <div
+    className="ui icon header"
+  >
+    Check the configuration of your searchkit block!
+  </div>
+  <i />
+</div>
+`;
