@@ -16,6 +16,11 @@ msgstr ""
 msgid "Add search section"
 msgstr "Füge Suchsektion hinzu"
 
+#: components/Searchkit/Error
+# defaultMessage: Check the configuration of your searchkit block!
+msgid "Check the configuration of your searchkit block!"
+msgstr "Prüfe Block-Einstellungen!"
+
 #: messages
 # defaultMessage: Content
 msgid "Content"

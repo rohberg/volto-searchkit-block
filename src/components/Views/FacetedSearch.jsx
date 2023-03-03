@@ -709,8 +709,8 @@ const FacetedSearch = ({ data, overriddenComponents }) => {
                 <Grid.Row>
                   <Grid.Column width={12}>
                     <ResultsLoader>
-                      <EmptyResults />
                       <Error />
+                      <EmptyResults />
                       <OnResults sortValues={sortValues} />
                     </ResultsLoader>
                     {/* <StateLogger /> */}
