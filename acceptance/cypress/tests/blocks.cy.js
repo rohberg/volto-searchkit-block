@@ -60,7 +60,6 @@ context('Blocks Acceptance Tests', () => {
       cy.get('#toolbar-save').click();
       // cy.get('#navigation').contains('Home').click();
 
-
       cy.visit('/searching');
     });
   });
