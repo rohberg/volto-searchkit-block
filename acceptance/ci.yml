@@ -63,7 +63,7 @@ services:
       - redis
       - elk
   elk:
-    image: ksuess/rohberg-elk-mac:rc2
+    image: ksuess/rohberg-elk:rc5
     # image: sebp/elk:oss-8.1.0
     environment:
       # ES_CORS_ALLOW_ORIGIN: "/https?://(.*)localhost(.*)/"
