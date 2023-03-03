@@ -1,7 +1,7 @@
 {
   "name": "@rohberg/volto-searchkit-block",
   "version": "0.1.0",
-  "description": "volto-searchkit-block: Volto add-on",
+  "description": "Find content. Pardon typos. Allow search queries with and provide results with compound words.",
   "main": "src/index.js",
   "author": "Katja Süss, https://github.com/rohberg",
   "license": "MIT",
@@ -10,7 +10,10 @@
     "volto-addon",
     "volto",
     "plone",
-    "react"
+    "react",
+    "search",
+    "find",
+    "elasticsearch"
   ],
   "repository": {
     "type": "git",
