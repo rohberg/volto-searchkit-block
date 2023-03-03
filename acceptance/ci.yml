@@ -33,7 +33,7 @@ services:
       CONFIGURE_PACKAGES: "plone.app.contenttypes,plone.restapi,plone.volto,plone.volto.cors,rohberg.elasticsearchblocks"
       # INSTALL_PRODUCTS: "collective.elastic.plone,collective.elastic.ingest,rohberg.elasticsearchblocks"
       # ##### plone-backend docker image
-      ADDONS: "plone.app.robotframework==2.0.0a6 plone.app.testing==7.0.0a3 plone.app.contenttypes plone.restapi plone.volto celery redis collective.elastic.plone@git+https://github.com/collective/collective.elastic.plone.git collective.elastic.ingest@git+https://github.com/collective/collective.elastic.ingest.git rohberg.elasticsearchblocks@git+https://github.com/rohberg/rohberg.elasticsearchblocks"
+      ADDONS: "plone.app.robotframework==2.0.0a6 plone.app.testing==7.0.0a3 plone.app.contenttypes plone.restapi plone.volto celery redis collective.elastic.plone collective.elastic.ingest rohberg.elasticsearchblocks"
       SITE: "plone"
       # DEVELOP: "git+https://github.com/collective/collective.elastic.plone.git#egg=collective.elastic.plone"
 
