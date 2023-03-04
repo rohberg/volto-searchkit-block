@@ -2,13 +2,22 @@
 
 exports[`Generic Error renders a simple error component 1`] = `
 <div
-  className="ui segment"
+  className="ui red inverted secondary segment"
 >
   <div
     className="ui icon header"
   >
-    Check the configuration of your searchkit block!
+    <h3>
+      Check the configuration of your searchkit block!
+    </h3>
   </div>
-  <i />
+  <b>
+    NotFoundError
+    :
+  </b>
+   
+  <i>
+    Index cannot be found.
+  </i>
 </div>
 `;

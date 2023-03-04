@@ -17,8 +17,11 @@ describe('Generic Error', () => {
         locale: 'en',
         messages: {},
       },
-      apierror: {
-        message: 'Connection failed',
+      results: {
+        error: {
+          name: 'NotFoundError',
+          message: 'Index cannot be found.',
+        },
       },
     });
     const component = renderer.create(
