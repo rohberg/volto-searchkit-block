@@ -53,6 +53,8 @@ import ErrorComponent from '../Searchkit/Error';
 
 import './less/springisnow-volto-searchkit-block.less';
 
+import config from '@plone/volto/registry';
+
 // TODO Make reviewstatemapping configurable
 export const ploneSearchApi = (data) => {
   const cookies = new Cookies();
@@ -635,9 +637,11 @@ const FacetedSearch = ({ data, overriddenComponents }) => {
     delete facet_fields_object.Subject;
   }
 
-  overriddenComponents = overriddenComponents ?? {
+  overriddenComponents = {
     ...defaultOverriddenComponents,
     ...(filterLayout === 'dropdown' && dropdownOverriddenComponents),
+    ...(config.settings.searchkitblock.overriddenComponents &&
+      config.settings.searchkitblock.overriddenComponents),
   };
 
   // TODO Check if check on client could be made simpler

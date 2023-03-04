@@ -52,6 +52,28 @@ Enable Matomo tracking via
   config.settings.searchkitblock.trackVoltoMatomo = true
 ```
 
+## Overriding components
+
+Components of @rohberg/volto-searchkit-block can be overridden via its overridableId:
+
+```jsx
+const MySearchkitResultsListItem = ({ result, index }) => {
+  return (
+    <div>
+      <Header as="h3">
+        <Link to={flattenESUrlToPath(result['@id'])}>
+          {result.title}
+        </Link>
+      </Header>
+    </div>
+  );
+};
+
+config.settings.searchkitblock.overriddenComponents = {
+  'ResultsList.item.elasticsearch': MySearchkitResultsListItem,
+};
+````
+
 
 ## Panel for testing matches
 
