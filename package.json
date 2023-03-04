@@ -1,6 +1,6 @@
 {
   "name": "@rohberg/volto-searchkit-block",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Find content. Pardon typos. Allow search queries with and provide results with compound words.",
   "main": "src/index.js",
   "author": "Katja Süss, https://github.com/rohberg",
