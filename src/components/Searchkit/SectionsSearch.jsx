@@ -1,5 +1,5 @@
 import React from 'react';
-import { keyBy } from 'lodash';
+import { isEmpty, keyBy } from 'lodash';
 import { withState } from 'react-searchkit';
 import { BodyClass } from '@plone/volto/helpers';
 // import StateLogger from '../StateLogger';
@@ -92,7 +92,7 @@ const _SectionsSearch = (props) => {
     updateQueryState(kitquerystate);
   };
 
-  return (
+  return isEmpty(props.currentResultsState.error) ? (
     <>
       <BodyClass
         className={
@@ -145,7 +145,7 @@ const _SectionsSearch = (props) => {
       </div>
       {/* <StateLogger /> */}
     </>
-  );
+  ) : null;
 };
 
 export default withState(_SectionsSearch);

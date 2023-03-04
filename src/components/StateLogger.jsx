@@ -6,12 +6,13 @@ class _StateLogger extends React.Component {
     return (
       <div>
         <div>
-          Current query state{' '}
+          <h2>Current results state</h2>
+          <pre>{JSON.stringify(this.props.currentResultsState, null, 2)}</pre>
+        </div>
+        <div>
+          <h2>Current query state</h2>
           <pre>{JSON.stringify(this.props.currentQueryState, null, 2)}</pre>
         </div>
-        {/* <div>
-          Current results state <pre>{JSON.stringify(this.props.currentResultsState, null, 2)}</pre>
-        </div> */}
       </div>
     );
   }

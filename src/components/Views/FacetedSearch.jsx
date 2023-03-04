@@ -27,6 +27,7 @@ import {
   ReactSearchKit,
   ResultsLoader,
   withState,
+  Error as ErrorCp,
 } from 'react-searchkit';
 
 import { expandToBackendURL } from '@plone/volto/helpers';
@@ -47,7 +48,8 @@ import SectionsSearch from '../Searchkit/SectionsSearch';
 import SearchBarSection from '../Searchkit/SearchBarSection';
 
 import { ElasticSearchHighlights } from '../Searchkit/ElasticSearchHighlights';
-import Error from '../Searchkit/Error';
+import ErrorComponent from '../Searchkit/Error';
+// import StateLogger from '../StateLogger';
 
 import './less/springisnow-volto-searchkit-block.less';
 
@@ -562,24 +564,6 @@ const customPaginationElement = (props) => {
   ) : null;
 };
 
-const defaultOverriddenComponents = {
-  'ResultsList.item.elasticsearch': CustomResultsListItem,
-  'Count.element': MyCountElement,
-  'ActiveFilters.element': myActiveFiltersElement,
-  'EmptyResults.element': customEmpytResultsElement,
-  'Sort.element.volto': customSort,
-  'Pagination.element': customPaginationElement,
-  'Error.element': Error,
-};
-
-const dropdownOverriddenComponents = {
-  'BucketAggregation.element': CustomBucketAggregationElement,
-  'BucketAggregationContainer.element': CustomBucketAggregationContainerElement,
-  'BucketAggregationValues.element': withState(
-    CustomBucketAggregationValuesElement,
-  ),
-};
-
 const sortValues = [
   {
     text: 'Relevanz',
@@ -607,6 +591,24 @@ const initialState = {
   layout: 'list',
   page: 1,
   size: 10,
+};
+
+const defaultOverriddenComponents = {
+  'ResultsList.item.elasticsearch': CustomResultsListItem,
+  'Count.element': MyCountElement,
+  'ActiveFilters.element': myActiveFiltersElement,
+  'EmptyResults.element': customEmpytResultsElement,
+  'Sort.element.volto': customSort,
+  'Pagination.element': customPaginationElement,
+  'Error.element': ErrorComponent,
+};
+
+const dropdownOverriddenComponents = {
+  'BucketAggregation.element': CustomBucketAggregationElement,
+  'BucketAggregationContainer.element': CustomBucketAggregationContainerElement,
+  'BucketAggregationValues.element': withState(
+    CustomBucketAggregationValuesElement,
+  ),
 };
 
 /**
@@ -709,7 +711,7 @@ const FacetedSearch = ({ data, overriddenComponents }) => {
                 <Grid.Row>
                   <Grid.Column width={12}>
                     <ResultsLoader>
-                      <Error />
+                      <ErrorCp />
                       <EmptyResults />
                       <OnResults sortValues={sortValues} />
                     </ResultsLoader>

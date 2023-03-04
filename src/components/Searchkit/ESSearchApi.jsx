@@ -67,7 +67,8 @@ export class PloneSearchApi {
       );
     }
     if (this.responseInterceptor) {
-      this.http.interceptors.request.use(
+      // Bug fix: this.http.interceptors.request.use(
+      this.http.interceptors.response.use(
         this.responseInterceptor.resolve,
         this.responseInterceptor.reject,
       );
@@ -95,10 +96,10 @@ export class PloneSearchApi {
           elasticsearch_index: this.elastic_search_api_index,
         },
       });
-
       let results = await this.responseSerializer.serialize(response.data);
       return results;
     } catch (error) {
+      error.message = error.response.data?.error?.message;
       if (axios.isCancel(error)) {
         throw new RequestCancelledError();
       } else {
