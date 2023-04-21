@@ -5,7 +5,6 @@
   "main": "src/index.js",
   "author": "Katja Süss, https://github.com/rohberg",
   "license": "MIT",
-  "private": false,
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
@@ -50,9 +49,9 @@
   },
   "devDependencies": {
     "@plone/scripts": "^2.3.0",
-    "release-it": "^15.6.0",
     "@semantic-ui-react/css-patch": "1.0.0",
-    "cypress": "^10.10.0"
+    "cypress": "^10.10.0",
+    "release-it": "^15.6.0"
   },
   "peerDependencies": {
     "@plone/volto": ">=16.0.0"
