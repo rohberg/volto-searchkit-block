@@ -441,7 +441,6 @@ const CustomBucketAggregationValuesElement = (props) => {
     // updateQueryState,
     // currentQueryState,
   } = props;
-  console.debug('props', props);
   const label = bucket.label
     ? `${bucket.label} (${bucket.doc_count})`
     : `${keyField} (${bucket.doc_count})`;
