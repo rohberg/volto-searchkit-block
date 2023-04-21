@@ -352,33 +352,57 @@ const CustomBucketAggregationElement = (props) => {
       updateQueryFilters(containerCmp.props.selectedFilters);
     }
     updateQueryFilters(all_filters);
-    // event.preventDefault();
-    // event.stopPropagation();
+
+    event.preventDefault();
+    event.stopPropagation();
   };
+
+  const dropdowntitle =
+    title + (selectedFilters.length > 0 ? ` [${selectedFilters.length}]` : '');
 
   return containerCmp ? (
     <div className="bucketAE">
       <Dropdown
+        multiple
         fluid
         scrolling
-        text={selectedFilters.length > 0 ? selectedFilters.join(', ') : title}
+        text={dropdowntitle}
         className={
           selectedFilters.length ? 'fnfilter selected' : 'fnfilter unselected'
         }
       >
         <Dropdown.Menu>
           <Dropdown.Item>
-            <Item
+            <span
               onClick={(e) => selectAllAggFilters(e)}
+              onKeyDown={(e) => selectAllAggFilters(e)}
+              role="option"
+              aria-selected="false"
+              tabIndex="0"
               className="select_all"
             >
               <FormattedMessage id="Select all" defaultMessage="Select all" />
-            </Item>
+            </span>{' '}
+            /{' '}
+            <span
+              onClick={(e) => removeAggFilters(e)}
+              onKeyDown={(e) => removeAggFilters(e)}
+              role="option"
+              aria-selected="false"
+              tabIndex="0"
+              className="deselect_all"
+            >
+              {' '}
+              <FormattedMessage
+                id="Deselect all"
+                defaultMessage="Deselect all"
+              />
+            </span>
           </Dropdown.Item>
           {containerCmp}
         </Dropdown.Menu>
       </Dropdown>
-      <IconSemantic
+      {/* <IconSemantic
         className={
           selectedFilters.length
             ? 'deleteFilter selected'
@@ -386,7 +410,7 @@ const CustomBucketAggregationElement = (props) => {
         }
         name="delete"
         onClick={(e) => removeAggFilters(e)}
-      />
+      /> */}
     </div>
   ) : null;
 };
@@ -417,13 +441,16 @@ const CustomBucketAggregationValuesElement = (props) => {
     // updateQueryState,
     // currentQueryState,
   } = props;
+  console.debug('props', props);
   const label = bucket.label
     ? `${bucket.label} (${bucket.doc_count})`
     : `${keyField} (${bucket.doc_count})`;
 
   const onFilterClickedCustom = (filter, event) => {
-    // TODO If  cmd-key down: select option, but do not trigger search
     onFilterClicked(filter);
+
+    event.preventDefault();
+    event.stopPropagation();
   };
 
   return (
@@ -431,6 +458,7 @@ const CustomBucketAggregationValuesElement = (props) => {
       <Item
         onClick={(event) => onFilterClickedCustom(bucket.key, event)}
         className={isSelected ? 'isSelected' : ''}
+        key={bucket.key}
       >
         {label}
       </Item>
