@@ -16,6 +16,10 @@ const _SectionsSearch = (props) => {
   const [doc_count_others, setDoc_count_others] = React.useState(0);
   const [doc_count_all, setDoc_count_all] = React.useState(0);
   const [search_sections_dict, setSearch_sections_dict] = React.useState({});
+  // Reset sections selection on reset of search string
+  if (currentQueryState.filters.length === 0 && activeSection !== 'all') {
+    setActiveSection('all');
+  }
 
   React.useEffect(() => {
     const ssd = keyBy(search_sections?.items || [], (el) => {
