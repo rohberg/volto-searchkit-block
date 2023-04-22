@@ -36,6 +36,11 @@ msgstr "Datum"
 msgid "Description"
 msgstr "Beschreibung"
 
+#: components/Views/FacetedSearch
+# defaultMessage: Deselect all
+msgid "Deselect all"
+msgstr "keine"
+
 #: messages
 # defaultMessage: Facet
 msgid "Facet"
