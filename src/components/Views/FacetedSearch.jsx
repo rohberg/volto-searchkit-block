@@ -36,6 +36,7 @@ import leftAngle from '@plone/volto/icons/left-key.svg';
 import rightAngle from '@plone/volto/icons/right-key.svg';
 import firstAngle from '@plone/volto/icons/first.svg';
 import lastAngle from '@plone/volto/icons/last.svg';
+import clearSVG from '@plone/volto/icons/clear.svg';
 
 import messages from '../../messages';
 import { flattenESUrlToPath, getObjectFromObjectList } from '../helpers';
@@ -454,6 +455,15 @@ const CustomBucketAggregationValuesElement = (props) => {
 
   return (
     <Dropdown.Item key={bucket.key}>
+      {isSelected ? (
+        <Item
+          onClick={(event) => onFilterClickedCustom(bucket.key, event)}
+          className={isSelected ? 'isSelected right floated' : 'right floated'}
+          key={`${bucket.key}-description`}
+        >
+          <Icon name={clearSVG} size="15px" />
+        </Item>
+      ) : null}
       <Item
         onClick={(event) => onFilterClickedCustom(bucket.key, event)}
         className={isSelected ? 'isSelected' : ''}

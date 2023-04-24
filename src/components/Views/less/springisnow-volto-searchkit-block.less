@@ -153,11 +153,15 @@
             box-shadow: none;
 
             & > .item {
-              padding: 0.4rem 1.8rem 0.4rem 1rem !important;
+              padding: 0.4rem 1rem 0.4rem 1rem !important;
               line-height: 1.4em;
               // color: @white;
-              & > .item.isSelected {
+              & .item.isSelected {
                 font-weight: bold;
+                svg {
+                  stroke-width: 3px;
+                  stroke: currentColor;
+                }
               }
             }
           }
