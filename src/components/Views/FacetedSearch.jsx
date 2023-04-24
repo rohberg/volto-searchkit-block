@@ -368,9 +368,10 @@ const CustomBucketAggregationElement = (props) => {
         fluid
         scrolling
         text={dropdowntitle}
-        className={
-          selectedFilters.length ? 'fnfilter selected' : 'fnfilter unselected'
-        }
+        className={cx('fnfilter', {
+          selected: selectedFilters.length,
+          scrolloptions: buckets.length > 9,
+        })}
       >
         <Dropdown.Menu>
           <Dropdown.Item>

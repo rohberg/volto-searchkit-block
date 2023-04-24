@@ -153,7 +153,7 @@
             box-shadow: none;
 
             & > .item {
-              padding: 0.4rem 1rem 0.4rem 1rem !important;
+              padding: 0.4rem 1.4rem 0.4rem 1rem !important;
               line-height: 1.4em;
               // color: @white;
               & .item.isSelected {
@@ -170,6 +170,13 @@
           div.visible .menu {
             display: block !important;
             visibility: visible !important;
+          }
+
+          // Hack for dropdown with scrollbar
+          &.scrolloptions {
+            .menu > .item {
+              padding-right: 0.9rem !important;
+            }
           }
         }
 
