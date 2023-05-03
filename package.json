@@ -53,8 +53,5 @@
     "@semantic-ui-react/css-patch": "1.0.0",
     "cypress": "^10.10.0",
     "release-it": "^15.10.1"
-  },
-  "peerDependencies": {
-    "@plone/volto": ">=16.0.0"
   }
 }
