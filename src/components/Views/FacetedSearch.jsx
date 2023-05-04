@@ -203,8 +203,13 @@ const _ExtraInfo = (props) => {
 
 const ExtraInfo = withState(_ExtraInfo);
 
-const CustomResultsListItem = (props) => {
+const _CustomResultsListItem = (props) => {
   const { result, index } = props;
+  const backend_url = props.currentQueryState.data?.backend_url;
+  const is_external_content = !result['@id'].includes(backend_url);
+  const item_url = result['@id'].includes(backend_url)
+    ? flattenESUrlToPath(result['@id'])
+    : result['@id'];
   const querystringindexes = useSelector(
     (state) => state.query?.data?.querystringindexes,
   );
@@ -246,19 +251,31 @@ const CustomResultsListItem = (props) => {
             })}
           </Item.Meta>
         ) : null}
-        <Item.Header as={Link} to={flattenESUrlToPath(result['@id'])}>
-          {result.title}
-          {/* <p>result['@id']: {result['@id']}</p>
-          <p>
-            flattenESUrlToPath(result['@id']):{' '}
-            {flattenESUrlToPath(result['@id'])}
-          </p> */}
-        </Item.Header>
-        <Item.Description>
-          <Link to={flattenESUrlToPath(result['@id'])}>
-            {truncate(result.description, { length: 200 })}
-          </Link>
-        </Item.Description>
+        {is_external_content ? (
+          <React.Fragment>
+            <Item.Header>
+              <a target="_blank" href={item_url} rel="noopener noreferrer">
+                {result.title}
+              </a>
+            </Item.Header>
+            <Item.Description>
+              <a target="_blank" href={item_url} rel="noopener noreferrer">
+                {truncate(result.description, { length: 200 })}
+              </a>
+            </Item.Description>
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <Item.Header as={Link} to={item_url}>
+              {result.title}
+            </Item.Header>
+            <Item.Description>
+              <Link to={item_url}>
+                {truncate(result.description, { length: 200 })}
+              </Link>
+            </Item.Description>
+          </React.Fragment>
+        )}
         <ExtraInfo result={result} />
         <ElasticSearchHighlights
           highlight={result.highlight}
@@ -268,6 +285,8 @@ const CustomResultsListItem = (props) => {
     </Item>
   );
 };
+
+const CustomResultsListItem = withState(_CustomResultsListItem);
 
 const MyCountElement = ({ totalResults }) => {
   const intl = useIntl();
