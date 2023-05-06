@@ -346,11 +346,9 @@ export class CustomESRequestSerializer {
           }
         : null;
 
-      // TODO Add section filter
       if (fieldName !== 'section') {
         if (section) {
           if (section[1] === 'others') {
-            // TODO must not section
             res = res || {
               bool: {},
             };
