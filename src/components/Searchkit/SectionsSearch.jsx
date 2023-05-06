@@ -99,7 +99,6 @@ const _SectionsSearch = (props) => {
 
   return isEmpty(props.currentResultsState.error) ? (
     <>
-      <p>{activeSection}</p>
       <BodyClass
         className={
           (search_sections_dict[activeSection] &&
