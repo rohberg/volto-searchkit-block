@@ -12,52 +12,53 @@ const _SectionsSearch = (props) => {
     currentQueryState,
     updateQueryState,
   } = props;
+
+  // State
   const [activeSection, setActiveSection] = React.useState('all');
-  const [doc_count_others, setDoc_count_others] = React.useState(0);
-  const [doc_count_all, setDoc_count_all] = React.useState(0);
-  const [search_sections_dict, setSearch_sections_dict] = React.useState({});
-  // Reset sections selection on reset of search string
-  if (currentQueryState.filters.length === 0 && activeSection !== 'all') {
-    setActiveSection('all');
+
+  // Helpers
+  const search_sections_dict = keyBy(search_sections?.items || [], (el) => {
+    return el.section;
+  });
+
+  let doc_count_others = 0;
+  let doc_count_all = 0;
+
+  if (
+    props.currentResultsState.data.aggregations.section_agg?.section_agg
+      ?.buckets
+  ) {
+    const buckets =
+      props.currentResultsState.data.aggregations.section_agg?.section_agg
+        ?.buckets;
+    let bucket_dict = {};
+    buckets.forEach((el) => {
+      bucket_dict[el.key] = el.doc_count;
+    });
+
+    // calculate doc_counts of others and all
+    let count_others = 0;
+    let count_all = 0;
+    Object.keys(bucket_dict).forEach((el) => {
+      if (!Object.keys(search_sections_dict).includes(el)) {
+        count_others = count_others + bucket_dict[el];
+      }
+    });
+    Object.keys(bucket_dict).forEach((el) => {
+      count_all = count_all + bucket_dict[el];
+    });
+    doc_count_others = count_others;
+    doc_count_all = count_all;
   }
 
   React.useEffect(() => {
-    const ssd = keyBy(search_sections?.items || [], (el) => {
-      return el.section;
+    const filters_dictionary = keyBy(currentQueryState.filters, (el) => {
+      return el[0];
     });
-    setSearch_sections_dict(ssd);
-
-    if (
-      props.currentResultsState.data.aggregations.section_agg?.section_agg
-        ?.buckets
-    ) {
-      const buckets =
-        props.currentResultsState.data.aggregations.section_agg?.section_agg
-          ?.buckets;
-      let bucket_dict = {};
-      buckets.forEach((el) => {
-        bucket_dict[el.key] = el.doc_count;
-      });
-
-      // calculate doc_counts of others and all
-      let count_others = 0;
-      let count_all = 0;
-      Object.keys(bucket_dict).forEach((el) => {
-        if (!Object.keys(ssd).includes(el)) {
-          count_others = count_others + bucket_dict[el];
-        }
-      });
-      Object.keys(bucket_dict).forEach((el) => {
-        count_all = count_all + bucket_dict[el];
-      });
-      setDoc_count_others(count_others);
-      setDoc_count_all(count_all);
-    }
-  }, [
-    props.currentResultsState.data.aggregations,
-    activeSection,
-    search_sections,
-  ]);
+    setActiveSection(
+      filters_dictionary.section ? filters_dictionary.section[1] : 'all',
+    );
+  }, [currentQueryState]);
 
   const restrictSearchToSection = (section) => {
     setActiveSection(section);
@@ -98,6 +99,7 @@ const _SectionsSearch = (props) => {
 
   return isEmpty(props.currentResultsState.error) ? (
     <>
+      <p>{activeSection}</p>
       <BodyClass
         className={
           (search_sections_dict[activeSection] &&
