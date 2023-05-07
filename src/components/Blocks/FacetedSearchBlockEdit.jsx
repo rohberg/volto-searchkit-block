@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Segment } from 'semantic-ui-react'
+import { Container, Segment } from 'semantic-ui-react';
 import { SidebarPortal } from '@plone/volto/components';
 
 import Sidebar from './Sidebar';
