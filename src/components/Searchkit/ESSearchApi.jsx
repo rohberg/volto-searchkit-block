@@ -51,17 +51,16 @@ export class PloneSearchApi {
   async search(stateQuery) {
     const payload = this.requestSerializer.serialize(stateQuery);
     // Extend paylod with url and index to address elasticsearch server
-    try {        
+    try {
       const response = await fetch(this.fetchConfig.url, {
-        method: "POST",
+        method: 'POST',
         headers: this.fetchConfig.headers,
         body: JSON.stringify({
           elasticsearch_payload: payload,
           elasticsearch_url: this.elastic_search_api_url,
           elasticsearch_index: this.elastic_search_api_index,
-        })
+        }),
       });
-      
       // let results = await this.responseSerializer.serialize(response.data);
       let results = await response.json();
       results = this.responseSerializer.serialize(results);
