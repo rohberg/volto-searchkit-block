@@ -61,7 +61,7 @@ export const ploneSearchApi = (data) => {
   const cookies = new Cookies();
   const authToken = cookies.get('auth_token');
   return new PloneSearchApi({
-    axios: {
+    fetchPayload: {
       url: expandToBackendURL('/@kitsearch'),
       timeout: 5000,
       headers: {
