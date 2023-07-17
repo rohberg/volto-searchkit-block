@@ -1,32 +1,22 @@
 import _get from 'lodash/get';
 import _hasIn from 'lodash/hasIn';
-import axios from 'axios';
-import { RequestCancelledError } from 'react-searchkit';
 import { CustomESRequestSerializer } from './CustomESRequestSerializer';
 import { CustomESResponseSerializer } from './CustomESResponseSerializer';
 
 export class PloneSearchApi {
   constructor(config) {
-    this.axiosConfig = _get(config, 'axios', {});
-    this.validateAxiosConfig();
+    this.fetchConfig = _get(config, 'fetchPayload', {});
+    this.validateFetchConfig();
     this.initSerializers(config);
-    this.initInterceptors(config);
-    this.initAxios();
     this.search = this.search.bind(this);
-    this.axiosCancelToken = axios.CancelToken;
     this.elastic_search_api_url = config.elastic_search_api_url;
     this.elastic_search_api_index = config.elastic_search_api_index;
   }
 
-  validateAxiosConfig() {
-    if (!_hasIn(this.axiosConfig, 'url')) {
-      throw new Error('PloneSearchApi config: `node` field is required.');
+  validateFetchConfig() {
+    if (!_hasIn(this.fetchConfig, 'url')) {
+      throw new Error('PloneSearchApi config: `url` is required.');
     }
-  }
-
-  initInterceptors(config) {
-    this.requestInterceptor = _get(config, 'interceptors.request', undefined);
-    this.responseInterceptor = _get(config, 'interceptors.response', undefined);
   }
 
   initSerializers(config) {
@@ -54,57 +44,29 @@ export class PloneSearchApi {
     });
   }
 
-  initAxios() {
-    this.http = axios.create(this.axiosConfig);
-    this.addInterceptors();
-  }
-
-  addInterceptors() {
-    if (this.requestInterceptor) {
-      this.http.interceptors.request.use(
-        this.requestInterceptor.resolve,
-        this.requestInterceptor.reject,
-      );
-    }
-    if (this.responseInterceptor) {
-      // Bug fix: this.http.interceptors.request.use(
-      this.http.interceptors.response.use(
-        this.responseInterceptor.resolve,
-        this.responseInterceptor.reject,
-      );
-    }
-  }
-
   /**
    * Perform the backend request to search and return the serialized list of results for the app state `results`.
    * @param {string} stateQuery the `query` state with the user input
    */
   async search(stateQuery) {
-    // cancel any previous request in case it is still happening
-    this.axiosCancel && this.axiosCancel.cancel();
-    // generate a new cancel token for this request
-    this.axiosCancel = this.axiosCancelToken.source();
-
     const payload = this.requestSerializer.serialize(stateQuery);
     // Extend paylod with url and index to address elasticsearch server
     try {
-      const response = await this.http.request({
+      const response = await fetch(this.fetchConfig.url, {
         method: 'POST',
-        data: {
+        headers: this.fetchConfig.headers,
+        body: JSON.stringify({
           elasticsearch_payload: payload,
           elasticsearch_url: this.elastic_search_api_url,
           elasticsearch_index: this.elastic_search_api_index,
-        },
+        }),
       });
-      let results = await this.responseSerializer.serialize(response.data);
+      // let results = await this.responseSerializer.serialize(response.data);
+      let results = await response.json();
+      results = this.responseSerializer.serialize(results);
       return results;
     } catch (error) {
-      error.message = error.response.data?.error?.message;
-      if (axios.isCancel(error)) {
-        throw new RequestCancelledError();
-      } else {
-        throw error;
-      }
+      throw error;
     }
   }
 }
