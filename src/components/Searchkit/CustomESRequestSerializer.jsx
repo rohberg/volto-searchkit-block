@@ -140,8 +140,8 @@ export class CustomESRequestSerializer {
       // - search also for word parts (LSR-Lehrbetrieb: search also for LSR and Lehrbetrieb)
       let words = queryString.trim().split(' ');
       words = words
-        // filter out spaces and orphan "
-        .filter((word) => word !== '' && word !== '"');
+        // filter out spaces, orphan ", "AND", and "OR"
+        .filter((word) => !['', '"', 'AND', 'OR', 'NOT'].includes(word));
 
       words.forEach((word) => {
         word = _remove_orphan_leading_or_trailing_quotmarks(word);
