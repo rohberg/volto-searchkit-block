@@ -82,6 +82,29 @@ config.settings.searchkitblock.overriddenComponents = {
 Please update the settings according to your deployment: `/controlpanel/volto_searchkit_block_control_panel`
 
 
+## User documentation
+
+The search is a fuzzy search, that means typos are compensated. 
+Approximate matches and inflections are found.
+
+### Multiple search strings
+
+Search results do include at least one of the search strings.
+
+To force the match of a search string, precede it with "+".
+To exclude matches of a search string, precede it with "-".
+
+Use wildcards to find matches of words that complement the search string.
+
+For exact matches of a search string embrace it with quotation marks.
+
+A search for a word with hyphen is equivalent to a search for the word and the parts of it.  
+Example: A search for "LSR-Lehrbetrieb" is equivalent to a search for "LSR-Lehrbetrieb LSR Lehrbetrieb"
+
+Words with hyphen are matched by searches for part of the words.  
+Example: "LSR-Lehrbetrieb" is found by a search for "LSR".
+
+
 ## Credits
 
 This package is a Plone Volto integration of react-searchkit https://www.npmjs.com/package/react-searchkit Copyright (C) 2015-2019 CERN.
