@@ -253,11 +253,14 @@ const _CustomResultsListItem = (props) => {
         ) : null}
         {is_external_content ? (
           <React.Fragment>
-            <Item.Header>
-              <a target="_blank" href={item_url} rel="noopener noreferrer">
-                {result.title}
-              </a>
-            </Item.Header>
+            <a
+              className="header"
+              target="_blank"
+              href={item_url}
+              rel="noopener noreferrer"
+            >
+              {result.title}
+            </a>
             <Item.Description>
               <a target="_blank" href={item_url} rel="noopener noreferrer">
                 {truncate(result.description, { length: 200 })}
