@@ -21,9 +21,8 @@ The block is prepared for Matomo analytics.
 
 ## Getting started
 
-You have ElasticSearch up and running with Plone. See [`collective.elastic.plone`](https://github.com/collective/collective.elastic.plone) and [`collective.elastic.ingest`](https://github.com/collective/collective.elastic.ingest) how to set up.
+You have ElasticSearch or OpenSearch up and running with Plone. See [`collective.elastic.plone`](https://github.com/collective/collective.elastic.plone) and [`collective.elastic.ingest`](https://github.com/collective/collective.elastic.ingest) how to set up.
 
-For searching in blocks content, install [`rohberg.elasticsearchblocks`](https://github.com/rohberg/rohberg.elasticsearchblocks) and enable its behavior on your content types.
 
 
 ## Configuration
