@@ -339,8 +339,8 @@ const CustomBucketAggregationElement = (props) => {
 
   /**
    * Translate labels according vocabulary
-   * @param {*} bucks 
-   * @returns 
+   * @param {*} bucks
+   * @returns
    */
   const translate = (bucks) => {
     if (querystringindexes[fieldname]) {
