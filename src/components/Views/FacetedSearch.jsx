@@ -217,7 +217,7 @@ const _CustomResultsListItem = (props) => {
   const translate = (key) => {
     let label = key;
     if (querystringindexes?.informationtype) {
-      label = querystringindexes.informationtype.values[key].title;
+      label = querystringindexes.informationtype.values[key]?.title || key;
     }
     return label;
   };
@@ -228,7 +228,8 @@ const _CustomResultsListItem = (props) => {
       className={cx('searchkitresultitem', result.review_state)}
     >
       <Item.Content>
-        {result.informationtype?.length ? (
+        {Array.isArray(result.informationtype) &&
+        result.informationtype?.length > 0 ? (
           <Item.Meta>
             {result.informationtype?.map((item, index) => {
               let tito = translate(item);
@@ -336,10 +337,17 @@ const CustomBucketAggregationElement = (props) => {
     (state) => state.query?.data?.querystringindexes,
   );
 
+  /**
+   * Translate labels according vocabulary
+   * @param {*} bucks
+   * @returns
+   */
   const translate = (bucks) => {
     if (querystringindexes[fieldname]) {
       bucks.forEach((element) => {
-        element.label = querystringindexes[fieldname].values[element.key].title;
+        element.label =
+          querystringindexes[fieldname].values[element.key]?.title ||
+          element.key;
       });
     }
     return bucks;
