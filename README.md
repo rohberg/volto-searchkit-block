@@ -21,7 +21,9 @@ The block is prepared for Matomo analytics.
 
 ## Getting started
 
-You have ElasticSearch or OpenSearch up and running with Plone. See [`collective.elastic.plone`](https://github.com/collective/collective.elastic.plone) and [`collective.elastic.ingest`](https://github.com/collective/collective.elastic.ingest) how to set up.
+You have ElasticSearch or OpenSearch up and running.
+
+Install [`collective.elastic.plone`](https://github.com/collective/collective.elastic.plone) and [`collective.elastic.ingest`](https://github.com/collective/collective.elastic.ingest) to provide the Plone REST API service.
 
 
 
