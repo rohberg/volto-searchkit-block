@@ -1,5 +1,5 @@
 name: Acceptance tests
-on: [push]
+on: [push, pull_request]
 
 env:
   ADDON_NAME: "@rohberg/volto-searchkit-block"
@@ -22,12 +22,11 @@ jobs:
           yarn
 
       - name: "Cypress: Acceptance tests"
-        uses: cypress-io/github-action@v5
+        uses: cypress-io/github-action@v6
         env:
           BABEL_ENV: production
           CYPRESS_RETRIES: 2
         with:
-          parallel: false
           browser: chrome
           working-directory: acceptance
           spec: cypress/tests/*.js
