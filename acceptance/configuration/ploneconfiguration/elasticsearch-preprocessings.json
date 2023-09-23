@@ -18,29 +18,6 @@
     }
   },
 
-
-  {
-    "match": {
-      "type": "always"
-    },
-    "action": "additional_schema",
-    "configuration": {
-      "name": "rid",
-      "field": "zope.schema._field.ASCIILine"
-    }
-  },
-  {
-    "match": {
-      "type": "always"
-    },
-    "action": "rewrite",
-    "configuration": {
-      "source": "@components/catalog_rid",
-      "target": "rid",
-      "enforce": true
-    }
-  },
-
   {
     "match": {
       "type": "always"
@@ -87,15 +64,6 @@
     "action": "remove",
     "configuration": {
       "target": "items_total"
-    }
-  },
-  {
-    "match": {
-      "type": "always"
-    },
-    "action": "remove",
-    "configuration": {
-      "target": "parents"
     }
   },
   {
