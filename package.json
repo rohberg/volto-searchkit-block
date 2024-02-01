@@ -48,9 +48,8 @@
     "react-searchkit": "v2.2.0"
   },
   "devDependencies": {
-    "@plone/scripts": "^2.3.0",
-    "@semantic-ui-react/css-patch": "1.0.0",
-    "cypress": "^10.10.0",
+    "@plone/scripts": "^3.0.0",
+    "cypress": "^13.1.0",
     "release-it": "^15.10.1"
   }
 }
