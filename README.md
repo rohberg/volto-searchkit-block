@@ -1,9 +1,4 @@
-Plone Volto block **@rohberg/volto-searchkit-block**
-
-
-# Features
-
-## Find
+# Features of **@rohberg/volto-searchkit-block**
 
 Search block with highly overridable components for searching, filtering and displaying search results. Sometimes also called faceted navigation.
 
