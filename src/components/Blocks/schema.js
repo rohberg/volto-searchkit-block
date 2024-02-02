@@ -180,8 +180,6 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
       },
     },
     required: [
-      'elastic_search_api_url',
-      'elastic_search_api_index',
       'backend_url',
       'frontend_url',
     ],
