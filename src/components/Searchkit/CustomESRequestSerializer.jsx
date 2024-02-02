@@ -387,7 +387,7 @@ export class CustomESRequestSerializer {
         aggName = 'subjects_agg';
       }
       if (fieldName === 'section') {
-        field = 'section.keyword';
+        field = 'section';
       }
       let aggBucketTermsComponent = {
         [aggName]: {
