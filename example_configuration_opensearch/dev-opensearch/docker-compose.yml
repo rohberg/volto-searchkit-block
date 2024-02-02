@@ -1,0 +1,99 @@
+# opensearch needs sysctl -w vm.max_map_count=262144
+# see https://stackoverflow.com/questions/66444027/max-virtual-memory-areas-vm-max-map-count-65530-is-too-low-increase-to-at-lea
+version: '3'
+services:
+
+  ingest:
+    image: ghcr.io/collective/collective.elastic.ingest:latest
+    environment:
+      MAPPINGS_FILE: ${MAPPINGS_FILE}
+      ANALYSIS_FILE: ${ANALYSIS_FILE}
+      PREPROCESSINGS_FILE: ${PREPROCESSINGS_FILE}
+      INDEX_SERVER: ${INDEX_SERVER?unset}
+      INDEX_USE_SSL: ${INDEX_USE_SSL?unset}
+      INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
+      INDEX_LOGIN: ${INDEX_LOGIN?unset}
+      INDEX_PASSWORD: ${INDEX_PASSWORD?unset}
+      CELERY_BROKER: ${CELERY_BROKER?unset}
+      CELERY_CONCURRENCY: ${CELERY_CONCURRENCY:-1}
+      CELEREY_LOG_LEVEL: ${CELERY_LOG_LEVEL:-info}
+      PLONE_SERVICE: ${PLONE_SERVICE?unset}
+      PLONE_SITE_PREFIX_PATH: ${PLONE_SITE_PREFIX_PATH?unset}
+      PLONE_USER: ${PLONE_USER?unset}
+      PLONE_PASSWORD: ${PLONE_PASSWORD?unset}
+      SENTRY_DSN: ${SENTRY_DSN}
+    volumes:
+      - ingest-configuration:/configuration
+    networks:
+      - opensearch-net
+
+  redis:
+    image: 'redis:latest'
+    networks:
+      - opensearch-net
+    ports:
+      - 6379:6379
+
+  opensearch:
+    image: opensearch-ingest-attachment:latest # Specifying the freshly build local image
+    environment:
+      - cluster.name=opensearch-cluster
+      - node.name=opensearch
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx2g"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - opensearch-data:/usr/share/opensearch/data
+      - "./opensearch-configuration/keywords.txt:/usr/share/opensearch/config/keywords.txt"
+      - "./opensearch-configuration/lexicon.txt:/usr/share/opensearch/config/lexicon.txt"
+    ports:
+      - 9200:9200 # REST API
+      - 9600:9600 # Performance Analyzer
+    networks:
+      - opensearch-net
+
+  opensearch-dashboards:
+    image: opensearchproject/opensearch-dashboards:latest
+    ports:
+      - 5601:5601
+    expose:
+      - "5601"
+    environment:
+      OPENSEARCH_HOSTS: '["https://opensearch:9200"]'
+    networks:
+      - opensearch-net
+
+  dejavu:
+    image: appbaseio/dejavu:latest
+    container_name: dejavu
+    ports:
+      - "1358:1358"
+    expose:
+      - "1358"
+    links:
+      - opensearch
+
+volumes:
+  opensearch-data:
+  ingest-configuration:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./ingest-configuration
+      o: bind
+  # opensearch-configuration:
+  #   driver: local
+  #   driver_opts:
+  #     type: none
+  #     device: ./opensearch-configuration
+  #     o: bind
+networks:
+  opensearch-net:
+

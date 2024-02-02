@@ -22,9 +22,12 @@ The block is prepared for Matomo analytics.
 
 # Getting started
 
-You have OpenSearch or ElasticSearch up and running.
-
 Install Plone backend add-on [`collective.elastic.plone 2.x`](https://github.com/collective/collective.elastic.plone) to provide the Plone REST API service which accepts queries and requests OpenSearch/ElasticSearch.
+
+Install Plone backend add-on [`collective.elastic.ingest 2.x`](https://github.com/collective/collective.elastic.ingest) to index Plone content.
+
+Setting up OpenSearch/ElasticSearch instructions can be found on [`collective.elastic.plone 2.x`](https://github.com/collective/collective.elastic.plone).
+See the [example](example_configuration_opensearch) configuration of collective.elastic of a mapping, attachment handling and last but not least analysis.
 
 
 # Configuration
