@@ -1,13 +1,14 @@
-# @rohberg/volto-searchkit-block
+Plone Volto block **@rohberg/volto-searchkit-block**
 
 
-## Features
+# Features
 
-### Find
+## Find
 
 Search block with highly overridable components for searching, filtering and displaying search results. Sometimes also called faceted navigation.
 
-As this search is addressing `ElasticSearch` with text analysis, the search does understand inflection of words and tolerates typos by fuzzy searching.
+As this search is addressing `OpenSearch/ElasticSearch` with text analysis, the search does understand inflection of words, tolerates typos by fuzzy searching, allows exact search and wildcard search.
+See [User documentation](#user-documentation) on how to search.
 
 Matched phrases are shown with highlighted matches.
 
@@ -19,15 +20,14 @@ The block is prepared for Matomo analytics.
 ![Search @rohberg/volto-searchkit-block](public/search.png)
 
 
-## Getting started
+# Getting started
 
-You have ElasticSearch or OpenSearch up and running.
+You have OpenSearch or ElasticSearch up and running.
 
-Install [`collective.elastic.plone`](https://github.com/collective/collective.elastic.plone) and [`collective.elastic.ingest`](https://github.com/collective/collective.elastic.ingest) to provide the Plone REST API service.
+Install Plone backend add-on [`collective.elastic.plone 2.x`](https://github.com/collective/collective.elastic.plone) to provide the Plone REST API service which accepts queries and requests OpenSearch/ElasticSearch.
 
 
-
-## Configuration
+# Configuration
 
 The block is not for editors. So please enable adding a searchkit block once by
 
@@ -53,7 +53,7 @@ Enable Matomo tracking via
   config.settings.searchkitblock.trackVoltoMatomo = true
 ```
 
-## Overriding components
+# Overriding components
 
 Components of @rohberg/volto-searchkit-block can be overridden via its overridableId:
 
@@ -76,19 +76,19 @@ config.settings.searchkitblock.overriddenComponents = {
 ````
 
 
-## Panel for testing matches
+# Panel for testing matches
 
 `/controlpanel/test-searchkit-querystrings`
 
 Please update the settings according to your deployment: `/controlpanel/volto_searchkit_block_control_panel`
 
 
-## User documentation
+# User documentation
 
 The search is a fuzzy search, that means typos are compensated. 
 Approximate matches and inflections are found.
 
-### Multiple search strings
+## Multiple search strings
 
 Search results do include at least one of the search strings.
 
@@ -106,14 +106,14 @@ Words with hyphen are matched by searches for part of the words.
 Example: "LSR-Lehrbetrieb" is found by a search for "LSR".
 
 
-## Credits
+# Credits
 
 This package is a Plone Volto integration of react-searchkit https://www.npmjs.com/package/react-searchkit Copyright (C) 2015-2019 CERN.
 
 
-## Copyright and license
+# Copyright and license
 
-Copyright (C) 2022 Rohberg.
+Copyright (C) 2024 Rohberg.
 
 The project is licensed.
 See [LICENSE](https://github.com/rohberg/volto-searchkit-block/blob/master/LICENSE) for details.
