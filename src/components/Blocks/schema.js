@@ -179,9 +179,6 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
         default: '',
       },
     },
-    required: [
-      'backend_url',
-      'frontend_url',
-    ],
+    required: ['backend_url', 'frontend_url'],
   };
 };
