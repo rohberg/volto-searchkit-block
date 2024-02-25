@@ -1,10 +1,10 @@
 context('Blocks Acceptance Tests', () => {
   describe('Searchkit Block Tests', () => {
     beforeEach(() => {
-      // given a logged in editor and a page in edit mode
-      cy.visit('/');
+      cy.intercept('GET', `/**/*?expand*`).as('content');
+      cy.intercept('GET', '/**/Document').as('schema');
+
       cy.autologin();
-      cy.navigate('/');
 
       cy.createContent({
         contentType: 'Document',
