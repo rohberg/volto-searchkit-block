@@ -9,12 +9,12 @@ context('Blocks Acceptance Tests', () => {
       cy.createContent({
         contentType: 'Document',
         contentId: 'searching',
-        contentTitle: 'Searching',
+        contentTitle: 'Search',
       });
       cy.createContent({
         contentType: 'Document',
         contentId: 'garden',
-        contentTitle: 'Garden block',
+        contentTitle: 'Garden blog',
       });
       cy.createContent({
         contentType: 'Document',
@@ -31,17 +31,8 @@ context('Blocks Acceptance Tests', () => {
     });
 
     it('As editor I can add a searchkit-block', function () {
-      cy.visit('/searching');
-      cy.waitForResourceToLoad('@navigation');
-      cy.waitForResourceToLoad('@breadcrumbs');
-      cy.waitForResourceToLoad('@actions');
-      cy.waitForResourceToLoad('@types');
-      cy.waitForResourceToLoad('searching');
       cy.navigate('/searching/edit');
-
-      cy.intercept('PATCH', '/**/document').as('edit');
-      cy.intercept('GET', '/**/searching').as('content');
-      cy.intercept('GET', '/**/Searching').as('schema');
+      cy.wait('@schema');
 
       cy.getSlate().click();
       cy.get('.button .block-add-button').click({ force: true });
@@ -49,10 +40,6 @@ context('Blocks Acceptance Tests', () => {
       cy.get('.blocks-chooser .common .button.searchkitblock').click({
         force: true,
       });
-
-      cy.get('#field-elastic_search_api_url').type(
-        'http://127.0.0.1:55001/api',
-      );
 
       // TODO Continue tests
       // See volto grid block tests or similar
