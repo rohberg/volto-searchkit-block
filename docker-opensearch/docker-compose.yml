@@ -35,8 +35,13 @@ services:
       - 6379:6379
 
   opensearch:
-    image: opensearchproject/opensearch:latest # Not a freshly build local image with attachment plugin but default image and command run to install plugin
-    command: /usr/share/opensearch/bin/opensearch-plugin install --batch ingest-attachment
+    build:
+      context: ../
+      dockerfile: ./docker-opensearch/Dockerfile
+      # args:
+      #   ADDON_NAME: "${ADDON_NAME}"
+      #   ADDON_PATH: "${ADDON_PATH}"
+      #   VOLTO_VERSION: ${VOLTO_VERSION:-17}
     environment:
       - cluster.name=opensearch-cluster
       - node.name=opensearch
@@ -59,6 +64,11 @@ services:
       - 9600:9600 # Performance Analyzer
     networks:
       - opensearch-net
+    tty: true
+    profiles:
+      - dev
+      - prod
+
 
   # opensearch-dashboards:
   #   image: opensearchproject/opensearch-dashboards:latest
