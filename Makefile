@@ -22,15 +22,18 @@ RESET=`tput sgr0`
 YELLOW=`tput setaf 3`
 
 PLONE_VERSION=6
-VOLTO_VERSION=17.0.0-alpha.27
+VOLTO_VERSION=17.15.2
 
 ADDON_NAME='@rohberg/volto-searchkit-block'
 ADDON_PATH='volto-searchkit-block'
 DEV_COMPOSE=dockerfiles/docker-compose.yml
 ACCEPTANCE_COMPOSE=acceptance/docker-compose.yml
+OPENSEARCH_COMPOSE=docker-opensearch/docker-compose.yml
 CMD=CURRENT_DIR=${CURRENT_DIR} ADDON_NAME=${ADDON_NAME} ADDON_PATH=${ADDON_PATH} VOLTO_VERSION=${VOLTO_VERSION} PLONE_VERSION=${PLONE_VERSION} docker compose
 DOCKER_COMPOSE=${CMD} -p ${ADDON_PATH} -f ${DEV_COMPOSE}
 ACCEPTANCE=${CMD} -p ${ADDON_PATH}-acceptance -f ${ACCEPTANCE_COMPOSE}
+# TODO OpenSearch
+OPENSEARCH=CURRENT_DIR=${CURRENT_DIR} docker compose -p ${ADDON_PATH}-opensearch -f ${OPENSEARCH_COMPOSE}
 
 .PHONY: build-backend
 build-backend: ## Build
@@ -95,18 +98,23 @@ test-ci: ## Run unit tests in CI
 	${DOCKER_COMPOSE} run -e CI=1 addon-dev test
 
 ## Acceptance
+# TODO build OPENSEARCH
 .PHONY: install-acceptance
 install-acceptance: ## Install Cypress, build containers
 	(cd acceptance && yarn)
 	${ACCEPTANCE} --profile dev --profile prod build
-
+	(cd docker-opensearch)
+	${OPENSEARCH} --profile dev --profile prod build
+	
 .PHONY: start-test-acceptance-server
 start-test-acceptance-server: ## Start acceptance server
 	${ACCEPTANCE} --profile dev up -d
+	${OPENSEARCH} --profile dev up -d
 
 .PHONY: start-test-acceptance-server-prod
 start-test-acceptance-server-prod: ## Start acceptance server
 	${ACCEPTANCE} --profile prod up -d
+	${OPENSEARCH} --profile prod up -d
 
 .PHONY: test-acceptance
 test-acceptance: install-acceptance ## Start Cypress
@@ -119,6 +127,7 @@ test-acceptance-headless: install-acceptance ## Run cypress tests in CI
 .PHONY: stop-test-acceptance-server
 stop-test-acceptance-server: ## Stop acceptance server
 	${ACCEPTANCE} down
+	${OPENSEARCH} down
 
 .PHONY: status-test-acceptance-server
 status-test-acceptance-server: ## Status of Acceptance Server
