@@ -89,11 +89,13 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
     ],
     properties: {
       elastic_search_api_url: {
-        title: '(deprected) (Set in collective.elastic environment variable) Elastic Search API URL',
+        title:
+          '(deprected) (Set in collective.elastic environment variable) Elastic Search API URL',
         default: 'http://localhost:9200',
       },
       elastic_search_api_index: {
-        title: '(deprected) (Set in collective.elastic environment variable) Elastic Search API Index',
+        title:
+          '(deprected) (Set in collective.elastic environment variable) Elastic Search API Index',
         default: 'esploneindex',
       },
       backend_url: {
