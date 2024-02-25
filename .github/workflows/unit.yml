@@ -5,12 +5,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.x]
-        python-version: [3.8]
+        node-version: [18.x]
 
     steps:
       - name: Main checkout
         uses: actions/checkout@v3
 
-      - name: Linting
+      - name: Unit tests
         run: make test-ci
