@@ -65,6 +65,9 @@ export const ploneSearchApi = (data) => {
       url: expandToBackendURL('/@kitsearch'),
       timeout: 5000,
       headers: {
+        // TODO Fix CORS
+        // Host: localhost:55001
+        // Origin: http://localhost:3000
         Accept: 'application/json',
         Authorization: `Bearer ${authToken}`,
       },
