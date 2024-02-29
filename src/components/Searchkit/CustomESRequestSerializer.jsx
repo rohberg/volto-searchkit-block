@@ -330,9 +330,8 @@ export class CustomESRequestSerializer {
     const filter = (fieldName) => {
       let myAggsFilter = terms;
       // Add selected filters
-      const terms_of_selected_options_without_self =
-        terms_of_selected_options.filter(
-          (el) => !Object.keys(el.terms).includes(fieldName),
+      const terms_of_selected_options_without_self = terms_of_selected_options.filter(
+        (el) => !Object.keys(el.terms).includes(fieldName),
       );
       myAggsFilter = myAggsFilter.concat(
         terms_of_selected_options_without_self,
