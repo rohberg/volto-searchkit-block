@@ -28,6 +28,9 @@ context('Blocks Acceptance Tests', () => {
         contentTitle: 'The garden in march',
         path: '/garden',
       });
+
+      cy.visit('/');
+      cy.wait('@content');
     });
 
     it('As editor I can add a searchkit-block', function () {
