@@ -4,7 +4,7 @@ on: [push]
 env:
   ADDON_NAME: "@rohberg/volto-searchkit-block"
   ADDON_PATH: "volto-searchkit-block"
-  VOLTO_VERSION: "17.15.2"
+  VOLTO_VERSION: "17"
 
 jobs:
 
