@@ -1,10 +1,8 @@
-# Makefile according 'volto-blocks-grid'
+# Makefile volto-searchkit-block
 
-### Defensive settings for make:
-#     https://tech.davis-hansson.com/p/make/
 SHELL:=bash
 .ONESHELL:
-.SHELLFLAGS:=-xeu -o pipefail -O inherit_errexit -c
+# .SHELLFLAGS:=-xeu -o pipefail -O inherit_errexit -c
 .SILENT:
 .DELETE_ON_ERROR:
 MAKEFLAGS+=--warn-undefined-variables
@@ -13,8 +11,6 @@ MAKEFLAGS+=--no-builtin-rules
 include variables.mk
 
 CURRENT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-
-# Recipe snippets for reuse
 
 # We like colors
 # From: https://coderwall.com/p/izxssa/colored-makefile-for-golang-projects
@@ -31,6 +27,14 @@ CMD=CURRENT_DIR=${CURRENT_DIR} ADDON_NAME=${ADDON_NAME} ADDON_PATH=${ADDON_PATH}
 DOCKER_COMPOSE=${CMD} -p ${ADDON_PATH} -f ${DEV_COMPOSE}
 ACCEPTANCE=${CMD} -p ${ADDON_PATH}-acceptance -f ${ACCEPTANCE_COMPOSE}
 OPENSEARCH=CURRENT_DIR=${CURRENT_DIR} docker compose -p ${ADDON_PATH}-opensearch -f ${OPENSEARCH_COMPOSE}
+
+
+.PHONY: all
+all: help
+
+.PHONY: help
+help:		## Show this help.
+	@echo -e "$$(grep -hE '^\S+:.*##' $(MAKEFILE_LIST) | sed -e 's/:.*##\s*/:/' -e 's/^\(.\+\):\(.*\)/\\x1b[36m\1\\x1b[m:\2/' | column -c2 -t -s :)"
 
 .PHONY: build-backend
 build-backend: ## Build
@@ -65,10 +69,6 @@ dev: ## Develop the addon
 	make build-addon
 	make start-dev
 
-.PHONY: help
-help:		## Show this help.
-	@echo -e "$$(grep -hE '^\S+:.*##' $(MAKEFILE_LIST) | sed -e 's/:.*##\s*/:/' -e 's/^\(.\+\):\(.*\)/\\x1b[36m\1\\x1b[m:\2/' | column -c2 -t -s :)"
-
 # Dev Helpers
 .PHONY: i18n
 i18n: ## Sync i18n
@@ -94,30 +94,30 @@ test: ## Run unit tests
 test-ci: ## Run unit tests in CI
 	${DOCKER_COMPOSE} run -e CI=1 addon-dev test
 
-## Acceptance
-# TODO build OPENSEARCH
-.PHONY: install-acceptance
-install-acceptance: ## Install Cypress, build containers
-	(cd acceptance && yarn)
-	${ACCEPTANCE} --profile dev --profile prod build
-
-.PHONY: install-acceptance-opensearch
-install-acceptance-opensearch: ## build opensearch containers
+# Acceptance opensearch
+# TODO marry OPENSEARCH with backend acceptance
+.PHONY: build-acceptance-opensearch
+build-acceptance-opensearch: ## build opensearch containers
 	(cd docker-opensearch)
-	${OPENSEARCH} --profile dev --profile prod build
+	${OPENSEARCH} --profile dev build
+
+.PHONY: start-test-acceptance-server
+start-test-acceptance-server-opensearch: ## Start acceptance opensearch containers
+	${OPENSEARCH} --profile dev up -d
+
+# Acceptance backend and frontend
+.PHONY: build-acceptance-backend-frontend
+build-acceptance-backend-frontend: ## Install Cypress, build containers
+	(cd acceptance && yarn)
+	${ACCEPTANCE} --profile dev build
 
 .PHONY: start-test-acceptance-server
 start-test-acceptance-server: ## Start acceptance server
 	${ACCEPTANCE} --profile dev up -d --force-recreate
-	${OPENSEARCH} --profile dev up -d
 
-.PHONY: start-test-acceptance-server-prod
-start-test-acceptance-server-prod: ## Start acceptance server
-	${ACCEPTANCE} --profile prod up -d
-	${OPENSEARCH} --profile prod up -d
-
+# TODO Maybe depend on build and start?
 .PHONY: test-acceptance
-test-acceptance: install-acceptance ## Start Cypress
+test-acceptance: ## Start Cypress
 	(cd acceptance && ./node_modules/.bin/cypress open)
 
 .PHONY: test-acceptance-headless
