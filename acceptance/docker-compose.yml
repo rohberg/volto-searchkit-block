@@ -15,6 +15,7 @@ services:
     environment:
       RAZZLE_INTERNAL_API_PATH: http://backend-acceptance:55001/plone
       RAZZLE_API_PATH: http://localhost:55001/plone
+      HOST: 0.0.0.0
     ports:
       - 3000:3000
       - 3001:3001
@@ -44,20 +45,38 @@ services:
       - prod
 
   backend-acceptance:
-    image: plone/server-acceptance:${PLONE_VERSION:-6}
+    # TODO important! acceptance server Plone robot: Install addon collective.elastic.plone
+    # !! See cookiecutter https://github.com/collective/cookiecutter-plone-starter/blob/main/%7B%7B%20cookiecutter.project_slug%20%7D%7D/backend/Dockerfile.acceptance
+    # See https://github.com/plone/volto/pull/4454/files
+    # TODO Create content
+    image: plone/plone-backend:${PLONE_VERSION:-6}
+    environment:
+        ZSERVER_HOST: "0.0.0.0"
+        ZSERVER_PORT: "55001"
+        CORS_ALLOW_ORIGIN: "*"
+        DELETE_EXISTING: "true"
+        SETUP_CONTENT: "true"
+        ADDONS: ${BACKEND_ADDONS}
+        TYPE: volto
+        # Profiles to be added to the created site
+        ADDITIONAL_PROFILES: "collective.elastic.plone:default" 
+        # Packages to be used in configuration
+        # CONFIGURE_PACKAGES: "plone.app.contenttypes,plone.restapi,plone.volto,plone.volto.cors"
+        # CONFIGURE_PACKAGES: "plone.app.contenttypes,plone.restapi,plone.volto"
+        # New with plone.elastic 2.x
+        INDEX_SERVER: "http://host.docker.internal:9200"
+        CELERY_BROKER: "redis://host.docker.internal:6379"
     volumes:
       - ./configuration/ploneconfiguration/:/app/ploneconfiguration/
-    environment:
-      # New with plone.elastic 2.x
-      INDEX_SERVER: "http://host.docker.internal:9200"
-      CELERY_BROKER: "redis://host.docker.internal:6379"
-
-      # Move to ingest container 
-      ANALYSIS_FILE: /app/ploneconfiguration/elasticsearch-analysis.json
-      MAPPINGS_FILE: /app/ploneconfiguration/elasticsearch-mappings.json
-      PREPROCESSINGS_FILE: /app/ploneconfiguration/elasticsearch-preprocessings.json
     ports:
       - 55001:55001
+    # command: /app/bin/robot-server plone.app.robotframework.testing.VOLTO_ROBOT_TESTING
+    entrypoint:
+      - ./docker-entrypoint.sh
+      - acceptance
+      # - ./bin/robot-server
+      # - plone.app.robotframework.testing.VOLTO_ROBOT_TESTING
+      # - ./scripts/create_site.py
     profiles:
       - dev
       - prod

@@ -10,6 +10,8 @@ SHELL:=bash
 MAKEFLAGS+=--warn-undefined-variables
 MAKEFLAGS+=--no-builtin-rules
 
+include variables.mk
+
 CURRENT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 # Recipe snippets for reuse
@@ -21,18 +23,13 @@ GREEN=`tput setaf 2`
 RESET=`tput sgr0`
 YELLOW=`tput setaf 3`
 
-PLONE_VERSION=6
-VOLTO_VERSION=17.15.2
-
-ADDON_NAME='@rohberg/volto-searchkit-block'
-ADDON_PATH='volto-searchkit-block'
+BACKEND_ADDONS='collective.elastic.plone ${KGS} $(TESTING_ADDONS)'
 DEV_COMPOSE=dockerfiles/docker-compose.yml
 ACCEPTANCE_COMPOSE=acceptance/docker-compose.yml
 OPENSEARCH_COMPOSE=docker-opensearch/docker-compose.yml
-CMD=CURRENT_DIR=${CURRENT_DIR} ADDON_NAME=${ADDON_NAME} ADDON_PATH=${ADDON_PATH} VOLTO_VERSION=${VOLTO_VERSION} PLONE_VERSION=${PLONE_VERSION} docker compose
+CMD=CURRENT_DIR=${CURRENT_DIR} ADDON_NAME=${ADDON_NAME} ADDON_PATH=${ADDON_PATH} VOLTO_VERSION=${VOLTO_VERSION} PLONE_VERSION=${PLONE_VERSION} BACKEND_ADDONS=${BACKEND_ADDONS} docker compose
 DOCKER_COMPOSE=${CMD} -p ${ADDON_PATH} -f ${DEV_COMPOSE}
 ACCEPTANCE=${CMD} -p ${ADDON_PATH}-acceptance -f ${ACCEPTANCE_COMPOSE}
-# TODO OpenSearch
 OPENSEARCH=CURRENT_DIR=${CURRENT_DIR} docker compose -p ${ADDON_PATH}-opensearch -f ${OPENSEARCH_COMPOSE}
 
 .PHONY: build-backend
@@ -103,12 +100,15 @@ test-ci: ## Run unit tests in CI
 install-acceptance: ## Install Cypress, build containers
 	(cd acceptance && yarn)
 	${ACCEPTANCE} --profile dev --profile prod build
+
+.PHONY: install-acceptance-opensearch
+install-acceptance-opensearch: ## build opensearch containers
 	(cd docker-opensearch)
 	${OPENSEARCH} --profile dev --profile prod build
-	
+
 .PHONY: start-test-acceptance-server
 start-test-acceptance-server: ## Start acceptance server
-	${ACCEPTANCE} --profile dev up -d
+	${ACCEPTANCE} --profile dev up -d --force-recreate
 	${OPENSEARCH} --profile dev up -d
 
 .PHONY: start-test-acceptance-server-prod
@@ -121,7 +121,8 @@ test-acceptance: install-acceptance ## Start Cypress
 	(cd acceptance && ./node_modules/.bin/cypress open)
 
 .PHONY: test-acceptance-headless
-test-acceptance-headless: install-acceptance ## Run cypress tests in CI
+# test-acceptance-headless: install-acceptance ## Run cypress tests in CI
+test-acceptance-headless: ## Run cypress tests in CI
 	(cd acceptance && ./node_modules/.bin/cypress run)
 
 .PHONY: stop-test-acceptance-server
