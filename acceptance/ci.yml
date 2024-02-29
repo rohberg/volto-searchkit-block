@@ -20,7 +20,7 @@ services:
       - prod
 
   backend-acceptance:
-    image: plone/server-acceptance:${PLONE_VERSION:-6}
+    image: plone/server-acceptance:${PLONE_VERSION:-6.0}
     volumes:
       - ./configuration/ploneconfiguration/:/app/ploneconfiguration/
     environment:

@@ -46,7 +46,7 @@ services:
       - live
 
   backend:
-    image: plone/plone-backend:${PLONE_VERSION:-6}
+    image: plone/plone-backend:${PLONE_VERSION:-6.0}
     environment:
       SITE: Plone
       CORS_: true
