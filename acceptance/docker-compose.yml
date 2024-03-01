@@ -55,13 +55,6 @@ services:
       - ./configuration/ploneconfiguration/:/app/ploneconfiguration/
     ports:
       - 55001:55001
-    # command: /app/bin/robot-server plone.app.robotframework.testing.VOLTO_ROBOT_TESTING
-    # entrypoint:
-    #   - ./docker-entrypoint.sh
-    #   - acceptance
-    #   # - ./bin/robot-server
-    #   # - plone.app.robotframework.testing.VOLTO_ROBOT_TESTING
-    #   # - ./scripts/create_site.py
     profiles:
       - dev
       - prod
