@@ -31,7 +31,7 @@ services:
   addon-live:
     build:
       context: ../
-      dockerfile: ./dockerfiles/Dockerfile
+      dockerfile: ./dockerfiles/Dockerfile.ci
       args:
         ADDON_NAME: "${ADDON_NAME}"
         ADDON_PATH: "${ADDON_PATH}"
