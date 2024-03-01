@@ -18,7 +18,7 @@ RUN <<EOT
     # bin/mxdev -c mx.ini
     # bin/pip install -r requirements-mxdev.txt
     bin/pip install plone.app.robotframework>=2.0.0
-    bin/pip install collective.elastic.plone[redis,opensearch]==2.0.0
+    bin/pip install collective.elastic.plone[redis,opensearch]>=2.0.1
     # bin/python /compile_mo.py
     # rm -Rf src/
 EOT
