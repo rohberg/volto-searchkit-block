@@ -30,8 +30,8 @@ services:
     # See cookiecutter https://github.com/collective/cookiecutter-plone-starter/blob/main/%7B%7B%20cookiecutter.project_slug%20%7D%7D/backend/Dockerfile.acceptance
     # TODO Create content
     build:
-      context: ../
-      dockerfile: ./dockerfiles/backend/Dockerfile.acceptance
+      context: ../dockerfiles/backend/
+      dockerfile: ./Dockerfile.acceptance
       args:
         PLONE_VERSION: ${PLONE_VERSION:-6.0}
     environment:

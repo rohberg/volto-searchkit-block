@@ -1,0 +1,6 @@
+-c constraints.txt
+
+plone.app.robotframework
+collective.elastic.plone[redis,opensearch]
+redis
+opensearch-py

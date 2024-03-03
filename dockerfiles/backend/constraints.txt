@@ -1,0 +1,2 @@
+plone.app.robotframework>=2.0.0
+collective.elastic.plone[redis,opensearch]>=2.0.0
