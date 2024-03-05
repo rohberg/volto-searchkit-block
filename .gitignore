@@ -122,8 +122,3 @@ build/
 yarn.lock
 
 !docker-opensearch/.env
-dockerfiles/backend/venv/
-dockerfiles/backend/requirements.txt
-dockerfiles/backend/sources/
-dockerfiles/backend/requirements-mxdev.txt
-dockerfiles/backend/constraints-mxdev.txt
