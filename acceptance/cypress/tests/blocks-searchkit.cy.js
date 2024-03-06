@@ -43,14 +43,17 @@ context('Blocks Acceptance Tests', () => {
       cy.get('.blocks-chooser .common .button.searchkitblock').click({
         force: true,
       });
+      // input#field-backend_url
+      cy.get('input#field-backend_url').type('http://localhost:55001/plone')
+      cy.get('input#field-frontend_url').type('http://localhost:3000')
+      // TODO Fill out further required values
 
-      // TODO Continue tests
       // See volto grid block tests or similar
 
       cy.get('#toolbar-save').click();
-      // cy.get('#navigation').contains('Home').click();
-
       cy.visit('/searching');
+
+      // cy.get('.container p').contains('The garden in february');
     });
   });
 });
