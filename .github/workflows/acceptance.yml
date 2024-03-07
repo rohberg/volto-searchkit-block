@@ -31,7 +31,7 @@ jobs:
           parallel: false
           browser: chrome
           working-directory: acceptance
-          spec: cypress/tests/*.js
+          spec: cypress/tests/*.cy.js
           install: false
           start: |
             docker compose -f ci.yml --profile prod up
