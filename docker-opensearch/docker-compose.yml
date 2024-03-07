@@ -37,7 +37,7 @@ services:
   opensearch:
     build:
       context: ../
-      dockerfile: ./docker-opensearch/Dockerfile
+      dockerfile: ./docker-opensearch/Dockerfile.opensearch
       # args:
       #   ADDON_NAME: "${ADDON_NAME}"
       #   ADDON_PATH: "${ADDON_PATH}"
@@ -80,6 +80,8 @@ services:
       OPENSEARCH_HOSTS: '["https://opensearch:9200"]'
     networks:
       - opensearch-net
+    profiles:
+      - dev
 
   # dejavu:
   #   image: appbaseio/dejavu:latest

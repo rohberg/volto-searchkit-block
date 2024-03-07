@@ -8,6 +8,7 @@ WORKDIR /app
 # # Add local code
 # COPY . .
 
+
 # Install local requirements
 RUN <<EOT
     set -e
