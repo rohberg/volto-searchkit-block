@@ -52,7 +52,6 @@ describe('Searchkit Block Tests', () => {
     cy.get('.blocks-chooser .common .button.searchkitblock').click({
       force: true,
     });
-    cy.wait('@kitsearch');
     
     // block configuration index server
     cy.get('input#field-backend_url').type('http://localhost:55001/plone')
