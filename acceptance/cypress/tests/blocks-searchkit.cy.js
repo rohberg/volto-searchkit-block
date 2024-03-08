@@ -52,6 +52,8 @@ describe('Searchkit Block Tests', () => {
     cy.get('.blocks-chooser .common .button.searchkitblock').click({
       force: true,
     });
+    cy.wait('@kitsearch');
+    
     // block configuration index server
     cy.get('input#field-backend_url').type('http://localhost:55001/plone')
     cy.get('input#field-frontend_url').type('http://localhost:3000')
@@ -68,7 +70,10 @@ describe('Searchkit Block Tests', () => {
     cy.get('#toolbar-save').click();
     cy.visit('/searching');
 
-    cy.get('.block.searchkitsearch').contains('The garden in february');
+    cy.get('.block.searchkitsearch')
+      .should('not.contain', 'no results')
+    cy.get('.block.searchkitsearch')
+      .contains('The garden in february');
 
     
     // cy.visit('/garden-blog/contents');
