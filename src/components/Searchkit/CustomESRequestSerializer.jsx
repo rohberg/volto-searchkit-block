@@ -258,12 +258,12 @@ export class CustomESRequestSerializer {
 
     // Generate terms of global filters
     let terms = [];
-    terms.push({
+    this.allowed_content_types.length > 0 && terms.push({
       terms: {
         portal_type: this.allowed_content_types,
       },
     });
-    terms.push({
+    this.allowed_review_states.length > 0 && terms.push({
       terms: {
         review_state: this.allowed_review_states,
       },
