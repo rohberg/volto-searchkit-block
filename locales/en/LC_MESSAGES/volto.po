@@ -14,140 +14,140 @@ msgstr ""
 #. Default: "Add search section"
 #: components/Blocks/SearchSectionsWidget
 msgid "Add search section"
-msgstr "Füge Suchsektion hinzu"
+msgstr ""
 
 #. Default: "Check the configuration of your searchkit block!"
 #: components/Searchkit/Error
 msgid "Check the configuration of your searchkit block!"
-msgstr "Prüfe Block-Einstellungen!"
+msgstr ""
 
 #. Default: "Content"
 #: messages
 msgid "Content"
-msgstr "Inhalt"
+msgstr ""
 
 #. Default: "Date"
 #: components/Views/FacetedSearch
 msgid "Date"
-msgstr "Datum"
+msgstr ""
 
 #. Default: "Description"
 #: messages
 msgid "Description"
-msgstr "Beschreibung"
+msgstr ""
 
 #. Default: "Deselect all"
 #: components/Views/FacetedSearch
 msgid "Deselect all"
-msgstr "keine"
+msgstr ""
 
 #. Default: "Facet"
 #: messages
 msgid "Facet"
-msgstr "Facette"
+msgstr ""
 
 #. Default: "Facet widget"
 #: messages
 msgid "Facet widget"
-msgstr "Facetten-Widget"
+msgstr ""
 
 #. Default: "Facets"
 #: messages
 msgid "Facets"
-msgstr "Facetten"
+msgstr ""
 
 #. Default: "Field"
 #: messages
 msgid "Field"
-msgstr "Feld"
+msgstr ""
 
 #. Default: "Label"
 #: messages
 msgid "Label"
-msgstr "Label"
+msgstr ""
 
 #. Default: "Meta data"
 #: messages
 msgid "Meta data"
-msgstr "Metadaten"
+msgstr ""
 
 #. Default: "Multiple choices?"
 #: messages
 msgid "Multiple choices?"
-msgstr "Multiple Choices?"
+msgstr ""
 
 #. Default: "No results"
 #: components/Views/FacetedSearch
 msgid "No results"
-msgstr "Keine Resultate"
+msgstr ""
 
 #. Default: "Relevance"
 #: components/Views/FacetedSearch
 msgid "Relevance"
-msgstr "Relevanz"
+msgstr ""
 
 #. Default: "Search block"
 #: messages
 msgid "Search block"
-msgstr "Such-Block"
+msgstr ""
 
 #. Default: "Search result"
 #: messages
 msgid "Search result"
-msgstr "Suchergebnis"
+msgstr ""
 
 #. Default: "Search results"
 #: messages
 msgid "Search results"
-msgstr "Suchergebnisse"
+msgstr ""
 
 #. Default: "Search section"
 #: components/Blocks/SearchSectionsWidget
 msgid "Search section"
-msgstr "Suche in Sektion"
+msgstr ""
 
 #. Default: "Search section label"
 #: components/Blocks/SearchSectionsWidget
 msgid "Search section label"
-msgstr "Label Such-Sektion"
+msgstr ""
 
 #. Default: "Searchkit"
 #: messages
 msgid "Searchkit"
-msgstr "Searchkit"
+msgstr ""
 
 #. Default: "Select all"
 #: components/Views/FacetedSearch
 msgid "Select all"
-msgstr "Wähle alle"
+msgstr ""
 
 #. Default: "Show filter"
 #: components/Blocks/SearchSectionsWidget
 msgid "Show filters"
-msgstr "Zeige Filter"
+msgstr ""
 
 #. Default: "Sort by:"
 #: components/Views/FacetedSearch
 msgid "Sort By:"
-msgstr "Sortiere nach:"
+msgstr ""
 
 #. Default: "Tags"
 #: components/Views/FacetedSearch
 #: messages
 msgid "Tags"
-msgstr "Tags"
+msgstr ""
 
 #. Default: "Title"
 #: messages
 msgid "Title"
-msgstr "Titel"
+msgstr ""
 
 #. Default: "reset search"
 #: components/Views/FacetedSearch
 msgid "reset search"
-msgstr "Suche zurücksetzen"
+msgstr ""
 
 #. Default: "search"
 #: messages
 msgid "search"
-msgstr "suchen"
+msgstr ""

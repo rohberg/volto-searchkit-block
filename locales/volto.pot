@@ -1,150 +1,155 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone\n"
-"POT-Creation-Date: 2023-04-22T14:04:52.914Z\n"
+"POT-Creation-Date: 2024-03-08T12:35:25.144Z\n"
 "Last-Translator: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
 "Language-Team: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
-"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
 "Language-Code: en\n"
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8\n"
 "Domain: volto\n"
 
+#. Default: "Add search section"
 #: components/Blocks/SearchSectionsWidget
-# defaultMessage: Add search section
 msgid "Add search section"
 msgstr ""
 
+#. Default: "Check the configuration of your searchkit block!"
 #: components/Searchkit/Error
-# defaultMessage: Check the configuration of your searchkit block!
 msgid "Check the configuration of your searchkit block!"
 msgstr ""
 
+#. Default: "Content"
 #: messages
-# defaultMessage: Content
 msgid "Content"
 msgstr ""
 
+#. Default: "Date"
 #: components/Views/FacetedSearch
-# defaultMessage: Date
 msgid "Date"
 msgstr ""
 
+#. Default: "Description"
 #: messages
-# defaultMessage: Description
 msgid "Description"
 msgstr ""
 
+#. Default: "Deselect all"
 #: components/Views/FacetedSearch
-# defaultMessage: Deselect all
 msgid "Deselect all"
 msgstr ""
 
+#. Default: "Facet"
 #: messages
-# defaultMessage: Facet
 msgid "Facet"
 msgstr ""
 
+#. Default: "Facet widget"
 #: messages
-# defaultMessage: Facet widget
 msgid "Facet widget"
 msgstr ""
 
+#. Default: "Facets"
 #: messages
-# defaultMessage: Facets
 msgid "Facets"
 msgstr ""
 
+#. Default: "Field"
 #: messages
-# defaultMessage: Field
 msgid "Field"
 msgstr ""
 
+#. Default: "Label"
 #: messages
-# defaultMessage: Label
 msgid "Label"
 msgstr ""
 
+#. Default: "Meta data"
 #: messages
-# defaultMessage: Meta data
 msgid "Meta data"
 msgstr ""
 
+#. Default: "Multiple choices?"
 #: messages
-# defaultMessage: Multiple choices?
 msgid "Multiple choices?"
 msgstr ""
 
+#. Default: "No results"
 #: components/Views/FacetedSearch
-# defaultMessage: No results
 msgid "No results"
 msgstr ""
 
+#. Default: "Relevance"
 #: components/Views/FacetedSearch
-# defaultMessage: Relevance
 msgid "Relevance"
 msgstr ""
 
+#. Default: "Search block"
 #: messages
-# defaultMessage: Search block
 msgid "Search block"
 msgstr ""
 
+#. Default: "Search result"
 #: messages
-# defaultMessage: Search result
 msgid "Search result"
 msgstr ""
 
+#. Default: "Search results"
 #: messages
-# defaultMessage: Search results
 msgid "Search results"
 msgstr ""
 
+#. Default: "Search section"
 #: components/Blocks/SearchSectionsWidget
-# defaultMessage: Search section
 msgid "Search section"
 msgstr ""
 
+#. Default: "Search section label"
 #: components/Blocks/SearchSectionsWidget
-# defaultMessage: Search section label
 msgid "Search section label"
 msgstr ""
 
+#. Default: "Searchkit"
 #: messages
-# defaultMessage: Searchkit
 msgid "Searchkit"
 msgstr ""
 
+#. Default: "Select all"
 #: components/Views/FacetedSearch
-# defaultMessage: Select all
 msgid "Select all"
 msgstr ""
 
+#. Default: "Show filter"
 #: components/Blocks/SearchSectionsWidget
-# defaultMessage: undefined
 msgid "Show filters"
 msgstr ""
 
+#. Default: "Sort by:"
 #: components/Views/FacetedSearch
-# defaultMessage: Sort by:
 msgid "Sort By:"
 msgstr ""
 
+#. Default: "Tags"
 #: components/Views/FacetedSearch
 #: messages
-# defaultMessage: Tags
 msgid "Tags"
 msgstr ""
 
+#. Default: "Title"
 #: messages
-# defaultMessage: Title
 msgid "Title"
 msgstr ""
 
+#. Default: "reset search"
+#: components/Views/FacetedSearch
+msgid "reset search"
+msgstr ""
+
+#. Default: "search"
 #: messages
-# defaultMessage: search
 msgid "search"
 msgstr ""

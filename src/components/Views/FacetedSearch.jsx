@@ -522,7 +522,7 @@ const customEmpytResultsElement = (props) => {
           resetQuery();
         }}
       >
-        Suche zurücksetzen
+        <FormattedMessage id="reset search" defaultMessage="reset search" />
       </Button>
     </Segment>
   );

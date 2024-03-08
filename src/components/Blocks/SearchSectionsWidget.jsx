@@ -18,7 +18,7 @@ const messages = defineMessages({
   },
   showFilter: {
     id: 'Show filters',
-    defineMessage: 'Show filter',
+    defaultMessage: 'Show filter',
   },
 });
 
