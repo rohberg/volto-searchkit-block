@@ -1,5 +1,5 @@
 describe('Searchkit Block Tests', () => {
-  beforeEach(() => {
+  before(() => {
     cy.intercept('GET', `/**/*?expand*`).as('content');
     cy.intercept('GET', '/**/Document').as('schema');
 
@@ -32,7 +32,17 @@ describe('Searchkit Block Tests', () => {
     cy.wait('@content');
   });
 
-  afterEach(() => {
+  beforeEach(() => {
+    cy.intercept('GET', `/**/*?expand*`).as('content');
+    cy.intercept('GET', '/**/Document').as('schema');
+
+    cy.autologin();
+
+    cy.visit('/');
+    cy.wait('@content');
+  });
+
+  after(() => {
     // cy.removeContent({ path: 'garden-february' });
     // cy.removeContent({ path: 'garden-march' });
     // cy.removeContent({ path: 'garden-blog' });
@@ -70,7 +80,7 @@ describe('Searchkit Block Tests', () => {
     cy.visit('/searching');
 
     cy.get('.block.searchkitsearch')
-      .should('not.contain', 'no results')
+      .should('not.contain', 'No results')
     cy.get('.block.searchkitsearch')
       .contains('The garden in february');
 
