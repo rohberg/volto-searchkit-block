@@ -49,7 +49,6 @@ class Results extends Component {
         <Grid>
           <Grid.Column width={4}>
             <Count />
-            <div>DEBUG1 {JSON.stringify(this.props.currentResultsState?.error)}</div>
           </Grid.Column>
           <Grid.Column width={6}>
             <Sort
@@ -67,7 +66,7 @@ class Results extends Component {
           <Pagination options={{ size: 'small' }} />
         </Grid>
       </div>
-    ) : <div>DEBUG2 {JSON.stringify(this.props.currentResultsState?.error)}</div>;
+    ) : null;
   }
 }
 

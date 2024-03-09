@@ -3,9 +3,8 @@ import { Header, Segment } from 'semantic-ui-react';
 import { FormattedMessage } from 'react-intl';
 
 const Error = ({ error }) => {
-  const stateError = useSelector((state) => state.results?.error);
 
-  return stateError?.name ? (
+  return error?.type ? (
     <Segment inverted color="red" secondary>
       <Header icon>
         <h3>
@@ -15,7 +14,7 @@ const Error = ({ error }) => {
           />
         </h3>
       </Header>
-      <b>{stateError?.name}:</b> <i>{stateError?.message}</i>
+      <b>{error?.type}:</b> <i>{error?.message}</i>
     </Segment>
   ) : null;
 };

@@ -63,18 +63,18 @@ describe('Searchkit Block Tests', () => {
       force: true,
     });
     
-    // block configuration index server
-    cy.get('input#field-backend_url').type('http://localhost:55001/plone')
-    cy.get('input#field-frontend_url').type('http://localhost:3000')
-    // block configuration allowed types and states
-    cy.get("#field-allowed_content_types").click();
-    cy.get("#field-allowed_content_types .react-select__option")
-      .contains('Page')
-      .click();
-    cy.get("#field-allowed_review_states").click();
-    cy.get("#field-allowed_review_states .react-select__option")
-      .contains('Private')
-      .click();
+    // // block configuration index server
+    // cy.get('input#field-backend_url').type('http://localhost:55001/plone')
+    // cy.get('input#field-frontend_url').type('http://localhost:3000')
+    // // block configuration allowed types and states
+    // cy.get("#field-allowed_content_types").click();
+    // cy.get("#field-allowed_content_types .react-select__option")
+    //   .contains('Page')
+    //   .click();
+    // cy.get("#field-allowed_review_states").click();
+    // cy.get("#field-allowed_review_states .react-select__option")
+    //   .contains('Private')
+    //   .click();
 
     cy.get('#toolbar-save').click();
     cy.visit('/searching');
