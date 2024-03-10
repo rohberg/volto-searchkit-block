@@ -86,10 +86,6 @@ Please update the settings according to your deployment: `/controlpanel/volto_se
 The search is a fuzzy search, that means typos are compensated. 
 Approximate matches and inflections are found.
 
-## Multiple search strings
-
-Search results do include at least one of the search strings.
-
 To force the match of a search string, precede it with "+".
 To exclude matches of a search string, precede it with "-".
 
@@ -102,6 +98,10 @@ Example: A search for "LSR-Lehrbetrieb" is equivalent to a search for "LSR-Lehrb
 
 Words with hyphen are matched by searches for part of the words.  
 Example: "LSR-Lehrbetrieb" is found by a search for "LSR".
+
+## Multiple search strings
+
+Search results do include at least one of the search strings.
 
 
 # Credits
