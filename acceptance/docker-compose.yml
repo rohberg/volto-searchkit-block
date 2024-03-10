@@ -94,6 +94,7 @@ services:
       #   ADDON_PATH: "${ADDON_PATH}"
       #   VOLTO_VERSION: ${VOLTO_VERSION:-17}
     environment:
+      - plugins.security.disabled=true
       - cluster.name=opensearch-cluster
       - node.name=opensearch
       - discovery.type=single-node
