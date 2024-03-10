@@ -57,7 +57,7 @@ jobs:
           spec: cypress/tests/*.cy.js
           install: false
           start: |
-            INDEX_SERVER=${{ matrix.index_server }} docker compose -f ci.yml --profile prod up
+            INDEX_SERVER="${{ matrix.index_server }}" docker compose -f ci.yml --profile prod up
           wait-on: 'npx wait-on --httpTimeout 20000 http-get://localhost:55001/plone http://localhost:3000 http://localhost:9200'
 
       # Upload Cypress screenshots
