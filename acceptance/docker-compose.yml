@@ -126,7 +126,7 @@ services:
     expose:
       - "5601"
     environment:
-      OPENSEARCH_HOSTS: '["http://opensearch:9200"]'
+      OPENSEARCH_HOSTS: '["https://opensearch:9200"]'
     profiles:
       - dev
 
