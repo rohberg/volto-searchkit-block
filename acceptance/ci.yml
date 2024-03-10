@@ -30,12 +30,12 @@ services:
       ZSERVER_HOST: 0.0.0.0
       ZSERVER_PORT: 55001
       # plone.elastic 2.x
-      CELERY_BROKER: redis://redis:6379/0
-      INDEX_SERVER: opensearch:9200
-      INDEX_LOGIN: admin
-      INDEX_PASSWORD: admin
-      INDEX_OPENSEARCH: 1
-      INDEX_USE_SSL: 0
+      INDEX_SERVER: ${INDEX_SERVER?unset}
+      INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
+      INDEX_USE_SSL: ${INDEX_USE_SSL?unset}
+      INDEX_LOGIN: ${INDEX_LOGIN?unset}
+      INDEX_PASSWORD: ${INDEX_PASSWORD?unset}
+      CELERY_BROKER: ${CELERY_BROKER?unset}
     ports:
       - 55001:55001
     depends_on:
@@ -54,20 +54,18 @@ services:
       MAPPINGS_FILE: "/configuration/mappings.json"
       ANALYSIS_FILE: "/configuration/analysis.json"
       PREPROCESSINGS_FILE: "/configuration/preprocessings.json"
-      INDEX_SERVER: opensearch:9200
-      INDEX_USE_SSL: 0
-      INDEX_OPENSEARCH: 1
-      INDEX_LOGIN: admin
-      INDEX_PASSWORD: admin
-      CELERY_BROKER: redis://redis:6379/0
-      CELERY_CONCURRENCY: "-1"
-      CELEREY_LOG_LEVEL: "-info"
-      PLONE_SERVICE: http://backend-acceptance:55001
-      PLONE_SITE_PREFIX_PATH: plone
-      PLONE_USER: admin
-      PLONE_PASSWORD: secret
-    # volumes:
-    #   - ingest-configuration:/configuration
+      INDEX_SERVER: ${INDEX_SERVER?unset}
+      INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
+      INDEX_USE_SSL: ${INDEX_USE_SSL?unset}
+      INDEX_LOGIN: ${INDEX_LOGIN?unset}
+      INDEX_PASSWORD: ${INDEX_PASSWORD?unset}
+      CELERY_BROKER: ${CELERY_BROKER?unset}
+      CELERY_CONCURRENCY: ${CELERY_CONCURRENCY:-1}
+      CELEREY_LOG_LEVEL: ${CELERY_LOG_LEVEL:-info}
+      PLONE_SERVICE: ${PLONE_SERVICE?unset}
+      PLONE_SITE_PREFIX_PATH: ${PLONE_SITE_PREFIX_PATH?unset}
+      PLONE_USER: ${PLONE_USER?unset}
+      PLONE_PASSWORD: ${PLONE_PASSWORD?unset}
 
   redis:
     image: 'redis:latest'

@@ -3,13 +3,36 @@ on: [push]
 
 env:
   ADDON_NAME: "@rohberg/volto-searchkit-block"
-  ADDON_PATH: "volto-searchkit-block"
-  VOLTO_VERSION: "17"
+  ADDON_PATH: volto-searchkit-block
+  VOLTO_VERSION: 17
+  PLONE_VERSION: 6.0
+
+  # DEBUG INDEX_SERVER
+  # INDEX_SERVER: opensearch:9200
+  INDEX_OPENSEARCH: 1
+  INDEX_USE_SSL: 0
+  INDEX_LOGIN: admin
+  INDEX_PASSWORD: admin
+
+  CELERY_BROKER: redis://redis:6379/0
+  CELERY_LOG_LEVEL: info
+
+  PLONE_SERVICE: http://backend-acceptance:55001
+  PLONE_SITE_PREFIX_PATH: plone
+  PLONE_USER: admin
+  PLONE_PASSWORD: secret
+
+  MAPPINGS_FILE: /configuration/mappings.json
+  ANALYSIS_FILE: /configuration/analysis.json
+  PREPROCESSINGS_FILE: /configuration/preprocessings.json
 
 jobs:
-
   acceptance:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        index_server: ["opensearch:9200", "localhost:9200"]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -34,8 +57,8 @@ jobs:
           spec: cypress/tests/*.cy.js
           install: false
           start: |
-            docker compose -f ci.yml --profile prod up
-          wait-on: 'npx wait-on --httpTimeout 20000 http-get://localhost:55001/plone http://localhost:3000'
+            INDEX_SERVER=${{ matrix.index_server }} docker compose -f ci.yml --profile prod up
+          wait-on: 'npx wait-on --httpTimeout 20000 http-get://localhost:55001/plone http://localhost:3000 http://localhost:9200'
 
       # Upload Cypress screenshots
       - uses: actions/upload-artifact@v4
