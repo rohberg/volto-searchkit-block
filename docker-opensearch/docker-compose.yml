@@ -1,3 +1,8 @@
+# *****************
+# OBSOLETE 
+# Merged with docker-compose for backend and frontend
+#  *********************
+
 # opensearch needs sysctl -w vm.max_map_count=262144
 # see https://stackoverflow.com/questions/66444027/max-virtual-memory-areas-vm-max-map-count-65530-is-too-low-increase-to-at-lea
 version: '3'
@@ -77,7 +82,7 @@ services:
     expose:
       - "5601"
     environment:
-      OPENSEARCH_HOSTS: '["https://opensearch:9200"]'
+      OPENSEARCH_HOSTS: '["http://opensearch:9200"]'
     networks:
       - opensearch-net
     profiles:

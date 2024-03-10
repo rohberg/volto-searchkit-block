@@ -22,11 +22,11 @@ YELLOW=`tput setaf 3`
 BACKEND_ADDONS='collective.elastic.plone ${KGS} $(TESTING_ADDONS)'
 DEV_COMPOSE=dockerfiles/docker-compose.yml
 ACCEPTANCE_COMPOSE=acceptance/docker-compose.yml
-OPENSEARCH_COMPOSE=docker-opensearch/docker-compose.yml
+# OPENSEARCH_COMPOSE=docker-opensearch/docker-compose.yml
 CMD=CURRENT_DIR=${CURRENT_DIR} ADDON_NAME=${ADDON_NAME} ADDON_PATH=${ADDON_PATH} VOLTO_VERSION=${VOLTO_VERSION} PLONE_VERSION=${PLONE_VERSION} BACKEND_ADDONS=${BACKEND_ADDONS} docker compose
 DOCKER_COMPOSE=${CMD} -p ${ADDON_PATH} -f ${DEV_COMPOSE}
 ACCEPTANCE=${CMD} -p ${ADDON_PATH}-acceptance -f ${ACCEPTANCE_COMPOSE}
-OPENSEARCH=CURRENT_DIR=${CURRENT_DIR} docker compose -p ${ADDON_PATH}-opensearch -f ${OPENSEARCH_COMPOSE}
+# OPENSEARCH=CURRENT_DIR=${CURRENT_DIR} docker compose -p ${ADDON_PATH}-opensearch -f ${OPENSEARCH_COMPOSE}
 
 
 .PHONY: all
@@ -95,24 +95,24 @@ test-ci: ## Run unit tests in CI
 	${DOCKER_COMPOSE} run -e CI=1 addon-dev test
 
 # Acceptance opensearch
-# TODO marry OPENSEARCH with backend acceptance
-.PHONY: build-acceptance-opensearch
-build-acceptance-opensearch: ## build opensearch containers
-	(cd docker-opensearch)
-	${OPENSEARCH} --profile dev build
+# # TODO marry OPENSEARCH with backend acceptance
+# .PHONY: build-acceptance-opensearch
+# build-acceptance-opensearch: ## build opensearch containers
+# 	(cd docker-opensearch)
+# 	${OPENSEARCH} --profile dev build
 
-.PHONY: start-test-acceptance-server
-start-test-acceptance-server-opensearch: ## Start acceptance opensearch containers
-	${OPENSEARCH} --profile dev up -d
+# .PHONY: start-test-acceptance-server
+# start-test-acceptance-server-opensearch: ## Start acceptance opensearch containers
+# 	${OPENSEARCH} --profile dev up -d
 
 # Acceptance backend and frontend
-.PHONY: build-acceptance-backend-frontend
-build-acceptance-backend-frontend: ## Install Cypress, build containers
+.PHONY: build-acceptance
+build-acceptance: ## Install Cypress, build containers
 	(cd acceptance && yarn)
 	${ACCEPTANCE} --profile dev build
 
-.PHONY: start-test-acceptance-server
-start-test-acceptance-server: ## Start acceptance server
+.PHONY: start-acceptance-containers
+start-acceptance: ## Start acceptance server-containers
 	${ACCEPTANCE} --profile dev up -d --force-recreate
 
 # TODO Maybe depend on build and start?
