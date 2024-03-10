@@ -17,17 +17,11 @@ describe('Generic Error', () => {
         locale: 'en',
         messages: {},
       },
-      results: {
-        error: {
-          name: 'NotFoundError',
-          message: 'Index cannot be found.',
-        },
-      },
     });
     const component = renderer.create(
       <Provider store={store}>
         <MemoryRouter>
-          <Error error={{ status: 401, message: 'Unauthorized' }} />
+          <Error error={{ type: 'ConnectionError', message: 'Service pipapo not found.' }} />
         </MemoryRouter>
       </Provider>,
     );

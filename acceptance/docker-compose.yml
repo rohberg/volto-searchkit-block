@@ -2,106 +2,158 @@ version: "3"
 
 services:
 
-  addon-dev:
+  addon-acceptance:
     build:
       context: ../
       dockerfile: ./dockerfiles/Dockerfile.acceptance
       args:
         ADDON_NAME: "${ADDON_NAME}"
         ADDON_PATH: "${ADDON_PATH}"
-        VOLTO_VERSION: ${VOLTO_VERSION:-16}
+        VOLTO_VERSION: ${VOLTO_VERSION:-17}
     volumes:
       - ${CURRENT_DIR}:/app/src/addons/${ADDON_PATH}/
     environment:
       RAZZLE_INTERNAL_API_PATH: http://backend-acceptance:55001/plone
       RAZZLE_API_PATH: http://localhost:55001/plone
+      HOST: 0.0.0.0
     ports:
       - 3000:3000
       - 3001:3001
+    tty: true
     depends_on:
       - backend-acceptance
     profiles:
       - dev
 
-  addon-acceptance:
+  backend-acceptance:
+    # TODO Create content
     build:
       context: ../
-      dockerfile: ./dockerfiles/Dockerfile
+      dockerfile: ./dockerfiles/backend/Dockerfile.acceptance
       args:
-        ADDON_NAME: "${ADDON_NAME}"
-        ADDON_PATH: "${ADDON_PATH}"
-        VOLTO_VERSION: ${VOLTO_VERSION:-16}
+        PLONE_VERSION: ${PLONE_VERSION:-6.0}
     environment:
-      RAZZLE_INTERNAL_API_PATH: http://backend-acceptance:55001/plone
-      RAZZLE_API_PATH: http://localhost:55001/plone
-    ports:
-      - 3000:3000
-    depends_on:
-      - backend-acceptance
-    profiles:
-      - prod
-
-  backend-acceptance:
-    image: plone/plone-backend:${PLONE_VERSION:-6}
-    command:
-      - /bin/sh
-      - -c
-      - |
-        ./bin/robot-server plone.app.robotframework.testing.VOLTO_ROBOT_TESTING
-        ./bin/celery -A collective.elastic.ingest.celery.app worker -l debug
-    volumes:
-      - ./configuration/ploneconfiguration/:/app/ploneconfiguration/
-    environment:
-      # ##### plone.app.robotframework
-      ZSERVER_HOST: "0.0.0.0"
-      ZSERVER_PORT: "55001"
-      APPLY_PROFILES: "plone.app.contenttypes:plone-content,plone.restapi:default,plone.volto:default-homepage, rohberg.elasticsearchblocks:testing"
-      CONFIGURE_PACKAGES: "plone.app.contenttypes,plone.restapi,plone.volto,plone.volto.cors,rohberg.elasticsearchblocks"
-      # INSTALL_PRODUCTS: "collective.elastic.plone,collective.elastic.ingest,rohberg.elasticsearchblocks"
-      # ##### plone-backend docker image
-      ADDONS: "plone.app.robotframework==2.0.0a6 plone.app.testing==7.0.0a3 plone.app.contenttypes plone.restapi plone.volto celery redis collective.elastic.plone collective.elastic.ingest rohberg.elasticsearchblocks"
-      SITE: "plone"
-      # DEVELOP: "git+https://github.com/collective/collective.elastic.plone.git#egg=collective.elastic.plone"
-
-      CELERY_BROKER: redis://host.docker.internal:6379
-      ELASTICSEARCH_INDEX: plone
-      ELASTICSEARCH_QUERY_SERVER: http://host.docker.internal:9200
-      ELASTICSEARCH_QUERY_USE_SSL: 0
-
-      # CELERY_BROKER: redis://localhost:6379/0
-      ELASTICSEARCH_INGEST_SERVER: host.docker.internal:9200
-      ELASTICSEARCH_INGEST_USE_SSL: 0
-
-      PLONE_SERVICE: http://127.0.0.1:55001
-      PLONE_PATH: Plone
-      PLONE_USER: admin
-      PLONE_PASSWORD: secret
-
-      ANALYSIS_FILE: /app/ploneconfiguration/elasticsearch-analysis.json
-      MAPPINGS_FILE: /app/ploneconfiguration/elasticsearch-mappings.json
-      PREPROCESSINGS_FILE: /app/ploneconfiguration/elasticsearch-preprocessings.json
+        ZSERVER_HOST: "0.0.0.0"
+        ZSERVER_PORT: "55001"
+        # CORS_ALLOW_ORIGIN: "*"
+        # DELETE_EXISTING: "true"
+        # SETUP_CONTENT: "true"
+        # ADDONS: ${BACKEND_ADDONS}
+        # TYPE: volto
+        # # Profiles to be added to the created site
+        # ADDITIONAL_PROFILES: "collective.elastic.plone:default" 
+        # # Packages to be used in configuration
+        # # CONFIGURE_PACKAGES: "plone.app.contenttypes,plone.restapi,plone.volto,plone.volto.cors"
+        # # CONFIGURE_PACKAGES: "plone.app.contenttypes,plone.restapi,plone.volto"
+        # plone.elastic 2.x
+        CELERY_BROKER: ${CELERY_BROKER?unset}
+        INDEX_SERVER: ${INDEX_SERVER?unset}
+        INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
+        INDEX_USE_SSL: ${INDEX_USE_SSL?unset}
+        INDEX_LOGIN: ${INDEX_LOGIN?unset}
+        INDEX_PASSWORD: ${INDEX_PASSWORD?unset}
     ports:
       - 55001:55001
     profiles:
       - dev
       - prod
-    depends_on:
-      - redis
-      - elk
-  elk:
-    image: ksuess/rohberg-elk-mac:rc2
-    # image: sebp/elk:oss-8.1.0
+
+  ingest:
+    image: ghcr.io/collective/collective.elastic.ingest:latest
     environment:
-      # ES_CORS_ALLOW_ORIGIN: "/https?://(.*)localhost(.*)/"
-      ES_CORS_ALLOW_ORIGIN: "*"
-    ports:
-      - "5601:5601"
-      - "9200:9200"
-      - "5044:5044"
+      MAPPINGS_FILE: ${MAPPINGS_FILE}
+      ANALYSIS_FILE: ${ANALYSIS_FILE}
+      PREPROCESSINGS_FILE: ${PREPROCESSINGS_FILE}
+      INDEX_SERVER: ${INDEX_SERVER?unset}
+      INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
+      INDEX_USE_SSL: ${INDEX_USE_SSL?unset}
+      INDEX_LOGIN: ${INDEX_LOGIN?unset}
+      INDEX_PASSWORD: ${INDEX_PASSWORD?unset}
+      CELERY_BROKER: ${CELERY_BROKER?unset}
+      CELERY_CONCURRENCY: ${CELERY_CONCURRENCY:-1}
+      CELEREY_LOG_LEVEL: ${CELERY_LOG_LEVEL:-info}
+      PLONE_SERVICE: ${PLONE_SERVICE?unset}
+      PLONE_SITE_PREFIX_PATH: ${PLONE_SITE_PREFIX_PATH?unset}
+      PLONE_USER: ${PLONE_USER?unset}
+      PLONE_PASSWORD: ${PLONE_PASSWORD?unset}
+      SENTRY_DSN: ${SENTRY_DSN}
     volumes:
-      - ./configuration/elasticsearchconfiguration/elasticsearch-keywords.txt:/etc/elasticsearch/elasticsearch-keywords.txt
-      - ./configuration/elasticsearchconfiguration/elasticsearch-lexicon.txt:/etc/elasticsearch/elasticsearch-lexicon.txt
+      - ingest-configuration:/configuration
+
   redis:
-    image: redis/redis-stack-server:latest
+    image: 'redis:latest'
     ports:
       - 6379:6379
+
+  opensearch:
+    build:
+      context: ../
+      dockerfile: ./docker-opensearch/Dockerfile.opensearch
+      # args:
+      #   ADDON_NAME: "${ADDON_NAME}"
+      #   ADDON_PATH: "${ADDON_PATH}"
+      #   VOLTO_VERSION: ${VOLTO_VERSION:-17}
+    environment:
+      - plugins.security.disabled=true
+      - cluster.name=opensearch-cluster
+      - node.name=opensearch
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx2g"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - opensearch-data:/usr/share/opensearch/data
+      - "../docker-opensearch/opensearch-configuration/keywords.txt:/usr/share/opensearch/config/keywords.txt"
+      - "../docker-opensearch/opensearch-configuration/lexicon.txt:/usr/share/opensearch/config/lexicon.txt"
+    ports:
+      - 9200:9200 # REST API
+      - 9600:9600 # Performance Analyzer
+    tty: true
+    profiles:
+      - dev
+      - prod
+
+
+  opensearch-dashboards:
+    image: opensearchproject/opensearch-dashboards:latest
+    ports:
+      - 5601:5601
+    expose:
+      - "5601"
+    environment:
+      OPENSEARCH_HOSTS: '["http://opensearch:9200"]'
+    profiles:
+      - dev
+
+  # dejavu:
+  #   image: appbaseio/dejavu:latest
+  #   container_name: dejavu
+  #   ports:
+  #     - "1358:1358"
+  #   expose:
+  #     - "1358"
+  #   links:
+  #     - opensearch
+
+volumes:
+  opensearch-data:
+  ingest-configuration:
+    driver: local
+    driver_opts:
+      type: none
+      device: ../docker-opensearch/ingest-configuration
+      o: bind
+  # opensearch-configuration:
+  #   driver: local
+  #   driver_opts:
+  #     type: none
+  #     device: ./opensearch-configuration
+  #     o: bind
+
+

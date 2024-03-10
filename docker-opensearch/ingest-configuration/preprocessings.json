@@ -1,12 +1,4 @@
 [
-    {
-        "comment": "My stuff – Remove info that's irrelevant for search",
-        "action": "remove",
-        "configuration": {
-            "target": "irrelevant field"
-        }
-    },
-
 
   {
     "comment": "... needs this information, essential rewrite, do not remove",

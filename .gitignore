@@ -120,3 +120,6 @@ development-searchkitblock/celery/sources/
 build/
 .yarn/
 yarn.lock
+
+!docker-opensearch/.env
+!acceptance/.env

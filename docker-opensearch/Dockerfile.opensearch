@@ -1,0 +1,6 @@
+FROM opensearchproject/opensearch:latest
+
+COPY docker-opensearch/opensearch-configuration/keywords.txt /usr/share/opensearch/config/keywords.txt
+COPY docker-opensearch/opensearch-configuration/lexicon.txt /usr/share/opensearch/config/lexicon.txt
+
+RUN /usr/share/opensearch/bin/opensearch-plugin install --batch ingest-attachment

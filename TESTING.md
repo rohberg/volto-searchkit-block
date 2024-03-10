@@ -2,30 +2,30 @@
 
 ## TODO
 
-- View of Plone 'Document'
-- On save of Plone content, the elasticsearch index is updated: redis, celery, do their job. Check ports!
+- block can be added
+- search fuzzy
+- search flexation
+- search wildcard
+- search exact
+- search compounded word
 
-## Acceptance tests
-- redis
-- elasticsearch
-- celery
-- backend
-- frontend
-- cypress
 
-Run acceptance backend instance:
+## Build and run acceptance tests
 
-    docker compose up
+Build acceptance server:
 
-Run robot server:
+    make build-acceptance 
 
-    docker compose exec plone ./bin/robot-server plone.app.robotframework.testing.VOLTO_ROBOT_TESTING
+Start acceptance server:
+
+    make start-acceptance 
 
 Then robot server runs on http://localhost:55001/plone
 
-Run celery:
+Run cypress acceptance tests:
 
-    docker compose exec backend bin/celery -A collective.elastic.ingest.celery.app multi restart workersearchkitblock --logfile="/app/celery/celery%n%I.log" --pidfile="/app/celery/celery%n.pid"
+    make test-acceptance
+
 
 ## Further topics
 

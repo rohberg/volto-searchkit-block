@@ -5,6 +5,9 @@ FROM plone/frontend-dev:${VOLTO_VERSION}
 ARG ADDON_NAME
 ARG ADDON_PATH
 
+# Copy volto.config.js
+COPY --chown=node:node volto.config.js* /app/
+
 COPY --chown=node:node package.json /app/src/addons/${ADDON_PATH}/
 
 RUN <<EOT

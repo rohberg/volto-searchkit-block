@@ -4,11 +4,11 @@ services:
   addon-acceptance:
     build:
       context: ../
-      dockerfile: ./dockerfiles/Dockerfile
+      dockerfile: ./dockerfiles/Dockerfile.ci
       args:
         ADDON_NAME: "${ADDON_NAME}"
         ADDON_PATH: "${ADDON_PATH}"
-        VOLTO_VERSION: ${VOLTO_VERSION:-16}
+        VOLTO_VERSION: ${VOLTO_VERSION:-17}
     environment:
       RAZZLE_INTERNAL_API_PATH: http://backend-acceptance:55001/plone
       RAZZLE_API_PATH: http://localhost:55001/plone
@@ -20,59 +20,80 @@ services:
       - prod
 
   backend-acceptance:
-    image: plone/server-acceptance:${PLONE_VERSION:-6}
-    # command: bin/celery -A collective.elastic.ingest.celery.app multi restart workersearchkitblock --logfile="/app/celery/celery%n%I.log" --pidfile="/app/celery/celery%n.pid" > /dev/null 2>&1 &; bin/robot-server plone.app.robotframework.testing.VOLTO_ROBOT_TESTING > /dev/null 2>&1 &;
-    volumes:
-      - ./configuration/ploneconfiguration/:/app/ploneconfiguration/
+    # TODO Create content
+    build:
+      context: ../
+      dockerfile: ./dockerfiles/backend/Dockerfile.acceptance
+      args:
+        PLONE_VERSION: ${PLONE_VERSION:-6.0}
     environment:
-      # ##### plone.app.robotframework
-      ZSERVER_HOST: "0.0.0.0"
-      ZSERVER_PORT: "55001"
-      # INSTALL_PRODUCTS: "collective.elastic.plone,collective.elastic.ingest"
-      # ##### plone-backend docker image
-      ADDONS: "celery redis collective.elastic.plone collective.elastic.ingest"
-      SITE: "plone"
-      # DEVELOP: "git+https://github.com/collective/collective.elastic.plone.git#egg=collective.elastic.plone"
-
-      CELERY_BROKER: redis://host.docker.internal:6379
-      ELASTICSEARCH_INDEX: plone
-      ELASTICSEARCH_QUERY_SERVER: http://host.docker.internal:9200
-      ELASTICSEARCH_QUERY_USE_SSL: 0
-
-      # CELERY_BROKER: redis://localhost:6379/0
-      ELASTICSEARCH_INGEST_SERVER: host.docker.internal:9200
-      ELASTICSEARCH_INGEST_USE_SSL: 0
-
-      PLONE_SERVICE: http://127.0.0.1:55001
-      PLONE_PATH: Plone
-      PLONE_USER: admin
-      PLONE_PASSWORD: secret
-
-      ANALYSIS_FILE: /app/ploneconfiguration/elasticsearch-analysis.json
-      MAPPINGS_FILE: /app/ploneconfiguration/elasticsearch-mappings.json
-      PREPROCESSINGS_FILE: /app/ploneconfiguration/elasticsearch-preprocessings.json
+      ZSERVER_HOST: 0.0.0.0
+      ZSERVER_PORT: 55001
+      # plone.elastic 2.x
+      INDEX_SERVER: ${INDEX_SERVER?unset}
+      INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
+      INDEX_USE_SSL: ${INDEX_USE_SSL?unset}
+      INDEX_LOGIN: ${INDEX_LOGIN?unset}
+      INDEX_PASSWORD: ${INDEX_PASSWORD?unset}
+      CELERY_BROKER: ${CELERY_BROKER?unset}
     ports:
       - 55001:55001
+    depends_on:
+      - ingest
+      - redis
+      - opensearch
     profiles:
       - dev
       - prod
-    # depends_on:
-    #   - redis
-    #   - elk
-  # elk:
-  #   image: ksuess/rohberg-elk:rc5
-  #   # image: sebp/elk:oss-8.1.0
-  #   environment:
-  #     # ES_CORS_ALLOW_ORIGIN: "/https?://(.*)localhost(.*)/"
-  #     ES_CORS_ALLOW_ORIGIN: "*"
-  #   ports:
-  #     - "5601:5601"
-  #     - "9200:9200"
-  #     - "5044:5044"
-  #   volumes:
-  #     - ./configuration/elasticsearchconfiguration/elasticsearch-keywords.txt:/etc/elasticsearch/elasticsearch-keywords.txt
-  #     - ./configuration/elasticsearchconfiguration/elasticsearch-lexicon.txt:/etc/elasticsearch/elasticsearch-lexicon.txt
-  # redis:
-  #   image: redis/redis-stack-server:latest
-  #   ports:
-  #     - 6379:6379
+
+  ingest:
+    build:
+      context: ../
+      dockerfile: ./docker-opensearch/Dockerfile.ingest
+    environment:
+      MAPPINGS_FILE: "/configuration/mappings.json"
+      ANALYSIS_FILE: "/configuration/analysis.json"
+      PREPROCESSINGS_FILE: "/configuration/preprocessings.json"
+      INDEX_SERVER: ${INDEX_SERVER?unset}
+      INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
+      INDEX_USE_SSL: ${INDEX_USE_SSL?unset}
+      INDEX_LOGIN: ${INDEX_LOGIN?unset}
+      INDEX_PASSWORD: ${INDEX_PASSWORD?unset}
+      CELERY_BROKER: ${CELERY_BROKER?unset}
+      CELERY_CONCURRENCY: ${CELERY_CONCURRENCY:-1}
+      CELEREY_LOG_LEVEL: ${CELERY_LOG_LEVEL:-info}
+      PLONE_SERVICE: ${PLONE_SERVICE?unset}
+      PLONE_SITE_PREFIX_PATH: ${PLONE_SITE_PREFIX_PATH?unset}
+      PLONE_USER: ${PLONE_USER?unset}
+      PLONE_PASSWORD: ${PLONE_PASSWORD?unset}
+
+  redis:
+    image: 'redis:latest'
+    ports:
+      - 6379:6379
+
+  opensearch:
+    build:
+      context: ../
+      dockerfile: ./docker-opensearch/Dockerfile.opensearch
+    environment:
+      - plugins.security.disabled=true
+      - cluster.name=opensearch-cluster
+      - node.name=opensearch
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx2g"
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=${INDEX_PASSWORD?unset}
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+      - 9200:9200 # REST API
+      - 9600:9600 # Performance Analyzer
+    profiles:
+      - dev
+      - prod

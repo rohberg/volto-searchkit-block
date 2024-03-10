@@ -65,6 +65,9 @@ export const ploneSearchApi = (data) => {
       url: expandToBackendURL('/@kitsearch'),
       timeout: 5000,
       headers: {
+        // TODO Fix CORS
+        // Host: localhost:55001
+        // Origin: http://localhost:3000
         Accept: 'application/json',
         Authorization: `Bearer ${authToken}`,
       },
@@ -519,7 +522,7 @@ const customEmpytResultsElement = (props) => {
           resetQuery();
         }}
       >
-        Suche zurücksetzen
+        <FormattedMessage id="reset search" defaultMessage="reset search" />
       </Button>
     </Segment>
   );
@@ -562,13 +565,8 @@ const customSort = ({
 };
 
 const customPaginationElement = (props) => {
-  const {
-    currentPage,
-    currentSize,
-    totalResults,
-    onPageChange,
-    options,
-  } = props;
+  const { currentPage, currentSize, totalResults, onPageChange, options} =
+      props;
   const pages = Math.ceil(totalResults / currentSize);
   const boundaryRangeCount = options.boundaryRangeCount;
   const siblingRangeCount = options.siblingRangeCount;

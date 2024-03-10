@@ -12,12 +12,12 @@ exports[`Generic Error renders a simple error component 1`] = `
     </h3>
   </div>
   <b>
-    NotFoundError
+    ConnectionError
     :
   </b>
    
   <i>
-    Index cannot be found.
+    Service pipapo not found.
   </i>
 </div>
 `;
