@@ -46,12 +46,12 @@ services:
         # # CONFIGURE_PACKAGES: "plone.app.contenttypes,plone.restapi,plone.volto,plone.volto.cors"
         # # CONFIGURE_PACKAGES: "plone.app.contenttypes,plone.restapi,plone.volto"
         # plone.elastic 2.x
-        INDEX_SERVER: "host.docker.internal:9200"
-        CELERY_BROKER: "redis://host.docker.internal:6379"
-        INDEX_LOGIN: "admin"
-        INDEX_PASSWORD: "admin"
-        INDEX_OPENSEARCH: "1"
-        INDEX_USE_SSL: "1"
+        CELERY_BROKER: redis://host.docker.internal:6379
+        INDEX_SERVER: host.docker.internal:9200
+        INDEX_LOGIN: admin
+        INDEX_PASSWORD: admin
+        INDEX_OPENSEARCH: 1
+        INDEX_USE_SSL: 0
     ports:
       - 55001:55001
     profiles:

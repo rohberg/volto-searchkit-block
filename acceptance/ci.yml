@@ -30,8 +30,8 @@ services:
       ZSERVER_HOST: 0.0.0.0
       ZSERVER_PORT: 55001
       # plone.elastic 2.x
-      INDEX_SERVER: opensearch:9200
       CELERY_BROKER: redis://redis:6379/0
+      INDEX_SERVER: opensearch:9200
       INDEX_LOGIN: admin
       INDEX_PASSWORD: admin
       INDEX_OPENSEARCH: 1
@@ -55,7 +55,7 @@ services:
       ANALYSIS_FILE: "/configuration/analysis.json"
       PREPROCESSINGS_FILE: "/configuration/preprocessings.json"
       INDEX_SERVER: opensearch:9200
-      INDEX_USE_SSL: 1
+      INDEX_USE_SSL: 0
       INDEX_OPENSEARCH: 1
       INDEX_LOGIN: admin
       INDEX_PASSWORD: admin
