@@ -7,8 +7,7 @@ env:
   VOLTO_VERSION: 17
   PLONE_VERSION: 6.0
 
-  # DEBUG INDEX_SERVER
-  # INDEX_SERVER: opensearch:9200
+  INDEX_SERVER: opensearch:9200
   INDEX_OPENSEARCH: 1
   INDEX_USE_SSL: 0
   INDEX_LOGIN: admin
@@ -32,8 +31,6 @@ jobs:
     timeout-minutes: 45
     strategy:
       fail-fast: false
-      matrix:
-        index_server: ["opensearch:9200", "localhost:9200"]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -51,7 +48,6 @@ jobs:
         env:
           BABEL_ENV: production
           CYPRESS_RETRIES: 2
-          INDEX_SERVER: "${{ matrix.index_server }}"
         with:
           parallel: false
           browser: chrome
