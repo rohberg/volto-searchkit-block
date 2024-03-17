@@ -1,4 +1,8 @@
-# Features of **@rohberg/volto-searchkit-block**
+# @rohberg/volto-searchkit-block – the search block
+
+[![NPM](https://img.shields.io/npm/v/@rohberg/volto-searchkit-block.svg)](https://www.npmjs.com/package/@rohberg/volto-searchkit-block)
+[![Unit Tests](https://github.com/rohberg/volto-searchkit-block/actions/workflows/unit.yml/badge.svg)](https://github.com/rohberg/volto-searchkit-block/actions/workflows/unit.yml)
+[![Acceptance Tests](https://github.com/rohberg/volto-searchkit-block/actions/workflows/acceptance.yml/badge.svg)](https://github.com/rohberg/volto-searchkit-block/actions/workflows/acceptance.yml)
 
 Search block with highly overridable components for searching, filtering and displaying search results. Sometimes also called faceted navigation.
 

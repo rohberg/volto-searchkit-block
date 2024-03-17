@@ -26,32 +26,31 @@ services:
       - dev
 
   backend-acceptance:
-    # TODO Create content
     build:
       context: ../
       dockerfile: ./dockerfiles/backend/Dockerfile.acceptance
       args:
         PLONE_VERSION: ${PLONE_VERSION:-6.0}
     environment:
-        ZSERVER_HOST: "0.0.0.0"
-        ZSERVER_PORT: "55001"
-        # CORS_ALLOW_ORIGIN: "*"
-        # DELETE_EXISTING: "true"
-        # SETUP_CONTENT: "true"
-        # ADDONS: ${BACKEND_ADDONS}
-        # TYPE: volto
-        # # Profiles to be added to the created site
-        # ADDITIONAL_PROFILES: "collective.elastic.plone:default" 
-        # # Packages to be used in configuration
-        # # CONFIGURE_PACKAGES: "plone.app.contenttypes,plone.restapi,plone.volto,plone.volto.cors"
-        # # CONFIGURE_PACKAGES: "plone.app.contenttypes,plone.restapi,plone.volto"
-        # plone.elastic 2.x
-        CELERY_BROKER: ${CELERY_BROKER?unset}
-        INDEX_SERVER: ${INDEX_SERVER?unset}
-        INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
-        INDEX_USE_SSL: ${INDEX_USE_SSL?unset}
-        INDEX_LOGIN: ${INDEX_LOGIN?unset}
-        INDEX_PASSWORD: ${INDEX_PASSWORD?unset}
+      ZSERVER_HOST: "0.0.0.0"
+      ZSERVER_PORT: "55001"
+      # CORS_ALLOW_ORIGIN: "*"
+      # DELETE_EXISTING: "true"
+      # SETUP_CONTENT: "true"
+      # ADDONS: ${BACKEND_ADDONS}
+      # TYPE: volto
+      # # Profiles to be added to the created site
+      # ADDITIONAL_PROFILES: "collective.elastic.plone:default" 
+      # # Packages to be used in configuration
+      # # CONFIGURE_PACKAGES: "plone.app.contenttypes,plone.restapi,plone.volto,plone.volto.cors"
+      # # CONFIGURE_PACKAGES: "plone.app.contenttypes,plone.restapi,plone.volto"
+      # plone.elastic 2.x
+      CELERY_BROKER: ${CELERY_BROKER?unset}
+      INDEX_SERVER: ${INDEX_SERVER?unset}
+      INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
+      INDEX_USE_SSL: ${INDEX_USE_SSL?unset}
+      INDEX_LOGIN: ${INDEX_LOGIN?unset}
+      INDEX_PASSWORD: ${INDEX_PASSWORD?unset}
     ports:
       - 55001:55001
     profiles:
@@ -100,6 +99,7 @@ services:
       - discovery.type=single-node
       - bootstrap.memory_lock=true
       - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx2g"
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=${INDEX_PASSWORD?unset}
     ulimits:
       memlock:
         soft: -1

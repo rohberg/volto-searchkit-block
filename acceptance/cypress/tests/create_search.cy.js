@@ -1,4 +1,4 @@
-describe('Searchkit Block Tests', () => {
+describe('Searchkit block tests- create search ', () => {
   before(() => {
     cy.intercept('GET', `/**/*?expand*`).as('content');
     cy.intercept('GET', '/**/Document').as('schema');
@@ -43,16 +43,13 @@ describe('Searchkit Block Tests', () => {
   });
 
   after(() => {
-    // cy.removeContent({ path: 'garden-february' });
-    // cy.removeContent({ path: 'garden-march' });
-    // cy.removeContent({ path: 'garden-blog' });
-    // cy.removeContent({ path: 'searching' });
-    // TODO Update index server
-    // @@update-elasticsearch
-    
+    cy.removeContent({ path: 'garden-blog/garden-february' });
+    cy.removeContent({ path: 'garden-blog/garden-march' });
+    cy.removeContent({ path: 'garden-blog' });
+    cy.removeContent({ path: 'searching' });
   });
 
-  it('As manager I can add a searchkit-block', function () {
+  it('As manager I can add a searchkit-block and find a documunt', function () {
     cy.navigate('/searching/edit');
     cy.wait('@schema');
 
@@ -62,19 +59,6 @@ describe('Searchkit Block Tests', () => {
     cy.get('.blocks-chooser .common .button.searchkitblock').click({
       force: true,
     });
-    
-    // // block configuration index server
-    // cy.get('input#field-backend_url').type('http://localhost:55001/plone')
-    // cy.get('input#field-frontend_url').type('http://localhost:3000')
-    // // block configuration allowed types and states
-    // cy.get("#field-allowed_content_types").click();
-    // cy.get("#field-allowed_content_types .react-select__option")
-    //   .contains('Page')
-    //   .click();
-    // cy.get("#field-allowed_review_states").click();
-    // cy.get("#field-allowed_review_states .react-select__option")
-    //   .contains('Private')
-    //   .click();
 
     cy.get('#toolbar-save').click();
     cy.visit('/searching');
@@ -84,7 +68,9 @@ describe('Searchkit Block Tests', () => {
     cy.get('.block.searchkitsearch')
       .contains('The garden in february');
 
-    
-    // cy.visit('/garden-blog/contents');
+    cy.get('.searchbar-wrapper input').type('Februar{enter}');
+    cy.get('.block.searchkitsearch')
+      .contains('The garden in february');
   });
+
 });

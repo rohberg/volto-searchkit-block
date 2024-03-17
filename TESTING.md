@@ -1,15 +1,5 @@
 # Testing
 
-## TODO
-
-- block can be added
-- search fuzzy
-- search flexation
-- search wildcard
-- search exact
-- search compounded word
-
-
 ## Build and run acceptance tests
 
 Build acceptance server:

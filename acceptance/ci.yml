@@ -20,7 +20,6 @@ services:
       - prod
 
   backend-acceptance:
-    # TODO Create content
     build:
       context: ../
       dockerfile: ./dockerfiles/backend/Dockerfile.acceptance
