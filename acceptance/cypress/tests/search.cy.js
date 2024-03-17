@@ -38,7 +38,6 @@ describe('Searchkit block tests – search', () => {
       contentTitle: 'Testseite Männer',
     });
 
-
     cy.visit('/suche/edit');
     cy.wait('@schema');
 
@@ -74,57 +73,44 @@ describe('Searchkit block tests – search', () => {
     cy.removeContent({ path: 'testseite-manner' });
   });
 
-  it('I see all if no filter selected', function() {
-    cy.get('.block.searchkitsearch')
-      .contains('Der Garten im Februar');
+  it('I see all if no filter selected', function () {
+    cy.get('.block.searchkitsearch').contains('Der Garten im Februar');
   });
-
 
   it('I can search fuzzy', function () {
     cy.get('.searchbar-wrapper input').type('februax{enter}');
-    cy.get('.block.searchkitsearch')
-      .contains('Der Garten im Februar');
-    cy.get('.block.searchkitsearch')
-      .should('not.contain', 'März');
+    cy.get('.block.searchkitsearch').contains('Der Garten im Februar');
+    cy.get('.block.searchkitsearch').should('not.contain', 'März');
   });
 
   it('I can search with inflection', function () {
     cy.get('.searchbar-wrapper input').type('Schnelltestkit{enter}');
-    cy.get('.block.searchkitsearch')
-      .contains('Testseite Mann');
+    cy.get('.block.searchkitsearch').contains('Testseite Mann');
 
     cy.get('.searchbar-wrapper input').clear().type('Männer{enter}');
-    cy.get('.block.searchkitsearch')
-      .contains('Testseite Mann');
+    cy.get('.block.searchkitsearch').contains('Testseite Mann');
 
     cy.get('.searchbar-wrapper input').clear().type('Mann{enter}');
-    cy.get('.block.searchkitsearch')
-      .contains('Testseite Männer');
+    cy.get('.block.searchkitsearch').contains('Testseite Männer');
   });
 
   it('I can search with decompounding', function () {
     cy.get('.searchbar-wrapper input').type('Garten{enter}');
-    cy.get('.block.searchkitsearch')
-      .contains('Garten-Blog');
+    cy.get('.block.searchkitsearch').contains('Garten-Blog');
 
     cy.get('.searchbar-wrapper input').clear().type('Garten-Blog{enter}');
-    cy.get('.block.searchkitsearch')
-      .contains('Februar');
+    cy.get('.block.searchkitsearch').contains('Februar');
   });
 
   it('I can search with wildcard', function () {
     cy.get('.searchbar-wrapper input').type('Feb*{enter}');
-    cy.get('.block.searchkitsearch')
-      .contains('Der Garten im Februar');
+    cy.get('.block.searchkitsearch').contains('Der Garten im Februar');
   });
 
   it('I can search for an exact match', function () {
     cy.get('.searchbar-wrapper input').type('"Mann"{enter}');
-    cy.get('.block.searchkitsearch')
-      .contains('Testseite Mann');
+    cy.get('.block.searchkitsearch').contains('Testseite Mann');
     cy.get('.searchbar-wrapper input').clear().type('"Mann"{enter}');
-    cy.get('.block.searchkitsearch')
-    .should('not.contain', 'Männer');
+    cy.get('.block.searchkitsearch').should('not.contain', 'Männer');
   });
-
 });

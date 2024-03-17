@@ -63,14 +63,10 @@ describe('Searchkit block tests- create search ', () => {
     cy.get('#toolbar-save').click();
     cy.visit('/searching');
 
-    cy.get('.block.searchkitsearch')
-      .should('not.contain', 'No results')
-    cy.get('.block.searchkitsearch')
-      .contains('The garden in february');
+    cy.get('.block.searchkitsearch').should('not.contain', 'No results');
+    cy.get('.block.searchkitsearch').contains('The garden in february');
 
     cy.get('.searchbar-wrapper input').type('Februar{enter}');
-    cy.get('.block.searchkitsearch')
-      .contains('The garden in february');
+    cy.get('.block.searchkitsearch').contains('The garden in february');
   });
-
 });

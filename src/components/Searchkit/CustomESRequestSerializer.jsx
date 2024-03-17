@@ -258,16 +258,18 @@ export class CustomESRequestSerializer {
 
     // Generate terms of global filters
     let terms = [];
-    this.allowed_content_types?.length > 0 && terms.push({
-      terms: {
-        portal_type: this.allowed_content_types,
-      },
-    });
-    this.allowed_review_states?.length > 0 && terms.push({
-      terms: {
-        review_state: this.allowed_review_states,
-      },
-    });
+    this.allowed_content_types?.length > 0 &&
+      terms.push({
+        terms: {
+          portal_type: this.allowed_content_types,
+        },
+      });
+    this.allowed_review_states?.length > 0 &&
+      terms.push({
+        terms: {
+          review_state: this.allowed_review_states,
+        },
+      });
 
     const filters_dict = keyBy(filters, (e) => {
       return e[0];
@@ -330,10 +332,9 @@ export class CustomESRequestSerializer {
     const filter = (fieldName) => {
       let myAggsFilter = terms;
       // Add selected filters
-      const terms_of_selected_options_without_self =
-        terms_of_selected_options.filter(
-          (el) => !Object.keys(el.terms).includes(fieldName),
-        );
+      const terms_of_selected_options_without_self = terms_of_selected_options.filter(
+        (el) => !Object.keys(el.terms).includes(fieldName),
+      );
       myAggsFilter = myAggsFilter.concat(
         terms_of_selected_options_without_self,
       );

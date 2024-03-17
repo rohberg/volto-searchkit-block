@@ -64,14 +64,12 @@ export class PloneSearchApi {
       // let results = await this.responseSerializer.serialize(response.data);
       let results = await response.json();
       if (results.message) {
-        throw results
+        throw results;
         // throw new Error(`${results.type} ${results.message}`);
       }
       results = this.responseSerializer.serialize(results);
       return results;
     } catch (error) {
-      console.debug('ESSearchApi. error:');
-      console.debug(error);
       throw error;
     }
   }
