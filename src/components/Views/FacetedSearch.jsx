@@ -562,13 +562,8 @@ const customSort = ({
 };
 
 const customPaginationElement = (props) => {
-  const {
-    currentPage,
-    currentSize,
-    totalResults,
-    onPageChange,
-    options,
-  } = props;
+  const { currentPage, currentSize, totalResults, onPageChange, options } =
+    props;
   const pages = Math.ceil(totalResults / currentSize);
   const boundaryRangeCount = options.boundaryRangeCount;
   const siblingRangeCount = options.siblingRangeCount;
