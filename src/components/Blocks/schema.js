@@ -50,8 +50,6 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
         id: 'default',
         title: 'API',
         fields: [
-          'elastic_search_api_url',
-          'elastic_search_api_index',
           'backend_url',
           'frontend_url',
         ],
@@ -90,12 +88,12 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
     properties: {
       elastic_search_api_url: {
         title:
-          '(deprected) (Set in collective.elastic environment variable) Elastic Search API URL',
+          '(deprecated) (Set in collective.elastic environment variable) Elastic Search API URL',
         default: 'http://localhost:9200',
       },
       elastic_search_api_index: {
         title:
-          '(deprected) (Set in collective.elastic environment variable) Elastic Search API Index',
+          '(deprecated) (Set in collective.elastic environment variable) Elastic Search API Index',
         default: 'esploneindex',
       },
       backend_url: {
@@ -181,6 +179,5 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
         default: '',
       },
     },
-    required: ['backend_url', 'frontend_url'],
   };
 };
