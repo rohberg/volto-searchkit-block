@@ -1,0 +1,2 @@
+collective.elastic.plone[redis,opensearch]==2.0.1
+elasticsearch

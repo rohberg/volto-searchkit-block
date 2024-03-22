@@ -5,7 +5,7 @@ services:
   addon-dev:
     build:
       context: ../
-      dockerfile: ./dockerfiles/Dockerfile.dev
+      dockerfile: ./dockerfiles/frontend/Dockerfile.dev
       args:
         ADDON_NAME: "${ADDON_NAME}"
         ADDON_PATH: "${ADDON_PATH}"
@@ -19,19 +19,19 @@ services:
       # RAZZLE_INTERNAL_API_PATH: http://host.docker.internal:8080/Plone
       RAZZLE_API_PATH: http://127.0.0.1:8080/Plone
       HOST: 0.0.0.0
-    depends_on:
-      - backend
     ports:
       - 3000:3000
       - 3001:3001
     tty: true
+    depends_on:
+      - backend
     profiles:
       - dev
 
   addon-live:
     build:
       context: ../
-      dockerfile: ./dockerfiles/Dockerfile.ci
+      dockerfile: ./dockerfiles/frontend/Dockerfile.ci
       args:
         ADDON_NAME: "${ADDON_NAME}"
         ADDON_PATH: "${ADDON_PATH}"
@@ -46,11 +46,130 @@ services:
       - live
 
   backend:
-    image: plone/plone-backend:${PLONE_VERSION:-6.0}
+    # image: plone/plone-backend:6.0.10.1
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile.dev
+      args:
+        PLONE_VERSION: 6.0.10.1
     environment:
+      ZSERVER_HOST: "0.0.0.0"
+      ZSERVER_PORT: "8080"
+      CELERY_BROKER: ${CELERY_BROKER?unset}
+      INDEX_SERVER: ${INDEX_SERVER?unset}
+      INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
+      INDEX_USE_SSL: ${INDEX_USE_SSL?unset}
+      INDEX_LOGIN: ${INDEX_LOGIN?unset}
+      INDEX_PASSWORD: ${INDEX_PASSWORD?unset}
       SITE: Plone
       CORS_: true
+      ADDONS: "collective.elastic.plone[redis,opensearch]==2.0.1"
+      PROFILES: "collective.elastic.plone:default"
+      DELETE_EXISTING: True
     ports:
       - 8080:8080
     profiles:
       - dev
+      - prod
+
+
+  ingest:
+    image: ghcr.io/collective/collective.elastic.ingest:latest
+    environment:
+      MAPPINGS_FILE: ${MAPPINGS_FILE}
+      ANALYSIS_FILE: ${ANALYSIS_FILE}
+      PREPROCESSINGS_FILE: ${PREPROCESSINGS_FILE}
+      INDEX_SERVER: ${INDEX_SERVER?unset}
+      INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
+      INDEX_USE_SSL: ${INDEX_USE_SSL?unset}
+      INDEX_LOGIN: ${INDEX_LOGIN?unset}
+      INDEX_PASSWORD: ${INDEX_PASSWORD?unset}
+      CELERY_BROKER: ${CELERY_BROKER?unset}
+      CELERY_CONCURRENCY: ${CELERY_CONCURRENCY:-1}
+      CELEREY_LOG_LEVEL: ${CELERY_LOG_LEVEL:-info}
+      PLONE_SERVICE: ${PLONE_SERVICE?unset}
+      PLONE_SITE_PREFIX_PATH: ${PLONE_SITE_PREFIX_PATH?unset}
+      PLONE_USER: ${PLONE_USER?unset}
+      PLONE_PASSWORD: ${PLONE_PASSWORD?unset}
+      SENTRY_DSN: ${SENTRY_DSN}
+    volumes:
+      - ingest-configuration:/configuration
+    profiles:
+      - dev
+      - prod
+
+  redis:
+    image: 'redis:latest'
+    ports:
+      - 6379:6379
+    profiles:
+      - dev
+      - prod
+
+  opensearch:
+    build:
+      context: ../
+      dockerfile: ./docker-opensearch/Dockerfile.opensearch
+    environment:
+      - plugins.security.disabled=true
+      - cluster.name=opensearch-cluster
+      - node.name=opensearch
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx2g"
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=${INDEX_PASSWORD?unset}
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - opensearch-data:/usr/share/opensearch/data
+      - "../docker-opensearch/opensearch-configuration/keywords.txt:/usr/share/opensearch/config/keywords.txt"
+      - "../docker-opensearch/opensearch-configuration/lexicon.txt:/usr/share/opensearch/config/lexicon.txt"
+    ports:
+      - 9200:9200 # REST API
+      - 9600:9600 # Performance Analyzer
+    tty: true
+    profiles:
+      - dev
+      - prod
+
+
+  opensearch-dashboards:
+    image: opensearchproject/opensearch-dashboards:latest
+    ports:
+      - 5601:5601
+    expose:
+      - "5601"
+    environment:
+      OPENSEARCH_HOSTS: '["http://opensearch:9200"]'
+    profiles:
+      - dev
+
+  # dejavu:
+  #   image: appbaseio/dejavu:latest
+  #   container_name: dejavu
+  #   ports:
+  #     - "1358:1358"
+  #   expose:
+  #     - "1358"
+  #   links:
+  #     - opensearch
+
+volumes:
+  opensearch-data:
+  ingest-configuration:
+    driver: local
+    driver_opts:
+      type: none
+      device: ../docker-opensearch/ingest-configuration
+      o: bind
+  # opensearch-configuration:
+  #   driver: local
+  #   driver_opts:
+  #     type: none
+  #     device: ./opensearch-configuration
+  #     o: bind

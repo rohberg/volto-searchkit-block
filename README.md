@@ -19,6 +19,17 @@ The block is prepared for Matomo analytics.
 ![Search @rohberg/volto-searchkit-block](public/search.png)
 
 
+# Demo
+
+You can try the search by checking out this repository and run
+
+    make dev-opensearch
+    make dev
+    
+
+Docker should be installed and running.
+
+
 # Getting started
 
 Install Plone backend add-on [`collective.elastic.plone 2.x`](https://github.com/collective/collective.elastic.plone) to provide the Plone REST API service which accepts queries and requests OpenSearch/ElasticSearch.

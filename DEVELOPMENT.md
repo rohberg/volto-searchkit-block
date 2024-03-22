@@ -1,10 +1,28 @@
-# Development
+# Development and demo
+
+> TODO Update to new Makefile
+
+
+## Index server OpenSearch
+
+    make dev-opensearch
+
+## Backend and frontend
+
+    make dev
+
+
+
+
+
+> OUTDATED OLD STUFF BELOW
 
 ## Backend
 
     make dev-start-backend
 
-## Elasticsearch
+
+## OUTDATED Elasticsearch
 
 Run with Docker.
 
@@ -16,32 +34,7 @@ Inspect with
 
     docker exec -it <container-id> bash
 
-## Redis
 
-Start with
-
-    redis-server /usr/local/etc/redis.conf
-
-## Celery
-
-Change directory to ./development-searchkitblock/celery and install:
-
-Install with:
-
-    python -m venv venv
-    source venv/bin/activate
-    pip install -U pip wheel mxdev
-    mxdev -c mx.ini
-
-    pip install -r requirements-mxdev.txt
-
-Run with:
-
-    source .env
-    venv/bin/celery -A collective.elastic.ingest.celery.app worker -l info
-
-    # or with more info:
-    venv/bin/celery -A collective.elastic.ingest.celery.app worker -l debug
 
 
 ## Frontend

@@ -34,6 +34,7 @@ all: help
 help:		## Show this help.
 	@echo -e "$$(grep -hE '^\S+:.*##' $(MAKEFILE_LIST) | sed -e 's/:.*##\s*/:/' -e 's/^\(.\+\):\(.*\)/\\x1b[36m\1\\x1b[m:\2/' | column -c2 -t -s :)"
 
+# TODO Add backend-addons
 .PHONY: build-backend
 build-backend: ## Build
 	@echo "$(GREEN)==> Build Backend Container $(RESET)"
@@ -59,13 +60,14 @@ start-dev: ## Starts Dev container
 	@echo "$(GREEN)==> Start Addon Development container $(RESET)"
 	${DOCKER_COMPOSE} up addon-dev
 
+# TODO Check if 'make dev' is OK for trying the searchkit block
+# TODO Add example content: plone.exportimport https://plone.github.io/plone.exportimport/features.html#plone-importer
 .PHONY: dev
 dev: ## Develop the addon
-	@echo "$(GREEN)==> Start Development Environment $(RESET)"
-	make build-backend
-	make start-backend
-	make build-addon
-	make start-dev
+	@echo "$(GREEN)==> Build and start development environment $(RESET)"
+	${DOCKER_COMPOSE} --profile dev build
+	${DOCKER_COMPOSE} --profile dev up
+
 
 # Dev Helpers
 .PHONY: i18n
@@ -92,7 +94,8 @@ test: ## Run unit tests
 test-ci: ## Run unit tests in CI
 	${DOCKER_COMPOSE} run -e CI=1 addon-dev test
 
-# Acceptance backend and frontend
+
+# Acceptance
 .PHONY: build-acceptance
 build-acceptance: ## Install Cypress, build containers
 	(cd acceptance && yarn)
@@ -114,7 +117,6 @@ test-acceptance-headless: ## Run cypress tests in CI
 .PHONY: stop-test-acceptance-server
 stop-test-acceptance-server: ## Stop acceptance server
 	${ACCEPTANCE} down
-	${OPENSEARCH} down
 
 .PHONY: status-test-acceptance-server
 status-test-acceptance-server: ## Status of Acceptance Server
