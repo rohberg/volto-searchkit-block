@@ -17,11 +17,13 @@ const FooComponent = ({ data }) => {
     });
     let map = {
       facet_fields: ff,
-      search_sections: data.search_sections && Object.fromEntries(
-        data.search_sections.items.map((el) => {
-          return [el.section, el.label];
-        }),
-      ),
+      search_sections:
+        data.search_sections &&
+        Object.fromEntries(
+          data.search_sections.items.map((el) => {
+            return [el.section, el.label];
+          }),
+        ),
     };
     const fileData = JSON.stringify(map);
     const blob = new Blob([fileData], { type: 'text/plain' });
