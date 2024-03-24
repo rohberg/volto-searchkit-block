@@ -5,11 +5,11 @@ import { Button } from 'semantic-ui-react';
 const FooComponent = ({ data }) => {
   const vocabularies = useSelector((state) => state.querystring?.indexes);
   function exportFiltersMapping(data) {
-    const filternames = data.facet_fields.map((el) => {
+    const filternames = data.facet_fields?.map((el) => {
       return el.field.value;
     });
     let ff = {};
-    filternames.forEach((fname) => {
+    filternames?.forEach((fname) => {
       let foo = vocabularies[fname].values;
       Object.keys(foo).forEach((el) => {
         ff[el] = foo[el].title;
@@ -17,7 +17,7 @@ const FooComponent = ({ data }) => {
     });
     let map = {
       facet_fields: ff,
-      search_sections: Object.fromEntries(
+      search_sections: data.search_sections && Object.fromEntries(
         data.search_sections.items.map((el) => {
           return [el.section, el.label];
         }),

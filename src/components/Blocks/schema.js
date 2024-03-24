@@ -49,10 +49,7 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
       {
         id: 'default',
         title: 'API',
-        fields: [
-          'backend_url',
-          'frontend_url',
-        ],
+        fields: ['backend_url', 'frontend_url'],
       },
       {
         id: 'facets',
@@ -179,5 +176,6 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
         default: '',
       },
     },
+    required: [],
   };
 };
