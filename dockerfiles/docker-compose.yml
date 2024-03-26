@@ -22,6 +22,8 @@ services:
     ports:
       - 3000:3000
       - 3001:3001
+    networks:
+      - opensearch-net
     tty: true
     depends_on:
       - backend
@@ -41,6 +43,8 @@ services:
       RAZZLE_API_PATH: http://localhost:8080/Plone
     ports:
       - 3000:3000
+    networks:
+      - opensearch-net
     tty: true
     profiles:
       - live
@@ -55,6 +59,7 @@ services:
     environment:
       ZSERVER_HOST: "0.0.0.0"
       ZSERVER_PORT: "8080"
+      LANGUAGE: "de"
       CELERY_BROKER: ${CELERY_BROKER?unset}
       INDEX_SERVER: ${INDEX_SERVER?unset}
       INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
@@ -68,6 +73,8 @@ services:
       DELETE_EXISTING: True
     ports:
       - 8080:8080
+    networks:
+      - opensearch-net
     profiles:
       - dev
       - prod
@@ -94,6 +101,8 @@ services:
       SENTRY_DSN: ${SENTRY_DSN}
     volumes:
       - ingest-configuration:/configuration
+    networks:
+      - opensearch-net
     profiles:
       - dev
       - prod
@@ -102,6 +111,8 @@ services:
     image: 'redis:latest'
     ports:
       - 6379:6379
+    networks:
+      - opensearch-net
     profiles:
       - dev
       - prod
@@ -111,12 +122,12 @@ services:
       context: ../
       dockerfile: ./docker-opensearch/Dockerfile.opensearch
     environment:
-      - plugins.security.disabled=true
       - cluster.name=opensearch-cluster
       - node.name=opensearch
       - discovery.type=single-node
       - bootstrap.memory_lock=true
       - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx2g"
+      # - plugins.security.disabled=true
       - OPENSEARCH_INITIAL_ADMIN_PASSWORD=${INDEX_PASSWORD?unset}
     ulimits:
       memlock:
@@ -129,6 +140,8 @@ services:
       - opensearch-data:/usr/share/opensearch/data
       - "../docker-opensearch/opensearch-configuration/keywords.txt:/usr/share/opensearch/config/keywords.txt"
       - "../docker-opensearch/opensearch-configuration/lexicon.txt:/usr/share/opensearch/config/lexicon.txt"
+    networks:
+      - opensearch-net
     ports:
       - 9200:9200 # REST API
       - 9600:9600 # Performance Analyzer
@@ -145,9 +158,11 @@ services:
     expose:
       - "5601"
     environment:
-      OPENSEARCH_HOSTS: '["http://opensearch:9200"]'
+      OPENSEARCH_HOSTS: '["https://opensearch:9200"]'
     profiles:
       - dev
+    networks:
+      - opensearch-net
 
   # dejavu:
   #   image: appbaseio/dejavu:latest
@@ -173,3 +188,6 @@ volumes:
   #     type: none
   #     device: ./opensearch-configuration
   #     o: bind
+
+networks:
+  opensearch-net:
