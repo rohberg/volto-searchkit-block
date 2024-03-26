@@ -85,7 +85,7 @@
         "comment": "If Volto is available, this is important for full text search, do not remove unless in Classic UI only environments",
         "action": "rewrite",
         "configuration": {
-            "source": "@components/collectiveelastic/blocks_plaintext",
+            "source": "@components/blocks_plaintext",
             "target": "blocks_plaintext",
             "enforce": false
         }

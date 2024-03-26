@@ -1,13 +1,13 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { SearchBlockSchema } from './schema';
-import InlineForm from '@plone/volto/components/manage/Form/InlineForm';
+import { BlockDataForm } from '@plone/volto/components';
 
 const Sidebar = ({ data, block, onChangeBlock }) => {
   const intl = useIntl();
   let schema = SearchBlockSchema({ data, intl });
   return (
-    <InlineForm
+    <BlockDataForm
       schema={schema}
       title={schema.title}
       onChangeField={(id, value) => {
@@ -16,7 +16,9 @@ const Sidebar = ({ data, block, onChangeBlock }) => {
           [id]: value,
         });
       }}
+      onChangeBlock={onChangeBlock}
       formData={data}
+      block={block}
     />
   );
 };

@@ -1,9 +1,7 @@
-import { useSelector } from 'react-redux';
 import { Header, Segment } from 'semantic-ui-react';
 import { FormattedMessage } from 'react-intl';
 
 const Error = ({ error }) => {
-
   return error?.type ? (
     <Segment inverted color="red" secondary>
       <Header icon>

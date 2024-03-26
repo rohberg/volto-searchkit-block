@@ -4,7 +4,7 @@ services:
   addon-acceptance:
     build:
       context: ../
-      dockerfile: ./dockerfiles/Dockerfile.ci
+      dockerfile: ./dockerfiles/frontend/Dockerfile.ci
       args:
         ADDON_NAME: "${ADDON_NAME}"
         ADDON_PATH: "${ADDON_PATH}"
@@ -20,7 +20,6 @@ services:
       - prod
 
   backend-acceptance:
-    # TODO Create content
     build:
       context: ../
       dockerfile: ./dockerfiles/backend/Dockerfile.acceptance

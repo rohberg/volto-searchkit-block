@@ -1,4 +1,8 @@
-# Features of **@rohberg/volto-searchkit-block**
+# @rohberg/volto-searchkit-block – the search block
+
+[![NPM](https://img.shields.io/npm/v/@rohberg/volto-searchkit-block.svg)](https://www.npmjs.com/package/@rohberg/volto-searchkit-block)
+[![Unit Tests](https://github.com/rohberg/volto-searchkit-block/actions/workflows/unit.yml/badge.svg)](https://github.com/rohberg/volto-searchkit-block/actions/workflows/unit.yml)
+[![Acceptance Tests](https://github.com/rohberg/volto-searchkit-block/actions/workflows/acceptance.yml/badge.svg)](https://github.com/rohberg/volto-searchkit-block/actions/workflows/acceptance.yml)
 
 Search block with highly overridable components for searching, filtering and displaying search results. Sometimes also called faceted navigation.
 
@@ -13,6 +17,17 @@ Meta data values are clickable to find related content.
 The block is prepared for Matomo analytics.
 
 ![Search @rohberg/volto-searchkit-block](public/search.png)
+
+
+# Demo
+
+You can try the search by checking out this repository and run
+
+    make dev-opensearch
+    make dev
+    
+
+Docker should be installed and running.
 
 
 # Getting started

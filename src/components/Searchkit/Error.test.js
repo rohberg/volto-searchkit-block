@@ -21,7 +21,12 @@ describe('Generic Error', () => {
     const component = renderer.create(
       <Provider store={store}>
         <MemoryRouter>
-          <Error error={{ type: 'ConnectionError', message: 'Service pipapo not found.' }} />
+          <Error
+            error={{
+              type: 'ConnectionError',
+              message: 'Service pipapo not found.',
+            }}
+          />
         </MemoryRouter>
       </Provider>,
     );

@@ -49,12 +49,7 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
       {
         id: 'default',
         title: 'API',
-        fields: [
-          'elastic_search_api_url',
-          'elastic_search_api_index',
-          'backend_url',
-          'frontend_url',
-        ],
+        fields: ['backend_url', 'frontend_url'],
       },
       {
         id: 'facets',
@@ -90,12 +85,12 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
     properties: {
       elastic_search_api_url: {
         title:
-          '(deprected) (Set in collective.elastic environment variable) Elastic Search API URL',
+          '(deprecated) (Set in collective.elastic environment variable) Elastic Search API URL',
         default: 'http://localhost:9200',
       },
       elastic_search_api_index: {
         title:
-          '(deprected) (Set in collective.elastic environment variable) Elastic Search API Index',
+          '(deprecated) (Set in collective.elastic environment variable) Elastic Search API Index',
         default: 'esploneindex',
       },
       backend_url: {
@@ -146,7 +141,7 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
           'Type fieldnames to search in field names. Type title^1.4 to boost the title 40%.',
         type: 'array',
         creatable: true,
-        default: ['title^1.4', 'description^1.2'],
+        default: ['title^1.4', 'description^1.2', 'blocks_plaintext'],
       },
       facet_fields: {
         title: 'Facets',
@@ -181,6 +176,6 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
         default: '',
       },
     },
-    required: ['backend_url', 'frontend_url'],
+    required: [],
   };
 };

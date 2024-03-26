@@ -5,7 +5,7 @@ services:
   addon-acceptance:
     build:
       context: ../
-      dockerfile: ./dockerfiles/Dockerfile.acceptance
+      dockerfile: ./dockerfiles/frontend/Dockerfile.acceptance
       args:
         ADDON_NAME: "${ADDON_NAME}"
         ADDON_PATH: "${ADDON_PATH}"
@@ -26,32 +26,20 @@ services:
       - dev
 
   backend-acceptance:
-    # TODO Create content
     build:
       context: ../
       dockerfile: ./dockerfiles/backend/Dockerfile.acceptance
       args:
         PLONE_VERSION: ${PLONE_VERSION:-6.0}
     environment:
-        ZSERVER_HOST: "0.0.0.0"
-        ZSERVER_PORT: "55001"
-        # CORS_ALLOW_ORIGIN: "*"
-        # DELETE_EXISTING: "true"
-        # SETUP_CONTENT: "true"
-        # ADDONS: ${BACKEND_ADDONS}
-        # TYPE: volto
-        # # Profiles to be added to the created site
-        # ADDITIONAL_PROFILES: "collective.elastic.plone:default" 
-        # # Packages to be used in configuration
-        # # CONFIGURE_PACKAGES: "plone.app.contenttypes,plone.restapi,plone.volto,plone.volto.cors"
-        # # CONFIGURE_PACKAGES: "plone.app.contenttypes,plone.restapi,plone.volto"
-        # plone.elastic 2.x
-        CELERY_BROKER: ${CELERY_BROKER?unset}
-        INDEX_SERVER: ${INDEX_SERVER?unset}
-        INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
-        INDEX_USE_SSL: ${INDEX_USE_SSL?unset}
-        INDEX_LOGIN: ${INDEX_LOGIN?unset}
-        INDEX_PASSWORD: ${INDEX_PASSWORD?unset}
+      ZSERVER_HOST: "0.0.0.0"
+      ZSERVER_PORT: "55001"
+      CELERY_BROKER: ${CELERY_BROKER?unset}
+      INDEX_SERVER: ${INDEX_SERVER?unset}
+      INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
+      INDEX_USE_SSL: ${INDEX_USE_SSL?unset}
+      INDEX_LOGIN: ${INDEX_LOGIN?unset}
+      INDEX_PASSWORD: ${INDEX_PASSWORD?unset}
     ports:
       - 55001:55001
     profiles:
@@ -89,17 +77,14 @@ services:
     build:
       context: ../
       dockerfile: ./docker-opensearch/Dockerfile.opensearch
-      # args:
-      #   ADDON_NAME: "${ADDON_NAME}"
-      #   ADDON_PATH: "${ADDON_PATH}"
-      #   VOLTO_VERSION: ${VOLTO_VERSION:-17}
     environment:
-      - plugins.security.disabled=true
       - cluster.name=opensearch-cluster
       - node.name=opensearch
       - discovery.type=single-node
       - bootstrap.memory_lock=true
       - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx2g"
+      # - plugins.security.disabled=true
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=${INDEX_PASSWORD?unset}
     ulimits:
       memlock:
         soft: -1
@@ -127,7 +112,7 @@ services:
     expose:
       - "5601"
     environment:
-      OPENSEARCH_HOSTS: '["http://opensearch:9200"]'
+      OPENSEARCH_HOSTS: '["https://opensearch:9200"]'
     profiles:
       - dev
 
