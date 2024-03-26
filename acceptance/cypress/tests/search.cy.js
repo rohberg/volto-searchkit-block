@@ -60,7 +60,7 @@ describe('Searchkit block tests – search', () => {
     cy.autologin();
 
     cy.visit('/suche');
-    cy.wait(5000);
+    cy.wait(3000);
     // cy.wait('@kitsearch');
   });
 
@@ -71,6 +71,28 @@ describe('Searchkit block tests – search', () => {
     cy.removeContent({ path: 'suche' });
     cy.removeContent({ path: 'testseite-mann' });
     cy.removeContent({ path: 'testseite-manner' });
+  });
+
+  // Blocks text
+  it('I can search in blocks', function () {
+    cy.visit('/garten-blog/februar/edit');
+    cy.wait('@schema');
+
+    // TODO
+    cy.getSlate().click();
+    cy.log('when I add a text block');
+    cy.getSlateEditorAndType('Montags gehen wir in den Zoo.').contains('Montags gehen wir in den Zoo.');
+    // cy.toolbarSave();
+    cy.get('#toolbar-save').click();
+    cy.wait('@content');
+
+    cy.log('I added a text block');
+
+    // Searching
+    cy.visit('/suche');
+    cy.wait(3000);
+    cy.get('.searchbar-wrapper input').type('Montag{enter}');
+    cy.get('.block.searchkitsearch').contains('Der Garten im Februar');
   });
 
   it('I see all if no filter selected', function () {
@@ -113,4 +135,5 @@ describe('Searchkit block tests – search', () => {
     cy.get('.searchbar-wrapper input').clear().type('"Mann"{enter}');
     cy.get('.block.searchkitsearch').should('not.contain', 'Männer');
   });
+
 });
