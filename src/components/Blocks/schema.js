@@ -141,7 +141,7 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
           'Type fieldnames to search in field names. Type title^1.4 to boost the title 40%.',
         type: 'array',
         creatable: true,
-        default: ['title^1.4', 'description^1.2'],
+        default: ['title^1.4', 'description^1.2', 'blocks_plaintext'],
       },
       facet_fields: {
         title: 'Facets',
