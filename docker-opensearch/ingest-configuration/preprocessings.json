@@ -85,7 +85,7 @@
         "comment": "If Volto is available, this is important for full text search, do not remove unless in Classic UI only environments",
         "action": "rewrite",
         "configuration": {
-            "source": "@components/blocks_plaintext",
+            "source": "@components/collectiveelastic/blocks_plaintext",
             "target": "blocks_plaintext",
             "enforce": false
         }
@@ -229,6 +229,14 @@
             "section": "behaviors",
             "name": "plone.layoutaware",
             "field": "sectionSiteLayout"
+        }
+    },
+    {
+        "comment": "Fix field type of review_state to keyword",
+        "action": "additional_schema",
+        "configuration": {
+        "name": "review_state",
+        "field": "zope.schema._field.ASCIILine"
         }
     }
 ]
