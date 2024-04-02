@@ -1,5 +1,5 @@
 {
-    "behaviors/plone.basic/title": {
+    "zope.schema._bootstrapfields.Text": {
         "type": "text",
         "analyzer": "german_analyzer",
         "term_vector": "with_positions_offsets",
@@ -11,7 +11,7 @@
             }
         }
     },
-    "behaviors/plone.basic/description": {
+    "zope.schema._bootstrapfields.TextLine": {
         "type": "text",
         "analyzer": "german_analyzer",
         "term_vector": "with_positions_offsets",
@@ -32,24 +32,13 @@
                 "type": "text",
                 "analyzer": "german_exact_analyzer",
                 "term_vector": "with_positions_offsets"
+            },
+            "keyword": {
+                "type": "keyword"
             }
         }
     },
-    "behaviors/rohberg.elasticsearchblocks.elastic_search_blocks/blocks_plaintext": {
-        "type": "text",
-        "analyzer": "german_analyzer",
-        "term_vector": "with_positions_offsets",
-        "fields": {
-            "exact": {
-                "type": "text",
-                "analyzer": "german_exact_analyzer",
-                "term_vector": "with_positions_offsets"
-            }
-        }
-    },
-    "behaviors/plone.allowdiscussion/allow_discussion": {
-        "type": "boolean"
-    },
+
     "plone.app.textfield.RichText": {
         "pipeline": {
             "source": "{name}__data",
@@ -341,35 +330,12 @@
             }
         }
     },
+
     "zope.schema._bootstrapfields.Bool": {
         "type": "boolean"
     },
     "zope.schema._bootstrapfields.Int": {
         "type": "long"
-    },
-    "zope.schema._bootstrapfields.Text": {
-        "type": "text",
-        "analyzer": "german_analyzer",
-        "term_vector": "with_positions_offsets",
-        "fields": {
-            "exact": {
-                "type": "text",
-                "analyzer": "german_exact_analyzer",
-                "term_vector": "with_positions_offsets"
-            }
-        }
-    },
-    "zope.schema._bootstrapfields.TextLine": {
-        "type": "text",
-        "analyzer": "german_analyzer",
-        "term_vector": "with_positions_offsets",
-        "fields": {
-            "exact": {
-                "type": "text",
-                "analyzer": "german_exact_analyzer",
-                "term_vector": "with_positions_offsets"
-            }
-        }
     },
     "zope.schema._field.ASCIILine": {
         "type": "keyword"
