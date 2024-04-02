@@ -70,7 +70,7 @@ services:
       CORS_: true
       ADDONS: "collective.elastic.plone[redis,opensearch]==2.0.1"
       PROFILES: "collective.elastic.plone:default"
-      DELETE_EXISTING: True
+      DELETE_EXISTING: False
     ports:
       - 8080:8080
     networks:
