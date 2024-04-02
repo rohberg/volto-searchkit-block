@@ -55,17 +55,22 @@ build-addon: ## Build Addon dev
 	@echo "$(GREEN)==> Build Addon development container $(RESET)"
 	${DOCKER_COMPOSE} build addon-dev
 
-.PHONY: start-dev
-start-dev: ## Starts Dev container
+.PHONY: start-addon
+start-addon: ## Starts Dev container
 	@echo "$(GREEN)==> Start Addon Development container $(RESET)"
 	${DOCKER_COMPOSE} up addon-dev
 
 # TODO Check if 'make dev' is OK for trying the searchkit block
 # TODO Add example content: plone.exportimport https://plone.github.io/plone.exportimport/features.html#plone-importer
 .PHONY: dev
-dev: ## Develop the addon
+dev: ## Build and start development/demo environment
 	@echo "$(GREEN)==> Build and start development environment $(RESET)"
 	${DOCKER_COMPOSE} --profile dev build
+	${DOCKER_COMPOSE} --profile dev up
+
+.PHONY: dev-start
+dev-start: ## Start development/demo environment without rebuilding images
+	@echo "$(GREEN)==> Start development environment without rebuilding images $(RESET)"
 	${DOCKER_COMPOSE} --profile dev up
 
 
