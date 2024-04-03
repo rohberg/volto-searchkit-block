@@ -37,6 +37,16 @@ describe('Searchkit block tests – search', () => {
       contentId: 'testseite-manner',
       contentTitle: 'Testseite Männer',
     });
+    cy.createContent({
+      contentType: 'Document',
+      contentId: 'testseite-lsb',
+      contentTitle: 'Testseite Lehrstellenbörsen',
+    });
+    cy.createContent({
+      contentType: 'Document',
+      contentId: 'testseite-s',
+      contentTitle: 'Testseite Stelle',
+    });
 
     cy.visit('/suche/edit');
     cy.wait('@schema');
@@ -71,29 +81,10 @@ describe('Searchkit block tests – search', () => {
     cy.removeContent({ path: 'suche' });
     cy.removeContent({ path: 'testseite-mann' });
     cy.removeContent({ path: 'testseite-manner' });
+    cy.removeContent({ path: 'testseite-lsb' });
+    cy.removeContent({ path: 'testseite-s' });
   });
 
-  // Blocks text
-  it('I can search in blocks', function () {
-    cy.visit('/garten-blog/februar/edit');
-    cy.wait('@schema');
-
-    // TODO
-    cy.getSlate().click();
-    cy.log('when I add a text block');
-    cy.getSlateEditorAndType('Montags gehen wir in den Zoo.').contains('Montags gehen wir in den Zoo.');
-    // cy.toolbarSave();
-    cy.get('#toolbar-save').click();
-    cy.wait('@content');
-
-    cy.log('I added a text block');
-
-    // Searching
-    cy.visit('/suche');
-    cy.wait(3000);
-    cy.get('.searchbar-wrapper input').type('Montag{enter}');
-    cy.get('.block.searchkitsearch').contains('Der Garten im Februar');
-  });
 
   it('I see all if no filter selected', function () {
     cy.get('.block.searchkitsearch').contains('Der Garten im Februar');
@@ -134,6 +125,38 @@ describe('Searchkit block tests – search', () => {
     cy.get('.block.searchkitsearch').contains('Testseite Mann');
     cy.get('.searchbar-wrapper input').clear().type('"Mann"{enter}');
     cy.get('.block.searchkitsearch').should('not.contain', 'Männer');
+  });
+
+  it('I can search for a compounded word', function () {
+    cy.get('.searchbar-wrapper input').type('stelle{enter}');
+    cy.get('.block.searchkitsearch').contains('Testseite Lehrstellenbörsen');
+    cy.get('.searchbar-wrapper input').clear().type('Lehre{enter}');
+    cy.get('.block.searchkitsearch').contains('Testseite Lehrstellenbörsen');
+    cy.get('.searchbar-wrapper input').clear().type('Börse{enter}');
+    cy.get('.block.searchkitsearch').contains('Testseite Lehrstellenbörsen');
+    cy.get('.searchbar-wrapper input').clear().type('Lehrstellenbörse{enter}');
+    cy.get('.block.searchkitsearch').contains('Testseite Stelle');
+  });
+
+  // Blocks text
+  it('I can search in blocks', function () {
+    cy.visit('/garten-blog/februar/edit');
+    cy.wait('@schema');
+
+    cy.getSlate().click();
+    cy.log('when I add a text block');
+    cy.getSlateEditorAndType('Montags gehen wir in den Zoo.').contains('Montags gehen wir in den Zoo.');
+    // cy.toolbarSave();
+    cy.get('#toolbar-save').click();
+    cy.wait('@content');
+
+    cy.log('I added a text block');
+
+    // Searching
+    cy.visit('/suche');
+    cy.wait(3000);
+    cy.get('.searchbar-wrapper input').type('Montag{enter}');
+    cy.get('.block.searchkitsearch').contains('Der Garten im Februar');
   });
 
 });
