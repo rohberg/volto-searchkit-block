@@ -1,23 +1,4 @@
 [
-
-  {
-    "comment": "... needs this information, essential rewrite, do not remove",
-    "action": "rewrite",
-    "configuration": {
-      "source": "@components/collectiveelastic/section_id",
-      "target": "section",
-      "enforce": true
-    }
-  },
-  {
-    "comment": "Schema for above section_id, do not remove",
-    "action": "additional_schema",
-    "configuration": {
-      "name": "section",
-      "field": "zope.schema._field.ASCIILine"
-    }
-  },
-
     {
         "comment": "Remove all empty fields.",
         "action": "remove_empty"
@@ -96,6 +77,23 @@
         "configuration": {
             "name": "blocks_plaintext",
             "field": "zope.schema._bootstrapfields.Text"
+        }
+    },
+    {
+        "comment": "... needs this information, essential rewrite, do not remove",
+        "action": "rewrite",
+        "configuration": {
+        "source": "@components/collectiveelastic/section_id",
+        "target": "section",
+        "enforce": true
+        }
+    },
+    {
+        "comment": "Schema for above section_id, do not remove",
+        "action": "additional_schema",
+        "configuration": {
+        "name": "section",
+        "field": "zope.schema._field.ASCIILine"
         }
     },
     {
