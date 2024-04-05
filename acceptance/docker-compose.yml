@@ -20,8 +20,8 @@ services:
       - 3000:3000
       - 3001:3001
     tty: true
-    depends_on:
-      - backend-acceptance
+    # depends_on:
+    #   - backend-acceptance
     profiles:
       - dev
 
