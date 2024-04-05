@@ -22,6 +22,10 @@ const messages = defineMessages({
     id: 'Facet',
     defaultMessage: 'Facet',
   },
+  item: {
+    id: 'Item',
+    defaultMessage: 'Item',
+  },
   label: {
     id: 'Label',
     defaultMessage: 'Label',
