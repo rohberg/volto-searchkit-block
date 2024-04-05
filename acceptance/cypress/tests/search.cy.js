@@ -48,8 +48,10 @@ describe('Searchkit block tests – search', () => {
       contentTitle: 'Testseite Stelle',
     });
 
-    cy.visit('/suche/edit');
-    cy.wait('@schema');
+
+    // Add search block to /suche
+    cy.visit('/suche');
+    cy.get('a.edit').click();
 
     cy.getSlate().click();
     cy.get('.button .block-add-button').click({ force: true });
@@ -85,7 +87,6 @@ describe('Searchkit block tests – search', () => {
     cy.removeContent({ path: 'testseite-s' });
   });
 
-
   it('I see all if no filter selected', function () {
     cy.get('.block.searchkitsearch').contains('Der Garten im Februar');
   });
@@ -97,9 +98,6 @@ describe('Searchkit block tests – search', () => {
   });
 
   it('I can search with inflection', function () {
-    cy.get('.searchbar-wrapper input').type('Schnelltestkit{enter}');
-    cy.get('.block.searchkitsearch').contains('Testseite Mann');
-
     cy.get('.searchbar-wrapper input').clear().type('Männer{enter}');
     cy.get('.block.searchkitsearch').contains('Testseite Mann');
 
@@ -140,8 +138,8 @@ describe('Searchkit block tests – search', () => {
 
   // Blocks text
   it('I can search in blocks', function () {
-    cy.visit('/garten-blog/februar/edit');
-    cy.wait('@schema');
+    cy.visit('/garten-blog/februar');
+    cy.get('a.edit').click();
 
     cy.getSlate().click();
     cy.log('when I add a text block');

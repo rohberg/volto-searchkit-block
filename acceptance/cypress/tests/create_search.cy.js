@@ -50,8 +50,8 @@ describe('Searchkit block tests- create search ', () => {
   });
 
   it('As manager I can add a searchkit-block and find a documunt', function () {
-    cy.navigate('/searching/edit');
-    cy.wait('@schema');
+    cy.visit('/searching');
+    cy.get('a.edit').click();
 
     cy.getSlate().click();
     cy.get('.button .block-add-button').click({ force: true });

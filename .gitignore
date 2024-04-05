@@ -117,6 +117,7 @@ api/constraints-mxdev.txt
 api/requirements-mxdev.txt
 development-searchkitblock/celery/venv/
 development-searchkitblock/celery/sources/
+acceptance/cypress/screenshots/
 build/
 .yarn/
 yarn.lock
