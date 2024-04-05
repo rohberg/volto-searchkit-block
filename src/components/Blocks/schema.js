@@ -5,7 +5,7 @@ import {
 import messages from '../../messages';
 
 const FacetSchema = ({ intl }) => ({
-  title: intl.formatMessage(messages.facet),
+  title: intl.formatMessage(messages.item),
   fieldsets: [
     {
       id: 'default',
@@ -83,16 +83,16 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
       },
     ],
     properties: {
-      elastic_search_api_url: {
-        title:
-          '(deprecated) (Set in collective.elastic environment variable) Elastic Search API URL',
-        default: 'http://localhost:9200',
-      },
-      elastic_search_api_index: {
-        title:
-          '(deprecated) (Set in collective.elastic environment variable) Elastic Search API Index',
-        default: 'esploneindex',
-      },
+      // elastic_search_api_url: {
+      //   title:
+      //     '(deprecated) (Set in collective.elastic environment variable) Elastic Search API URL',
+      //   default: 'http://localhost:9200',
+      // },
+      // elastic_search_api_index: {
+      //   title:
+      //     '(deprecated) (Set in collective.elastic environment variable) Elastic Search API Index',
+      //   default: 'esploneindex',
+      // },
       backend_url: {
         title: 'Backend URL',
         default: 'http://localhost:8080/Plone',

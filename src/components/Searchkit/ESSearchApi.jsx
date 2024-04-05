@@ -9,8 +9,8 @@ export class PloneSearchApi {
     this.validateFetchConfig();
     this.initSerializers(config);
     this.search = this.search.bind(this);
-    this.elastic_search_api_url = config.elastic_search_api_url;
-    this.elastic_search_api_index = config.elastic_search_api_index;
+    // this.elastic_search_api_url = config.elastic_search_api_url;
+    // this.elastic_search_api_index = config.elastic_search_api_index;
   }
 
   validateFetchConfig() {
@@ -57,8 +57,8 @@ export class PloneSearchApi {
         headers: this.fetchConfig.headers,
         body: JSON.stringify({
           elasticsearch_payload: payload,
-          elasticsearch_url: this.elastic_search_api_url,
-          elasticsearch_index: this.elastic_search_api_index,
+          // elasticsearch_url: this.elastic_search_api_url,
+          // elasticsearch_index: this.elastic_search_api_index,
         }),
       });
       // let results = await this.responseSerializer.serialize(response.data);

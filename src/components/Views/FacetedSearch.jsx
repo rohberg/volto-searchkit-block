@@ -80,8 +80,8 @@ export const ploneSearchApi = (data) => {
     search_sections: data.search_sections,
     backend_url: data.backend_url,
     frontend_url: data.frontend_url,
-    elastic_search_api_url: data.elastic_search_api_url,
-    elastic_search_api_index: data.elastic_search_api_index,
+    // elastic_search_api_url: data.elastic_search_api_url,
+    // elastic_search_api_index: data.elastic_search_api_index,
   });
 };
 
@@ -389,7 +389,7 @@ const CustomBucketAggregationElement = (props) => {
   };
 
   const dropdowntitle =
-    title + (selectedFilters.length > 0 ? ` [${selectedFilters.length}]` : '');
+    title || fieldname + (selectedFilters.length > 0 ? ` [${selectedFilters.length}]` : '');
 
   return containerCmp ? (
     <div className="bucketAE">
