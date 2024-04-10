@@ -113,12 +113,12 @@ start-acceptance: ## Start acceptance server-containers
 
 .PHONY: test-acceptance
 test-acceptance: ## Start Cypress
-	(cd acceptance && ./node_modules/.bin/cypress open --config-file tests/cypress.singlelingual.config.js)
+	(cd acceptance && ./node_modules/.bin/cypress open --config-file tests/cypress.config.js)
 
 .PHONY: test-acceptance-headless
 # test-acceptance-headless: install-acceptance ## Run cypress tests in CI
 test-acceptance-headless: ## Run cypress tests in CI
-	(cd acceptance && ./node_modules/.bin/cypress run --config-file tests/cypress.singlelingual.config.js)
+	(cd acceptance && ./node_modules/.bin/cypress run --config-file tests/cypress.config.js)
 
 .PHONY: stop-test-acceptance-server
 stop-test-acceptance-server: ## Stop acceptance server
