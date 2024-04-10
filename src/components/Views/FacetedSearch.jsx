@@ -57,7 +57,7 @@ import './less/springisnow-volto-searchkit-block.less';
 import config from '@plone/volto/registry';
 
 // TODO Make reviewstatemapping configurable
-export const ploneSearchApi = (data) => {
+export const ploneSearchApi = (data, language='en') => {
   const cookies = new Cookies();
   const authToken = cookies.get('auth_token');
   return new PloneSearchApi({
@@ -78,6 +78,7 @@ export const ploneSearchApi = (data) => {
     allowed_content_types: data.allowed_content_types,
     allowed_review_states: data.allowed_review_states,
     search_sections: data.search_sections,
+    language: language,
     backend_url: data.backend_url,
     frontend_url: data.frontend_url,
     // elastic_search_api_url: data.elastic_search_api_url,
@@ -708,6 +709,7 @@ const FacetedSearch = ({ data, overriddenComponents }) => {
   };
 
   // TODO Check if check on client could be made simpler
+  const language = useSelector((state) => state.intl.locale);
   const [isClient, setIsClient] = React.useState(null);
   React.useEffect(() => setIsClient(true), []);
 
@@ -716,7 +718,7 @@ const FacetedSearch = ({ data, overriddenComponents }) => {
       {isClient && (
         <OverridableContext.Provider value={overriddenComponents}>
           <ReactSearchKit
-            searchApi={ploneSearchApi(data)}
+            searchApi={ploneSearchApi(data, language)}
             eventListenerEnabled={true}
             initialQueryState={{
               ...initialState,

@@ -37,6 +37,7 @@ export class PloneSearchApi {
       allowed_content_types: config.allowed_content_types,
       allowed_review_states: config.allowed_review_states,
       search_sections: config.search_sections,
+      language: config.language,
     });
     this.responseSerializer = new responseSerializerCls({
       backend_url: config.backend_url,

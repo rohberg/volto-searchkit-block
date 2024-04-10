@@ -9,6 +9,7 @@ export class CustomESRequestSerializer {
     this.allowed_content_types = config.allowed_content_types;
     this.allowed_review_states = config.allowed_review_states;
     this.search_sections = config.search_sections;
+    this.language = config.language;
   }
   /**
    * Convert Array of filters to Object of filters
@@ -258,6 +259,11 @@ export class CustomESRequestSerializer {
 
     // Generate terms of global filters
     let terms = [];
+    terms.push({
+      terms: {
+        language: [this.language], // TODO language
+      },
+    });
     this.allowed_content_types?.length > 0 &&
       terms.push({
         terms: {
