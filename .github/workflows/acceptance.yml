@@ -52,11 +52,27 @@ jobs:
           parallel: false
           browser: chrome
           working-directory: acceptance
-          spec: cypress/tests/*.cy.js
+          spec: cypress/tests/*.singlelingual.cy.js
           install: false
           start: |
             docker compose -f ci.yml --profile prod up
           wait-on: 'npx wait-on --httpTimeout 20000 http-get://localhost:55001/plone http://localhost:3000 http://localhost:9200'
+
+      - name: "Cypress: Acceptance tests multilingual"
+        uses: cypress-io/github-action@v6
+        env:
+          BABEL_ENV: production
+          CYPRESS_RETRIES: 2
+        with:
+          parallel: false
+          browser: chrome
+          working-directory: acceptance
+          spec: cypress/tests/*.multilingual.cy.js
+          install: false
+          start: |
+            docker compose -f ci.yml --profile multilingual up
+          wait-on: 'npx wait-on --httpTimeout 20000 http-get://localhost:55001/plone http://localhost:3000 http://localhost:9200'
+
 
       # Upload Cypress screenshots
       - uses: actions/upload-artifact@v4

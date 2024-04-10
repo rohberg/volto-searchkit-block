@@ -22,10 +22,11 @@ YELLOW=`tput setaf 3`
 BACKEND_ADDONS='collective.elastic.plone ${KGS} $(TESTING_ADDONS)'
 DEV_COMPOSE=dockerfiles/docker-compose.yml
 ACCEPTANCE_COMPOSE=acceptance/docker-compose.yml
-CMD=CURRENT_DIR=${CURRENT_DIR} ADDON_NAME=${ADDON_NAME} ADDON_PATH=${ADDON_PATH} VOLTO_VERSION=${VOLTO_VERSION} PLONE_VERSION=${PLONE_VERSION} BACKEND_ADDONS=${BACKEND_ADDONS} docker compose
+CMD_ENVS=CURRENT_DIR=${CURRENT_DIR} ADDON_NAME=${ADDON_NAME} ADDON_PATH=${ADDON_PATH} VOLTO_VERSION=${VOLTO_VERSION} PLONE_VERSION=${PLONE_VERSION} BACKEND_ADDONS=${BACKEND_ADDONS}
+CMD=${CMD_ENVS} docker compose
 DOCKER_COMPOSE=${CMD} -p ${ADDON_PATH} -f ${DEV_COMPOSE}
 ACCEPTANCE=${CMD} -p ${ADDON_PATH}-acceptance -f ${ACCEPTANCE_COMPOSE}
-
+ACCEPTANCE_MULTILINGUAL=${CMD} -p ${ADDON_PATH}-acceptance-multilingual -f ${ACCEPTANCE_COMPOSE}
 
 .PHONY: all
 all: help
@@ -104,7 +105,7 @@ test-ci: ## Run unit tests in CI
 .PHONY: build-acceptance
 build-acceptance: ## Install Cypress, build containers
 	(cd acceptance && yarn)
-	${ACCEPTANCE} --profile dev build
+	${ACCEPTANCE} --profile dev build --no-cache
 
 .PHONY: start-acceptance-containers
 start-acceptance: ## Start acceptance server-containers
@@ -112,12 +113,12 @@ start-acceptance: ## Start acceptance server-containers
 
 .PHONY: test-acceptance
 test-acceptance: ## Start Cypress
-	(cd acceptance && ./node_modules/.bin/cypress open)
+	(cd acceptance && ./node_modules/.bin/cypress open --config-file tests/cypress.singlelingual.config.js)
 
 .PHONY: test-acceptance-headless
 # test-acceptance-headless: install-acceptance ## Run cypress tests in CI
 test-acceptance-headless: ## Run cypress tests in CI
-	(cd acceptance && ./node_modules/.bin/cypress run)
+	(cd acceptance && ./node_modules/.bin/cypress run --config-file tests/cypress.singlelingual.config.js)
 
 .PHONY: stop-test-acceptance-server
 stop-test-acceptance-server: ## Stop acceptance server
@@ -126,3 +127,25 @@ stop-test-acceptance-server: ## Stop acceptance server
 .PHONY: status-test-acceptance-server
 status-test-acceptance-server: ## Status of Acceptance Server
 	${ACCEPTANCE} ps
+
+
+# Acceptance multilingual
+.PHONY: build-acceptance-multilingual
+build-acceptance-multilingual: ## multilingual – Install Cypress, build containers for multilingual site
+	(cd acceptance && yarn)
+	@echo ${PLONE_VERSION}
+	@echo ${ACCEPTANCE_MULTILINGUAL}
+	${ACCEPTANCE_MULTILINGUAL} --profile multilingual build --no-cache
+
+.PHONY: start-acceptance-containers-multilingual
+start-acceptance-multilingual: ## multilingual – Start acceptance server-containers for multilingual siet
+	${ACCEPTANCE_MULTILINGUAL} --profile multilingual up -d --force-recreate
+
+.PHONY: test-acceptance
+test-acceptance-multilingual: ## Start Cypress
+	(cd acceptance && ./node_modules/.bin/cypress open --config-file tests/cypress.multilingual.config.js)
+
+.PHONY: test-acceptance-headless
+# test-acceptance-headless: install-acceptance ## Run cypress tests in CI
+test-acceptance-headless-multilingual: ## Run cypress tests in CI
+	(cd acceptance && ./node_modules/.bin/cypress run --config-file tests/cypress.multilingual.config.js)
