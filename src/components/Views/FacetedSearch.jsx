@@ -57,7 +57,7 @@ import './less/springisnow-volto-searchkit-block.less';
 import config from '@plone/volto/registry';
 
 // TODO Make reviewstatemapping configurable
-export const ploneSearchApi = (data, language='en') => {
+export const ploneSearchApi = (data, language) => {
   const cookies = new Cookies();
   const authToken = cookies.get('auth_token');
   return new PloneSearchApi({
@@ -709,7 +709,7 @@ const FacetedSearch = ({ data, overriddenComponents }) => {
   };
 
   // TODO Check if check on client could be made simpler
-  const language = useSelector((state) => state.intl.locale);
+  const language = useSelector((state) => config.settings.isMultilingual ? state.intl.locale : null);
   const [isClient, setIsClient] = React.useState(null);
   React.useEffect(() => setIsClient(true), []);
 

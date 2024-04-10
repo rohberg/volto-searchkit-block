@@ -259,9 +259,9 @@ export class CustomESRequestSerializer {
 
     // Generate terms of global filters
     let terms = [];
-    terms.push({
+    this.language && terms.push({
       terms: {
-        language: [this.language], // TODO language
+        language: [this.language],
       },
     });
     this.allowed_content_types?.length > 0 &&
