@@ -23,7 +23,7 @@ describe('Searchkit block tests – search - multilingual', () => {
       contentType: 'Document',
       contentId: 'der-garten-im-februar',
       contentTitle: 'Der Garten im Februar',
-      path: '/de',
+      path: '/it',
     });
 
 
@@ -56,7 +56,7 @@ describe('Searchkit block tests – search - multilingual', () => {
   after(() => {
     cy.removeContent({ path: 'en/garden-in-february' });
     cy.removeContent({ path: 'en/searching' });
-    cy.removeContent({ path: 'de/der-garten-im-februar' });
+    cy.removeContent({ path: 'it/der-garten-im-februar' });
   });
 
 
