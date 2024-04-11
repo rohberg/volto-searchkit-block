@@ -1,9 +1,10 @@
 # syntax=docker/dockerfile:1
 # Dockerfile from cookiecutter-plone-starter
 # APPLY_PROFILES … plone.volto:multilingual
+# Run robotserver verbose
 
 ARG PLONE_VERSION=6.0
-ARG SEED=1
+ARG SEED=4
 FROM plone/server-builder:${PLONE_VERSION} as builder
 
 WORKDIR /app
@@ -29,3 +30,9 @@ RUN <<EOT
     SEED=${SEED}
     ln -s /data /app/var
 EOT
+
+
+# # Run VOLTO_ROBOT_TESTING by default
+# # Change: do it verbose
+# ENTRYPOINT [ "/app/bin/robot-server plone.app.robotframework.testing.VOLTO_ROBOT_TESTING -vvv" ]
+# CMD []
