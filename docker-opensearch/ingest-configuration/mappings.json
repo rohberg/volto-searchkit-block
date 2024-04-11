@@ -1,36 +1,81 @@
 {
     "zope.schema._bootstrapfields.Text": {
         "type": "text",
-        "analyzer": "german_analyzer",
+        "analyzer": "english_analyzer",
         "term_vector": "with_positions_offsets",
         "fields": {
-            "exact": {
+            "de": {
+                "type": "text",
+                "analyzer": "german_analyzer",
+                "term_vector": "with_positions_offsets"
+            },
+            "de_exact": {
                 "type": "text",
                 "analyzer": "german_exact_analyzer",
+                "term_vector": "with_positions_offsets"
+            },
+            "en": {
+                "type": "text",
+                "analyzer": "english_analyzer",
+                "term_vector": "with_positions_offsets"
+            },
+            "en_exact": {
+                "type": "text",
+                "analyzer": "english_exact_analyzer",
                 "term_vector": "with_positions_offsets"
             }
         }
     },
     "zope.schema._bootstrapfields.TextLine": {
         "type": "text",
-        "analyzer": "german_analyzer",
+        "analyzer": "english_analyzer",
         "term_vector": "with_positions_offsets",
         "fields": {
-            "exact": {
+            "de": {
+                "type": "text",
+                "analyzer": "german_analyzer",
+                "term_vector": "with_positions_offsets"
+            },
+            "de_exact": {
                 "type": "text",
                 "analyzer": "german_exact_analyzer",
+                "term_vector": "with_positions_offsets"
+            },
+            "en": {
+                "type": "text",
+                "analyzer": "english_analyzer",
+                "term_vector": "with_positions_offsets"
+            },
+            "en_exact": {
+                "type": "text",
+                "analyzer": "english_exact_analyzer",
                 "term_vector": "with_positions_offsets"
             }
         }
     },
     "behaviors/plone.categorization/subjects": {
         "type": "text",
-        "analyzer": "german_analyzer",
+        "analyzer": "english_analyzer",
         "term_vector": "with_positions_offsets",
         "fields": {
-            "exact": {
+            "de": {
+                "type": "text",
+                "analyzer": "german_analyzer",
+                "term_vector": "with_positions_offsets"
+            },
+            "de_exact": {
                 "type": "text",
                 "analyzer": "german_exact_analyzer",
+                "term_vector": "with_positions_offsets"
+            },
+            "en": {
+                "type": "text",
+                "analyzer": "english_analyzer",
+                "term_vector": "with_positions_offsets"
+            },
+            "en_exact": {
+                "type": "text",
+                "analyzer": "english_exact_analyzer",
                 "term_vector": "with_positions_offsets"
             },
             "keyword": {
