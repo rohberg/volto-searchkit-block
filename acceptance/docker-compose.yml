@@ -36,7 +36,7 @@ services:
     volumes:
       - ${CURRENT_DIR}:/app/src/addons/${ADDON_PATH}/
     environment:
-      RAZZLE_INTERNAL_API_PATH: http://backend-acceptance:55001/plone
+      RAZZLE_INTERNAL_API_PATH: http://backend-acceptance-multilingual:55001/plone
       RAZZLE_API_PATH: http://localhost:55001/plone
       HOST: 0.0.0.0
     ports:
@@ -84,7 +84,7 @@ services:
       ZSERVER_PORT: "55001"
       CELERY_BROKER: ${CELERY_BROKER?unset}
       INDEX_SERVER: ${INDEX_SERVER?unset}
-      INDEX_NAME: ${INDEX_NAME?unset}
+      INDEX_NAME: multilingual
       INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
       INDEX_USE_SSL: ${INDEX_USE_SSL?unset}
       INDEX_LOGIN: ${INDEX_LOGIN?unset}
@@ -113,6 +113,30 @@ services:
       CELERY_CONCURRENCY: ${CELERY_CONCURRENCY:-1}
       CELEREY_LOG_LEVEL: ${CELERY_LOG_LEVEL:-info}
       PLONE_SERVICE: ${PLONE_SERVICE?unset}
+      PLONE_SITE_PREFIX_PATH: ${PLONE_SITE_PREFIX_PATH?unset}
+      PLONE_USER: ${PLONE_USER?unset}
+      PLONE_PASSWORD: ${PLONE_PASSWORD?unset}
+      SENTRY_DSN: ${SENTRY_DSN}
+    volumes:
+      - ingest-configuration:/configuration
+
+  ingest-multilingual:
+    image: ghcr.io/collective/collective.elastic.ingest:latest
+    environment:
+      # Different INDEX_NAME
+      MAPPINGS_FILE: ${MAPPINGS_FILE}
+      ANALYSIS_FILE: ${ANALYSIS_FILE}
+      PREPROCESSINGS_FILE: ${PREPROCESSINGS_FILE}
+      INDEX_SERVER: ${INDEX_SERVER?unset}
+      INDEX_NAME: multilingual
+      INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
+      INDEX_USE_SSL: ${INDEX_USE_SSL?unset}
+      INDEX_LOGIN: ${INDEX_LOGIN?unset}
+      INDEX_PASSWORD: ${INDEX_PASSWORD?unset}
+      CELERY_BROKER: ${CELERY_BROKER?unset}
+      CELERY_CONCURRENCY: ${CELERY_CONCURRENCY:-1}
+      CELEREY_LOG_LEVEL: ${CELERY_LOG_LEVEL:-info}
+      PLONE_SERVICE: http://backend-acceptance-multilingualela:55001
       PLONE_SITE_PREFIX_PATH: ${PLONE_SITE_PREFIX_PATH?unset}
       PLONE_USER: ${PLONE_USER?unset}
       PLONE_PASSWORD: ${PLONE_PASSWORD?unset}
