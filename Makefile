@@ -35,7 +35,6 @@ all: help
 help:		## Show this help.
 	@echo -e "$$(grep -hE '^\S+:.*##' $(MAKEFILE_LIST) | sed -e 's/:.*##\s*/:/' -e 's/^\(.\+\):\(.*\)/\\x1b[36m\1\\x1b[m:\2/' | column -c2 -t -s :)"
 
-# TODO Add backend-addons
 .PHONY: build-backend
 build-backend: ## Build
 	@echo "$(GREEN)==> Build Backend Container $(RESET)"

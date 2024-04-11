@@ -50,9 +50,7 @@ const ItemSchema = ({ intl }) => {
   };
 };
 
-// TODO defaultData
 const SearchSectionsWidget = (props) => {
-  // TODO intl
   return (
     <ObjectListWidget
       schema={ItemSchema}
