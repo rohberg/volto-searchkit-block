@@ -149,11 +149,17 @@ export class CustomESRequestSerializer {
         _make_fuzzy_and_enrich_with_word_parts(word);
       });
 
+      // fields with boosting
       let searchedFields = [...this.searchedFields];
-      let searchedFields_exact = [...this.searchedFields];
-      searchedFields_exact = searchedFields_exact.map((fld) => {
+      
+      let searchedFields_simple = searchedFields.map((fld) => {
         const fieldname = fld.split('^')[0];
-        return fld.replace(fieldname, `${fieldname}.exact`);
+        return fld.replace(fieldname, `${fieldname}.${this.language}`);
+      });
+
+      let searchedFields_exact = searchedFields.map((fld) => {
+        const fieldname = fld.split('^')[0];
+        return fld.replace(fieldname, `${fieldname}.${this.language}_exact`);
       });
 
       // Construction of query
@@ -165,7 +171,7 @@ export class CustomESRequestSerializer {
         shouldList.push({
           query_string: {
             query: element,
-            fields: searchedFields,
+            fields: searchedFields_simple,
           },
         });
       });
@@ -182,7 +188,7 @@ export class CustomESRequestSerializer {
         mustList.push({
           query_string: {
             query: el,
-            fields: searchedFields,
+            fields: searchedFields_simple,
           },
         });
       });
@@ -213,26 +219,14 @@ export class CustomESRequestSerializer {
 
       bodyParams['highlight'] = {
         number_of_fragments: 20,
-        fields: [
-          {
-            title: {
-              matched_fields: ['title', 'title.exact'],
+        fields: ['title', 'description', 'blocks_plaintext'].map(fieldname => {
+          return {
+            [fieldname]: {
+              matched_fields: [`${fieldname}.${this.language}`, `${fieldname}.${this.language}_exact`],
               type: 'fvh',
             },
-          },
-          {
-            description: {
-              matched_fields: ['description', 'description.exact'],
-              type: 'fvh',
-            },
-          },
-          {
-            blocks_plaintext: {
-              matched_fields: ['blocks_plaintext', 'blocks_plaintext.exact'],
-              type: 'fvh',
-            },
-          },
-        ],
+          }
+        })
       };
     }
 
@@ -259,6 +253,7 @@ export class CustomESRequestSerializer {
 
     // Generate terms of global filters
     let terms = [];
+    // If isMultilingual, search only in language
     this.language && terms.push({
       terms: {
         language: [this.language],
