@@ -170,8 +170,6 @@ services:
         hard: 65536
     volumes:
       - opensearch-data:/usr/share/opensearch/data
-      - "../docker-opensearch/opensearch-configuration/keywords.txt:/usr/share/opensearch/config/keywords.txt"
-      - "../docker-opensearch/opensearch-configuration/lexicon.txt:/usr/share/opensearch/config/lexicon.txt"
     ports:
       - 9200:9200 # REST API
       - 9600:9600 # Performance Analyzer
@@ -212,11 +210,3 @@ volumes:
       type: none
       device: ../docker-opensearch/ingest-configuration
       o: bind
-  # opensearch-configuration:
-  #   driver: local
-  #   driver_opts:
-  #     type: none
-  #     device: ./opensearch-configuration
-  #     o: bind
-
-
