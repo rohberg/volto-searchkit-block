@@ -1,6 +1,10 @@
 import { extend, isEmpty, keyBy, trim } from 'lodash';
 import { getObjectFromObjectList } from '../helpers.jsx';
 
+import config from '@plone/volto/registry';
+
+const volto_config = config;
+
 export class CustomESRequestSerializer {
   constructor(config) {
     this.reviewstatemapping = config.reviewstatemapping;
@@ -254,7 +258,8 @@ export class CustomESRequestSerializer {
     // Generate terms of global filters
     let terms = [];
     // If isMultilingual, search only in language
-    this.language && terms.push({
+  
+    this.language && volto_config.settings.isMultilingual && terms.push({
       terms: {
         language: [this.language],
       },

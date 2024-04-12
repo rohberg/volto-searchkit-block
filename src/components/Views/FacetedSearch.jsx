@@ -709,7 +709,7 @@ const FacetedSearch = ({ data, overriddenComponents }) => {
   };
 
   // TODO Check if check on client could be made simpler
-  const language = useSelector((state) => config.settings.isMultilingual ? state.intl.locale : null);
+  const language = useSelector((state) => state.intl.locale);
   const [isClient, setIsClient] = React.useState(null);
   React.useEffect(() => setIsClient(true), []);
 
