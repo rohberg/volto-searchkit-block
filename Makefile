@@ -112,12 +112,12 @@ start-acceptance: ## Start acceptance server-containers
 
 .PHONY: test-acceptance
 test-acceptance: ## Start Cypress
-	(cd acceptance && ./node_modules/.bin/cypress open --config-file cypress.singlelingual.config.js)
+	(cd acceptance && ./node_modules/.bin/cypress open --config-file cypress.monolingual.config.js)
 
 .PHONY: test-acceptance-headless
 # test-acceptance-headless: install-acceptance ## Run cypress tests in CI
 test-acceptance-headless: ## Run cypress tests in CI
-	(cd acceptance && ./node_modules/.bin/cypress run --config-file cypress.singlelingual.config.js)
+	(cd acceptance && ./node_modules/.bin/cypress run --config-file cypress.monolingual.config.js)
 
 .PHONY: stop-test-acceptance-server
 stop-test-acceptance-server: ## Stop acceptance server
@@ -137,7 +137,7 @@ build-acceptance-multilingual: ## multilingual – Install Cypress, build contai
 	${ACCEPTANCE_MULTILINGUAL} --profile multilingual build --no-cache
 
 .PHONY: start-acceptance-containers-multilingual
-start-acceptance-multilingual: ## multilingual – Start acceptance server-containers for multilingual siet
+start-acceptance-multilingual: ## multilingual – Start acceptance server-containers for multilingual site
 	${ACCEPTANCE_MULTILINGUAL} --profile multilingual up -d --force-recreate
 
 .PHONY: test-acceptance

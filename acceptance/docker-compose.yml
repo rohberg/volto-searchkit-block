@@ -67,6 +67,8 @@ services:
       CONFIGURE_PACKAGES: "plone.restapi,plone.volto,plone.volto.cors,collective.elastic.plone"
       # Run initialize of collective.elastic.plone to register ElasticSearchProxyIndex
       INSTALL_PRODUCTS: "collective.elastic.plone"
+    volumes:
+      - backend-data:/data
     ports:
       - 55001:55001
     profiles:
@@ -92,6 +94,8 @@ services:
       CONFIGURE_PACKAGES: "plone.restapi,plone.volto,plone.volto.cors,collective.elastic.plone"
       # Run initialize of collective.elastic.plone to register ElasticSearchProxyIndex
       INSTALL_PRODUCTS: "collective.elastic.plone"
+    volumes:
+      - backend-data:/data
     ports:
       - 55001:55001
     profiles:
@@ -139,7 +143,7 @@ services:
       CELERY_BROKER: ${CELERY_BROKER?unset}
       CELERY_CONCURRENCY: ${CELERY_CONCURRENCY:-1}
       CELEREY_LOG_LEVEL: ${CELERY_LOG_LEVEL:-info}
-      PLONE_SERVICE: http://backend-acceptance-multilingualela:55001
+      PLONE_SERVICE: http://backend-acceptance-multilingual:55001
       PLONE_SITE_PREFIX_PATH: ${PLONE_SITE_PREFIX_PATH?unset}
       PLONE_USER: ${PLONE_USER?unset}
       PLONE_PASSWORD: ${PLONE_PASSWORD?unset}
@@ -208,6 +212,7 @@ services:
   #     - opensearch
 
 volumes:
+  backend-data:
   opensearch-data:
   ingest-configuration:
     driver: local

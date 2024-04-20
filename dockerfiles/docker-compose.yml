@@ -68,7 +68,7 @@ services:
       INDEX_PASSWORD: ${INDEX_PASSWORD?unset}
       SITE: Plone
       CORS_: true
-      ADDONS: "collective.elastic.plone[redis,opensearch]==2.0.1"
+      ADDONS: "collective.elastic.plone[redis,opensearch]==2.1.0"
       PROFILES: "collective.elastic.plone:default"
       DELETE_EXISTING: False
     ports:

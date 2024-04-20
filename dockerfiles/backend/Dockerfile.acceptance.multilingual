@@ -1,10 +1,10 @@
 # syntax=docker/dockerfile:1
 # Dockerfile from cookiecutter-plone-starter
-# APPLY_PROFILES … plone.volto:multilingual
+# APPLY_PROFILES … collective.elastic.plone:multilingual
 # Run robotserver verbose
 
 ARG PLONE_VERSION=6.0
-ARG SEED=4
+ARG SEED=5
 FROM plone/server-builder:${PLONE_VERSION} as builder
 
 WORKDIR /app
@@ -16,12 +16,12 @@ WORKDIR /app
 RUN <<EOT
     set -e
     bin/pip install plone.app.robotframework>=2.0.0
-    bin/pip install collective.elastic.plone[redis,opensearch]>=2.0.1
+    bin/pip install collective.elastic.plone[redis,opensearch]>=2.1.0
 EOT
 
 
 FROM plone/server-acceptance:${PLONE_VERSION}
-ENV APPLY_PROFILES="collective.elastic.plone:default,plone.restapi:default,plone.volto:multilingual"
+ENV APPLY_PROFILES="collective.elastic.plone:multilingual"
 
 # Copy /app from builder
 COPY --from=builder /app /app

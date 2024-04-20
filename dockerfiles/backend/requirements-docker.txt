@@ -1,2 +1,2 @@
-collective.elastic.plone[redis,opensearch]==2.0.1
+collective.elastic.plone[redis,opensearch]==2.1.0
 elasticsearch

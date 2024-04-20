@@ -55,7 +55,7 @@ describe('Searchkit block tests- create search ', () => {
 
     cy.getSlate().click();
     cy.get('.button .block-add-button').click({ force: true });
-    cy.get('div[aria-label="Unfold Common blocks"]').click();
+    cy.get('div[aria-label="Ausklappen Common blocks"]').click();
     cy.get('.blocks-chooser .common .button.searchkitblock').click({
       force: true,
     });

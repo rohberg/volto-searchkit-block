@@ -8,6 +8,9 @@ ARG ADDON_PATH
 # Copy addon code
 COPY --chown=node:node ./ /app/src/addons/${ADDON_PATH}/
 
+# not isMultilingual 
+COPY --chown=node:node ./dockerfiles/frontend/config_monolingual.js /app/src/config.js
+
 # Install
 RUN <<EOT
     set -e
