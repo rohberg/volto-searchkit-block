@@ -2,10 +2,11 @@ import React from 'react';
 import { compact, truncate } from 'lodash';
 import cx from 'classnames';
 import Cookies from 'universal-cookie';
+import { createPortal } from 'react-dom';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { Portal } from 'react-portal';
+
 import { OverridableContext } from 'react-overridable';
 
 import {
@@ -390,7 +391,9 @@ const CustomBucketAggregationElement = (props) => {
   };
 
   const dropdowntitle =
-    title || fieldname + (selectedFilters.length > 0 ? ` [${selectedFilters.length}]` : '');
+    title ||
+    fieldname +
+      (selectedFilters.length > 0 ? ` [${selectedFilters.length}]` : '');
 
   return containerCmp ? (
     <div className="bucketAE">
@@ -729,15 +732,12 @@ const FacetedSearch = ({ data, overriddenComponents }) => {
           >
             <Container>
               {typeof document !== 'undefined' && relocation?.length > 0 ? (
-                <Portal
-                  node={
-                    true &&
+                createPortal(
+                  <SearchBarSection />,
+                  true &&
                     document.querySelectorAll(relocation) &&
-                    document.querySelectorAll(relocation)[0]
-                  }
-                >
-                  <SearchBarSection />
-                </Portal>
+                    document.querySelectorAll(relocation)[0],
+                )
               ) : (
                 <Grid relaxed style={{ padding: '1em 0' }}>
                   <Grid.Row>
