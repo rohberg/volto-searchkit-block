@@ -3,7 +3,7 @@ import { Container, Segment } from 'semantic-ui-react';
 import { SidebarPortal } from '@plone/volto/components';
 
 import Sidebar from './Sidebar';
-import FacetedSearch from '../Views/FacetedSearch';
+import FacetedSearchBlockView from './FacetedSearchBlockView';
 import DownloadFiltersMapping from './DownloadFiltersMapping';
 
 const Edit = ({ data, onChangeBlock, block, selected }) => {
@@ -18,9 +18,7 @@ const Edit = ({ data, onChangeBlock, block, selected }) => {
         </Container>
       </SidebarPortal>
 
-      <div className="block searchkitsearch">
-        <FacetedSearch data={data} />
-      </div>
+      <FacetedSearchBlockView />
     </div>
   );
 };
