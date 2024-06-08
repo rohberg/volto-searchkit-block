@@ -47,7 +47,6 @@
     "@plone/scripts": "^3.6.2",
     "postcss-less": "6.0.0",
     "postcss-scss": "4.0.8",
-    "prettier": "3.0.3",
     "release-it": "^17.1.1"
   }
 }
