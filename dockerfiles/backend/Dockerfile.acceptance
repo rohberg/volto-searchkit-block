@@ -14,8 +14,8 @@ WORKDIR /app
 RUN <<EOT
     set -e
     bin/pip install plone.app.robotframework>=2.0.0
-    bin/pip install collective.elastic.plone[redis,opensearch]>=2.1.0
     # TODO Switch back to released 
+    # bin/pip install collective.elastic.plone[redis,opensearch]>=2.1.0
     bin/pip install git+https://github.com/collective/collective.elastic.plone.git@testing-profiles
 EOT
 
