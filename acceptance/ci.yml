@@ -114,6 +114,8 @@ services:
       PLONE_SITE_PREFIX_PATH: ${PLONE_SITE_PREFIX_PATH?unset}
       PLONE_USER: ${PLONE_USER?unset}
       PLONE_PASSWORD: ${PLONE_PASSWORD?unset}
+    profiles:
+      - prod
 
   ingest-multilingual:
     image: ghcr.io/collective/collective.elastic.ingest:latest
@@ -135,6 +137,8 @@ services:
       PLONE_SITE_PREFIX_PATH: ${PLONE_SITE_PREFIX_PATH?unset}
       PLONE_USER: ${PLONE_USER?unset}
       PLONE_PASSWORD: ${PLONE_PASSWORD?unset}
+    profiles:
+      - multilingual
 
   redis:
     image: 'redis:latest'
