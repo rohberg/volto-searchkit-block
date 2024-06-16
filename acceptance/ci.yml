@@ -97,9 +97,7 @@ services:
       - multilingual
 
   ingest:
-    build:
-      context: ../
-      dockerfile: .//Dockerfile.ingest
+    image: ghcr.io/collective/collective.elastic.ingest:latest
     environment:
       MAPPINGS_FILE: "/configuration/mappings.json"
       ANALYSIS_FILE: "/configuration/analysis.json"
