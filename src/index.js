@@ -65,7 +65,6 @@ const applyConfig = (config) => {
       title: 'Test searchkit querystrings',
     },
   ];
-
   config.addonRoutes = [
     ...config.addonRoutes,
     {
@@ -73,6 +72,20 @@ const applyConfig = (config) => {
       component: TestSearchkitQuerystrings,
     },
   ];
+  // Configure 'Test searchkit querystrings' controlpanel
+  config.blocks.blocksConfig.searchkitblock.searchconfig = {
+    searchedFields: [
+      'title^1.4',
+      'description^1.2',
+      'blocks_plaintext',
+      'subjects^1.2',
+    ],
+    facet_fields: [],
+    allowed_content_types: ['Document', 'News Item', 'Event'],
+    allowed_review_states: [],
+    backend_url: 'http://host.docker.internal:8080/Plone',
+    frontend_url: 'http://localhost:3000',
+  };
 
   // Fetch querystring indexes.
   // See /effective-volto/addons/asyncconnect

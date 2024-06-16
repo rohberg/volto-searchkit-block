@@ -6,7 +6,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import messages from '../../messages';
 
-export const ElasticSearchHighlights = ({ highlight, indexResult }) => {
+export const ElasticSearchHighlights = ({ highlight }) => {
   const [toggleDetails, setToggleDetails] = React.useState(false);
 
   const intl = useIntl();
@@ -32,7 +32,6 @@ export const ElasticSearchHighlights = ({ highlight, indexResult }) => {
         onClick={showDetails}
         role="button"
         onKeyPress={showDetails}
-        tabIndex={indexResult}
       >
         {fragments.slice(0, 3).map((el, index) => {
           return <div dangerouslySetInnerHTML={{ __html: el }} key={index} />;
@@ -44,7 +43,6 @@ export const ElasticSearchHighlights = ({ highlight, indexResult }) => {
         onClick={showDetails}
         role="button"
         onKeyPress={showDetails}
-        tabIndex={indexResult}
       >
         {Object.keys(highlight)
           .reverse()

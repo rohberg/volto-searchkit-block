@@ -41,7 +41,7 @@ export class CustomESResponseSerializer {
           hit._source['highlight'] = hit.highlight;
           return hit._source;
         }) || [],
-      total: hits?.total.value < 11 ? hits.hits.length : hits?.total.value || 0,
+      total: hits?.total.value || 0,
     };
     return foo;
   }

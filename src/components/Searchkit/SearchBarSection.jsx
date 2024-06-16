@@ -13,7 +13,7 @@ const _SearchBarSection = (props) => {
       sortOrder: 'asc',
       layout: 'list',
       page: 1,
-      size: 10,
+      size: props.currentQueryState.data.batchSize,
       queryString: '',
     },
   };

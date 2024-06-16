@@ -1,11 +1,13 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
+import { createPortal } from 'react-dom';
 import { Container, Header, Segment } from 'semantic-ui-react';
+import { useHistory } from 'react-router';
 import { Link, useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { OverridableContext } from 'react-overridable';
-import { getControlpanel } from '@plone/volto/actions';
-import { Icon as IconNext } from '@plone/volto/components';
+import { Icon, Toolbar } from '@plone/volto/components';
+import { getParentUrl } from '@plone/volto/helpers';
 import backSVG from '@plone/volto/icons/back.svg';
 
 import {
@@ -20,6 +22,8 @@ import { flattenESUrlToPath } from '../helpers';
 import { ploneSearchApi } from './FacetedSearch';
 import { ElasticSearchMatches } from '../Searchkit/ElasticSearchHighlights';
 import messages from '../../messages';
+
+import config from '@plone/volto/registry';
 
 const sort_caseinsensitive = (a, b) => {
   var nameA = a.toUpperCase(); // Groß-/Kleinschreibung ignorieren
@@ -103,27 +107,8 @@ const overriddenComponents = {
 
 const TestSearchkitQuerystrings = (props) => {
   const intl = useIntl();
-  const dispatch = useDispatch();
-  const searchkitblock_controlpanel = useSelector(
-    (state) => state.controlpanels.controlpanel?.data,
-  );
-  const searchconfig = searchkitblock_controlpanel
-    ? {
-        elastic_search_api_url:
-          searchkitblock_controlpanel?.testsearch_elasticsearch_url,
-        elastic_search_api_index:
-          searchkitblock_controlpanel?.testsearch_elasticsearch_index,
-
-        searchedFields: [],
-        facet_fields: [],
-        allowed_content_types:
-          searchkitblock_controlpanel?.allowed_content_types,
-        allowed_review_states:
-          searchkitblock_controlpanel?.allowed_review_states,
-        backend_url: searchkitblock_controlpanel?.testsearch_backend,
-        frontend_url: searchkitblock_controlpanel?.testsearch_frontend,
-      }
-    : {};
+  const history = useHistory();
+  const searchconfig = config.blocks.blocksConfig.searchkitblock.searchconfig;
 
   const initialState = {
     sortBy: 'bestmatch',
@@ -145,69 +130,88 @@ const TestSearchkitQuerystrings = (props) => {
     return;
   };
 
+  const locale = useSelector((state) => state.intl.locale);
   const [isClient, setIsClient] = React.useState(null);
   React.useEffect(() => setIsClient(true), []);
 
-  React.useEffect(() => {
-    dispatch(getControlpanel('volto_searchkit_block_control_panel'));
-  }, [dispatch]);
-
   return (
-    <Container>
-      <Segment>
-        <Header as="h1" className="documentFirstHeading">
-          Matches
-        </Header>
-      </Segment>
-      {isClient && searchkitblock_controlpanel && (
-        <OverridableContext.Provider value={overriddenComponents}>
-          <ReactSearchKit
-            searchApi={ploneSearchApi(searchconfig)}
-            eventListenerEnabled={true}
-            initialQueryState={initialState}
-            searchOnInit={true}
-          >
-            <>
-              <Segment>
-                {/* <Input
-                  id="my-field"
-                  title="some strings to search for"
-                  onChange={(event, data) => {
-                    onchangehandler(event, data);
-                  }}
-                /> */}
-                <SearchBar
-                  placeholder={intl.formatMessage(messages.search)}
-                  autofocus="false"
-                  uiProps={{
-                    icon: 'search',
-                    iconPosition: 'left',
-                    className: 'searchbarinput',
-                  }}
-                  onChange={(event, data) => {
-                    onchangehandler(event, data);
-                  }}
+    <React.Fragment>
+      <Container>
+        <Segment>
+          <Header as="h1" className="documentFirstHeading">
+            Matches
+          </Header>
+        </Segment>
+        {isClient && (
+          <OverridableContext.Provider value={overriddenComponents}>
+            <ReactSearchKit
+              searchApi={ploneSearchApi(searchconfig, locale)}
+              eventListenerEnabled={true}
+              initialQueryState={{
+                ...initialState,
+                locale: locale,
+              }}
+              searchOnInit={true}
+            >
+              <>
+                <Segment>
+                  {/* <Input
+                    id="my-field"
+                    title="some strings to search for"
+                    onChange={(event, data) => {
+                      onchangehandler(event, data);
+                    }}
+                  /> */}
+                  <SearchBar
+                    placeholder={intl.formatMessage(messages.search)}
+                    autofocus="false"
+                    uiProps={{
+                      icon: 'search',
+                      iconPosition: 'left',
+                      className: 'searchbarinput',
+                    }}
+                    onChange={(event, data) => {
+                      onchangehandler(event, data);
+                    }}
+                  />
+                </Segment>
+                <Segment>
+                  <Count />
+                  <OnHighlights />
+                  <Header as="h2">Documents with title and matches</Header>
+                  <OnResults />
+                </Segment>
+              </>
+            </ReactSearchKit>
+          </OverridableContext.Provider>
+        )}
+      </Container>
+
+      {isClient &&
+        createPortal(
+          <Toolbar
+            pathname={location.pathname}
+            hideDefaultViewButtons
+            inner={
+              <Link
+                className="item"
+                to="#"
+                onClick={() => {
+                  history.push(getParentUrl(location.pathname));
+                }}
+              >
+                <Icon
+                  name={backSVG}
+                  className="contents circled"
+                  size="30px"
+                  title={intl.formatMessage(messages.cancel)}
                 />
-              </Segment>
-              <Segment>
-                <Count />
-                <OnHighlights />
-                <Header as="h2">Documents with title and matches</Header>
-                <OnResults />
-              </Segment>
-            </>
-          </ReactSearchKit>
-        </OverridableContext.Provider>
-      )}
-      <Link to="/controlpanel" className="item">
-        <IconNext
-          name={backSVG}
-          className="contents circled"
-          size="30px"
-          title="back"
-        />
-      </Link>
-    </Container>
+              </Link>
+            }
+          />,
+          document.getElementById('toolbar'),
+        )}
+    </React.Fragment>
   );
 };
 

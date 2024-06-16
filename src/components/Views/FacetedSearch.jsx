@@ -32,7 +32,7 @@ import {
 } from 'react-searchkit';
 
 import { expandToBackendURL } from '@plone/volto/helpers';
-import { Icon } from '@plone/volto/components';
+import { FormattedDate, Icon } from '@plone/volto/components';
 import leftAngle from '@plone/volto/icons/left-key.svg';
 import rightAngle from '@plone/volto/icons/right-key.svg';
 import firstAngle from '@plone/volto/icons/first.svg';
@@ -104,7 +104,7 @@ const _ExtraInfo = (props) => {
 
   const translate = (key, fieldname) => {
     let label = key;
-    if (querystringindexes || querystringindexes[fieldname]) {
+    if (querystringindexes && fieldname in querystringindexes) {
       label = querystringindexes[fieldname]?.values[key]?.title || key;
     }
     return label;
@@ -131,7 +131,7 @@ const _ExtraInfo = (props) => {
                   sortOrder: 'asc',
                   layout: 'list',
                   page: 1,
-                  size: 10,
+                  size: props.currentQueryState.data.batchSize,
                   filters: [[`${extrainfo_key}_agg`, item]],
                 },
               };
@@ -182,7 +182,7 @@ const _ExtraInfo = (props) => {
                 sortOrder: 'asc',
                 layout: 'list',
                 page: 1,
-                size: 10,
+                size: props.currentQueryState.data.batchSize,
                 queryString: tito,
               },
             };
@@ -206,14 +206,21 @@ const _ExtraInfo = (props) => {
 const ExtraInfo = withState(_ExtraInfo);
 
 const _CustomResultsListItem = (props) => {
-  const { result, index } = props;
+  const { result } = props;
   const backend_url = props.currentQueryState.data?.backend_url;
   const is_external_content = !result['@id'].includes(backend_url);
   const item_url = result['@id'].includes(backend_url)
     ? flattenESUrlToPath(result['@id'])
     : result['@id'];
+  const locale = useSelector((state) => state.query?.locale);
   const querystringindexes = useSelector(
     (state) => state.query?.data?.querystringindexes,
+  );
+  const showNewsItemPublishedDate = useSelector(
+    (state) => state.query?.data.showNewsItemPublishedDate,
+  );
+  const showEventStartDate = useSelector(
+    (state) => state.query?.data.showEventStartDate,
   );
 
   const translate = (key) => {
@@ -226,7 +233,7 @@ const _CustomResultsListItem = (props) => {
 
   return (
     <Item
-      key={`item_${index}`}
+      key={`item_${result['@id']}`}
       className={cx('searchkitresultitem', result.review_state)}
     >
       <Item.Content>
@@ -241,7 +248,7 @@ const _CustomResultsListItem = (props) => {
                   sortOrder: 'asc',
                   layout: 'list',
                   page: 1,
-                  size: 10,
+                  size: props.currentQueryState.data.batchSize,
                   filters: [['informationtype_agg', item]],
                 },
               };
@@ -264,6 +271,17 @@ const _CustomResultsListItem = (props) => {
             >
               {result.title}
             </a>
+            {showNewsItemPublishedDate.includes(result.portal_type) &&
+            result.effective ? (
+              <Item.Meta>
+                <FormattedDate date={result.effective} locale={locale} />
+              </Item.Meta>
+            ) : null}
+            {showEventStartDate.includes(result.portal_type) && result.start ? (
+              <Item.Meta>
+                <FormattedDate date={result.start} locale={locale} />
+              </Item.Meta>
+            ) : null}
             <Item.Description>
               <a target="_blank" href={item_url} rel="noopener noreferrer">
                 {truncate(result.description, { length: 200 })}
@@ -275,6 +293,17 @@ const _CustomResultsListItem = (props) => {
             <Item.Header as={Link} to={item_url}>
               {result.title}
             </Item.Header>
+            {showNewsItemPublishedDate.includes(result.portal_type) &&
+            result.effective ? (
+              <Item.Meta>
+                <FormattedDate date={result.effective} locale={locale} />
+              </Item.Meta>
+            ) : null}
+            {showEventStartDate.includes(result.portal_type) && result.start ? (
+              <Item.Meta>
+                <FormattedDate date={result.start} locale={locale} />
+              </Item.Meta>
+            ) : null}
             <Item.Description>
               <Link to={item_url}>
                 {truncate(result.description, { length: 200 })}
@@ -283,10 +312,7 @@ const _CustomResultsListItem = (props) => {
           </React.Fragment>
         )}
         <ExtraInfo result={result} />
-        <ElasticSearchHighlights
-          highlight={result.highlight}
-          indexResult={index}
-        />
+        <ElasticSearchHighlights highlight={result.highlight} />
       </Item.Content>
     </Item>
   );
@@ -345,7 +371,7 @@ const CustomBucketAggregationElement = (props) => {
    * @returns
    */
   const translate = (bucks) => {
-    if (querystringindexes[fieldname]) {
+    if (querystringindexes && fieldname in querystringindexes) {
       bucks.forEach((element) => {
         element.label =
           querystringindexes[fieldname].values[element.key]?.title ||
@@ -651,35 +677,6 @@ const sortValues = [
   // },
 ];
 
-const initialState = {
-  sortBy: 'bestmatch',
-  sortOrder: 'asc',
-  // sortBy: 'modified',
-  // sortOrder: 'desc',
-  queryString: '',
-  layout: 'list',
-  page: 1,
-  size: 10,
-};
-
-const defaultOverriddenComponents = {
-  'ResultsList.item.elasticsearch': CustomResultsListItem,
-  'Count.element': MyCountElement,
-  'ActiveFilters.element': myActiveFiltersElement,
-  'EmptyResults.element': customEmpytResultsElement,
-  'Sort.element.volto': customSort,
-  'Pagination.element': customPaginationElement,
-  'Error.element': ErrorComponent,
-};
-
-const dropdownOverriddenComponents = {
-  'BucketAggregation.element': CustomBucketAggregationElement,
-  'BucketAggregationContainer.element': CustomBucketAggregationContainerElement,
-  'BucketAggregationValues.element': withState(
-    CustomBucketAggregationValuesElement,
-  ),
-};
-
 /**
  * FacetedSearch
  * @param {string} filterLayout default 'dropdown'
@@ -704,6 +701,35 @@ const FacetedSearch = ({ data, overriddenComponents }) => {
     delete facet_fields_object.Subject;
   }
 
+  // TODO Get config from data
+  const initialState = {
+    page: 1,
+    queryString: '',
+    sortBy: 'modified',
+    sortOrder: 'desc',
+    size: data.batchSize,
+    layout: 'list',
+  };
+
+  const defaultOverriddenComponents = {
+    'ResultsList.item.elasticsearch': CustomResultsListItem,
+    'Count.element': MyCountElement,
+    'ActiveFilters.element': myActiveFiltersElement,
+    'EmptyResults.element': customEmpytResultsElement,
+    'Sort.element.volto': customSort,
+    'Pagination.element': customPaginationElement,
+    'Error.element': ErrorComponent,
+  };
+
+  const dropdownOverriddenComponents = {
+    'BucketAggregation.element': CustomBucketAggregationElement,
+    'BucketAggregationContainer.element':
+      CustomBucketAggregationContainerElement,
+    'BucketAggregationValues.element': withState(
+      CustomBucketAggregationValuesElement,
+    ),
+  };
+
   overriddenComponents = {
     ...defaultOverriddenComponents,
     ...(filterLayout === 'dropdown' && dropdownOverriddenComponents),
@@ -712,8 +738,7 @@ const FacetedSearch = ({ data, overriddenComponents }) => {
   };
 
   // TODO Check if check on client could be made simpler
-  const language = useSelector((state) => state.intl.locale);
-  console.debug('language', language);
+  const locale = useSelector((state) => state.intl.locale);
   const [isClient, setIsClient] = React.useState(null);
   React.useEffect(() => setIsClient(true), []);
 
@@ -722,11 +747,13 @@ const FacetedSearch = ({ data, overriddenComponents }) => {
       {isClient && (
         <OverridableContext.Provider value={overriddenComponents}>
           <ReactSearchKit
-            searchApi={ploneSearchApi(data, language)}
+            searchApi={ploneSearchApi(data, locale)}
             eventListenerEnabled={true}
             initialQueryState={{
               ...initialState,
-              data: { ...data, querystringindexes: querystringindexes },
+              data: data,
+              querystringindexes: querystringindexes,
+              locale: locale,
             }}
             urlHandlerApi={{ enabled: true }}
           >

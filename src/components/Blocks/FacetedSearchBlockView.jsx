@@ -1,5 +1,3 @@
-import React from 'react';
-
 import FacetedSearch from '../Views/FacetedSearch';
 
 const View = ({ data }) => {

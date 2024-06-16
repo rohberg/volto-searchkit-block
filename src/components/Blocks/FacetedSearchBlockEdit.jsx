@@ -18,7 +18,7 @@ const Edit = ({ data, onChangeBlock, block, selected }) => {
         </Container>
       </SidebarPortal>
 
-      <FacetedSearchBlockView />
+      <FacetedSearchBlockView data={data} />
     </div>
   );
 };

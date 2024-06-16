@@ -67,7 +67,7 @@ const _SectionsSearch = (props) => {
       sortOrder: 'desc',
       layout: 'list',
       page: 1,
-      size: 10,
+      size: props.currentQueryState.data.batchSize,
       filters: currentQueryState.filters,
     };
     if (currentQueryState.queryString) {

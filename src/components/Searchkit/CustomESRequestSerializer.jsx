@@ -155,7 +155,7 @@ export class CustomESRequestSerializer {
 
       // fields with boosting
       let searchedFields = [...this.searchedFields];
-      
+
       let searchedFields_simple = searchedFields.map((fld) => {
         const fieldname = fld.split('^')[0];
         return fld.replace(fieldname, `${fieldname}.${this.language}`);
@@ -223,14 +223,19 @@ export class CustomESRequestSerializer {
 
       bodyParams['highlight'] = {
         number_of_fragments: 20,
-        fields: ['title', 'description', 'blocks_plaintext'].map(fieldname => {
-          return {
-            [fieldname]: {
-              matched_fields: [`${fieldname}.${this.language}`, `${fieldname}.${this.language}_exact`],
-              type: 'fvh',
-            },
-          }
-        })
+        fields: ['title', 'description', 'blocks_plaintext'].map(
+          (fieldname) => {
+            return {
+              [fieldname]: {
+                matched_fields: [
+                  `${fieldname}.${this.language}`,
+                  `${fieldname}.${this.language}_exact`,
+                ],
+                type: 'fvh',
+              },
+            };
+          },
+        ),
       };
     }
 
@@ -258,12 +263,14 @@ export class CustomESRequestSerializer {
     // Generate terms of global filters
     let terms = [];
     // If isMultilingual, search only in language
-  
-    this.language && volto_config.settings.isMultilingual && terms.push({
-      terms: {
-        language: [this.language],
-      },
-    });
+
+    this.language &&
+      volto_config.settings.isMultilingual &&
+      terms.push({
+        terms: {
+          language: [this.language],
+        },
+      });
     this.allowed_content_types?.length > 0 &&
       terms.push({
         terms: {

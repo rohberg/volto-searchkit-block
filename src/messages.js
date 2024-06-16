@@ -71,6 +71,10 @@ const messages = defineMessages({
     id: 'Content',
     defaultMessage: 'Content',
   },
+  cancel: {
+    id: 'Cancel',
+    defaultMessage: 'Cancel',
+  },
 });
 
 export default messages;

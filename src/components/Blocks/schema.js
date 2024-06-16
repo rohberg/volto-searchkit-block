@@ -69,12 +69,18 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
           'allowed_content_types',
           'allowed_review_states',
           'searchedFields',
+          'batchSize',
         ],
       },
       {
         id: 'results',
         title: 'Results',
-        fields: ['extrainfo_fields', 'subjectsFieldname'],
+        fields: [
+          'extrainfo_fields',
+          'subjectsFieldname',
+          'showNewsItemPublishedDate',
+          'showEventStartDate',
+        ],
       },
       {
         id: 'divers',
@@ -143,6 +149,11 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
         creatable: true,
         default: ['title^1.4', 'description^1.2', 'blocks_plaintext'],
       },
+      batchSize: {
+        title: 'Batch size',
+        type: 'number',
+        default: 10,
+      },
       facet_fields: {
         title: 'Facets',
         description: 'Fields to filter on.',
@@ -167,7 +178,23 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
         title: 'Field name of tags field',
         description:
           'Show tags to search for. Let the field empty to not show tags.',
-        default: '',
+        default: 'subjects',
+      },
+      showNewsItemPublishedDate: {
+        title: 'Show published date of news items',
+        type: 'array',
+        widget: 'array',
+        items: {
+          vocabulary: { '@id': 'plone.app.vocabularies.UserFriendlyTypes' },
+        },
+      },
+      showEventStartDate: {
+        title: 'Show start date of events',
+        type: 'array',
+        widget: 'array',
+        items: {
+          vocabulary: { '@id': 'plone.app.vocabularies.UserFriendlyTypes' },
+        },
       },
       relocation: {
         title: 'Relocation',
