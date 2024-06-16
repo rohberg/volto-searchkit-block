@@ -112,6 +112,8 @@ services:
       PLONE_SITE_PREFIX_PATH: ${PLONE_SITE_PREFIX_PATH?unset}
       PLONE_USER: ${PLONE_USER?unset}
       PLONE_PASSWORD: ${PLONE_PASSWORD?unset}
+    volumes:
+      - ../dockerfiles/opensearch/ingest-configuration:/configuration
     profiles:
       - prod
 
@@ -135,6 +137,8 @@ services:
       PLONE_SITE_PREFIX_PATH: ${PLONE_SITE_PREFIX_PATH?unset}
       PLONE_USER: ${PLONE_USER?unset}
       PLONE_PASSWORD: ${PLONE_PASSWORD?unset}
+    volumes:
+      - ../dockerfiles/opensearch/ingest-configuration:/configuration
     profiles:
       - multilingual
 
