@@ -701,7 +701,7 @@ const FacetedSearch = ({ data, overriddenComponents }) => {
     delete facet_fields_object.Subject;
   }
 
-  // TODO Get config from data
+  // TODO Get config from blocks data
   const initialState = {
     page: 1,
     queryString: '',
