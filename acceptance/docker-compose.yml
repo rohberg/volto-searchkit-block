@@ -15,9 +15,6 @@ services:
       RAZZLE_INTERNAL_API_PATH: http://backend-acceptance:55001/plone
       RAZZLE_API_PATH: http://localhost:55001/plone
       HOST: 0.0.0.0
-    ports:
-      - 3000:3000
-      - 3001:3001
     tty: true
     # depends_on:
     #   - backend-acceptance
@@ -56,13 +53,13 @@ services:
     environment:
       ZSERVER_HOST: '0.0.0.0'
       ZSERVER_PORT: '55001'
-      CELERY_BROKER: ${CELERY_BROKER?unset}
       INDEX_SERVER: ${INDEX_SERVER?unset}
       INDEX_NAME: ${INDEX_NAME?unset}
       INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
       INDEX_USE_SSL: ${INDEX_USE_SSL?unset}
       INDEX_LOGIN: ${INDEX_LOGIN?unset}
       INDEX_PASSWORD: ${INDEX_PASSWORD?unset}
+      CELERY_BROKER: ${CELERY_BROKER?unset}
       CONFIGURE_PACKAGES: 'plone.restapi,plone.volto,plone.volto.cors,collective.elastic.plone'
       # Run initialize of collective.elastic.plone to register ElasticSearchProxyIndex
       INSTALL_PRODUCTS: 'collective.elastic.plone'
@@ -83,13 +80,13 @@ services:
     environment:
       ZSERVER_HOST: '0.0.0.0'
       ZSERVER_PORT: '55001'
-      CELERY_BROKER: ${CELERY_BROKER?unset}
       INDEX_SERVER: ${INDEX_SERVER?unset}
       INDEX_NAME: multilingual
       INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
       INDEX_USE_SSL: ${INDEX_USE_SSL?unset}
       INDEX_LOGIN: ${INDEX_LOGIN?unset}
       INDEX_PASSWORD: ${INDEX_PASSWORD?unset}
+      CELERY_BROKER: ${CELERY_BROKER?unset}
       CONFIGURE_PACKAGES: 'plone.restapi,plone.volto,plone.volto.cors,collective.elastic.plone'
       # Run initialize of collective.elastic.plone to register ElasticSearchProxyIndex
       INSTALL_PRODUCTS: 'collective.elastic.plone'
@@ -194,7 +191,7 @@ services:
     expose:
       - '5601'
     environment:
-      OPENSEARCH_HOSTS: '["https://opensearch:9200"]'
+      OPENSEARCH_HOSTS: "['https://opensearch:9200']"
     profiles:
       - dev
       - multilingual
