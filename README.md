@@ -18,29 +18,34 @@ The block is prepared for Matomo analytics.
 
 ![Search @rohberg/volto-searchkit-block](public/search.png)
 
-
 # Demo
 
 You can try the search by checking out this repository and run
 
-    make dev-opensearch
     make dev
-    
 
 Docker should be installed and running.
 
-
-# Getting started
+# TODO Getting started
 
 Install Plone backend add-on [`collective.elastic.plone 2.x`](https://github.com/collective/collective.elastic.plone) to provide the Plone REST API service which accepts queries and requests OpenSearch/ElasticSearch.
 
 Install Plone backend add-on [`collective.elastic.ingest 2.x`](https://github.com/collective/collective.elastic.ingest) to index Plone content.
 
-Setting up OpenSearch/ElasticSearch instructions can be found on [`collective.elastic.plone 2.x`](https://github.com/collective/collective.elastic.plone).
-See the [example](dockerfiles/opensearch) configuration of collective.elastic of a mapping, attachment handling and last but not least analysis.
+Setting up OpenSearch/ElasticSearch:
+
+Create file `volto-searchkit-block/dockerfiles/.env` like the provided template in this folder.
+
+Build and start containers for OpenSearch/ElasticSearch and friends:
+
+    make opensearchandingest-build
+    make opensearchandingest-up
+
+Create file `backend/.env` like the one already mentioned above if you do not run backend with Docker.
 
 
-# Configuration
+
+# Configuration of the search parameters
 
 The block is not for editors. So please enable adding a searchkit block once by
 
@@ -50,7 +55,7 @@ config.blocks.blocksConfig.searchkitblock.restricted = true;
 
 and disable the block after adding it to a page of your choice.
 
-The block can be configured by 
+The block can be configured by
 
 - searchable fields with boosting
 - facets
@@ -59,11 +64,10 @@ The block can be configured by
 
 ![Configuration](public/configuration.png)
 
-
 Enable Matomo tracking via
 
 ```js
-  config.settings.searchkitblock.trackVoltoMatomo = true
+config.settings.searchkitblock.trackVoltoMatomo = true;
 ```
 
 # Overriding components
@@ -75,9 +79,7 @@ const MySearchkitResultsListItem = ({ result, index }) => {
   return (
     <div>
       <Header as="h3">
-        <Link to={flattenESUrlToPath(result['@id'])}>
-          {result.title}
-        </Link>
+        <Link to={flattenESUrlToPath(result['@id'])}>{result.title}</Link>
       </Header>
     </div>
   );
@@ -86,8 +88,7 @@ const MySearchkitResultsListItem = ({ result, index }) => {
 config.settings.searchkitblock.overriddenComponents = {
   'ResultsList.item.elasticsearch': MySearchkitResultsListItem,
 };
-````
-
+```
 
 # Panel for testing matches
 
@@ -95,10 +96,9 @@ config.settings.searchkitblock.overriddenComponents = {
 
 Please update the settings according to your deployment: `/controlpanel/volto_searchkit_block_control_panel`
 
-
 # User documentation
 
-The search is a fuzzy search, that means typos are compensated. 
+The search is a fuzzy search, that means typos are compensated.
 Approximate matches and inflections are found.
 
 To force the match of a search string, precede it with "+".
@@ -118,11 +118,11 @@ Example: "LSR-Lehrbetrieb" is found by a search for "LSR".
 
 Search results do include at least one of the search strings.
 
-
 # Credits
 
 This package is a Plone Volto integration of react-searchkit https://www.npmjs.com/package/react-searchkit Copyright (C) 2015-2019 CERN.
 
+The development of this plugin has been kindly sponsored by IGIB GRIF.
 
 # Copyright and license
 
