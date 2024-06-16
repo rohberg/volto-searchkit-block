@@ -12,8 +12,6 @@ services:
     environment:
       RAZZLE_INTERNAL_API_PATH: http://backend-acceptance:55001/plone
       RAZZLE_API_PATH: http://localhost:55001/plone
-    ports:
-      - 3000:3000
     depends_on:
       - backend-acceptance
     profiles:
@@ -141,7 +139,7 @@ services:
       - multilingual
 
   redis:
-    image: 'redis:latest'
+    image: "redis:latest"
     ports:
       - 6379:6379
 
