@@ -116,9 +116,7 @@ services:
       PLONE_PASSWORD: ${PLONE_PASSWORD?unset}
 
   ingest-multilingual:
-    build:
-      context: ../
-      dockerfile: .//Dockerfile.ingest
+    image: ghcr.io/collective/collective.elastic.ingest:latest
     environment:
       # Different INDEX_NAME
       MAPPINGS_FILE: "/configuration/mappings.json"
@@ -146,7 +144,7 @@ services:
   opensearch:
     build:
       context: ../
-      dockerfile: .//Dockerfile.opensearch
+      dockerfile: ./dockerfiles/opensearch/Dockerfile.opensearch
     environment:
       - plugins.security.disabled=true
       - cluster.name=opensearch-cluster
