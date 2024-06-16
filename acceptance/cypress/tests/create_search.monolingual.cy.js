@@ -49,7 +49,7 @@ describe('Searchkit block tests- create search ', () => {
     cy.removeContent({ path: 'searching' });
   });
 
-  it('As manager I can add a searchkit-block and find a documunt', function () {
+  it('As manager I can add a searchkit-block and find a document', function () {
     cy.visit('/searching');
     cy.get('a.edit').click();
 
