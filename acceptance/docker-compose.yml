@@ -1,14 +1,13 @@
-version: "3"
+version: '3'
 
 services:
-
   addon-acceptance:
     build:
       context: ../
       dockerfile: ./dockerfiles/frontend/Dockerfile.acceptance
       args:
-        ADDON_NAME: "${ADDON_NAME}"
-        ADDON_PATH: "${ADDON_PATH}"
+        ADDON_NAME: '${ADDON_NAME}'
+        ADDON_PATH: '${ADDON_PATH}'
         VOLTO_VERSION: ${VOLTO_VERSION:-17}
     volumes:
       - ${CURRENT_DIR}:/app/src/addons/${ADDON_PATH}/
@@ -30,8 +29,8 @@ services:
       context: ../
       dockerfile: ./dockerfiles/frontend/Dockerfile.acceptance.multilingual
       args:
-        ADDON_NAME: "${ADDON_NAME}"
-        ADDON_PATH: "${ADDON_PATH}"
+        ADDON_NAME: '${ADDON_NAME}'
+        ADDON_PATH: '${ADDON_PATH}'
         VOLTO_VERSION: ${VOLTO_VERSION:-17}
     volumes:
       - ${CURRENT_DIR}:/app/src/addons/${ADDON_PATH}/
@@ -55,8 +54,8 @@ services:
       args:
         PLONE_VERSION: ${PLONE_VERSION:-6.0}
     environment:
-      ZSERVER_HOST: "0.0.0.0"
-      ZSERVER_PORT: "55001"
+      ZSERVER_HOST: '0.0.0.0'
+      ZSERVER_PORT: '55001'
       CELERY_BROKER: ${CELERY_BROKER?unset}
       INDEX_SERVER: ${INDEX_SERVER?unset}
       INDEX_NAME: ${INDEX_NAME?unset}
@@ -64,9 +63,9 @@ services:
       INDEX_USE_SSL: ${INDEX_USE_SSL?unset}
       INDEX_LOGIN: ${INDEX_LOGIN?unset}
       INDEX_PASSWORD: ${INDEX_PASSWORD?unset}
-      CONFIGURE_PACKAGES: "plone.restapi,plone.volto,plone.volto.cors,collective.elastic.plone"
+      CONFIGURE_PACKAGES: 'plone.restapi,plone.volto,plone.volto.cors,collective.elastic.plone'
       # Run initialize of collective.elastic.plone to register ElasticSearchProxyIndex
-      INSTALL_PRODUCTS: "collective.elastic.plone"
+      INSTALL_PRODUCTS: 'collective.elastic.plone'
     volumes:
       - backend-data:/data
     ports:
@@ -82,8 +81,8 @@ services:
       args:
         PLONE_VERSION: ${PLONE_VERSION:-6.0}
     environment:
-      ZSERVER_HOST: "0.0.0.0"
-      ZSERVER_PORT: "55001"
+      ZSERVER_HOST: '0.0.0.0'
+      ZSERVER_PORT: '55001'
       CELERY_BROKER: ${CELERY_BROKER?unset}
       INDEX_SERVER: ${INDEX_SERVER?unset}
       INDEX_NAME: multilingual
@@ -91,9 +90,9 @@ services:
       INDEX_USE_SSL: ${INDEX_USE_SSL?unset}
       INDEX_LOGIN: ${INDEX_LOGIN?unset}
       INDEX_PASSWORD: ${INDEX_PASSWORD?unset}
-      CONFIGURE_PACKAGES: "plone.restapi,plone.volto,plone.volto.cors,collective.elastic.plone"
+      CONFIGURE_PACKAGES: 'plone.restapi,plone.volto,plone.volto.cors,collective.elastic.plone'
       # Run initialize of collective.elastic.plone to register ElasticSearchProxyIndex
-      INSTALL_PRODUCTS: "collective.elastic.plone"
+      INSTALL_PRODUCTS: 'collective.elastic.plone'
     volumes:
       - backend-data:/data
     ports:
@@ -161,13 +160,13 @@ services:
   opensearch:
     build:
       context: ../
-      dockerfile: ./docker-opensearch/Dockerfile.opensearch
+      dockerfile: ./dockerfiles/opensearch/Dockerfile.opensearch
     environment:
       - cluster.name=opensearch-cluster
       - node.name=opensearch
       - discovery.type=single-node
       - bootstrap.memory_lock=true
-      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx2g"
+      - 'OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx2g'
       # - plugins.security.disabled=true
       - OPENSEARCH_INITIAL_ADMIN_PASSWORD=${INDEX_PASSWORD?unset}
     ulimits:
@@ -188,13 +187,12 @@ services:
       - multilingual
       - prod
 
-
   opensearch-dashboards:
     image: opensearchproject/opensearch-dashboards:latest
     ports:
       - 5601:5601
     expose:
-      - "5601"
+      - '5601'
     environment:
       OPENSEARCH_HOSTS: '["https://opensearch:9200"]'
     profiles:
@@ -218,5 +216,5 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: ../docker-opensearch/ingest-configuration
+      device: ../dockerfiles/opensearch/ingest-configuration
       o: bind

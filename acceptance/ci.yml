@@ -99,7 +99,7 @@ services:
   ingest:
     build:
       context: ../
-      dockerfile: ./docker-opensearch/Dockerfile.ingest
+      dockerfile: .//Dockerfile.ingest
     environment:
       MAPPINGS_FILE: "/configuration/mappings.json"
       ANALYSIS_FILE: "/configuration/analysis.json"
@@ -120,7 +120,7 @@ services:
   ingest-multilingual:
     build:
       context: ../
-      dockerfile: ./docker-opensearch/Dockerfile.ingest
+      dockerfile: .//Dockerfile.ingest
     environment:
       # Different INDEX_NAME
       MAPPINGS_FILE: "/configuration/mappings.json"
@@ -148,7 +148,7 @@ services:
   opensearch:
     build:
       context: ../
-      dockerfile: ./docker-opensearch/Dockerfile.opensearch
+      dockerfile: .//Dockerfile.opensearch
     environment:
       - plugins.security.disabled=true
       - cluster.name=opensearch-cluster

@@ -24,9 +24,10 @@ DEV_COMPOSE=dockerfiles/docker-compose.yml
 ACCEPTANCE_COMPOSE=acceptance/docker-compose.yml
 CMD_ENVS=CURRENT_DIR=${CURRENT_DIR} ADDON_NAME=${ADDON_NAME} ADDON_PATH=${ADDON_PATH} VOLTO_VERSION=${VOLTO_VERSION} PLONE_VERSION=${PLONE_VERSION} BACKEND_ADDONS=${BACKEND_ADDONS}
 CMD=${CMD_ENVS} docker compose
-DOCKER_COMPOSE=${CMD} -p ${ADDON_PATH} -f ${DEV_COMPOSE}
-ACCEPTANCE=${CMD} -p ${ADDON_PATH}-acceptance -f ${ACCEPTANCE_COMPOSE}
-ACCEPTANCE_MULTILINGUAL=${CMD} -p ${ADDON_PATH}-acceptance-multilingual -f ${ACCEPTANCE_COMPOSE}
+PROJECT_NAME=${ADDON_PATH}
+DOCKER_COMPOSE=${CMD} -p ${PROJECT_NAME} -f ${DEV_COMPOSE}
+ACCEPTANCE=${CMD} -p ${PROJECT_NAME}-acceptance -f ${ACCEPTANCE_COMPOSE}
+ACCEPTANCE_MULTILINGUAL=${CMD} -p ${PROJECT_NAME}-acceptance-multilingual -f ${ACCEPTANCE_COMPOSE}
 
 .PHONY: all
 all: help
@@ -72,6 +73,20 @@ dev: ## Build and start development/demo environment
 dev-start: ## Start development/demo environment without rebuilding images
 	@echo "$(GREEN)==> Start development environment without rebuilding images $(RESET)"
 	${DOCKER_COMPOSE} --profile dev up
+
+
+# Opensearch and ingest containers (everything but backend and frontend)
+.PHONY: opensearchandingest-build
+opensearchandingest-build: ## Build containers for opensearch and ingest `make opensearchandingest-build PROJECT_NAME=foo`
+	@echo "$(GREEN)==> Build containers for opensearch and ingest $(RESET)"
+	${DOCKER_COMPOSE} --profile opensearchandingest build
+	@echo "$(GREEN)==> Successfully build containers for opensearch and ingest $(RESET)"
+	${DOCKER_COMPOSE} --profile opensearchandingest config
+
+.PHONY: opensearchandingest-up
+opensearchandingest-up: ## Start containers for opensearch and ingest. `make opensearchandingest-up PROJECT_NAME=foo`
+	@echo "$(GREEN)==> Start containers for opensearch and ingest $(RESET)"
+	${DOCKER_COMPOSE} --profile opensearchandingest up
 
 
 # Dev Helpers

@@ -1,15 +1,14 @@
-version: "3"
+version: '3'
 
 services:
-
   addon-dev:
     build:
       context: ../
       dockerfile: ./dockerfiles/frontend/Dockerfile.dev
       args:
-        ADDON_NAME: "${ADDON_NAME}"
-        ADDON_PATH: "${ADDON_PATH}"
-        VOLTO_VERSION: "${VOLTO_VERSION:-17}"
+        ADDON_NAME: '${ADDON_NAME}'
+        ADDON_PATH: '${ADDON_PATH}'
+        VOLTO_VERSION: '${VOLTO_VERSION:-17}'
     volumes:
       - ${CURRENT_DIR}:/app/src/addons/${ADDON_PATH}/
     environment:
@@ -35,9 +34,9 @@ services:
       context: ../
       dockerfile: ./dockerfiles/frontend/Dockerfile.ci
       args:
-        ADDON_NAME: "${ADDON_NAME}"
-        ADDON_PATH: "${ADDON_PATH}"
-        VOLTO_VERSION: "${VOLTO_VERSION:-17}"
+        ADDON_NAME: '${ADDON_NAME}'
+        ADDON_PATH: '${ADDON_PATH}'
+        VOLTO_VERSION: '${VOLTO_VERSION:-17}'
     environment:
       RAZZLE_INTERNAL_API_PATH: http://backend:8080/Plone
       RAZZLE_API_PATH: http://localhost:8080/Plone
@@ -55,11 +54,11 @@ services:
       context: ./backend
       dockerfile: ./Dockerfile.dev
       args:
-        PLONE_VERSION: 6.0.10.1
+        PLONE_VERSION: 6.0.11.1
     environment:
-      ZSERVER_HOST: "0.0.0.0"
-      ZSERVER_PORT: "8080"
-      LANGUAGE: "de"
+      ZSERVER_HOST: '0.0.0.0'
+      ZSERVER_PORT: '8080'
+      LANGUAGE: 'de'
       CELERY_BROKER: ${CELERY_BROKER?unset}
       INDEX_SERVER: ${INDEX_SERVER?unset}
       INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
@@ -68,8 +67,8 @@ services:
       INDEX_PASSWORD: ${INDEX_PASSWORD?unset}
       SITE: Plone
       CORS_: true
-      ADDONS: "collective.elastic.plone[redis,opensearch]==2.1.0"
-      PROFILES: "collective.elastic.plone:default"
+      ADDONS: 'collective.elastic.plone[redis,opensearch]==2.1.0'
+      PROFILES: 'collective.elastic.plone:default'
       DELETE_EXISTING: False
     ports:
       - 8080:8080
@@ -78,7 +77,6 @@ services:
     profiles:
       - dev
       - prod
-
 
   ingest:
     image: ghcr.io/collective/collective.elastic.ingest:latest
@@ -106,6 +104,7 @@ services:
     profiles:
       - dev
       - prod
+      - opensearchandingest
 
   redis:
     image: 'redis:latest'
@@ -116,17 +115,18 @@ services:
     profiles:
       - dev
       - prod
+      - opensearchandingest
 
   opensearch:
     build:
       context: ../
-      dockerfile: ./docker-opensearch/Dockerfile.opensearch
+      dockerfile: ./dockerfiles/opensearch/Dockerfile.opensearch
     environment:
       - cluster.name=opensearch-cluster
       - node.name=opensearch
       - discovery.type=single-node
       - bootstrap.memory_lock=true
-      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx2g"
+      - 'OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx2g'
       # - plugins.security.disabled=true
       - OPENSEARCH_INITIAL_ADMIN_PASSWORD=${INDEX_PASSWORD?unset}
     ulimits:
@@ -147,18 +147,19 @@ services:
     profiles:
       - dev
       - prod
-
+      - opensearchandingest
 
   opensearch-dashboards:
     image: opensearchproject/opensearch-dashboards:latest
     ports:
       - 5601:5601
     expose:
-      - "5601"
+      - '5601'
     environment:
       OPENSEARCH_HOSTS: '["https://opensearch:9200"]'
     profiles:
       - dev
+      - opensearchandingest
     networks:
       - opensearch-net
 
@@ -178,7 +179,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: ../docker-opensearch/ingest-configuration
+      device: ../dockerfiles/opensearch/ingest-configuration
       o: bind
 
 networks:

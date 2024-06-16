@@ -37,7 +37,7 @@ Install Plone backend add-on [`collective.elastic.plone 2.x`](https://github.com
 Install Plone backend add-on [`collective.elastic.ingest 2.x`](https://github.com/collective/collective.elastic.ingest) to index Plone content.
 
 Setting up OpenSearch/ElasticSearch instructions can be found on [`collective.elastic.plone 2.x`](https://github.com/collective/collective.elastic.plone).
-See the [example](docker-opensearch) configuration of collective.elastic of a mapping, attachment handling and last but not least analysis.
+See the [example](dockerfiles/opensearch) configuration of collective.elastic of a mapping, attachment handling and last but not least analysis.
 
 
 # Configuration
