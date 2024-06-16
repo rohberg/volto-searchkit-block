@@ -2,7 +2,7 @@ name: Acceptance tests
 on: [push]
 
 env:
-  ADDON_NAME: "@rohberg/volto-searchkit-block"
+  ADDON_NAME: '@rohberg/volto-searchkit-block'
   ADDON_PATH: volto-searchkit-block
   VOLTO_VERSION: 17
   PLONE_VERSION: 6.0
@@ -11,7 +11,7 @@ env:
   INDEX_OPENSEARCH: 1
   INDEX_USE_SSL: 0
   INDEX_LOGIN: admin
-  INDEX_PASSWORD: "oxczBG).3xWyapLn"
+  INDEX_PASSWORD: 'oxczBG).3xWyapLn'
 
   CELERY_BROKER: redis://redis:6379/0
   CELERY_LOG_LEVEL: info
@@ -43,7 +43,7 @@ jobs:
           cd acceptance
           yarn
 
-      - name: "Cypress: Acceptance tests - multilingual"
+      - name: 'Cypress: Acceptance tests - multilingual'
         uses: cypress-io/github-action@v6
         env:
           BABEL_ENV: production
@@ -58,7 +58,7 @@ jobs:
             docker compose -f ci.yml --profile multilingual up
           wait-on: 'npx wait-on --httpTimeout 20000 http-get://localhost:55001/plone http://localhost:3000 http://localhost:9200'
 
-      - name: "Cypress: Acceptance tests - single language"
+      - name: 'Cypress: Acceptance tests - monolingual'
         uses: cypress-io/github-action@v6
         env:
           BABEL_ENV: production
@@ -72,7 +72,6 @@ jobs:
           start: |
             docker compose -f ci.yml --profile prod up
           wait-on: 'npx wait-on --httpTimeout 20000 http-get://localhost:55001/plone http://localhost:3000 http://localhost:9200'
-
 
       # Upload Cypress screenshots
       - uses: actions/upload-artifact@v4
