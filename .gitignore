@@ -122,5 +122,5 @@ build/
 .yarn/
 yarn.lock
 
-!docker-opensearch/.env
+!dockerfiles/opensearch/.env
 !acceptance/.env
