@@ -26,7 +26,7 @@ env:
   PREPROCESSINGS_FILE: /configuration/preprocessings.json
 
 jobs:
-  acceptance:
+  acceptance-monolingual:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     strategy:
@@ -57,6 +57,37 @@ jobs:
           start: |
             docker compose -f ci.yml --profile prod up
           wait-on: 'npx wait-on --httpTimeout 20000 http-get://localhost:55001/plone http://localhost:3000 http://localhost:9200'
+
+      # Upload Cypress screenshots
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-screenshots-acceptance
+          path: acceptance/cypress/screenshots
+
+      # Upload Cypress videos
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-videos-acceptance
+          path: acceptance/cypress/videos
+
+  acceptance-multilingual:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Install Cypress
+        run: |
+          cd acceptance
+          yarn
 
       - name: 'Cypress: Acceptance tests - multilingual'
         uses: cypress-io/github-action@v6
