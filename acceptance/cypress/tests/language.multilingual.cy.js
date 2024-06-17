@@ -49,7 +49,7 @@ describe('Searchkit block tests – search - multilingual', () => {
     cy.removeContent({ path: 'de/der-garten-im-februar' });
   });
 
-  it('I can search within language', function () {
+  it('I can search', function () {
     cy.get('.searchbar-wrapper input').type('february{enter}');
     cy.get('.block.searchkitsearch').contains('The garden in february');
   });
