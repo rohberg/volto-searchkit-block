@@ -1,4 +1,4 @@
-version: "3"
+version: '3'
 
 services:
   addon-acceptance:
@@ -6,12 +6,14 @@ services:
       context: ../
       dockerfile: ./dockerfiles/frontend/Dockerfile.ci
       args:
-        ADDON_NAME: "${ADDON_NAME}"
-        ADDON_PATH: "${ADDON_PATH}"
+        ADDON_NAME: '${ADDON_NAME}'
+        ADDON_PATH: '${ADDON_PATH}'
         VOLTO_VERSION: ${VOLTO_VERSION:-17}
     environment:
       RAZZLE_INTERNAL_API_PATH: http://backend-acceptance:55001/plone
       RAZZLE_API_PATH: http://localhost:55001/plone
+    ports:
+      - 3000:3000
     depends_on:
       - backend-acceptance
     profiles:
@@ -22,8 +24,8 @@ services:
       context: ../
       dockerfile: ./dockerfiles/frontend/Dockerfile.ci.multilingual
       args:
-        ADDON_NAME: "${ADDON_NAME}"
-        ADDON_PATH: "${ADDON_PATH}"
+        ADDON_NAME: '${ADDON_NAME}'
+        ADDON_PATH: '${ADDON_PATH}'
         VOLTO_VERSION: ${VOLTO_VERSION:-17}
     environment:
       RAZZLE_INTERNAL_API_PATH: http://backend-acceptance-multilingual:55001/plone
@@ -34,7 +36,6 @@ services:
       - backend-acceptance-multilingual
     profiles:
       - multilingual
-  
 
   backend-acceptance:
     build:
@@ -43,18 +44,17 @@ services:
       args:
         PLONE_VERSION: ${PLONE_VERSION:-6.0}
     environment:
-      ZSERVER_HOST: 0.0.0.0
-      ZSERVER_PORT: 55001
-      # plone.elastic 2.x
+      ZSERVER_HOST: '0.0.0.0'
+      ZSERVER_PORT: '55001'
       INDEX_SERVER: ${INDEX_SERVER?unset}
       INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
       INDEX_USE_SSL: ${INDEX_USE_SSL?unset}
       INDEX_LOGIN: ${INDEX_LOGIN?unset}
       INDEX_PASSWORD: ${INDEX_PASSWORD?unset}
       CELERY_BROKER: ${CELERY_BROKER?unset}
-      CONFIGURE_PACKAGES: "plone.restapi,plone.volto,plone.volto.cors,collective.elastic.plone"
+      CONFIGURE_PACKAGES: 'plone.restapi,plone.volto,plone.volto.cors,collective.elastic.plone'
       # Run initialize of collective.elastic.plone to register ElasticSearchProxyIndex
-      INSTALL_PRODUCTS: "collective.elastic.plone"
+      INSTALL_PRODUCTS: 'collective.elastic.plone'
     ports:
       - 55001:55001
     depends_on:
@@ -64,7 +64,6 @@ services:
     profiles:
       - dev
       - prod
-  
 
   backend-acceptance-multilingual:
     build:
@@ -82,9 +81,9 @@ services:
       INDEX_LOGIN: ${INDEX_LOGIN?unset}
       INDEX_PASSWORD: ${INDEX_PASSWORD?unset}
       CELERY_BROKER: ${CELERY_BROKER?unset}
-      CONFIGURE_PACKAGES: "plone.restapi,plone.volto,plone.volto.cors,collective.elastic.plone"
+      CONFIGURE_PACKAGES: 'plone.restapi,plone.volto,plone.volto.cors,collective.elastic.plone'
       # Run initialize of collective.elastic.plone to register ElasticSearchProxyIndex
-      INSTALL_PRODUCTS: "collective.elastic.plone"
+      INSTALL_PRODUCTS: 'collective.elastic.plone'
     ports:
       - 55001:55001
     depends_on:
@@ -97,9 +96,9 @@ services:
   ingest:
     image: ghcr.io/collective/collective.elastic.ingest:latest
     environment:
-      MAPPINGS_FILE: "/configuration/mappings.json"
-      ANALYSIS_FILE: "/configuration/analysis.json"
-      PREPROCESSINGS_FILE: "/configuration/preprocessings.json"
+      MAPPINGS_FILE: '/configuration/mappings.json'
+      ANALYSIS_FILE: '/configuration/analysis.json'
+      PREPROCESSINGS_FILE: '/configuration/preprocessings.json'
       INDEX_SERVER: ${INDEX_SERVER?unset}
       INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
       INDEX_USE_SSL: ${INDEX_USE_SSL?unset}
@@ -121,9 +120,9 @@ services:
     image: ghcr.io/collective/collective.elastic.ingest:latest
     environment:
       # Different INDEX_NAME
-      MAPPINGS_FILE: "/configuration/mappings.json"
-      ANALYSIS_FILE: "/configuration/analysis.json"
-      PREPROCESSINGS_FILE: "/configuration/preprocessings.json"
+      MAPPINGS_FILE: '/configuration/mappings.json'
+      ANALYSIS_FILE: '/configuration/analysis.json'
+      PREPROCESSINGS_FILE: '/configuration/preprocessings.json'
       INDEX_SERVER: ${INDEX_SERVER?unset}
       INDEX_NAME: multilingual
       INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
@@ -143,7 +142,7 @@ services:
       - multilingual
 
   redis:
-    image: "redis:latest"
+    image: 'redis:latest'
     ports:
       - 6379:6379
 
@@ -157,7 +156,7 @@ services:
       - node.name=opensearch
       - discovery.type=single-node
       - bootstrap.memory_lock=true
-      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx2g"
+      - 'OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx2g'
       - OPENSEARCH_INITIAL_ADMIN_PASSWORD=${INDEX_PASSWORD?unset}
     ulimits:
       memlock:
