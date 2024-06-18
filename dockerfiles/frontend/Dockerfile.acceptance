@@ -15,5 +15,5 @@ COPY --chown=node:node ./dockerfiles/frontend/config_monolingual.js /app/src/con
 
 RUN <<EOT
     /setupAddon
-    yarn install --network-timeout 1000000
+    pnpm install --network-timeout 1000000
 EOT

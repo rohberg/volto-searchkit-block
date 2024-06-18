@@ -15,16 +15,16 @@ COPY --chown=node:node ./dockerfiles/frontend/config_multilingual.js /app/src/co
 RUN <<EOT
     set -e
     /setupAddon
-    yarn install --network-timeout 1000000
-    yarn build
+    pnpm install --network-timeout 1000000
+    pnpm build
     rm -rf cache omelette .yarn/cache
 EOT
 
 FROM plone/frontend-prod-config:${VOLTO_VERSION}
 
 LABEL maintainer="maintainer <maintainer@plone.org>" \
-      org.label-schema.name="ghcr.io/volto-searchkit-block-project" \
-      org.label-schema.description="Volto project with volto-searchkit-block" \
-      org.label-schema.vendor="Plone CMS"
+    org.label-schema.name="ghcr.io/volto-searchkit-block-project" \
+    org.label-schema.description="Volto project with volto-searchkit-block" \
+    org.label-schema.vendor="Plone CMS"
 
 COPY --from=builder /app/ /app/
