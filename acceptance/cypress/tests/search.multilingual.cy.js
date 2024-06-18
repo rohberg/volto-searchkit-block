@@ -1,7 +1,5 @@
 describe('Searchkit block tests – search', () => {
   before(() => {
-    cy.intercept('GET', `/**/*?expand*`).as('content');
-    cy.intercept('GET', '/**/Document').as('schema');
     cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
 
     cy.autologin();
@@ -67,20 +65,16 @@ describe('Searchkit block tests – search', () => {
     });
 
     cy.get('#toolbar-save').click();
-    cy.wait('@content');
     cy.wait('@kitsearch');
   });
 
   beforeEach(() => {
-    cy.intercept('GET', `/**/*?expand*`).as('content');
-    cy.intercept('GET', '/**/Document').as('schema');
     cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
 
     cy.autologin();
 
     cy.visit('/de/suche');
-    cy.wait(3000);
-    // cy.wait('@kitsearch');
+    cy.wait('@kitsearch');
   });
 
   after(() => {
@@ -155,13 +149,13 @@ describe('Searchkit block tests – search', () => {
     );
     // cy.toolbarSave();
     cy.get('#toolbar-save').click();
-    cy.wait('@content');
+    cy.wait('@kitsearch');
 
     cy.log('I added a text block');
 
     // Searching
-    cy.visit('de//suche');
-    cy.wait(3000);
+    cy.visit('de/suche');
+    cy.wait('@kitsearch');
     cy.get('.searchbar-wrapper input').type('Montag{enter}');
     cy.get('.block.searchkitsearch').contains('Der Garten im Februar');
   });

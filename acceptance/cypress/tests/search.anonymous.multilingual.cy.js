@@ -1,4 +1,4 @@
-describe('Searchkit block tests – search - multilingual', () => {
+describe('Searchkit block tests – search - anonymous', () => {
   before(() => {
     cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
 
@@ -11,6 +11,12 @@ describe('Searchkit block tests – search - multilingual', () => {
       path: 'en',
     });
 
+    cy.setWorkflow({
+      path: 'en/searching',
+      review_state: 'publish',
+      effective: '2018-01-01T08:00:00',
+    });
+
     cy.createContent({
       contentType: 'Document',
       contentId: 'garden-in-february',
@@ -18,11 +24,17 @@ describe('Searchkit block tests – search - multilingual', () => {
       path: 'en',
     });
 
+    cy.setWorkflow({
+      path: 'en/garden-in-february',
+      review_state: 'publish',
+      effective: '2018-01-01T08:00:00',
+    });
+
     cy.createContent({
       contentType: 'Document',
-      contentId: 'der-garten-im-februar',
-      contentTitle: 'Der Garten im Februar',
-      path: 'de',
+      contentId: 'garden-in-march',
+      contentTitle: 'The garden in march',
+      path: 'en',
     });
 
     // Add search block
@@ -41,29 +53,42 @@ describe('Searchkit block tests – search - multilingual', () => {
 
   beforeEach(() => {
     cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
+
     cy.autologin();
 
-    cy.visit('/en/searching/edit');
+    cy.visit('/en/searching');
     cy.wait('@kitsearch');
   });
 
   after(() => {
     cy.removeContent({ path: 'en/searching' });
     cy.removeContent({ path: 'en/garden-in-february' });
-    cy.removeContent({ path: 'de/der-garten-im-februar' });
+    cy.removeContent({ path: 'en/garden-in-march' });
   });
 
   it('I can search', function () {
     cy.get('.searchbar-wrapper input').type('february{enter}');
     cy.get('.block.searchkitsearch').contains('The garden in february');
+    cy.get('.searchbar-wrapper input').clear().type('march{enter}');
+    cy.get('.block.searchkitsearch').contains('The garden in march');
   });
 
-  it('I can search within language', function () {
-    cy.get('.searchbar-wrapper input').type('februax{enter}');
+  it('As anonymous I see only published content', function () {
+    cy.intercept('/**/@logout').as('logout');
+
+    cy.visit('/logout');
+    cy.wait('@logout');
+
+    cy.visit('/en/searching');
+    cy.wait('@kitsearch');
+
+    cy.get('.searchbar-wrapper input').type('february{enter}');
     cy.get('.block.searchkitsearch').contains('The garden in february');
+
+    cy.get('.searchbar-wrapper input').clear().type('march{enter}');
     cy.get('.block.searchkitsearch').should(
       'not.contain',
-      'Der Garten im Februar',
+      'The garden in march',
     );
   });
 });
