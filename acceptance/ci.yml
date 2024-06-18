@@ -32,8 +32,8 @@ services:
       RAZZLE_API_PATH: http://localhost:55001/plone
     ports:
       - 3000:3000
-    depends_on:
-      - backend-acceptance-multilingual
+    # depends_on:
+    #   - backend-acceptance-multilingual
     profiles:
       - multilingual
 
@@ -72,8 +72,8 @@ services:
       args:
         PLONE_VERSION: ${PLONE_VERSION:-6.0}
     environment:
-      ZSERVER_HOST: 0.0.0.0
-      ZSERVER_PORT: 55001
+      ZSERVER_HOST: '0.0.0.0'
+      ZSERVER_PORT: '55001'
       # plone.elastic 2.x
       INDEX_SERVER: ${INDEX_SERVER?unset}
       INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
