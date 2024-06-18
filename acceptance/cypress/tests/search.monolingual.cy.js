@@ -60,6 +60,7 @@ describe('Searchkit block tests – search', () => {
 
     cy.get('#toolbar-save').click();
     cy.wait('@kitsearch');
+    cy.wait(3000);
   });
 
   beforeEach(() => {
