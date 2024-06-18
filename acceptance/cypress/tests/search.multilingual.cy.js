@@ -139,6 +139,7 @@ describe('Searchkit block tests – search', () => {
 
   // Blocks text
   it('I can search in blocks', function () {
+    cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
     cy.visit('/de/garten-blog/februar');
     cy.get('a.edit').click();
 

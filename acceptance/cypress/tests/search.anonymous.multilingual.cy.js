@@ -74,6 +74,7 @@ describe('Searchkit block tests – search - anonymous', () => {
   });
 
   it('As anonymous I see only published content', function () {
+    cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
     cy.intercept('/**/@logout').as('logout');
 
     cy.visit('/logout');
