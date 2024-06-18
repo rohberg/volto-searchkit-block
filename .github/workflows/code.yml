@@ -2,16 +2,16 @@ name: Code analysis checks
 on: [push]
 
 env:
-  ADDON_NAME: "@rohberg/volto-searchkit-block"
+  ADDON_NAME: '@rohberg/volto-searchkit-block'
   ADDON_PATH: volto-searchkit-block
-  VOLTO_VERSION: 17
+  VOLTO_VERSION: 18.0.0-alpha.35
   PLONE_VERSION: 6.0
 
   INDEX_SERVER: opensearch:9200
   INDEX_OPENSEARCH: 1
   INDEX_USE_SSL: 0
   INDEX_LOGIN: admin
-  INDEX_PASSWORD: "oxczBG).3xWyapLn"
+  INDEX_PASSWORD: 'oxczBG).3xWyapLn'
 
   CELERY_BROKER: redis://redis:6379/0
   CELERY_LOG_LEVEL: info
