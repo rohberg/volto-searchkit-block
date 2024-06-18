@@ -2,7 +2,7 @@
 # Dockerfile from cookiecutter-plone-starter
 
 ARG PLONE_VERSION=6.0
-ARG SEED=2
+ARG SEED=6
 FROM plone/server-builder:${PLONE_VERSION} as builder
 
 WORKDIR /app
@@ -12,6 +12,7 @@ WORKDIR /app
 
 # Install local requirements
 RUN <<EOT
+    SEED=${SEED}
     set -e
     bin/pip install plone.app.robotframework>=2.0.0
     # TODO Switch back to released collective.elastic.plone
