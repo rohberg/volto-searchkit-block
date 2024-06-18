@@ -1,5 +1,5 @@
 PLONE_VERSION=6.0.11.1
-VOLTO_VERSION=18.0.0-alpha.35
+VOLTO_VERSION=17.16.0
 
 ADDON_NAME='@rohberg/volto-searchkit-block'
 ADDON_PATH='volto-searchkit-block'
