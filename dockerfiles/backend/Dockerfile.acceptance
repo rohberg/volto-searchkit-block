@@ -23,7 +23,7 @@ EOT
 
 
 FROM plone/server-acceptance:${PLONE_VERSION}
-ENV APPLY_PROFILES="rohberg.volto:monolingual"
+ENV APPLY_PROFILES="collective.elastic.plone:default,rohberg.volto:monolingual"
 
 # Copy /app from builder
 COPY --from=builder /app /app
