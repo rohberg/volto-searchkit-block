@@ -48,7 +48,6 @@ describe('Searchkit block tests – search', () => {
       contentTitle: 'Testseite Stelle',
     });
 
-
     // Add search block to /suche
     cy.visit('/suche');
     cy.get('a.edit').click();
@@ -67,7 +66,7 @@ describe('Searchkit block tests – search', () => {
   beforeEach(() => {
     cy.intercept('GET', `/**/*?expand*`).as('content');
     cy.intercept('GET', '/**/Document').as('schema');
-    cy.intercept('GET', '/**/@kitsearch').as('kitsearch');
+    cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
 
     cy.autologin();
 
@@ -156,5 +155,4 @@ describe('Searchkit block tests – search', () => {
   //   cy.get('.searchbar-wrapper input').type('Montag{enter}');
   //   cy.get('.block.searchkitsearch').contains('Der Garten im Februar');
   // });
-
 });

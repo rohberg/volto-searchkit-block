@@ -2,6 +2,7 @@ describe('Searchkit block tests – search', () => {
   before(() => {
     cy.intercept('GET', `/**/*?expand*`).as('content');
     cy.intercept('GET', '/**/Document').as('schema');
+    cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
 
     cy.autologin();
 
@@ -54,7 +55,6 @@ describe('Searchkit block tests – search', () => {
       path: '/de',
     });
 
-
     // Add search block to /suche
     cy.visit('/de/suche');
     cy.get('a.edit').click();
@@ -68,12 +68,13 @@ describe('Searchkit block tests – search', () => {
 
     cy.get('#toolbar-save').click();
     cy.wait('@content');
+    cy.wait('@kitsearch');
   });
 
   beforeEach(() => {
     cy.intercept('GET', `/**/*?expand*`).as('content');
     cy.intercept('GET', '/**/Document').as('schema');
-    cy.intercept('GET', '/**/@kitsearch').as('kitsearch');
+    cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
 
     cy.autologin();
 
@@ -86,11 +87,11 @@ describe('Searchkit block tests – search', () => {
     // cy.removeContent({ path: 'de/garten-blog/februar' });
     // cy.removeContent({ path: 'de/garten-blog/marz' });
     cy.removeContent({ path: 'de/garten-blog' });
-    cy.removeContent({ path: 'de/suche' });
     cy.removeContent({ path: 'de/testseite-mann' });
     cy.removeContent({ path: 'de/testseite-manner' });
     cy.removeContent({ path: 'de/testseite-lsb' });
     cy.removeContent({ path: 'de/testseite-s' });
+    cy.removeContent({ path: 'de/suche' });
   });
 
   it('I see all if no filter selected', function () {
@@ -149,7 +150,9 @@ describe('Searchkit block tests – search', () => {
 
     cy.getSlate().click();
     cy.log('when I add a text block');
-    cy.getSlateEditorAndType('Montags gehen wir in den Zoo.').contains('Montags gehen wir in den Zoo.');
+    cy.getSlateEditorAndType('Montags gehen wir in den Zoo.').contains(
+      'Montags gehen wir in den Zoo.',
+    );
     // cy.toolbarSave();
     cy.get('#toolbar-save').click();
     cy.wait('@content');
@@ -162,5 +165,4 @@ describe('Searchkit block tests – search', () => {
     cy.get('.searchbar-wrapper input').type('Montag{enter}');
     cy.get('.block.searchkitsearch').contains('Der Garten im Februar');
   });
-
 });
