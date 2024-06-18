@@ -36,7 +36,7 @@ describe('Searchkit block tests – search - multilingual', () => {
   beforeEach(() => {
     cy.intercept('GET', `/**/*?expand*`).as('content');
     cy.intercept('GET', '/**/Document').as('schema');
-    cy.intercept('GET', '/**/@kitsearch').as('kitsearch');
+    cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
 
     cy.autologin();
 
