@@ -6,7 +6,7 @@ services:
       args:
         ADDON_NAME: '${ADDON_NAME}'
         ADDON_PATH: '${ADDON_PATH}'
-        VOLTO_VERSION: ${VOLTO_VERSION:-18}
+        VOLTO_VERSION: ${VOLTO_VERSION:-17}
     volumes:
       - ${CURRENT_DIR}:/app/src/addons/${ADDON_PATH}/
     environment:
@@ -29,7 +29,7 @@ services:
       args:
         ADDON_NAME: '${ADDON_NAME}'
         ADDON_PATH: '${ADDON_PATH}'
-        VOLTO_VERSION: ${VOLTO_VERSION:-18}
+        VOLTO_VERSION: ${VOLTO_VERSION:-17}
     volumes:
       - ${CURRENT_DIR}:/app/src/addons/${ADDON_PATH}/
     environment:
