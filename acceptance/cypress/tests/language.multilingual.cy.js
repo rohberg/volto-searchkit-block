@@ -1,4 +1,4 @@
-describe('Searchkit block tests – search - multilingual', () => {
+describe('Searchkit block tests – search - multilingual - language', () => {
   before(() => {
     cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
     cy.intercept('GET', `/**/*?expand*`).as('content');
