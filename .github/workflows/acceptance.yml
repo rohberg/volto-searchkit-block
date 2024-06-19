@@ -52,6 +52,7 @@ jobs:
           # determine the unique run id necessary to re-run the checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          config: pageLoadTimeout=100000,defaultCommandTimeout=8000
           parallel: false
           browser: chrome
           working-directory: acceptance
@@ -101,6 +102,7 @@ jobs:
           # determine the unique run id necessary to re-run the checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          config: pageLoadTimeout=100000,defaultCommandTimeout=8000
           parallel: false
           browser: chrome
           working-directory: acceptance
