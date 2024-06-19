@@ -91,7 +91,7 @@ describe('Searchkit block tests – search - monolingual', () => {
   });
 
   it('I can search with inflection', function () {
-    cy.get('.searchbar-wrapper input').clear().type('Männer{enter}');
+    cy.get('.searchbar-wrapper input').type('Männer{enter}');
     cy.get('.block.searchkitsearch').contains('Testseite Mann');
 
     cy.get('.searchbar-wrapper input').clear().type('Mann{enter}');
