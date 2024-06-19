@@ -1,6 +1,7 @@
 describe('Searchkit block tests – search - multilingual', () => {
   before(() => {
     cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
+    cy.intercept('GET', `/**/*?expand*`).as('content');
 
     cy.autologin();
 
@@ -37,6 +38,7 @@ describe('Searchkit block tests – search - multilingual', () => {
 
     cy.get('#toolbar-save').click();
     cy.wait('@kitsearch');
+    cy.wait('@content');
   });
 
   beforeEach(() => {

@@ -1,6 +1,7 @@
 describe('Searchkit block tests – search', () => {
   before(() => {
     cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
+    cy.intercept('GET', `/**/*?expand*`).as('content');
 
     cy.autologin();
 
@@ -66,6 +67,7 @@ describe('Searchkit block tests – search', () => {
 
     cy.get('#toolbar-save').click();
     cy.wait('@kitsearch');
+    cy.wait('@content');
   });
 
   beforeEach(() => {
