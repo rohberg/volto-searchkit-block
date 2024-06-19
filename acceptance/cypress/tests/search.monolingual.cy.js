@@ -148,8 +148,8 @@ describe('Searchkit block tests – search - monolingual', () => {
     cy.log('I added a text block');
 
     // Searching
-    cy.navigate('/suche');
-    cy.wait('@kitsearch');
+    // WARNING Do not use cy.navigate TODO understand difference between cy.visit and cy.navigate
+    cy.visit('/suche');
     cy.get('.searchbar-wrapper input').type('Montag{enter}');
     cy.get('.block.searchkitsearch').contains('Der Garten im Februar');
   });
