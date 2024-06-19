@@ -14,7 +14,7 @@ env:
   INDEX_PASSWORD: 'oxczBG).3xWyapLn'
 
   CELERY_BROKER: redis://redis:6379/0
-  CELERY_LOG_LEVEL: info
+  CELERY_LOGLEVEL: info
 
   PLONE_SERVICE: http://backend-acceptance:55001
   PLONE_SITE_PREFIX_PATH: plone

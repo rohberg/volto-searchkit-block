@@ -5,7 +5,7 @@ export INDEX_LOGIN=admin
 export INDEX_PASSWORD=mypswdappknowsmyindexserverpswd
 
 export CELERY_BROKER=redis://redis:6379/0
-export CELERY_LOG_LEVEL=debug
+export CELERY_LOGLEVEL=debug
 
 export PLONE_SERVICE=http://backend:8080
 export PLONE_SITE_PREFIX_PATH=Plone
