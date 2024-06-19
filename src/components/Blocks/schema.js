@@ -188,7 +188,7 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
         items: {
           vocabulary: { '@id': 'plone.app.vocabularies.UserFriendlyTypes' },
         },
-        default: [],
+        default: ['News Item'],
       },
       showEventStartDate: {
         title: 'Show start date of events',
@@ -197,7 +197,7 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
         items: {
           vocabulary: { '@id': 'plone.app.vocabularies.UserFriendlyTypes' },
         },
-        default: [],
+        default: ['Event'],
       },
       relocation: {
         title: 'Relocation',
