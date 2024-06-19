@@ -86,58 +86,73 @@ describe('Searchkit block tests – search', () => {
   });
 
   it('I see all if no filter selected', function () {
+    cy.wait('@kitsearch');
     cy.get('.block.searchkitsearch').contains('Der Garten im Februar');
   });
 
   it('I can search fuzzy', function () {
     cy.get('.searchbar-wrapper input').type('februax{enter}');
+    cy.wait('@kitsearch');
     cy.get('.block.searchkitsearch').contains('Der Garten im Februar');
     cy.get('.block.searchkitsearch').should('not.contain', 'März');
   });
 
   it('I can search with inflection', function () {
     cy.get('.searchbar-wrapper input').clear().type('Männer{enter}');
+    cy.wait('@kitsearch');
     cy.get('.block.searchkitsearch').contains('Testseite Mann');
 
     cy.get('.searchbar-wrapper input').clear().type('Mann{enter}');
+    cy.wait('@kitsearch');
     cy.get('.block.searchkitsearch').contains('Testseite Männer');
   });
 
   it('I can search with decompounding', function () {
     cy.get('.searchbar-wrapper input').type('Garten{enter}');
+    cy.wait('@kitsearch');
     cy.get('.block.searchkitsearch').contains('Garten-Blog');
 
     cy.get('.searchbar-wrapper input').clear().type('Garten-Blog{enter}');
+    cy.wait('@kitsearch');
     cy.get('.block.searchkitsearch').contains('Februar');
   });
 
   it('I can search with wildcard', function () {
     cy.get('.searchbar-wrapper input').type('Feb*{enter}');
+    cy.wait('@kitsearch');
     cy.get('.block.searchkitsearch').contains('Der Garten im Februar');
   });
 
   it('I can search for an exact match', function () {
     cy.get('.searchbar-wrapper input').type('"Mann"{enter}');
+    cy.wait('@kitsearch');
     cy.get('.block.searchkitsearch').contains('Testseite Mann');
+
     cy.get('.searchbar-wrapper input').clear().type('"Mann"{enter}');
+    cy.wait('@kitsearch');
     cy.get('.block.searchkitsearch').should('not.contain', 'Männer');
   });
 
   it('I can search for a compounded word', function () {
     cy.get('.searchbar-wrapper input').type('stelle{enter}');
+    cy.wait('@kitsearch');
     cy.get('.block.searchkitsearch').contains('Testseite Lehrstellenbörsen');
+
     cy.get('.searchbar-wrapper input').clear().type('Lehre{enter}');
+    cy.wait('@kitsearch');
     cy.get('.block.searchkitsearch').contains('Testseite Lehrstellenbörsen');
+
     cy.get('.searchbar-wrapper input').clear().type('Börse{enter}');
+    cy.wait('@kitsearch');
     cy.get('.block.searchkitsearch').contains('Testseite Lehrstellenbörsen');
+
     cy.get('.searchbar-wrapper input').clear().type('Lehrstellenbörse{enter}');
+    cy.wait('@kitsearch');
     cy.get('.block.searchkitsearch').contains('Testseite Stelle');
   });
 
   // Blocks text
   it('I can search in blocks', function () {
-    cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
-    cy.intercept('GET', `/**/*?expand*`).as('content');
     cy.visit('/garten-blog/februar');
     cy.get('a.edit').click();
 
