@@ -70,8 +70,6 @@ describe('Searchkit block tests – search - monolingual', () => {
   });
 
   after(() => {
-    cy.removeContent({ path: 'garten-blog/februar' });
-    cy.removeContent({ path: 'garten-blog/marz' });
     cy.removeContent({ path: 'garten-blog' });
     cy.removeContent({ path: 'suche' });
     cy.removeContent({ path: 'testseite-mann' });
