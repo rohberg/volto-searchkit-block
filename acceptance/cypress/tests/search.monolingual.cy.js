@@ -66,10 +66,12 @@ describe('Searchkit block tests – search', () => {
 
   beforeEach(() => {
     cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
+    cy.intercept('GET', `/**/*?expand*`).as('content');
     cy.autologin();
 
     cy.visit('/suche');
     cy.wait('@kitsearch');
+    cy.wait('@content');
   });
 
   after(() => {
