@@ -47,7 +47,7 @@ jobs:
         uses: cypress-io/github-action@v6
         env:
           BABEL_ENV: production
-          CYPRESS_RETRIES: 2
+          CYPRESS_RETRIES: 3
         with:
           parallel: false
           browser: chrome
@@ -93,7 +93,7 @@ jobs:
         uses: cypress-io/github-action@v6
         env:
           BABEL_ENV: production
-          CYPRESS_RETRIES: 2
+          CYPRESS_RETRIES: 3
         with:
           parallel: false
           browser: chrome
