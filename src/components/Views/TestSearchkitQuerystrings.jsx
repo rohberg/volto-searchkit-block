@@ -64,7 +64,9 @@ const _OnHighlights = (props) => {
   matches_sorted.sort(sort_caseinsensitive);
   return (
     <div>
-      <Header as="h2">{matches_sorted.length} matches found:</Header>
+      {matches_sorted.length > 0 && (
+        <Header as="h2">{matches_sorted.length} matches found:</Header>
+      )}
       {matches_sorted.map((match) => (
         <div key={match}>
           <a
@@ -96,6 +98,7 @@ const CustomResultsListItem = ({ result, index }) => {
         </a>
       </Header>
       <ElasticSearchMatches highlight={result.highlight} indexResult={index} />
+      <hr />
     </div>
   );
 };

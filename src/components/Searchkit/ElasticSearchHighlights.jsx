@@ -111,8 +111,8 @@ export const ElasticSearchMatches = ({ highlight, indexResult }) => {
   const matches = getMatches(highlight);
   return (
     <div className="highlight metadata" role="button" tabIndex={indexResult}>
+      {matches.length > 0 && <span className="label">matches: </span>}
       {matches.join(' | ')}
-      <hr />
     </div>
   );
 };
