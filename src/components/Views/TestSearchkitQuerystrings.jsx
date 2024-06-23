@@ -64,7 +64,7 @@ const _OnHighlights = (props) => {
   matches_sorted.sort(sort_caseinsensitive);
   return (
     <div>
-      <Header as="h2">Found {matches_sorted.length} matches.</Header>
+      <Header as="h2">{matches_sorted.length} matches found:</Header>
       {matches_sorted.map((match) => (
         <div key={match}>
           <a
@@ -87,9 +87,13 @@ const CustomResultsListItem = ({ result, index }) => {
   return (
     <div>
       <Header as="h3">
-        <Link to={flattenESUrlToPath(result['@id'])} target="_blank">
+        <a
+          href={flattenESUrlToPath(result['@id'])}
+          target="_blank"
+          rel="noreferrer"
+        >
           {result.title}
-        </Link>
+        </a>
       </Header>
       <ElasticSearchMatches highlight={result.highlight} indexResult={index} />
     </div>
@@ -97,7 +101,7 @@ const CustomResultsListItem = ({ result, index }) => {
 };
 
 const DocumentsCount = ({ totalResults }) => {
-  return <Header as="h2">Found {totalResults} documents.</Header>;
+  return <Header as="h2">{totalResults} documents found:</Header>;
 };
 
 const overriddenComponents = {
@@ -176,9 +180,8 @@ const TestSearchkitQuerystrings = (props) => {
                   />
                 </Segment>
                 <Segment>
-                  <Count />
                   <OnHighlights />
-                  <Header as="h2">Documents with title and matches</Header>
+                  <Count />
                   <OnResults />
                 </Segment>
               </>
