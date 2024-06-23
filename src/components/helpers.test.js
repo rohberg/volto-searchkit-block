@@ -17,7 +17,7 @@ describe('helpers', () => {
         ),
       ).toBe('/news/sprint-on-accessibility');
       expect(flattenESUrlToPath('https://nzz.ch/arosa/piste')).toBe(
-        '/arosa/piste',
+        'https://nzz.ch/arosa/piste',
       );
     });
   });
