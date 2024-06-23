@@ -30,11 +30,12 @@ function flattenESUrlToPath(url) {
     // external url
     return url;
   }
-  const urlArray = url.split(':');
-  const newPathname = `http://localhost:${urlArray.pop()}`.replace(
-    config.settings.internalApiPath,
-    '',
-  );
+
+  const urlObj = new URL(url);
+  const urlArray = urlObj.pathname.split('/').reverse();
+  urlArray.pop();
+  urlArray.pop();
+  const newPathname = `/${urlArray.reverse().join('/')}`;
   return newPathname;
 }
 
