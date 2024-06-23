@@ -62,7 +62,7 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
     title: intl.formatMessage(messages.searchBlock),
     fieldsets: [
       {
-        id: 'search',
+        id: 'default',
         title: 'Search',
         fields: [
           'allowed_content_types',
