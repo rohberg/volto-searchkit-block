@@ -67,4 +67,10 @@ describe('Searchkit block tests – search - monolingual', () => {
     cy.get('.searchbar-wrapper input').type('matterhorn{enter}');
     cy.get('.block.searchkitsearch').contains('.202');
   });
+
+  it('I can open a result', function () {
+    cy.get('.searchbar-wrapper input').type('matterhorn{enter}');
+    cy.get('.searchkitresultitem a').first().click();
+    cy.get('.block').contains('Matterhorn');
+  });
 });
