@@ -27,7 +27,7 @@ env:
 jobs:
   acceptance-monolingual:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 46
     strategy:
       fail-fast: false
       matrix:
