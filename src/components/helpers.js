@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import config from '@plone/volto/registry';
 
 class NoSSR extends React.Component {
   state = {
@@ -15,24 +15,31 @@ class NoSSR extends React.Component {
   }
 }
 
-// TODO replace ugly  flattenESUrlToPath hack. Problem Elastic responds with backend Plone Zeo client url.
+// TODO replace ugly  flattenESUrlToPath hack. Problem Elastic responds with backend Plone url which is host.docker….
+/**
+ * flatten url to path if internal, else leave it as it is
+ * @param {String} url
+ * @returns path
+ *
+ * "http://host.docker.internal:17091/Plone/news/sprint-on-accessibility"
+ * ->
+ * "/news/sprint-on-accessibility"
+ */
 function flattenESUrlToPath(url) {
-  var pathArray = url.split('/');
-  var newPathname = '';
-  for (let i = 4; i < pathArray.length; i++) {
-    newPathname += '/';
-    newPathname += pathArray[i];
+  if (url.startsWith('https')) {
+    // external url
+    return url;
   }
+  const urlArray = url.split(':');
+  const newPathname = `http://localhost:${urlArray.pop()}`.replace(
+    config.settings.internalApiPath,
+    '',
+  );
   return newPathname;
 }
 
 const scrollToTarget = (target, offsetHeight = 0) => {
-  const bodyRect = document.body.getBoundingClientRect().top;
-  const targetRect = target.getBoundingClientRect().top;
-  const targetPosition = targetRect - bodyRect - offsetHeight;
-
-  return window.scrollTo({
-    top: targetPosition,
+  target.scrollIntoView({
     behavior: 'smooth',
   });
 };
