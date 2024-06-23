@@ -4,7 +4,6 @@ on: [push]
 env:
   ADDON_NAME: '@rohberg/volto-searchkit-block'
   ADDON_PATH: volto-searchkit-block
-  VOLTO_VERSION: 17
   PLONE_VERSION: 6.0
 
   INDEX_SERVER: opensearch:9200
@@ -31,6 +30,8 @@ jobs:
     timeout-minutes: 45
     strategy:
       fail-fast: false
+      matrix:
+        volto-version: [17, 18]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -59,7 +60,7 @@ jobs:
           spec: cypress/tests/*.monolingual.cy.js
           install: false
           start: |
-            docker compose -f ci.yml --profile prod up
+            VOLTO_VERSION=${{ matrix.volto-version }} docker compose -f ci.yml --profile prod up
           wait-on: 'npx wait-on --httpTimeout 20000 http-get://localhost:55001/plone http://localhost:3000 http://localhost:9200'
 
       # Upload Cypress screenshots
