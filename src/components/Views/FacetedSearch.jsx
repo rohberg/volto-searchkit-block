@@ -33,6 +33,7 @@ import {
 
 import { expandToBackendURL } from '@plone/volto/helpers';
 import { FormattedDate, Icon } from '@plone/volto/components';
+import { addAppURL, toPublicURL } from '@plone/volto/helpers';
 import leftAngle from '@plone/volto/icons/left-key.svg';
 import rightAngle from '@plone/volto/icons/right-key.svg';
 import firstAngle from '@plone/volto/icons/first.svg';
@@ -48,6 +49,7 @@ import { CustomESResponseSerializer } from '../Searchkit/CustomESResponseSeriali
 import { OnResults } from '../Searchkit/Results';
 import SectionsSearch from '../Searchkit/SectionsSearch';
 import SearchBarSection from '../Searchkit/SearchBarSection';
+import MyResultsLoaderElement from '../Searchkit/ResultsLoader';
 
 import { ElasticSearchHighlights } from '../Searchkit/ElasticSearchHighlights';
 import ErrorComponent from '../Searchkit/Error';
@@ -57,10 +59,26 @@ import './less/springisnow-volto-searchkit-block.less';
 
 import config from '@plone/volto/registry';
 
+/**
+ *
+ * @param {Object} querystringindexes
+ * @param {String} fieldname One of the indexes
+ * @param {String} key to be translated
+ * @returns {String}
+ */
+const translate = (querystringindexes, fieldname, key) => {
+  let label = key;
+  if (querystringindexes && fieldname in querystringindexes) {
+    label = querystringindexes[fieldname].values[key]?.title || key;
+  }
+  return label;
+};
+
 // TODO Make reviewstatemapping configurable
 export const ploneSearchApi = (data, language) => {
   const cookies = new Cookies();
   const authToken = cookies.get('auth_token');
+
   return new PloneSearchApi({
     fetchPayload: {
       url: expandToBackendURL('/@kitsearch'),
@@ -80,8 +98,6 @@ export const ploneSearchApi = (data, language) => {
     allowed_review_states: data.allowed_review_states,
     search_sections: data.search_sections,
     language: language,
-    backend_url: data.backend_url,
-    frontend_url: data.frontend_url,
     // elastic_search_api_url: data.elastic_search_api_url,
     // elastic_search_api_index: data.elastic_search_api_index,
   });
@@ -99,16 +115,8 @@ const _ExtraInfo = (props) => {
   let subjectsFieldname = props.currentQueryState.data?.subjectsFieldname; // "subjects";
 
   const querystringindexes = useSelector(
-    (state) => state.query?.data?.querystringindexes,
+    (state) => state.query?.querystringindexes,
   );
-
-  const translate = (key, fieldname) => {
-    let label = key;
-    if (querystringindexes && fieldname in querystringindexes) {
-      label = querystringindexes[fieldname]?.values[key]?.title || key;
-    }
-    return label;
-  };
 
   return (
     <Item.Extra className="metadata">
@@ -124,7 +132,7 @@ const _ExtraInfo = (props) => {
           <React.Fragment key={extrainfo_key}>
             <span className="label">{extrainfo_fields[extrainfo_key]}:</span>
             {extrainfo_value?.map((item, index) => {
-              let tito = translate(item, extrainfo_key);
+              let tito = translate(querystringindexes, extrainfo_key, item);
               let payloadOfFilter = {
                 searchQuery: {
                   sortBy: 'bestmatch',
@@ -207,14 +215,11 @@ const ExtraInfo = withState(_ExtraInfo);
 
 const _CustomResultsListItem = (props) => {
   const { result } = props;
-  const backend_url = props.currentQueryState.data?.backend_url;
-  const is_external_content = !result['@id'].includes(backend_url);
-  const item_url = result['@id'].includes(backend_url)
-    ? flattenESUrlToPath(result['@id'])
-    : result['@id'];
+  const item_url = flattenESUrlToPath(result['@id']);
+  const is_external_content = item_url.startsWith('https');
   const locale = useSelector((state) => state.query?.locale);
   const querystringindexes = useSelector(
-    (state) => state.query?.data?.querystringindexes,
+    (state) => state.query?.querystringindexes,
   );
   const showNewsItemPublishedDate = useSelector(
     (state) => state.query?.data.showNewsItemPublishedDate,
@@ -222,14 +227,6 @@ const _CustomResultsListItem = (props) => {
   const showEventStartDate = useSelector(
     (state) => state.query?.data.showEventStartDate,
   );
-
-  const translate = (key) => {
-    let label = key;
-    if (querystringindexes?.informationtype) {
-      label = querystringindexes.informationtype.values[key]?.title || key;
-    }
-    return label;
-  };
 
   return (
     <Item
@@ -241,7 +238,7 @@ const _CustomResultsListItem = (props) => {
         result.informationtype?.length > 0 ? (
           <Item.Meta>
             {result.informationtype?.map((item, index) => {
-              let tito = translate(item);
+              let tito = translate(querystringindexes, 'informationtype', item);
               const payload = {
                 searchQuery: {
                   sortBy: 'bestmatch',
@@ -362,7 +359,7 @@ const CustomBucketAggregationElement = (props) => {
   const { title, containerCmp, updateQueryFilters } = props;
   const fieldname = props.agg.field;
   const querystringindexes = useSelector(
-    (state) => state.query?.data?.querystringindexes,
+    (state) => state.query?.querystringindexes,
   );
 
   /**
@@ -370,7 +367,7 @@ const CustomBucketAggregationElement = (props) => {
    * @param {*} bucks
    * @returns
    */
-  const translate = (bucks) => {
+  const translateBuckets = (bucks) => {
     if (querystringindexes && fieldname in querystringindexes) {
       bucks.forEach((element) => {
         element.label =
@@ -383,7 +380,7 @@ const CustomBucketAggregationElement = (props) => {
 
   // Get label from token
   let buckets = containerCmp.props.buckets;
-  buckets = translate(buckets);
+  buckets = translateBuckets(buckets);
   let filter_labels_dict = Object.fromEntries(
     Array.from(buckets, (x) => [x.key, x.label]), // TODO Translate label
   );
@@ -540,7 +537,7 @@ const CustomBucketAggregationValuesElement = (props) => {
 const customEmpytResultsElement = (props) => {
   const { resetQuery } = props;
   return (
-    <Segment>
+    <Segment className="emptyResults">
       <Header icon>
         <FormattedMessage id="No results" defaultMessage="No results" />
       </Header>
@@ -719,6 +716,7 @@ const FacetedSearch = ({ data, overriddenComponents }) => {
     'Sort.element.volto': customSort,
     'Pagination.element': customPaginationElement,
     'Error.element': ErrorComponent,
+    'ResultsLoader.element': MyResultsLoaderElement,
   };
 
   const dropdownOverriddenComponents = {
