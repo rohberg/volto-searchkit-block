@@ -11,10 +11,15 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#. Default: "Add search section"
-#: components/Blocks/SearchSectionsWidget
-msgid "Add search section"
-msgstr "Füge Suchsektion hinzu"
+#. Default: "Add {type}"
+#: messages
+msgid "Add {type}"
+msgstr ""
+
+#. Default: "Cancel"
+#: messages
+msgid "Cancel"
+msgstr ""
 
 #. Default: "Check the configuration of your searchkit block!"
 #: components/Searchkit/Error
@@ -91,6 +96,16 @@ msgstr "Relevanz"
 msgid "Search block"
 msgstr "Such-Block"
 
+#. Default: "Search can be restricted by sections / paths"
+#: messages
+msgid "Search can be restricted by sections / paths"
+msgstr "Die Suche kann auf Sektionen / Pfade eingeschränkt werden"
+
+#. Default: "Search in sections"
+#: messages
+msgid "Search in sections"
+msgstr "Suche in Sektionen"
+
 #. Default: "Search result"
 #: messages
 msgid "Search result"
@@ -101,13 +116,13 @@ msgstr "Suchergebnis"
 msgid "Search results"
 msgstr "Suchergebnisse"
 
-#. Default: "Search section"
-#: components/Blocks/SearchSectionsWidget
+#. Default: "section"
+#: messages
 msgid "Search section"
-msgstr "Suche in Sektion"
+msgstr "Sektion"
 
 #. Default: "Search section label"
-#: components/Blocks/SearchSectionsWidget
+#: messages
 msgid "Search section label"
 msgstr "Label Such-Sektion"
 
@@ -122,7 +137,7 @@ msgid "Select all"
 msgstr "Wähle alle"
 
 #. Default: "Show filter"
-#: components/Blocks/SearchSectionsWidget
+#: messages
 msgid "Show filters"
 msgstr "Zeige Filter"
 

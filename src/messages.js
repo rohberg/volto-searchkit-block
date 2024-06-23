@@ -22,10 +22,10 @@ const messages = defineMessages({
     id: 'Facet',
     defaultMessage: 'Facet',
   },
-  item: {
-    id: 'Item',
-    defaultMessage: 'Item',
-  },
+  // item: {
+  //   id: 'Item',
+  //   defaultMessage: 'Item',
+  // },
   label: {
     id: 'Label',
     defaultMessage: 'Label',
@@ -54,6 +54,26 @@ const messages = defineMessages({
     id: 'Search results',
     defaultMessage: 'Search results',
   },
+  searchInSections: {
+    id: 'Search in sections',
+    defaultMessage: 'Search in sections',
+  },
+  searchInSectionsDescription: {
+    id: 'Search can be restricted by sections / paths',
+    defaultMessage: 'Search can be restricted by sections / paths',
+  },
+  searchSection: {
+    id: 'Search section',
+    defaultMessage: 'section',
+  },
+  searchSectionLabel: {
+    id: 'Search section label',
+    defaultMessage: 'Search section label',
+  },
+  showFilter: {
+    id: 'Show filters',
+    defaultMessage: 'Show filter',
+  },
   // highlights
   title: {
     id: 'Title',
@@ -74,6 +94,10 @@ const messages = defineMessages({
   cancel: {
     id: 'Cancel',
     defaultMessage: 'Cancel',
+  },
+  add: {
+    id: 'Add {type}',
+    defaultMessage: 'Add {type}',
   },
 });
 
