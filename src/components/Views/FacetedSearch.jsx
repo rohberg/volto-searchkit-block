@@ -258,6 +258,7 @@ const _CustomResultsListItem = (props) => {
             })}
           </Item.Meta>
         ) : null}
+        {result.head_title ? <Item.Meta>{result.head_title}</Item.Meta> : null}
         {is_external_content ? (
           <React.Fragment>
             <a
