@@ -83,8 +83,8 @@ const applyConfig = (config) => {
     facet_fields: [],
     allowed_content_types: ['Document', 'News Item', 'Event'],
     allowed_review_states: [],
-    backend_url: 'http://host.docker.internal:8080/Plone',
-    frontend_url: 'http://localhost:3000',
+    // backend_url: 'http://host.docker.internal:8080/Plone',
+    // frontend_url: 'http://localhost:3000',
   };
 
   // Fetch querystring indexes.
