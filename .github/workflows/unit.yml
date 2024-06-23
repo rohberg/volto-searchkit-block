@@ -4,7 +4,7 @@ on: [push]
 env:
   ADDON_NAME: '@rohberg/volto-searchkit-block'
   ADDON_PATH: volto-searchkit-block
-  VOLTO_VERSION: 17
+  VOLTO_VERSION: 18
   PLONE_VERSION: 6.0
 
   INDEX_SERVER: opensearch:9200
@@ -38,6 +38,4 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Unit tests
-        env:
-          VOLTO_VERSION: ${{ matrix.volto-version }}
         run: make test-ci
