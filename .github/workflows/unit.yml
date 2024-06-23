@@ -31,11 +31,13 @@ jobs:
     strategy:
       matrix:
         node-version: [20.x]
-        volto-version: [17, 18]
+        volto-version: [17]
 
     steps:
       - name: Main checkout
         uses: actions/checkout@v4
 
       - name: Unit tests
+        # TODO do 'docker compose with ' env:  VOLTO_VERSION: ${{ matrix.volto-version }}
+        # TODO Remove matrix option node-version
         run: make test-ci
