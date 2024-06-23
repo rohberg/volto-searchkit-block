@@ -22,8 +22,6 @@ function _pimpedAggregations(aggregations) {
 export class CustomESResponseSerializer {
   constructor(config) {
     this.serialize = this.serialize.bind(this);
-    this.backend_url = config.backend_url;
-    this.frontend_url = config.frontend_url;
   }
 
   /**

@@ -1,5 +1,5 @@
 import { extend, isEmpty, keyBy, trim } from 'lodash';
-import { getObjectFromObjectList } from '../helpers.jsx';
+import { getObjectFromObjectList } from '../helpers';
 
 import config from '@plone/volto/registry';
 

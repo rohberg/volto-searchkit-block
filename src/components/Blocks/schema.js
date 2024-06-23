@@ -6,7 +6,10 @@ import {
 import messages from '../../messages';
 
 const FacetSchema = ({ intl }) => ({
-  title: intl.formatMessage(messages.item),
+  title: intl.formatMessage(messages.facet),
+  addMessage: intl.formatMessage(messages.add, {
+    type: intl.formatMessage(messages.facet),
+  }),
   fieldsets: [
     {
       id: 'default',
@@ -42,27 +45,22 @@ const FacetSchema = ({ intl }) => ({
   },
   required: ['field'],
 });
+const ExtrainfoSchema = ({ intl }) => {
+  const facetschema = FacetSchema({ intl });
+  const extrainfoschema = {
+    ...facetschema,
+    title: intl.formatMessage(messages.metadata),
+    addMessage: intl.formatMessage(messages.add, {
+      type: intl.formatMessage(messages.metadata),
+    }),
+  };
+  return extrainfoschema;
+};
 
 export const SearchBlockSchema = ({ data = {}, intl }) => {
   return {
     title: intl.formatMessage(messages.searchBlock),
     fieldsets: [
-      {
-        id: 'default',
-        title: 'API',
-        fields: ['backend_url', 'frontend_url'],
-      },
-      {
-        id: 'facets',
-        title: 'Facets',
-        fields: [
-          'search_sections',
-          'allow_search_excluded_sections',
-          'show_filter_for_excluded_sections',
-          'facet_fields',
-          'filterLayout',
-        ],
-      },
       {
         id: 'search',
         title: 'Search',
@@ -71,6 +69,17 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
           'allowed_review_states',
           'searchedFields',
           'batchSize',
+        ],
+      },
+      {
+        id: 'facets',
+        title: intl.formatMessage(messages.facets),
+        fields: [
+          'facet_fields',
+          'filterLayout',
+          'search_sections',
+          'allow_search_excluded_sections',
+          'show_filter_for_excluded_sections',
         ],
       },
       {
@@ -100,17 +109,9 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
       //     '(deprecated) (Set in collective.elastic environment variable) Elastic Search API Index',
       //   default: 'esploneindex',
       // },
-      backend_url: {
-        title: 'Backend URL',
-        default: 'http://localhost:8080/Plone',
-      },
-      frontend_url: {
-        title: 'Frontend URL',
-        default: 'http://localhost:3000',
-      },
       search_sections: {
-        title: 'Search in sections',
-        description: 'Search can be restricted by sections / paths',
+        title: intl.formatMessage(messages.searchInSections),
+        description: intl.formatMessage(messages.searchInSectionsDescription),
         type: 'dict',
         factory: 'JSONField',
         widget: 'searchsectionswidget',
@@ -173,7 +174,7 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
       extrainfo_fields: {
         title: intl.formatMessage(messages.metadata),
         widget: 'object_list',
-        schema: FacetSchema({ intl }),
+        schema: ExtrainfoSchema({ intl }),
       },
       subjectsFieldname: {
         title: 'Field name of tags field',

@@ -39,10 +39,7 @@ export class PloneSearchApi {
       search_sections: config.search_sections,
       language: config.language,
     });
-    this.responseSerializer = new responseSerializerCls({
-      backend_url: config.backend_url,
-      frontend_url: config.frontend_url,
-    });
+    this.responseSerializer = new responseSerializerCls({});
   }
 
   /**
