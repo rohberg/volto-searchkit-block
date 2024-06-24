@@ -1,4 +1,4 @@
-name: Unit Tests
+name: i18n
 on:
   push:
     paths:
@@ -6,7 +6,7 @@ on:
       - "*.json"
       - "*.yaml"
       - "packages/**"
-      - ".github/workflows/unit.yml"
+      - ".github/workflows/i18n.yml"
 
 env:
   NODE_VERSION: 20.x
@@ -43,5 +43,5 @@ jobs:
       - name: Install dependencies
         run: make install
 
-      - name: Unit tests
-        run: make test-ci
+      - name: test i18n command
+        run: make i18n

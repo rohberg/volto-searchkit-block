@@ -1,4 +1,4 @@
-name: Unit Tests
+name: Storybook
 on:
   push:
     paths:
@@ -6,17 +6,19 @@ on:
       - "*.json"
       - "*.yaml"
       - "packages/**"
-      - ".github/workflows/unit.yml"
+      - ".github/workflows/storybook.yml"
 
 env:
   NODE_VERSION: 20.x
 
-jobs:
-  unit:
-    runs-on: ubuntu-latest
+permissions:
+  contents: write
 
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
     steps:
-      - name: Main checkout
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Use Node.js
@@ -43,5 +45,13 @@ jobs:
       - name: Install dependencies
         run: make install
 
-      - name: Unit tests
-        run: make test-ci
+      - name: Generate Storybook
+        run: |
+          make storybook-build
+
+      - name: Deploy to GitHub pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        if: ${{ github.ref == 'refs/heads/main' }}
+        with:
+          branch: gh-pages
+          folder: .storybook-build
