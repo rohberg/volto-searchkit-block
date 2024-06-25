@@ -24,19 +24,10 @@ class Results extends Component {
       config.settings.searchkitblock.trackVoltoMatomo &&
       this.props.currentQueryState.queryString
     ) {
-      let options = {
+      const options = {
+        ...config.settings.searchkitblock.trackSiteSearchOptions,
         keyword: this.props.currentQueryState.queryString,
-        category: 'Suche in Dokumentation', // optional
-        // count: 4, // optional
-        documentTitle: 'Suche in Dokumentation', // optional
-        href: '/search', // optional
         count: this.props.currentResultsState.data.total,
-        // customDimensions: [
-        //   {
-        //     id: 1,
-        //     value: 'loggedIn',
-        //   },
-        // ], // optional
       };
       trackSiteSearch(options);
     }

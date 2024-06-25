@@ -14,8 +14,21 @@ import {
 import SearchSectionsWidget from './components/Blocks/SearchSectionsWidget';
 
 const applyConfig = (config) => {
+  // @eeacms/volto-matomo
   config.settings.searchkitblock = {
     trackVoltoMatomo: false,
+    trackSiteSearchOptions: {
+      category: 'Suche in Dokumentation', // optional
+      // count: 4, // optional
+      documentTitle: 'Suche in Dokumentation', // optional
+      href: '/suche', // optional
+      // customDimensions: [
+      //   {
+      //     id: 1,
+      //     value: 'loggedIn',
+      //   },
+      // ], // optional
+    },
   };
 
   config.blocks.blocksConfig.searchkitblock = {
@@ -113,6 +126,21 @@ const applyConfig = (config) => {
     },
   ];
 
+  if (process.env.SEARCHKITBLOCK_TESTING_LANGUAGESETTINGS === 'monolingual') {
+    config.settings.supportedLanguages = ['de'];
+    config.settings.defaultLanguage = 'de';
+  } else if (
+    process.env.SEARCHKITBLOCK_TESTING_LANGUAGESETTINGS === 'multilingual'
+  ) {
+    config.settings.isMultilingual = true;
+    config.settings.supportedLanguages = ['en', 'de'];
+    config.settings.defaultLanguage = 'en';
+  }
+
+  // DEBUG
+  console.debug('config.settings', config.settings);
+  // Disable Matomo
+  config.settings.appExtras = [];
   return config;
 };
 
