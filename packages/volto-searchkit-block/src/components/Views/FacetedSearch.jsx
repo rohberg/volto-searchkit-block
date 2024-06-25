@@ -291,13 +291,14 @@ const _CustomResultsListItem = (props) => {
             <Item.Header as={Link} to={item_url}>
               {result.title}
             </Item.Header>
-            {showNewsItemPublishedDate.includes(result.portal_type) &&
+            {showNewsItemPublishedDate?.includes(result.portal_type) &&
             result.effective ? (
               <Item.Meta>
                 <FormattedDate date={result.effective} locale={locale} />
               </Item.Meta>
             ) : null}
-            {showEventStartDate.includes(result.portal_type) && result.start ? (
+            {showEventStartDate?.includes(result.portal_type) &&
+            result.start ? (
               <Item.Meta>
                 <FormattedDate date={result.start} locale={locale} />
               </Item.Meta>
