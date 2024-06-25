@@ -7,7 +7,7 @@ module.exports = defineConfig({
     runMode: 3,
   },
   e2e: {
-    baseUrl: 'http://localhost:3000',
+    baseUrl: 'http://127.0.0.1:3000',
     specPattern: 'cypress/tests/**/*.cy.{js,jsx,ts,tsx}',
   },
 });
