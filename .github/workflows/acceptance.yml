@@ -100,7 +100,9 @@ jobs:
           install: false
           start: |
             docker compose -f ci-docker-compose.yml --profile prod up
-          wait-on: 'npx wait-on --httpTimeout 20000 http-get://localhost:8080/plone http://localhost:9200'
+          wait-on: |
+            http://localhost:8080/plone
+            http://localhost:9200'
 
       # Upload Cypress screenshots
       - uses: actions/upload-artifact@v4
