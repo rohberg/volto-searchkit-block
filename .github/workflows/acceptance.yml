@@ -16,9 +16,9 @@ env:
   INDEX_SERVER: opensearch:9200
   INDEX_NAME: plone
   INDEX_OPENSEARCH: 1
-  INDEX_USE_SSL: 1
+  INDEX_USE_SSL: 0
   INDEX_LOGIN: admin
-  INDEX_PASSWORD: paraDiesli,17
+  INDEX_PASSWORD: 'oxczBG).3xWyapLn'
 
   CELERY_BROKER: redis://redis:6379/0
   CELERY_LOGLEVEL: info
