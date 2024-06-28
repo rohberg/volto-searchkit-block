@@ -18,31 +18,51 @@ The block is prepared for Matomo analytics.
 
 ![Search @rohberg/volto-searchkit-block](public/search.png)
 
+
 # Demo
 
-You can try the search by checking out this repository and run
+You can set up a demo locally by checking out this repository and run
 
     make dev
 
+to build the backend with OpenSearch.
+
+And
+
+    make start
+
+to start the Volto frontend.
+
 Docker should be installed and running.
 
-# TODO Getting started
+Create a page with block "searchkit".
+
+Create some content to search.
+
+
+# Getting started
+
+## Backend
 
 Install Plone backend add-on [`collective.elastic.plone 2.x`](https://github.com/collective/collective.elastic.plone) to provide the Plone REST API service which accepts queries and requests OpenSearch/ElasticSearch.
 
-Install Plone backend add-on [`collective.elastic.ingest 2.x`](https://github.com/collective/collective.elastic.ingest) to index Plone content.
+Create file `backend/.env` like the one already mentioned above if you do not run backend with Docker.
+
+## OpenSearch
 
 Setting up OpenSearch/ElasticSearch:
 
-Create file `volto-searchkit-block/dockerfiles/.env` like the provided template in this folder.
+Copy `/dockerfiles` and adapt to your needs.
 
-Build and start containers for OpenSearch/ElasticSearch and friends:
+Build and start containers for OpenSearch and friends:
 
-    make opensearchandingest-build
-    make opensearchandingest-up
+    docker compose -p ${PROJECT_NAME} -f dockerfiles/docker-compose.yml --profile opensearchandingest build
+    docker compose -p ${PROJECT_NAME} -f dockerfiles/docker-compose.yml --profile opensearchandingest up
 
-Create file `backend/.env` like the one already mentioned above if you do not run backend with Docker.
 
+## Frontend
+
+Add add-on `@rohberg/volto-searchkit-block`.
 
 
 # Configuration of the search parameters
