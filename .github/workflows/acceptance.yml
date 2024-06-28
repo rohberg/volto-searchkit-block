@@ -102,7 +102,7 @@ jobs:
             docker compose -f ci-docker-compose.yml --profile prod up
           wait-on: |
             http://localhost:8080/plone
-            http://localhost:9200'
+            http://localhost:9200
 
       # Upload Cypress screenshots
       - uses: actions/upload-artifact@v4
