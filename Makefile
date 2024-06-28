@@ -146,6 +146,19 @@ opensearchandingest-up: ## Start containers for opensearch and ingest. `make ope
 	${DOCKER_COMPOSE} --profile opensearchandingest up
 
 
+## Storybook
+.PHONY: storybook-start
+storybook-start: ## Start Storybook server on port 6006
+	@echo "$(GREEN)==> Start Storybook$(RESET)"
+	pnpm run storybook
+
+.PHONY: storybook-build
+storybook-build: ## Build Storybook
+	@echo "$(GREEN)==> Build Storybook$(RESET)"
+	mkdir -p $(CURRENT_DIR)/.storybook-build
+	pnpm run build-storybook -o $(CURRENT_DIR)/.storybook-build
+
+
 # Acceptance monolingual
 # ########################################################################
 .PHONY: acceptance-frontend-dev-start
