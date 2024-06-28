@@ -101,7 +101,7 @@ jobs:
           start: |
             docker compose -f ci-docker-compose.yml --profile prod up
           wait-on: |
-            http://localhost:8080/plone
+            http://localhost:55001/plone
             http://localhost:9200
 
       # Upload Cypress screenshots
