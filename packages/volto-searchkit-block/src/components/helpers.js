@@ -1,5 +1,4 @@
 import React from 'react';
-import config from '@plone/volto/registry';
 
 class NoSSR extends React.Component {
   state = {

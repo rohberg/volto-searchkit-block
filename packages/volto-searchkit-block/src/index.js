@@ -138,7 +138,6 @@ const applyConfig = (config) => {
   }
 
   // DEBUG
-  console.debug('config.settings', config.settings);
   // Disable Matomo
   config.settings.appExtras = [];
   return config;

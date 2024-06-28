@@ -31,6 +31,7 @@ export const ElasticSearchHighlights = ({ highlight }) => {
         className="highlight metadata"
         onClick={showDetails}
         role="button"
+        tabIndex={0}
         onKeyPress={showDetails}
       >
         {fragments.slice(0, 3).map((el, index) => {
@@ -42,6 +43,7 @@ export const ElasticSearchHighlights = ({ highlight }) => {
         className="highlight metadata"
         onClick={showDetails}
         role="button"
+        tabIndex={0}
         onKeyPress={showDetails}
       >
         {Object.keys(highlight)

@@ -33,7 +33,6 @@ import {
 
 import { expandToBackendURL } from '@plone/volto/helpers';
 import { FormattedDate, Icon } from '@plone/volto/components';
-import { addAppURL, toPublicURL } from '@plone/volto/helpers';
 import leftAngle from '@plone/volto/icons/left-key.svg';
 import rightAngle from '@plone/volto/icons/right-key.svg';
 import firstAngle from '@plone/volto/icons/first.svg';

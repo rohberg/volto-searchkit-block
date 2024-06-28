@@ -115,6 +115,7 @@ const overriddenComponents = {
 const TestSearchkitQuerystrings = (props) => {
   const intl = useIntl();
   const history = useHistory();
+  const location = useLocation();
   const searchconfig = config.blocks.blocksConfig.searchkitblock.searchconfig;
 
   const initialState = {

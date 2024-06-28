@@ -1,5 +1,4 @@
 import React from 'react';
-import { defineMessages } from 'react-intl';
 
 import ObjectListWidget from '@plone/volto/components/manage/Widgets/ObjectListWidget';
 

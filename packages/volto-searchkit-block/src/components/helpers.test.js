@@ -6,8 +6,6 @@ beforeEach(() => {
   config.settings.legacyTraverse = false;
 });
 
-const { settings } = config;
-
 describe('helpers', () => {
   describe('flattenESUrlToPath', () => {
     it('flattens a given URL to the app URL', () => {
