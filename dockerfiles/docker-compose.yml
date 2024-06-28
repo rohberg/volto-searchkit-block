@@ -1,53 +1,6 @@
 version: '3'
 
 services:
-  addon-dev:
-    build:
-      context: ../
-      dockerfile: ./dockerfiles/frontend/Dockerfile.dev
-      args:
-        ADDON_NAME: '${ADDON_NAME}'
-        ADDON_PATH: '${ADDON_PATH}'
-        VOLTO_VERSION: '${VOLTO_VERSION:-17}'
-    volumes:
-      - ${CURRENT_DIR}:/app/src/addons/${ADDON_PATH}/
-    environment:
-      RAZZLE_INTERNAL_API_PATH: http://backend:8080/Plone
-      # In case that you want to connect to and outside (non-docker) local instance
-      # coment the above, use the next line
-      # RAZZLE_INTERNAL_API_PATH: http://host.docker.internal:8080/Plone
-      RAZZLE_API_PATH: http://127.0.0.1:8080/Plone
-      HOST: 0.0.0.0
-    ports:
-      - 3000:3000
-      - 3001:3001
-    networks:
-      - opensearch-net
-    tty: true
-    depends_on:
-      - backend
-    profiles:
-      - dev
-
-  addon-live:
-    build:
-      context: ../
-      dockerfile: ./dockerfiles/frontend/Dockerfile.ci
-      args:
-        ADDON_NAME: '${ADDON_NAME}'
-        ADDON_PATH: '${ADDON_PATH}'
-        VOLTO_VERSION: '${VOLTO_VERSION:-17}'
-    environment:
-      RAZZLE_INTERNAL_API_PATH: http://backend:8080/Plone
-      RAZZLE_API_PATH: http://localhost:8080/Plone
-    ports:
-      - 3000:3000
-    networks:
-      - opensearch-net
-    tty: true
-    profiles:
-      - live
-
   backend:
     # image: plone/plone-backend:6.0.10.1
     build:
