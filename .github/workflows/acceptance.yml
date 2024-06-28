@@ -11,7 +11,26 @@ on:
 
 env:
   NODE_VERSION: 20.x
-  CYPRESS_RETRIES: 2
+  CYPRESS_RETRIES: 3
+
+  INDEX_SERVER: opensearch:9200
+  INDEX_NAME: plone
+  INDEX_OPENSEARCH: 1
+  INDEX_USE_SSL: 1
+  INDEX_LOGIN: admin
+  INDEX_PASSWORD: paraDiesli,17
+
+  CELERY_BROKER: redis://redis:6379/0
+  CELERY_LOGLEVEL: info
+
+  PLONE_SERVICE: http://backend-acceptance:55001
+  PLONE_SITE_PREFIX_PATH: plone
+  PLONE_USER: admin
+  PLONE_PASSWORD: secret
+
+  MAPPINGS_FILE: /configuration/mappings.json
+  ANALYSIS_FILE: /configuration/analysis.json
+  PREPROCESSINGS_FILE: /configuration/preprocessings.json
 
 jobs:
   # TODO multilingual
@@ -87,7 +106,6 @@ jobs:
       - name: 'Cypress: Acceptance tests - monolingual'
         uses: cypress-io/github-action@v6
         env:
-          CYPRESS_RETRIES: 3
           # Recommended: pass the GitHub token lets this action correctly
           # determine the unique run id necessary to re-run the checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
