@@ -28,7 +28,7 @@ PRE_COMMIT=pipx run --spec 'pre-commit==3.7.1' pre-commit
 BACKEND_ADDONS='collective.elastic.plone ${KGS} $(TESTING_ADDONS)'
 DEV_COMPOSE=dockerfiles/docker-compose.yml
 ACCEPTANCE_COMPOSE=acceptance/docker-compose.yml
-CMD_ENVS=CURRENT_DIR=${CURRENT_DIR} ADDON_NAME=${ADDON_NAME} ADDON_PATH=${ADDON_PATH} VOLTO_VERSION=${VOLTO_VERSION} PLONE_VERSION=${PLONE_VERSION} BACKEND_ADDONS=${BACKEND_ADDONS}
+CMD_ENVS=CURRENT_DIR=${CURRENT_DIR} ADDON_NAME=${ADDON_NAME} PLONE_VERSION=${PLONE_VERSION} BACKEND_ADDONS=${BACKEND_ADDONS}
 CMD=${CMD_ENVS} docker compose
 PROJECT_NAME=${ADDON_PATH}
 DOCKER_COMPOSE=${CMD} -p ${PROJECT_NAME} -f ${DEV_COMPOSE}
@@ -115,47 +115,24 @@ ci-test: ## Run unit tests in CI
 
 
 # Development
-
-.PHONY: build-backend
-build-backend: ## Build
-	@echo "$(GREEN)==> Build Backend Container $(RESET)"
-	${DOCKER_COMPOSE} build backend
-
-.PHONY: start-backend
-start-backend: ## Starts Docker backend
-	@echo "$(GREEN)==> Start Docker-based Plone Backend $(RESET)"
-	${DOCKER_COMPOSE} up backend -d
-
-.PHONY: stop-backend
-stop-backend: ## Stop Docker backend
-	@echo "$(GREEN)==> Stop Docker-based Plone Backend $(RESET)"
-	${DOCKER_COMPOSE} stop backend
-
-.PHONY: build-addon
-build-addon: ## Build Addon dev
-	@echo "$(GREEN)==> Build Addon development container $(RESET)"
-	${DOCKER_COMPOSE} build addon-dev
-
-.PHONY: start-addon
-start-addon: ## Starts Dev container
-	@echo "$(GREEN)==> Start Addon Development container $(RESET)"
-	${DOCKER_COMPOSE} up addon-dev
-
+# ########################################################################
 # TODO Check if 'make dev' is OK for trying the searchkit block
 # TODO Add example content: plone.exportimport https://plone.github.io/plone.exportimport/features.html#plone-importer
 .PHONY: dev
-dev: ## Build and start development/demo environment
-	@echo "$(GREEN)==> Build and start development environment $(RESET)"
+dev: ## Build and start development/demo (backend with OpenSearch)
+	@echo "$(GREEN)==> Build and start development/demo (backend with OpenSearch) $(RESET)"
 	${DOCKER_COMPOSE} --profile dev build
 	${DOCKER_COMPOSE} --profile dev up
 
 .PHONY: dev-start
-dev-start: ## Start development/demo environment without rebuilding images
-	@echo "$(GREEN)==> Start development environment without rebuilding images $(RESET)"
+dev-start: ## Start development/demo (backend with OpenSearch)
+	@echo "$(GREEN)==> Start development/demo (backend with OpenSearch) $(RESET)"
 	${DOCKER_COMPOSE} --profile dev up
 
 
+
 # Opensearch and ingest containers (everything but backend and frontend)
+# ########################################################################
 .PHONY: opensearchandingest-build
 opensearchandingest-build: ## Build containers for opensearch and ingest `make opensearchandingest-build PROJECT_NAME=foo`
 	@echo "$(GREEN)==> Build containers for opensearch and ingest $(RESET)"
@@ -169,9 +146,8 @@ opensearchandingest-up: ## Start containers for opensearch and ingest. `make ope
 	${DOCKER_COMPOSE} --profile opensearchandingest up
 
 
-
-
 # Acceptance monolingual
+# ########################################################################
 .PHONY: acceptance-frontend-dev-start
 acceptance-frontend-dev-start: ## Start acceptance frontend in development mode
 	SEARCHKITBLOCK_TESTING_LANGUAGESETTINGS=monolingual RAZZLE_API_PATH=http://localhost:55001/plone pnpm start
@@ -181,11 +157,11 @@ acceptance-frontend-prod-start: ## Start acceptance frontend in production mode
 	SEARCHKITBLOCK_TESTING_LANGUAGESETTINGS=monolingual RAZZLE_API_PATH=http://localhost:55001/plone pnpm build && pnpm start:prod
 
 .PHONY: acceptance-build
-acceptance-build: ## Install Cypress, build containers
+acceptance-build: ## Build acceptance containers (backend and OpenSearch)
 	${ACCEPTANCE} --profile dev build --no-cache
 
 .PHONY: acceptance-start
-acceptance-start: ## Start acceptance server-containers
+acceptance-start: ## Start acceptance containers (backend and OpenSearch)
 	${ACCEPTANCE} --profile dev up -d --force-recreate
 
 # .PHONY: test-acceptance
@@ -215,6 +191,7 @@ status-test-acceptance-server: ## Status of Acceptance Server
 
 
 # Acceptance multilingual
+# ########################################################################
 .PHONY: acceptance-frontend-dev-start-multilingual
 acceptance-frontend-dev-start-multilingual: ## Start acceptance frontend in development mode
 	SEARCHKITBLOCK_TESTING_LANGUAGESETTINGS=multilingual RAZZLE_API_PATH=http://localhost:55001/plone pnpm start
