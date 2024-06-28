@@ -1,54 +1,92 @@
 name: Acceptance tests
-on: [push]
+on:
+  push:
+    paths:
+      - '*.js'
+      - '*.json'
+      - '*.yaml'
+      - 'cypress/**'
+      - 'packages/**'
+      - '.github/workflows/acceptance.yml'
 
 env:
-  ADDON_NAME: '@rohberg/volto-searchkit-block'
-  ADDON_PATH: volto-searchkit-block
-  PLONE_VERSION: 6.0
-
-  INDEX_SERVER: opensearch:9200
-  INDEX_OPENSEARCH: 1
-  INDEX_USE_SSL: 0
-  INDEX_LOGIN: admin
-  INDEX_PASSWORD: 'oxczBG).3xWyapLn'
-
-  CELERY_BROKER: redis://redis:6379/0
-  CELERY_LOGLEVEL: info
-
-  PLONE_SERVICE: http://backend-acceptance:55001
-  PLONE_SITE_PREFIX_PATH: plone
-  PLONE_USER: admin
-  PLONE_PASSWORD: secret
-
-  MAPPINGS_FILE: /configuration/mappings.json
-  ANALYSIS_FILE: /configuration/analysis.json
-  PREPROCESSINGS_FILE: /configuration/preprocessings.json
+  NODE_VERSION: 20.x
+  CYPRESS_RETRIES: 2
 
 jobs:
+  # TODO multilingual
   acceptance-monolingual:
     runs-on: ubuntu-latest
-    timeout-minutes: 46
-    strategy:
-      fail-fast: false
-      matrix:
-        volto-version: [17]
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
 
-      - name: Install Cypress
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Get pnpm store directory
+        shell: bash
         run: |
-          cd acceptance
-          yarn
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v4
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Cache Cypress Binary
+        id: cache-cypress-binary
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/Cypress
+          key: binary-${{ env.NODE_VERSION }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: Install dependencies
+        run: make install
+
+      - name: Install Cypress if not in cache
+        if: steps.cache-cypress-binary.outputs.cache-hit != 'true'
+        working-directory: core/packages/volto
+        run: make cypress-install
+
+      - uses: JarvusInnovations/background-action@v1
+        name: Start Frontend
+        # TODO instead of make ci-acceptance-backend-start, do like before 'docker compose -f ci.yml --profile prod up' see acceptance_old
+        with:
+          run: |
+            make acceptance-frontend-prod-start &
+          # your step-level and job-level environment variables are available to your commands as-is
+          # npm install will count towards the wait-for timeout
+          # whenever possible, move unrelated scripts to a different step
+          # to background multiple processes: add & to the end of the command
+
+          wait-on: |
+            http://localhost:3000
+          # IMPORTANT: to use environment variables in wait-on, you must use this form: ${{ env.VAR }}
+          # See wait-on section below for all resource types and prefixes
+
+          tail: true # true = stderr,stdout
+          # This will allow you to monitor the progress live
+
+          log-output-resume: stderr
+          # Eliminates previosuly output stderr log entries from post-run output
+
+          wait-for: 10m
+
+          log-output: stderr,stdout # same as true
+
+          log-output-if: failure
 
       - name: 'Cypress: Acceptance tests - monolingual'
         uses: cypress-io/github-action@v6
         env:
-          VOLTO_VERSION: ${{ matrix.volto-version }}
-          BABEL_ENV: production
           CYPRESS_RETRIES: 3
           # Recommended: pass the GitHub token lets this action correctly
           # determine the unique run id necessary to re-run the checks
@@ -62,59 +100,6 @@ jobs:
           install: false
           start: |
             docker compose -f ci.yml --profile prod up
-          wait-on: 'npx wait-on --httpTimeout 20000 http-get://localhost:55001/plone http://localhost:3000 http://localhost:9200'
-
-      # Upload Cypress screenshots
-      - uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: cypress-screenshots-acceptance
-          path: acceptance/cypress/screenshots
-
-      # Upload Cypress videos
-      - uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: cypress-videos-acceptance
-          path: acceptance/cypress/videos
-
-  acceptance-multilingual:
-    runs-on: ubuntu-latest
-    timeout-minutes: 45
-    strategy:
-      fail-fast: false
-      matrix:
-        volto-version: [17]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Install Cypress
-        run: |
-          cd acceptance
-          yarn
-
-      - name: 'Cypress: Acceptance tests - multilingual'
-        uses: cypress-io/github-action@v6
-        env:
-          VOLTO_VERSION: ${{ matrix.volto-version }}
-          BABEL_ENV: production
-          CYPRESS_RETRIES: 3
-          # Recommended: pass the GitHub token lets this action correctly
-          # determine the unique run id necessary to re-run the checks
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          config: pageLoadTimeout=100000,defaultCommandTimeout=8000
-          parallel: false
-          browser: chrome
-          working-directory: acceptance
-          spec: cypress/tests/*.multilingual.cy.js
-          install: false
-          start: |
-            docker compose -f ci.yml --profile multilingual up
           wait-on: 'npx wait-on --httpTimeout 20000 http-get://localhost:55001/plone http://localhost:3000 http://localhost:9200'
 
       # Upload Cypress screenshots
