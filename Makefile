@@ -197,11 +197,6 @@ acceptance-start: ## Start acceptance server-containers
 # test-acceptance-headless: ## Run cypress tests in CI
 # 	(cd acceptance && ./node_modules/.bin/cypress run --config-file cypress.monolingual.config.js)
 
-# DEBUG CYPRESS
-.PHONY: acceptance-test-test
-acceptance-test-test: ## Start Cypress in interactive mode
-	pnpm --filter @plone/volto exec cypress open --config-file $(CURRENT_DIR)/cypress.config.js --config specPattern=$(CURRENT_DIR)'/cypress/tests/**/example.*.{js,jsx,ts,tsx}'
-
 .PHONY: acceptance-test
 acceptance-test: ## Start Cypress in interactive mode
 	pnpm --filter @plone/volto exec cypress open --config-file $(CURRENT_DIR)/cypress.config.js --config specPattern=$(CURRENT_DIR)'/cypress/tests/**/monolingual.*.{js,jsx,ts,tsx}'
