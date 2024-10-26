@@ -1,16 +1,23 @@
-# Makefile volto-searchkit-block
-
+### Defensive settings for make:
+#     https://tech.davis-hansson.com/p/make/
 SHELL:=bash
 .ONESHELL:
-# .SHELLFLAGS:=-xeu -o pipefail -O inherit_errexit -c
+.SHELLFLAGS:=-xeu -o pipefail -O inherit_errexit -c
 .SILENT:
 .DELETE_ON_ERROR:
 MAKEFLAGS+=--warn-undefined-variables
 MAKEFLAGS+=--no-builtin-rules
 
-include variables.mk
-
 CURRENT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+GIT_FOLDER=$(CURRENT_DIR)/.git
+
+PROJECT_NAME=searchkit-block
+STACK_NAME=searchkit-block-example-com
+
+VOLTO_VERSION = $(shell cat frontend/mrs.developer.json | python -c "import sys, json; print(json.load(sys.stdin)['core']['tag'])")
+PLONE_VERSION=$(shell cat backend/version.txt)
+
+PRE_COMMIT=pipx run --spec 'pre-commit==3.7.1' pre-commit
 
 # We like colors
 # From: https://coderwall.com/p/izxssa/colored-makefile-for-golang-projects
@@ -19,117 +26,189 @@ GREEN=`tput setaf 2`
 RESET=`tput sgr0`
 YELLOW=`tput setaf 3`
 
-BACKEND_ADDONS='collective.elastic.plone ${KGS} $(TESTING_ADDONS)'
-DEV_COMPOSE=dockerfiles/docker-compose.yml
-ACCEPTANCE_COMPOSE=acceptance/docker-compose.yml
-# OPENSEARCH_COMPOSE=docker-opensearch/docker-compose.yml
-CMD=CURRENT_DIR=${CURRENT_DIR} ADDON_NAME=${ADDON_NAME} ADDON_PATH=${ADDON_PATH} VOLTO_VERSION=${VOLTO_VERSION} PLONE_VERSION=${PLONE_VERSION} BACKEND_ADDONS=${BACKEND_ADDONS} docker compose
-DOCKER_COMPOSE=${CMD} -p ${ADDON_PATH} -f ${DEV_COMPOSE}
-ACCEPTANCE=${CMD} -p ${ADDON_PATH}-acceptance -f ${ACCEPTANCE_COMPOSE}
-# OPENSEARCH=CURRENT_DIR=${CURRENT_DIR} docker compose -p ${ADDON_PATH}-opensearch -f ${OPENSEARCH_COMPOSE}
-
-
 .PHONY: all
-all: help
+all: install
 
+# Add the following 'help' target to your Makefile
+# And add help text after each target name starting with '\#\#'
 .PHONY: help
-help:		## Show this help.
-	@echo -e "$$(grep -hE '^\S+:.*##' $(MAKEFILE_LIST) | sed -e 's/:.*##\s*/:/' -e 's/^\(.\+\):\(.*\)/\\x1b[36m\1\\x1b[m:\2/' | column -c2 -t -s :)"
+help: ## This help message
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-.PHONY: build-backend
-build-backend: ## Build
-	@echo "$(GREEN)==> Build Backend Container $(RESET)"
-	${DOCKER_COMPOSE} build backend
+###########################################
+# Frontend
+###########################################
+.PHONY: frontend-install
+frontend-install:  ## Install React Frontend
+	$(MAKE) -C "./frontend/" install
 
-.PHONY: start-backend
-start-backend: ## Starts Docker backend
-	@echo "$(GREEN)==> Start Docker-based Plone Backend $(RESET)"
-	${DOCKER_COMPOSE} up backend -d
+.PHONY: frontend-build
+frontend-build:  ## Build React Frontend
+	$(MAKE) -C "./frontend/" build
 
-.PHONY: stop-backend
-stop-backend: ## Stop Docker backend
-	@echo "$(GREEN)==> Stop Docker-based Plone Backend $(RESET)"
-	${DOCKER_COMPOSE} stop backend
+.PHONY: frontend-start
+frontend-start:  ## Start React Frontend
+	$(MAKE) -C "./frontend/" start
 
-.PHONY: build-addon
-build-addon: ## Build Addon dev
-	@echo "$(GREEN)==> Build Addon development container $(RESET)"
-	${DOCKER_COMPOSE} build addon-dev
+.PHONY: frontend-test
+frontend-test:  ## Test frontend codebase
+	@echo "Test frontend"
+	$(MAKE) -C "./frontend/" test
 
-.PHONY: start-dev
-start-dev: ## Starts Dev container
-	@echo "$(GREEN)==> Start Addon Development container $(RESET)"
-	${DOCKER_COMPOSE} up addon-dev
+###########################################
+# Backend
+###########################################
+.PHONY: backend-install
+backend-install:  ## Create virtualenv and install Plone
+	$(MAKE) -C "./backend/" install
+	$(MAKE) backend-create-site
 
-.PHONY: dev
-dev: ## Develop the addon
-	@echo "$(GREEN)==> Start Development Environment $(RESET)"
-	make build-backend
-	make start-backend
-	make build-addon
-	make start-dev
+.PHONY: backend-build
+backend-build:  ## Build Backend
+	$(MAKE) -C "./backend/" install
 
-# Dev Helpers
+.PHONY: backend-create-site
+backend-create-site: ## Create a Plone site with default content
+	$(MAKE) -C "./backend/" create-site
+
+.PHONY: backend-update-example-content
+backend-update-example-content: ## Export example content inside package
+	$(MAKE) -C "./backend/" update-example-content
+
+.PHONY: backend-start
+backend-start: ## Start Plone Backend
+	$(MAKE) -C "./backend/" start
+
+.PHONY: backend-test
+backend-test:  ## Test backend codebase
+	@echo "Test backend"
+	$(MAKE) -C "./backend/" test
+
+.PHONY: install
+install:  ## Install
+	@echo "Install Backend & Frontend"
+	if [ -d $(GIT_FOLDER) ]; then $(PRE_COMMIT) install; else echo "$(RED) Not installing pre-commit$(RESET)";fi
+	$(MAKE) backend-install
+	$(MAKE) frontend-install
+
+.PHONY: start
+start:  ## Start
+	@echo "Starting application"
+	$(MAKE) backend-start
+	$(MAKE) frontend-start
+
+.PHONY: clean
+clean:  ## Clean installation
+	@echo "Clean installation"
+	$(MAKE) -C "./backend/" clean
+	$(MAKE) -C "./frontend/" clean
+
+.PHONY: check
+check:  ## Lint and Format codebase
+	@echo "Lint and Format codebase"
+	$(PRE_COMMIT) run -a
+
 .PHONY: i18n
-i18n: ## Sync i18n
-	${DOCKER_COMPOSE} run addon-dev i18n
-
-.PHONY: format
-format: ## Format codebase
-	${DOCKER_COMPOSE} run addon-dev lint:fix
-	${DOCKER_COMPOSE} run addon-dev prettier:fix
-	${DOCKER_COMPOSE} run addon-dev stylelint:fix
-
-.PHONY: lint
-lint: ## Lint Codebase
-	${DOCKER_COMPOSE} run addon-dev lint
-	${DOCKER_COMPOSE} run addon-dev prettier
-	${DOCKER_COMPOSE} run addon-dev stylelint
+i18n:  ## Update locales
+	@echo "Update locales"
+	$(MAKE) -C "./backend/" i18n
+	$(MAKE) -C "./frontend/" i18n
 
 .PHONY: test
-test: ## Run unit tests
-	${DOCKER_COMPOSE} run addon-dev test --watchAll
+test:  backend-test frontend-test ## Test codebase
 
-.PHONY: test-ci
-test-ci: ## Run unit tests in CI
-	${DOCKER_COMPOSE} run -e CI=1 addon-dev test
+.PHONY: build-images
+build-images:  ## Build docker images
+	@echo "Build"
+	$(MAKE) -C "./backend/" build-image
+	$(MAKE) -C "./frontend/" build-image
 
-# Acceptance opensearch
-# # TODO marry OPENSEARCH with backend acceptance
-# .PHONY: build-acceptance-opensearch
-# build-acceptance-opensearch: ## build opensearch containers
-# 	(cd docker-opensearch)
-# 	${OPENSEARCH} --profile dev build
+## Docker stack
+.PHONY: stack-start
+stack-start:  ## Local Stack: Start Services
+	@echo "Start local Docker stack"
+	VOLTO_VERSION=$(VOLTO_VERSION) PLONE_VERSION=$(PLONE_VERSION) docker compose -f docker-compose.yml up -d --build
+	@echo "Now visit: http://searchkit-block.localhost"
 
-# .PHONY: start-test-acceptance-server
-# start-test-acceptance-server-opensearch: ## Start acceptance opensearch containers
-# 	${OPENSEARCH} --profile dev up -d
+.PHONY: start-stack
+stack-create-site:  ## Local Stack: Create a new site
+	@echo "Create a new site in the local Docker stack"
+	@docker compose -f docker-compose.yml exec backend ./docker-entrypoint.sh create-site
 
-# Acceptance backend and frontend
-.PHONY: build-acceptance
-build-acceptance: ## Install Cypress, build containers
-	(cd acceptance && yarn)
-	${ACCEPTANCE} --profile dev build
+.PHONY: start-ps
+stack-status:  ## Local Stack: Check Status
+	@echo "Check the status of the local Docker stack"
+	@docker compose -f docker-compose.yml ps
 
-.PHONY: start-acceptance-containers
-start-acceptance: ## Start acceptance server-containers
-	${ACCEPTANCE} --profile dev up -d --force-recreate
+.PHONY: stack-stop
+stack-stop:  ##  Local Stack: Stop Services
+	@echo "Stop local Docker stack"
+	@docker compose -f docker-compose.yml stop
 
-# TODO Maybe depend on build and start?
-.PHONY: test-acceptance
-test-acceptance: ## Start Cypress
-	(cd acceptance && ./node_modules/.bin/cypress open)
+.PHONY: stack-rm
+stack-rm:  ## Local Stack: Remove Services and Volumes
+	@echo "Remove local Docker stack"
+	@docker compose -f docker-compose.yml down
+	@echo "Remove local volume data"
+	@docker volume rm $(PROJECT_NAME)_vol-site-data
 
-.PHONY: test-acceptance-headless
-# test-acceptance-headless: install-acceptance ## Run cypress tests in CI
-test-acceptance-headless: ## Run cypress tests in CI
-	(cd acceptance && ./node_modules/.bin/cypress run)
+## Acceptance
+.PHONY: acceptance-backend-dev-start
+acceptance-backend-dev-start:
+	@echo "Start acceptance backend"
+	$(MAKE) -C "./backend/" acceptance-backend-start
 
-.PHONY: stop-test-acceptance-server
-stop-test-acceptance-server: ## Stop acceptance server
-	${ACCEPTANCE} down
-	${OPENSEARCH} down
+.PHONY: acceptance-frontend-dev-start
+acceptance-frontend-dev-start:
+	@echo "Start acceptance frontend"
+	$(MAKE) -C "./frontend/" acceptance-frontend-dev-start
 
-.PHONY: status-test-acceptance-server
-status-test-acceptance-server: ## Status of Acceptance Server
-	${ACCEPTANCE} ps
+.PHONY: acceptance-test
+acceptance-test:
+	@echo "Start acceptance tests in interactive mode"
+	$(MAKE) -C "./frontend/" acceptance-test
+
+# Build Docker images
+.PHONY: acceptance-frontend-image-build
+acceptance-frontend-image-build:
+	@echo "Build acceptance frontend image"
+	@docker build frontend -t rohberg/searchkit-block-frontend:acceptance -f frontend/Dockerfile --build-arg VOLTO_VERSION=$(VOLTO_VERSION)
+
+.PHONY: acceptance-backend-image-build
+acceptance-backend-image-build:
+	@echo "Build acceptance backend image"
+	@docker build backend -t rohberg/searchkit-block-backend:acceptance -f backend/Dockerfile.acceptance --build-arg PLONE_VERSION=$(PLONE_VERSION)
+
+.PHONY: acceptance-images-build
+acceptance-images-build: ## Build Acceptance frontend/backend images
+	$(MAKE) acceptance-backend-image-build
+	$(MAKE) acceptance-frontend-image-build
+
+.PHONY: acceptance-frontend-container-start
+acceptance-frontend-container-start:
+	@echo "Start acceptance frontend"
+	@docker run --rm -p 3000:3000 --name searchkit-block-frontend-acceptance --link searchkit-block-backend-acceptance:backend -e RAZZLE_API_PATH=http://localhost:55001/plone -e RAZZLE_INTERNAL_API_PATH=http://backend:55001/plone -d rohberg/searchkit-block-frontend:acceptance
+
+.PHONY: acceptance-backend-container-start
+acceptance-backend-container-start:
+	@echo "Start acceptance backend"
+	@docker run --rm -p 55001:55001 --name searchkit-block-backend-acceptance -d rohberg/searchkit-block-backend:acceptance
+
+.PHONY: acceptance-containers-start
+acceptance-containers-start: ## Start Acceptance containers
+	$(MAKE) acceptance-backend-container-start
+	$(MAKE) acceptance-frontend-container-start
+
+.PHONY: acceptance-containers-stop
+acceptance-containers-stop: ## Stop Acceptance containers
+	@echo "Stop acceptance containers"
+	@docker stop searchkit-block-frontend-acceptance
+	@docker stop searchkit-block-backend-acceptance
+
+.PHONY: ci-acceptance-test
+ci-acceptance-test:
+	@echo "Run acceptance tests in CI mode"
+	$(MAKE) acceptance-containers-start
+	pnpm dlx wait-on --httpTimeout 20000 http-get://localhost:55001/plone http://localhost:3000
+	$(MAKE) -C "./frontend/" ci-acceptance-test
+	$(MAKE) acceptance-containers-stop

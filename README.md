@@ -1,117 +1,110 @@
-# Features of **@rohberg/volto-searchkit-block**
+# Searchkit Block 🚀
 
-Search block with highly overridable components for searching, filtering and displaying search results. Sometimes also called faceted navigation.
+[![Built with Cookieplone](https://img.shields.io/badge/built%20with-Cookieplone-0083be.svg?logo=cookiecutter)](https://github.com/plone/cookiecutter-plone/)
+[![Black code style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
+[![Backend Tests](https://github.com/rohberg/searchkit-block/actions/workflows/backend.yml/badge.svg)](https://github.com/rohberg/searchkit-block/actions/workflows/backend.yml)
+[![Frontend Tests](https://github.com/rohberg/searchkit-block/actions/workflows/frontend.yml/badge.svg)](https://github.com/rohberg/searchkit-block/actions/workflows/frontend.yml)
 
-As this search is addressing `OpenSearch/ElasticSearch` with text analysis, the search does understand inflection of words, tolerates typos by fuzzy searching, allows exact search and wildcard search.
-See [User documentation](#user-documentation) on how to search.
+A new project using Plone 6.
 
-Matched phrases are shown with highlighted matches.
+## Quick Start 🏁
 
-Additional metadata per result item can be configured easily.
-Meta data values are clickable to find related content.
+### Prerequisites ✅
 
-The block is prepared for Matomo analytics.
+Ensure you have the following installed:
 
-![Search @rohberg/volto-searchkit-block](public/search.png)
+- Python 3.11 🐍
+- Node 20 🟩
+- pnpm 🧶
+- Docker 🐳
 
+### Installation 🔧
 
-# Getting started
+1. Clone the repository:
 
-Install Plone backend add-on [`collective.elastic.plone 2.x`](https://github.com/collective/collective.elastic.plone) to provide the Plone REST API service which accepts queries and requests OpenSearch/ElasticSearch.
-
-Install Plone backend add-on [`collective.elastic.ingest 2.x`](https://github.com/collective/collective.elastic.ingest) to index Plone content.
-
-Setting up OpenSearch/ElasticSearch instructions can be found on [`collective.elastic.plone 2.x`](https://github.com/collective/collective.elastic.plone).
-See the [example](docker-opensearch) configuration of collective.elastic of a mapping, attachment handling and last but not least analysis.
-
-
-# Configuration
-
-The block is not for editors. So please enable adding a searchkit block once by
-
-```js
-config.blocks.blocksConfig.searchkitblock.restricted = true;
+```shell
+git clone git@github.com:rohberg/searchkit-block.git
+cd searchkit-block
 ```
 
-and disable the block after adding it to a page of your choice.
+2. Install both Backend and Frontend:
 
-The block can be configured by 
-
-- searchable fields with boosting
-- facets
-- restricting types and states
-- results meta data
-
-![Configuration](public/configuration.png)
-
-
-Enable Matomo tracking via
-
-```js
-  config.settings.searchkitblock.trackVoltoMatomo = true
+```shell
+make install
 ```
 
-# Overriding components
+### Fire Up the Servers 🔥
 
-Components of @rohberg/volto-searchkit-block can be overridden via its overridableId:
+1. Create a new Plone site on your first run:
 
-```jsx
-const MySearchkitResultsListItem = ({ result, index }) => {
-  return (
-    <div>
-      <Header as="h3">
-        <Link to={flattenESUrlToPath(result['@id'])}>
-          {result.title}
-        </Link>
-      </Header>
-    </div>
-  );
-};
+```shell
+make backend-create-site
+```
 
-config.settings.searchkitblock.overriddenComponents = {
-  'ResultsList.item.elasticsearch': MySearchkitResultsListItem,
-};
-````
+2. Start the Backend at [http://localhost:8080/](http://localhost:8080/):
 
+```shell
+make backend-start
+```
 
-# Panel for testing matches
+3. In a new terminal, start the Frontend at [http://localhost:3000/](http://localhost:3000/):
 
-`/controlpanel/test-searchkit-querystrings`
+```shell
+make frontend-start
+```
 
-Please update the settings according to your deployment: `/controlpanel/volto_searchkit_block_control_panel`
+Voila! Your Plone site should be live and kicking! 🎉
 
+### Local Stack Deployment 📦
 
-# User documentation
+Deploy a local `Docker Compose` environment that includes:
 
-The search is a fuzzy search, that means typos are compensated. 
-Approximate matches and inflections are found.
+- Docker images for Backend and Frontend 🖼️
+- A stack with a Traefik router and a Postgres database 🗃️
+- Accessible at [http://searchkit-block.localhost](http://searchkit-block.localhost) 🌐
 
-To force the match of a search string, precede it with "+".
-To exclude matches of a search string, precede it with "-".
+Execute the following:
 
-Use wildcards to find matches of words that complement the search string.
+```shell
+make stack-start
+make stack-create-site
+```
 
-For exact matches of a search string embrace it with quotation marks.
+And... you're all set! Your Plone site is up and running locally! 🚀
 
-A search for a word with hyphen is equivalent to a search for the word and the parts of it.  
-Example: A search for "LSR-Lehrbetrieb" is equivalent to a search for "LSR-Lehrbetrieb LSR Lehrbetrieb"
+## Project Structure 🏗️
 
-Words with hyphen are matched by searches for part of the words.  
-Example: "LSR-Lehrbetrieb" is found by a search for "LSR".
+This monorepo consists of three distinct sections: `backend`, `frontend`, and `devops`.
 
-## Multiple search strings
+- **backend**: Houses the API and Plone installation, utilizing pip instead of buildout, and includes a policy package named searchkit.block.
+- **frontend**: Contains the React (Volto) package.
+- **devops**: Encompasses Docker Stack, Ansible playbooks, and Cache settings.
 
-Search results do include at least one of the search strings.
+### Why This Structure? 🤔
 
+- All necessary codebases to run the site are contained within the repo (excluding existing addons for Plone and React).
+- Specific GitHub Workflows are triggered based on changes in each codebase (refer to .github/workflows).
+- Simplifies the creation of Docker images for each codebase.
+- Demonstrates Plone installation/setup without buildout.
 
-# Credits
+## Code Quality Assurance 🧐
 
-This package is a Plone Volto integration of react-searchkit https://www.npmjs.com/package/react-searchkit Copyright (C) 2015-2019 CERN.
+To automatically format your code and ensure it adheres to quality standards, execute:
 
+```shell
+make check
+```
 
-# Copyright and license
+Linters can be run individually within the `backend` or `frontend` folders.
 
-Copyright (C) 2024 Rohberg.
+## Internationalization 🌐
 
-The project is licensed.
-See [LICENSE](https://github.com/rohberg/volto-searchkit-block/blob/master/LICENSE) for details.
+Generate translation files for Plone and Volto with ease:
+
+```shell
+make i18n
+```
+
+## Credits and Acknowledgements 🙏
+
+Crafted with care by **Generated using [Cookieplone (0.7.1)](https://github.com/plone/cookieplone) and [cookiecutter-plone (6f17615)](https://github.com/plone/cookiecutter-plone/commit/6f1761520019010ae3799dfa0c6b999b533d59a7) on 2024-10-26 13:04:00.309419**. A special thanks to all contributors and supporters!

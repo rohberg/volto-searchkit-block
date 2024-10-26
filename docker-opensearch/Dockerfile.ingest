@@ -1,3 +1,0 @@
-FROM ghcr.io/collective/collective.elastic.ingest:latest
-
-COPY docker-opensearch/ingest-configuration /configuration
