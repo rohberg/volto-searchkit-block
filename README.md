@@ -1,110 +1,203 @@
-# Searchkit Block 🚀
+# Searchkit Block (volto-searchkit-block)
 
-[![Built with Cookieplone](https://img.shields.io/badge/built%20with-Cookieplone-0083be.svg?logo=cookiecutter)](https://github.com/plone/cookiecutter-plone/)
-[![Black code style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
-[![Backend Tests](https://github.com/rohberg/searchkit-block/actions/workflows/backend.yml/badge.svg)](https://github.com/rohberg/searchkit-block/actions/workflows/backend.yml)
-[![Frontend Tests](https://github.com/rohberg/searchkit-block/actions/workflows/frontend.yml/badge.svg)](https://github.com/rohberg/searchkit-block/actions/workflows/frontend.yml)
+Searching with OpenSearch
 
-A new project using Plone 6.
+[![npm](https://img.shields.io/npm/v/volto-searchkit-block)](https://www.npmjs.com/package/volto-searchkit-block)
+[![](https://img.shields.io/badge/-Storybook-ff4785?logo=Storybook&logoColor=white&style=flat-square)](https://rohberg.github.io/volto-searchkit-block/)
+[![Code analysis checks](https://github.com/rohberg/volto-searchkit-block/actions/workflows/code.yml/badge.svg)](https://github.com/rohberg/volto-searchkit-block/actions/workflows/code.yml)
+[![Unit tests](https://github.com/rohberg/volto-searchkit-block/actions/workflows/unit.yml/badge.svg)](https://github.com/rohberg/volto-searchkit-block/actions/workflows/unit.yml)
 
-## Quick Start 🏁
+## Features
 
-### Prerequisites ✅
+<!-- List your awesome features here -->
 
-Ensure you have the following installed:
+## Installation
 
-- Python 3.11 🐍
-- Node 20 🟩
-- pnpm 🧶
-- Docker 🐳
+To install your project, you must choose the method appropriate to your version of Volto.
 
-### Installation 🔧
 
-1. Clone the repository:
+### Volto 17 and earlier
 
-```shell
-git clone git@github.com:rohberg/searchkit-block.git
-cd searchkit-block
+Create a new Volto project (you can skip this step if you already have one):
+
+```
+npm install -g yo @plone/generator-volto
+yo @plone/volto my-volto-project --addon volto-searchkit-block
+cd my-volto-project
 ```
 
-2. Install both Backend and Frontend:
+Add `volto-searchkit-block` to your package.json:
+
+```JSON
+"addons": [
+    "volto-searchkit-block"
+],
+
+"dependencies": {
+    "volto-searchkit-block": "*"
+}
+```
+
+Download and install the new add-on by running:
+
+```
+yarn install
+```
+
+Start volto with:
+
+```
+yarn start
+```
+
+### Volto 18 and later
+
+Add `volto-searchkit-block` to your `package.json`:
+
+```json
+"dependencies": {
+    "volto-searchkit-block": "*"
+}
+```
+
+Add `volto-searchkit-block` to your `volto.config.js`:
+
+```javascript
+const addons = ['volto-searchkit-block'];
+```
+
+If this package provides a Volto theme, and you want to activate it, then add the following to your `volto.config.js`:
+
+```javascript
+const theme = 'volto-searchkit-block';
+```
+
+## Test installation
+
+Visit http://localhost:3000/ in a browser, login, and check the awesome new features.
+
+
+## Development
+
+The development of this add-on is done in isolation using a new approach using pnpm workspaces and latest `mrs-developer` and other Volto core improvements.
+For this reason, it only works with pnpm and Volto 18 (currently in alpha).
+
+
+### Pre-requisites
+
+-   [Node.js](https://6.docs.plone.org/install/create-project.html#node-js)
+-   [Make](https://6.docs.plone.org/install/create-project.html#make)
+-   [Docker](https://6.docs.plone.org/install/create-project.html#docker)
+
+
+### Make convenience commands
+
+Run `make help` to list the available commands.
+
+```text
+help                             Show this help
+install                          Installs the add-on in a development environment
+start                            Starts Volto, allowing reloading of the add-on during development
+build                            Build a production bundle for distribution of the project with the add-on
+i18n                             Sync i18n
+ci-i18n                          Check if i18n is not synced
+format                           Format codebase
+lint                             Lint, or catch and remove problems, in code base
+release                          Release the add-on on npmjs.org
+release-dry-run                  Dry-run the release of the add-on on npmjs.org
+test                             Run unit tests
+ci-test                          Run unit tests in CI
+backend-docker-start             Starts a Docker-based backend for development
+storybook-start                  Start Storybook server on port 6006
+storybook-build                  Build Storybook
+acceptance-frontend-dev-start    Start acceptance frontend in development mode
+acceptance-frontend-prod-start   Start acceptance frontend in production mode
+acceptance-backend-start         Start backend acceptance server
+ci-acceptance-backend-start      Start backend acceptance server in headless mode for CI
+acceptance-test                  Start Cypress in interactive mode
+ci-acceptance-test               Run cypress tests in headless mode for CI
+```
+
+### Development environment set up
+
+Install package requirements.
 
 ```shell
 make install
 ```
 
-### Fire Up the Servers 🔥
+### Start developing
 
-1. Create a new Plone site on your first run:
-
-```shell
-make backend-create-site
-```
-
-2. Start the Backend at [http://localhost:8080/](http://localhost:8080/):
+Start the backend.
 
 ```shell
-make backend-start
+make backend-docker-start
 ```
 
-3. In a new terminal, start the Frontend at [http://localhost:3000/](http://localhost:3000/):
+In a separate terminal session, start the frontend.
 
 ```shell
-make frontend-start
+make start
 ```
 
-Voila! Your Plone site should be live and kicking! 🎉
+### Lint code
 
-### Local Stack Deployment 📦
-
-Deploy a local `Docker Compose` environment that includes:
-
-- Docker images for Backend and Frontend 🖼️
-- A stack with a Traefik router and a Postgres database 🗃️
-- Accessible at [http://searchkit-block.localhost](http://searchkit-block.localhost) 🌐
-
-Execute the following:
+Run ESlint, Prettier, and Stylelint in analyze mode.
 
 ```shell
-make stack-start
-make stack-create-site
+make lint
 ```
 
-And... you're all set! Your Plone site is up and running locally! 🚀
+### Format code
 
-## Project Structure 🏗️
-
-This monorepo consists of three distinct sections: `backend`, `frontend`, and `devops`.
-
-- **backend**: Houses the API and Plone installation, utilizing pip instead of buildout, and includes a policy package named searchkit.block.
-- **frontend**: Contains the React (Volto) package.
-- **devops**: Encompasses Docker Stack, Ansible playbooks, and Cache settings.
-
-### Why This Structure? 🤔
-
-- All necessary codebases to run the site are contained within the repo (excluding existing addons for Plone and React).
-- Specific GitHub Workflows are triggered based on changes in each codebase (refer to .github/workflows).
-- Simplifies the creation of Docker images for each codebase.
-- Demonstrates Plone installation/setup without buildout.
-
-## Code Quality Assurance 🧐
-
-To automatically format your code and ensure it adheres to quality standards, execute:
+Run ESlint, Prettier, and Stylelint in fix mode.
 
 ```shell
-make check
+make format
 ```
 
-Linters can be run individually within the `backend` or `frontend` folders.
+### i18n
 
-## Internationalization 🌐
-
-Generate translation files for Plone and Volto with ease:
+Extract the i18n messages to locales.
 
 ```shell
 make i18n
 ```
 
+### Unit tests
+
+Run unit tests.
+
+```shell
+make test
+```
+
+### Run Cypress tests
+
+Run each of these steps in separate terminal sessions.
+
+In the first session, start the frontend in development mode.
+
+```shell
+make acceptance-frontend-dev-start
+```
+
+In the second session, start the backend acceptance server.
+
+```shell
+make acceptance-backend-start
+```
+
+In the third session, start the Cypress interactive test runner.
+
+```shell
+make acceptance-test
+```
+
+## License
+
+The project is licensed under the MIT license.
+
 ## Credits and Acknowledgements 🙏
 
-Crafted with care by **Generated using [Cookieplone (0.7.1)](https://github.com/plone/cookieplone) and [cookiecutter-plone (6f17615)](https://github.com/plone/cookiecutter-plone/commit/6f1761520019010ae3799dfa0c6b999b533d59a7) on 2024-10-26 13:04:00.309419**. A special thanks to all contributors and supporters!
+Crafted with care by **Generated using [Cookieplone (0.7.1)](https://github.com/plone/cookieplone) and [cookiecutter-plone (6f17615)](https://github.com/plone/cookiecutter-plone/commit/6f1761520019010ae3799dfa0c6b999b533d59a7) on 2024-10-26 13:17:25.419878**. A special thanks to all contributors and supporters!
