@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone\n"
-"POT-Creation-Date: 2024-03-22T12:43:34.158Z\n"
+"POT-Creation-Date: 2024-10-27T10:42:20.849Z\n"
 "Last-Translator: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
 "Language-Team: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -12,3 +12,159 @@ msgstr ""
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8\n"
 "Domain: volto\n"
+
+#. Default: "Add {type}"
+#: messages
+msgid "Add {type}"
+msgstr ""
+
+#. Default: "Cancel"
+#: messages
+msgid "Cancel"
+msgstr ""
+
+#. Default: "Check the configuration of your searchkit block!"
+#: components/Searchkit/Error
+msgid "Check the configuration of your searchkit block!"
+msgstr ""
+
+#. Default: "Content"
+#: messages
+msgid "Content"
+msgstr ""
+
+#. Default: "Date"
+#: components/Views/FacetedSearch
+msgid "Date"
+msgstr ""
+
+#. Default: "Description"
+#: messages
+msgid "Description"
+msgstr ""
+
+#. Default: "Deselect all"
+#: components/Views/FacetedSearch
+msgid "Deselect all"
+msgstr ""
+
+#. Default: "Facet"
+#: messages
+msgid "Facet"
+msgstr ""
+
+#. Default: "Facet widget"
+#: messages
+msgid "Facet widget"
+msgstr ""
+
+#. Default: "Facets"
+#: messages
+msgid "Facets"
+msgstr ""
+
+#. Default: "Field"
+#: messages
+msgid "Field"
+msgstr ""
+
+#. Default: "Label"
+#: messages
+msgid "Label"
+msgstr ""
+
+#. Default: "Meta data"
+#: messages
+msgid "Meta data"
+msgstr ""
+
+#. Default: "Multiple choices?"
+#: messages
+msgid "Multiple choices?"
+msgstr ""
+
+#. Default: "No results"
+#: components/Views/FacetedSearch
+msgid "No results"
+msgstr ""
+
+#. Default: "Relevance"
+#: components/Views/FacetedSearch
+msgid "Relevance"
+msgstr ""
+
+#. Default: "Search block"
+#: messages
+msgid "Search block"
+msgstr ""
+
+#. Default: "Search can be restricted by sections / paths"
+#: messages
+msgid "Search can be restricted by sections / paths"
+msgstr ""
+
+#. Default: "Search in sections"
+#: messages
+msgid "Search in sections"
+msgstr ""
+
+#. Default: "Search result"
+#: messages
+msgid "Search result"
+msgstr ""
+
+#. Default: "Search results"
+#: messages
+msgid "Search results"
+msgstr ""
+
+#. Default: "section"
+#: messages
+msgid "Search section"
+msgstr ""
+
+#. Default: "Search section label"
+#: messages
+msgid "Search section label"
+msgstr ""
+
+#. Default: "Searchkit"
+#: messages
+msgid "Searchkit"
+msgstr ""
+
+#. Default: "Select all"
+#: components/Views/FacetedSearch
+msgid "Select all"
+msgstr ""
+
+#. Default: "Show filter"
+#: messages
+msgid "Show filters"
+msgstr ""
+
+#. Default: "Sort by:"
+#: components/Views/FacetedSearch
+msgid "Sort By:"
+msgstr ""
+
+#. Default: "Tags"
+#: components/Views/FacetedSearch
+#: messages
+msgid "Tags"
+msgstr ""
+
+#. Default: "Title"
+#: messages
+msgid "Title"
+msgstr ""
+
+#. Default: "reset search"
+#: components/Views/FacetedSearch
+msgid "reset search"
+msgstr ""
+
+#. Default: "search"
+#: messages
+msgid "search"
+msgstr ""
