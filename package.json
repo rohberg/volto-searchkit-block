@@ -1,6 +1,6 @@
 {
   "name": "volto-searchkit-block-dev",
-  "version": "1.0.0-alpha.0",
+  "version": "0.4.0",
   "description": "Searching with OpenSearch",
   "author": "Katja Süss",
   "homepage": "https://github.com/rohberg/volto-searchkit-block",

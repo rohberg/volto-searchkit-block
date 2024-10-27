@@ -1,6 +1,6 @@
 {
   "name": "volto-searchkit-block",
-  "version": "1.0.0-alpha.0",
+  "version": "0.4.0",
   "description": "Searching with OpenSearch",
   "main": "src/index.js",
   "license": "MIT",
@@ -26,7 +26,11 @@
     "release-major-alpha": "release-it major --preRelease=alpha",
     "release-alpha": "release-it --preRelease=alpha"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@eeacms/volto-matomo": "*",
+    "react-overridable": "^0.0.3",
+    "react-searchkit": "v2.2.0"
+  },
   "peerDependencies": {
     "react": "18.2.0",
     "react-dom": "18.2.0"
