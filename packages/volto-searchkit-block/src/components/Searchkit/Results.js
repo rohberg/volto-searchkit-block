@@ -11,7 +11,7 @@ import {
 import config from '@plone/volto/registry';
 
 // TODO conditional Matomo tracking: catch case if app has not volto-matomo installed
-import { trackSiteSearch } from '@eeacms/volto-matomo/utils';
+import * as matomoUtils from '@eeacms/volto-matomo/src/utils';
 
 import { scrollToTarget } from '../helpers';
 
@@ -29,7 +29,7 @@ class Results extends Component {
         keyword: this.props.currentQueryState.queryString,
         count: this.props.currentResultsState.data.total,
       };
-      trackSiteSearch(options);
+      matomoUtils.trackSiteSearch(options);
     }
   }
 
