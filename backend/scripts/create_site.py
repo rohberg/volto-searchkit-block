@@ -2,7 +2,7 @@ from AccessControl.SecurityManagement import newSecurityManager
 from Products.CMFPlone.factory import _DEFAULT_PROFILE
 from Products.CMFPlone.factory import addPloneSite
 from Products.GenericSetup.tool import SetupTool
-from searchkit.block.interfaces import IBrowserLayer
+from collective.elastic.plone.interfaces import ICollectiveEsPloneLayer
 from Testing.makerequest import makerequest
 from zope.interface import directlyProvidedBy
 from zope.interface import directlyProvides
@@ -35,7 +35,7 @@ app = makerequest(globals()["app"])
 
 request = app.REQUEST
 
-ifaces = [IBrowserLayer] + list(directlyProvidedBy(request))
+ifaces = [ICollectiveEsPloneLayer] + list(directlyProvidedBy(request))
 
 directlyProvides(request, *ifaces)
 
@@ -48,7 +48,7 @@ payload = {
     "title": "Searchkit Block",
     "profile_id": _DEFAULT_PROFILE,
     "extension_ids": [
-        "searchkit.block:default",
+        "collective.elastic.plone:default",
     ],
     "setup_content": False,
     "default_language": "en",
@@ -65,6 +65,8 @@ if site_id not in app.objectIds():
     transaction.commit()
     if EXAMPLE_CONTENT:
         portal_setup: SetupTool = site.portal_setup
-        portal_setup.runAllImportStepsFromProfile("searchkit.block:initial")
+        portal_setup.runAllImportStepsFromProfile(
+            "collective.elastic.plone:initial"
+            )
         transaction.commit()
     app._p_jar.sync()

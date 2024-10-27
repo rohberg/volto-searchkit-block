@@ -8,6 +8,10 @@ SHELL:=bash
 MAKEFLAGS+=--warn-undefined-variables
 MAKEFLAGS+=--no-builtin-rules
 
+include variables.mk
+
+CURRENT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+
 # We like colors
 # From: https://coderwall.com/p/izxssa/colored-makefile-for-golang-projects
 RED=`tput setaf 1`
@@ -42,6 +46,15 @@ GIT_FOLDER=$(BACKEND_FOLDER)/.git
 VENV_FOLDER=$(BACKEND_FOLDER)/.venv
 BIN_FOLDER=$(VENV_FOLDER)/bin
 
+
+BACKEND_ADDONS='collective.elastic.plone ${KGS} $(TESTING_ADDONS)'
+DEV_COMPOSE=dockerfiles/docker-compose.yml
+ACCEPTANCE_COMPOSE=dockerfiles/docker-compose.yml
+CMD_ENVS=CURRENT_DIR=${CURRENT_DIR} PLONE_VERSION=${PLONE_VERSION} BACKEND_ADDONS=${BACKEND_ADDONS}
+CMD=${CMD_ENVS} docker compose
+DOCKER_COMPOSE=${CMD} -p ${PROJECT_NAME} -f ${DEV_COMPOSE}
+ACCEPTANCE_MONOLINGUAL=${CMD} -p ${PROJECT_NAME}-acceptance -f ${ACCEPTANCE_COMPOSE}
+ACCEPTANCE_MULTILINGUAL=${CMD} -p ${PROJECT_NAME}-acceptance-multilingual -f ${ACCEPTANCE_COMPOSE}
 
 all: build
 
@@ -129,11 +142,22 @@ test-coverage: $(BIN_FOLDER)/tox ## run tests with coverage
 build-image:  ## Build Docker Images
 	@DOCKER_BUILDKIT=1 docker build . -t $(IMAGE_NAME_PREFIX)-backend:$(IMAGE_TAG) -f Dockerfile --build-arg PLONE_VERSION=$(PLONE_VERSION)
 
-# Acceptance tests
-.PHONY: acceptance-backend-start
-acceptance-backend-start: ## Start backend acceptance server
-	ZSERVER_HOST=0.0.0.0 ZSERVER_PORT=55001 LISTEN_PORT=55001 APPLY_PROFILES="searchkit/block:default" CONFIGURE_PACKAGES="plone.restapi,plone.volto,plone.volto.cors,searchkit/block" $(BIN_FOLDER)/robot-server plone.app.robotframework.testing.VOLTO_ROBOT_TESTING
+# Acceptance monolingual
+# ########################################################################
 
-.PHONY: acceptance-image-build
-acceptance-image-build:  ## Build Docker Images
-	@DOCKER_BUILDKIT=1 docker build . -t $(IMAGE_NAME_PREFIX)-backend-acceptance:$(IMAGE_TAG) -f Dockerfile.acceptance --build-arg PLONE_VERSION=$(PLONE_VERSION)
+# # Acceptance tests
+# .PHONY: acceptance-backend-start
+# acceptance-backend-start: ## Start backend acceptance server
+# 	ZSERVER_HOST=0.0.0.0 ZSERVER_PORT=55001 LISTEN_PORT=55001 APPLY_PROFILES="collective.elastic.plone:default" CONFIGURE_PACKAGES="plone.restapi,plone.volto,plone.volto.cors,collective.elastic.plone" $(BIN_FOLDER)/robot-server plone.app.robotframework.testing.VOLTO_ROBOT_TESTING
+
+# .PHONY: acceptance-image-build
+# acceptance-image-build:  ## Build Docker Images
+# 	@DOCKER_BUILDKIT=1 docker build . -t $(IMAGE_NAME_PREFIX)-backend-acceptance:$(IMAGE_TAG) -f Dockerfile.acceptance --build-arg PLONE_VERSION=$(PLONE_VERSION)
+
+.PHONY: acceptance-start
+acceptance-backend-start: ## Start acceptance containers (backend and OpenSearch)
+	${ACCEPTANCE_MONOLINGUAL} --profile dev up -d --force-recreate
+
+.PHONY: acceptance-build
+acceptance-image-build: ## Build acceptance containers (backend and OpenSearch)
+	${ACCEPTANCE_MONOLINGUAL} --profile dev build --no-cache

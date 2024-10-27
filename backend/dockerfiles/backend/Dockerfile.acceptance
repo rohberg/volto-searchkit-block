@@ -1,0 +1,34 @@
+# syntax=docker/dockerfile:1
+# Dockerfile from cookiecutter-plone-starter
+
+ARG PLONE_VERSION=6.0
+ARG SEED=7
+FROM plone/server-builder:${PLONE_VERSION} as builder
+
+WORKDIR /app
+
+# # Add local code
+# COPY . .
+
+# Install local requirements
+RUN <<EOT
+    SEED=${SEED}
+    set -e
+    bin/pip install plone.app.robotframework>=2.0.0
+    # TODO Switch back to released collective.elastic.plone
+    # bin/pip install collective.elastic.plone[redis,opensearch]>=2.1.0
+    bin/pip install 'collective.elastic.plone[redis,opensearch] @ git+https://github.com/collective/collective.elastic.plone.git'
+    bin/pip install 'rohberg.volto[test] @ git+https://github.com/rohberg/rohberg.volto.git'
+EOT
+
+
+FROM plone/server-acceptance:${PLONE_VERSION}
+ENV APPLY_PROFILES="collective.elastic.plone:default,rohberg.volto:monolingual"
+
+# Copy /app from builder
+COPY --from=builder /app /app
+
+RUN <<EOT
+    SEED=${SEED}
+    ln -s /data /app/var
+EOT

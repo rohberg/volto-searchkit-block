@@ -28,12 +28,12 @@ EOT
 FROM plone/server-acceptance:${PLONE_VERSION}
 
 LABEL maintainer="Plone Foundation <collective@plone.org>" \
-      org.label-schema.name="searchkit-block-acceptance" \
+      org.label-schema.name="searchkit-block-backend-acceptance" \
       org.label-schema.description="Searchkit Block backend acceptance image." \
       org.label-schema.vendor="Plone Foundation"
 
-ENV CONFIGURE_PACKAGES="plone.restapi,plone.volto,plone.volto.cors,searchkit.block"
-ENV APPLY_PROFILES="searchkit.block:default"
+ENV CONFIGURE_PACKAGES="plone.restapi,plone.volto,plone.volto.cors,collective.elastic.plone"
+ENV APPLY_PROFILES="collective.elastic.plone:default"
 
 # Copy /app from builder
 COPY --from=builder /app /app

@@ -1,4 +1,4 @@
-# searchkit.block
+# backend with collective.elastic.plone and ElasticSearch
 
 A new project using Plone 6.
 

@@ -1,0 +1,66 @@
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "german_analyzer": {
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "custom_dictionary_decompounder_german",
+            "no_stem_german",
+            "light_german_stemmer"
+          ]
+        },
+        "german_exact_analyzer": {
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase"
+          ]
+        },
+
+        "english_analyzer": {
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "custom_dictionary_decompounder_english",
+            "no_stem_english",
+            "light_english_stemmer"
+          ]
+        },
+        "english_exact_analyzer": {
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase"
+          ]
+        }
+      },
+      "filter": {
+        "custom_dictionary_decompounder_german": {
+            "type": "dictionary_decompounder",
+            "word_list_path": "lexicon.txt"
+        },
+        "no_stem_german": {
+          "type": "keyword_marker",
+          "keywords_path": "keywords.txt"
+        },
+        "light_german_stemmer": {
+          "type": "stemmer",
+          "language": "light_german"
+        },
+
+        "custom_dictionary_decompounder_english": {
+          "type": "dictionary_decompounder",
+          "word_list_path": "lexicon_english.txt"
+        },
+        "no_stem_english": {
+          "type": "keyword_marker",
+          "keywords_path": "keywords_english.txt"
+        },
+        "light_english_stemmer": {
+          "type": "stemmer",
+          "language": "light_english"
+        }
+      }
+    }
+  }
+}

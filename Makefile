@@ -24,6 +24,8 @@ PRE_COMMIT=pipx run --spec 'pre-commit==3.7.1' pre-commit
 
 PLONE_VERSION=6
 DOCKER_IMAGE=plone/server-dev:${PLONE_VERSION}
+# DOCKER_IMAGE_ACCEPTANCE=plone/server-acceptance:${PLONE_VERSION}
+# TODO use build image with c.e.plone
 DOCKER_IMAGE_ACCEPTANCE=plone/server-acceptance:${PLONE_VERSION}
 
 ADDON_NAME='volto-searchkit-block'
@@ -32,7 +34,65 @@ ADDON_NAME='volto-searchkit-block'
 help: ## Show this help
 	@echo -e "$$(grep -hE '^\S+:.*##' $(MAKEFILE_LIST) | sed -e 's/:.*##\s*/:/' -e 's/^\(.\+\):\(.*\)/\\x1b[36m\1\\x1b[m:\2/' | column -c2 -t -s :)"
 
-# Dev Helpers
+
+
+###########################################
+# Backend
+###########################################
+.PHONY: backend-install
+backend-install:  ## Create virtualenv and install Plone
+	$(MAKE) -C "./backend/" install
+	$(MAKE) backend-create-site
+
+.PHONY: backend-build
+backend-build:  ## Build Backend
+	$(MAKE) -C "./backend/" install
+
+.PHONY: backend-create-site
+backend-create-site: ## Create a Plone site with default content
+	$(MAKE) -C "./backend/" create-site
+
+.PHONY: backend-update-example-content
+backend-update-example-content: ## Export example content inside package
+	$(MAKE) -C "./backend/" update-example-content
+
+.PHONY: backend-start
+backend-start: ## Start Plone Backend
+	$(MAKE) -C "./backend/" start
+
+.PHONY: backend-test
+backend-test:  ## Test backend codebase
+	@echo "Test backend"
+	$(MAKE) -C "./backend/" test
+
+# .PHONY: install
+# install:  ## Install
+# 	@echo "Install Backend & Frontend"
+# 	if [ -d $(GIT_FOLDER) ]; then $(PRE_COMMIT) install; else echo "$(RED) Not installing pre-commit$(RESET)";fi
+# 	$(MAKE) backend-install
+# 	$(MAKE) frontend-install
+
+# .PHONY: start
+# start:  ## Start
+# 	@echo "Starting application"
+# 	$(MAKE) backend-start
+# 	$(MAKE) frontend-start
+
+# .PHONY: clean
+# clean:  ## Clean installation
+# 	@echo "Clean installation"
+# 	$(MAKE) -C "./backend/" clean
+# 	$(MAKE) -C "./frontend/" clean
+
+# .PHONY: check
+# check:  ## Lint and Format codebase
+# 	@echo "Lint and Format codebase"
+# 	$(PRE_COMMIT) run -a
+
+
+###########################################
+# Frontend
+###########################################
 
 .PHONY: install
 install: ## Installs the add-on in a development environment
@@ -97,10 +157,10 @@ ci-test: ## Run unit tests in CI
 	VOLTOCONFIG=$(pwd)/volto.config.js pnpm --filter @plone/volto i18n
 	CI=1 RAZZLE_JEST_CONFIG=$(CURRENT_DIR)/jest-addon.config.js pnpm --filter @plone/volto test -- --passWithNoTests
 
-.PHONY: backend-docker-start
-backend-docker-start:	## Starts a Docker-based backend for development
-	@echo "$(GREEN)==> Start Docker-based Plone Backend$(RESET)"
-	docker run -it --rm --name=backend -p 8080:8080 -e SITE=Plone $(DOCKER_IMAGE)
+# .PHONY: backend-docker-start
+# backend-docker-start:	## Starts a Docker-based backend for development
+# 	@echo "$(GREEN)==> Start Docker-based Plone Backend$(RESET)"
+# 	docker run -it --rm --name=backend -p 8080:8080 -e SITE=Plone $(DOCKER_IMAGE)
 
 ## Storybook
 .PHONY: storybook-start
@@ -114,7 +174,9 @@ storybook-build: ## Build Storybook
 	mkdir -p $(CURRENT_DIR)/.storybook-build
 	pnpm run storybook-build -o $(CURRENT_DIR)/.storybook-build
 
-## Acceptance
+###########################################
+# Acceptance
+###########################################
 .PHONY: acceptance-frontend-dev-start
 acceptance-frontend-dev-start: ## Start acceptance frontend in development mode
 	RAZZLE_API_PATH=http://127.0.0.1:55001/plone pnpm start
@@ -125,7 +187,7 @@ acceptance-frontend-prod-start: ## Start acceptance frontend in production mode
 
 .PHONY: acceptance-backend-start
 acceptance-backend-start: ## Start backend acceptance server
-	docker run -it --rm -p 55001:55001 $(DOCKER_IMAGE_ACCEPTANCE)
+	$(MAKE) -C "./backend/" acceptance-backend-start
 
 .PHONY: ci-acceptance-backend-start
 ci-acceptance-backend-start: ## Start backend acceptance server in headless mode for CI

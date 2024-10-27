@@ -1,0 +1,44 @@
+# syntax=docker/dockerfile:1
+ARG SEED=1000
+ARG PLONE_VERSION=6.0
+FROM plone/plone-backend:${PLONE_VERSION}
+
+
+LABEL maintainer="Plone Foundation <collective@plone.org>" \
+    org.label-schema.name="searchkit-backend" \
+    org.label-schema.description="searchkit backend image." \
+    org.label-schema.vendor="Rohberg"
+
+# Add local code
+COPY . .
+
+# # Install local requirements and fix permissions
+# RUN <<EOT
+#     ./bin/pip install mxdev
+#     mv requirements-docker.txt requirements.txt
+#     ./bin/mxdev -c mx.ini
+#     ./bin/pip install -r requirements-mxdev.txt
+#     chown -R plone: /app
+# EOT
+
+
+# Install local requirements and fix permissions
+RUN <<EOT
+    mv requirements-docker.txt requirements.txt
+    ./bin/pip install -r requirements.txt
+EOT
+
+# Move package include
+RUN <<EOT
+    mv collective.elastic.plone-configure.zcml etc/package-includes/collective.elastic.plone-configure.zcml
+EOT
+
+# Create a new site with content
+RUN <<EOT
+    SEED=${SEED}
+    # # ADDITIONAL_PROFILES=collective.elastic.plone:default
+    # export ADDONS=collective.elastic.plone[redis,opensearch]
+    # export PROFILES="collective.elastic.plone:default"
+    # export DELETE_EXISTING=1
+    ./docker-entrypoint.sh create-site
+EOT

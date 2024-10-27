@@ -1,0 +1,240 @@
+[
+    {
+        "comment": "Remove all empty fields.",
+        "action": "remove_empty"
+    },
+    {
+        "comment": "Transform vocabularies to it token only form.",
+        "action": "strip_vocabulary_term_titles"
+    },
+    {
+        "comment": "ProxyIndex needs this information, essential rewrite, do not remove",
+        "action": "rewrite",
+        "configuration": {
+            "source": "@components/collectiveelastic/catalog_rid",
+            "target": "rid",
+            "enforce": true
+        }
+    },
+    {
+        "comment": "Schema for above rid, do not remove",
+        "action": "additional_schema",
+        "configuration": {
+            "name": "rid",
+            "field": "zope.schema._field.ASCIILine"
+        }
+    },
+    {
+        "comment": "CESP Restapi Volto endpoint needs this information, essential rewrite, do not remove",
+        "action": "rewrite",
+        "configuration": {
+            "source": "@components/collectiveelastic/allowedRolesAndUsers",
+            "target": "allowedRolesAndUsers",
+            "enforce": true
+        }
+    },
+    {
+        "comment": "Schema for above allowedRolesAndUsers, do not remove",
+        "action": "additional_schema",
+        "configuration": {
+            "name": "allowedRolesAndUsers",
+            "field": "zope.schema._field.List"
+        }
+    },
+    {
+        "comment": "Remove plone.restapi parent information",
+        "action": "remove",
+        "configuration": {
+            "target": "parent"
+        }
+    },
+    {
+        "comment": "Remove plone.restapi lock information",
+        "action": "remove",
+        "configuration": {
+            "target": "lock"
+        }
+    },
+    {
+        "comment": "Remove plone.restapi batching information",
+        "action": "remove",
+        "configuration": {
+            "target": "batching"
+        }
+    },
+    {
+        "comment": "If Volto is available, this is important for full text search, do not remove unless in Classic UI only environments",
+        "action": "rewrite",
+        "configuration": {
+            "source": "@components/blocks_plaintext",
+            "target": "blocks_plaintext",
+            "enforce": false
+        }
+    },
+    {
+        "comment": "If Volto is available, this is important for full text search, do not remove unless in Classic UI only environments",
+        "action": "additional_schema",
+        "configuration": {
+            "name": "blocks_plaintext",
+            "field": "zope.schema._bootstrapfields.Text"
+        }
+    },
+    {
+        "comment": "... needs this information, essential rewrite, do not remove",
+        "action": "rewrite",
+        "configuration": {
+        "source": "@components/collectiveelastic/section_id",
+        "target": "section",
+        "enforce": true
+        }
+    },
+    {
+        "comment": "Schema for above section_id, do not remove",
+        "action": "additional_schema",
+        "configuration": {
+        "name": "section",
+        "field": "zope.schema._field.ASCIILine"
+        }
+    },
+    {
+        "comment": "If volto.blocks is available, remove all its fields.",
+        "action": "full_remove",
+        "configuration": {
+            "section": "behaviors",
+            "name": "volto.blocks"
+        }
+    },
+    {
+        "comment": "If volto.blocks.editable.layout is available, remove all its fields.",
+        "action": "full_remove",
+        "configuration": {
+            "section": "behaviors",
+            "name": "volto.blocks.editable.layout"
+        }
+    },
+    {
+        "comment": "We want the field to be called portal_type, not @type, so we rewrite it.",
+        "action": "rewrite",
+        "configuration": {
+            "source": "@type",
+            "target": "portal_type"
+        }
+    },
+    {
+        "comment": "Schema for above portal_type",
+        "action": "additional_schema",
+        "configuration": {
+            "name": "portal_type",
+            "field": "zope.schema._field.ASCIILine"
+        }
+    },
+    {
+        "comment": "After all the rewrites, we want to remove the @components field, as it is not needed anymore.",
+        "action": "remove",
+        "configuration": {
+            "target": "@components"
+        }
+    },
+    {
+        "comment": "No need for restapi specific folder/collection information.",
+        "action": "remove",
+        "configuration": {
+            "target": "items"
+        }
+    },
+    {
+        "comment": "No need for restapi specific information.",
+        "action": "remove",
+        "configuration": {
+            "target": "items_total"
+        }
+    },
+    {
+        "comment": "No need for restapi specific information.",
+        "action": "remove",
+        "configuration": {
+            "target": "previous_item"
+        }
+    },
+    {
+        "comment": "No need for restapi specific information.",
+        "action": "remove",
+        "configuration": {
+            "target": "next_item"
+        }
+    },
+    {
+        "comment": "No need for restapi versioning related information.",
+        "action": "remove",
+        "configuration": {
+            "target": "version"
+        }
+    },
+    {
+        "comment": "No need for plone.versioning related information.",
+        "action": "full_remove",
+        "configuration": {
+            "section": "behaviors",
+            "name": "plone.versioning"
+        }
+    },
+    {
+        "comment": "No need for plone.collection related information.",
+        "action": "full_remove",
+        "configuration": {
+            "section": "behaviors",
+            "name": "plone.collection"
+        }
+    },
+    {
+        "comment": "No need for plone.thumb_icon related information.",
+        "action": "full_remove",
+        "configuration": {
+            "section": "behaviors",
+            "name": "plone.thumb_icon"
+        }
+    },
+    {
+        "comment": "No need for plone.tableofcontents related information.",
+        "action": "full_remove",
+        "configuration": {
+            "section": "behaviors",
+            "name": "plone.tableofcontents"
+        }
+    },
+    {
+        "comment": "No need for plone.layoutaware (Mosaic) layout related.",
+        "action": "field_remove",
+        "configuration": {
+            "section": "behaviors",
+            "name": "plone.layoutaware",
+            "field": "contentLayout"
+        }
+    },
+    {
+        "comment": "No need for plone.layoutaware (Mosaic) layout related.",
+        "action": "field_remove",
+        "configuration": {
+            "section": "behaviors",
+            "name": "plone.layoutaware",
+            "field": "pageSiteLayout"
+        }
+    },
+    {
+        "comment": "No need for plone.layoutaware (Mosaic) layout related.",
+        "action": "field_remove",
+        "configuration": {
+            "section": "behaviors",
+            "name": "plone.layoutaware",
+            "field": "sectionSiteLayout"
+        }
+    },
+    {
+        "comment": "Fix field type of review_state to keyword",
+        "action": "additional_schema",
+        "configuration": {
+        "name": "review_state",
+        "field": "zope.schema._field.ASCIILine"
+        }
+    }
+]
