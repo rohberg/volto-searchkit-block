@@ -61,8 +61,8 @@ describe('Searchkit block tests – search - multilingual - language', () => {
   });
 
   after(() => {
-    // 2. Re-enable Cypress uncaught exception failures from React hydration errors
-    Cypress.on('uncaught:exception', () => {});
+    // // 2. Re-enable Cypress uncaught exception failures from React hydration errors
+    // Cypress.on('uncaught:exception', () => {});
 
     cy.removeContent({ path: 'en/searching' });
     cy.removeContent({ path: 'en/garden-in-february' });
