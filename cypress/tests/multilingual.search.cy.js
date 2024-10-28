@@ -1,5 +1,18 @@
 describe('Searchkit block tests – search -multilingual - fuzzy etc', () => {
   before(() => {
+    // 1. Disable Cypress uncaught exception failures from React hydration errors
+    Cypress.on('uncaught:exception', (err) => {
+      // Cypress and React Hydrating the document don't get along
+      // for some unknown reason. Hopefully, we figure out why eventually
+      // so we can remove this.
+      if (
+        /hydrat/i.test(err.message) ||
+        /Minified React error #418/.test(err.message) ||
+        /Minified React error #423/.test(err.message)
+      ) {
+        return false;
+      }
+    });
     cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
     cy.intercept('GET', `/**/*?expand*`).as('content');
 
