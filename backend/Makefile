@@ -154,10 +154,18 @@ build-image:  ## Build Docker Images
 # acceptance-image-build:  ## Build Docker Images
 # 	@DOCKER_BUILDKIT=1 docker build . -t $(IMAGE_NAME_PREFIX)-backend-acceptance:$(IMAGE_TAG) -f Dockerfile.acceptance --build-arg PLONE_VERSION=$(PLONE_VERSION)
 
-.PHONY: acceptance-start
-acceptance-backend-start: ## Start acceptance containers (backend and OpenSearch)
-	${ACCEPTANCE_MONOLINGUAL} --profile dev up -d --force-recreate
+.PHONY: acceptance-backend-start-monolingual
+acceptance-backend-start-monolingual: ## Start acceptance containers (backend and OpenSearch)
+	${ACCEPTANCE_MONOLINGUAL} --profile monolingual up -d --force-recreate
 
-.PHONY: acceptance-build
-acceptance-image-build: ## Build acceptance containers (backend and OpenSearch)
-	${ACCEPTANCE_MONOLINGUAL} --profile dev build --no-cache
+.PHONY: acceptance-backend-image-build-monolingual
+acceptance-backend-image-build-monolingual: ## Build acceptance containers (backend and OpenSearch)
+	${ACCEPTANCE_MONOLINGUAL} --profile monolingual build --no-cache
+
+
+# Acceptance multilingual
+# ########################################################################
+
+.PHONY: acceptance-backend-start-multilingual
+acceptance-backend-start-multilingual: ## Start acceptance containers (backend and OpenSearch)
+	${ACCEPTANCE_MULTILINGUAL} --profile multilingual up -d --force-recreate
