@@ -65,6 +65,7 @@ describe('Searchkit block tests – search - monolingual', () => {
 
   it('I see the start date', function () {
     cy.get('.searchbar-wrapper input').type('matterhorn{enter}');
+    // 01.01<b>.202</b>5
     cy.get('.block.searchkitsearch').contains('.202');
   });
 
