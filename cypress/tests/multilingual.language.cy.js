@@ -2,6 +2,7 @@ describe('Searchkit block tests – search - multilingual - language', () => {
   before(() => {
     cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
     cy.intercept('GET', `/**/*?expand*`).as('content');
+    cy.intercept('GET', '/**/Document').as('schema');
 
     cy.autologin();
 
@@ -27,14 +28,11 @@ describe('Searchkit block tests – search - multilingual - language', () => {
     });
 
     // Add search block
-    cy.visit('/en/searching/edit');
+    cy.visit('/en/searching');
+    cy.navigate('/en/searching/edit');
+    cy.wait('@schema');
 
-    cy.getSlate().clear().type('{enter}');
-    cy.get('.button .block-add-button').click({ force: true });
-    cy.get('.blocks-chooser .title').contains('Common').click();
-    cy.get('.blocks-chooser .common')
-      .contains('Searchkit')
-      .click({ force: true });
+    cy.addNewBlock('searchkit');
 
     cy.get('#toolbar-save').click();
     cy.wait('@kitsearch');
