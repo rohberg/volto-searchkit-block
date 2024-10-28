@@ -14,8 +14,8 @@ env:
   CYPRESS_RETRIES: 2
 
 jobs:
-
-  acceptance:
+  # TODO multilingual
+  acceptance-monolingual:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
