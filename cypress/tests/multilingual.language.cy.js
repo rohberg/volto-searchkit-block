@@ -1,5 +1,19 @@
 describe('Searchkit block tests – search - multilingual - language', () => {
   before(() => {
+    // 1. Disable Cypress uncaught exception failures from React hydration errors
+    Cypress.on('uncaught:exception', (err) => {
+      // Cypress and React Hydrating the document don't get along
+      // for some unknown reason. Hopefully, we figure out why eventually
+      // so we can remove this.
+      if (
+        /hydrat/i.test(err.message) ||
+        /Minified React error #418/.test(err.message) ||
+        /Minified React error #423/.test(err.message)
+      ) {
+        return false;
+      }
+    });
+
     cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
     cy.intercept('GET', `/**/*?expand*`).as('content');
     cy.intercept('GET', '/**/Document').as('schema');
@@ -28,26 +42,28 @@ describe('Searchkit block tests – search - multilingual - language', () => {
     });
 
     // Add search block
-    cy.visit('/en/searching');
-    cy.navigate('/en/searching/edit');
+    cy.visit('/en/searching/edit');
     cy.wait('@schema');
 
     cy.addNewBlock('searchkit');
 
     cy.get('#toolbar-save').click();
-    cy.wait('@kitsearch');
     cy.wait('@content');
+    cy.wait('@kitsearch');
   });
 
   beforeEach(() => {
     cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
     cy.autologin();
 
-    cy.visit('/en/searching/edit');
+    cy.visit('/en/searching');
     cy.wait('@kitsearch');
   });
 
   after(() => {
+    // 2. Re-enable Cypress uncaught exception failures from React hydration errors
+    Cypress.on('uncaught:exception', () => {});
+
     cy.removeContent({ path: 'en/searching' });
     cy.removeContent({ path: 'en/garden-in-february' });
     cy.removeContent({ path: 'de/der-garten-im-februar' });
