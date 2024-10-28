@@ -175,7 +175,7 @@ storybook-build: ## Build Storybook
 	pnpm run storybook-build -o $(CURRENT_DIR)/.storybook-build
 
 ###########################################
-# Acceptance
+# Acceptance monolingual
 ###########################################
 .PHONY: acceptance-frontend-dev-start
 acceptance-frontend-dev-start-monolingual: ## Start acceptance frontend in development mode
@@ -201,3 +201,33 @@ acceptance-test-monolingual: ## Start Cypress in interactive mode
 .PHONY: ci-acceptance-test-monolingual
 ci-acceptance-test-monolingual: ## Run cypress tests in headless mode for CI
 	pnpm --filter @plone/volto exec cypress run --config-file $(CURRENT_DIR)/cypress.config.js --config specPattern=$(CURRENT_DIR)'/cypress/tests/**/monolingual.*.{js,jsx,ts,tsx}'
+
+
+###########################################
+# Acceptance multilingual
+###########################################
+.PHONY: acceptance-frontend-dev-start
+acceptance-frontend-dev-start-multilingual: ## Start acceptance frontend in development mode
+	SEARCHKITBLOCK_TESTING_LANGUAGESETTINGS=multilingual RAZZLE_API_PATH=http://127.0.0.1:55001/plone pnpm start
+
+.PHONY: acceptance-frontend-prod-start
+acceptance-frontend-prod-start-multilingual: ## Start acceptance frontend in production mode
+	SEARCHKITBLOCK_TESTING_LANGUAGESETTINGS=multilingual RAZZLE_API_PATH=http://127.0.0.1:55001/plone pnpm build && pnpm start:prod
+
+.PHONY: acceptance-backend-start-multilingual
+acceptance-backend-start-multilingual: ## Start backend acceptance server
+	$(MAKE) -C "./backend/" acceptance-backend-start-multilingual
+
+.PHONY: ci-acceptance-backend-start-multilingual
+ci-acceptance-backend-start-multilingual: ## Start backend acceptance server in headless mode for CI
+	# docker run -i --rm -p 55001:55001 $(DOCKER_IMAGE_ACCEPTANCE)
+	make acceptance-backend-start-multilingual
+
+.PHONY: acceptance-test-multilingual
+acceptance-test-multilingual: ## Start Cypress in interactive mode
+	pnpm --filter @plone/volto exec cypress open --config-file $(CURRENT_DIR)/cypress.config.js --config specPattern=$(CURRENT_DIR)'/cypress/tests/**/multilingual.*.{js,jsx,ts,tsx}'
+
+.PHONY: ci-acceptance-test-multilingual
+ci-acceptance-test-multilingual: ## Run cypress tests in headless mode for CI
+	pnpm --filter @plone/volto exec cypress run --config-file $(CURRENT_DIR)/cypress.config.js --config specPattern=$(CURRENT_DIR)'/cypress/tests/**/multilingual.*.{js,jsx,ts,tsx}'
+
