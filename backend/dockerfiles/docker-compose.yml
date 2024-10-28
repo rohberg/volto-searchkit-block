@@ -24,7 +24,7 @@ services:
       - 55001:55001
     profiles:
       - dev
-      - prod
+      - monolingual
 
   backend-acceptance-multilingual:
     build:
@@ -77,6 +77,7 @@ services:
     profiles:
       - dev
       - prod
+      - monolingual
 
   ingest-multilingual:
     image: ghcr.io/collective/collective.elastic.ingest:latest
@@ -134,10 +135,6 @@ services:
       - 9200:9200 # REST API
       - 9600:9600 # Performance Analyzer
     tty: true
-    profiles:
-      - dev
-      - multilingual
-      - prod
 
   opensearch-dashboards:
     image: opensearchproject/opensearch-dashboards:latest
@@ -147,9 +144,6 @@ services:
       - '5601'
     environment:
       OPENSEARCH_HOSTS: '["https://opensearch:9200"]'
-    profiles:
-      - dev
-      - multilingual
 
   # dejavu:
   #   image: appbaseio/dejavu:latest
