@@ -71,11 +71,11 @@ describe('Searchkit block tests – search - monolingual', () => {
 
   after(() => {
     cy.removeContent({ path: 'garten-blog' });
-    cy.removeContent({ path: 'suche' });
     cy.removeContent({ path: 'testseite-mann' });
     cy.removeContent({ path: 'testseite-manner' });
     cy.removeContent({ path: 'testseite-lsb' });
     cy.removeContent({ path: 'testseite-s' });
+    cy.removeContent({ path: 'suche' });
   });
 
   it('I see all if no filter selected', function () {
