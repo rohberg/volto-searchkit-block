@@ -17,6 +17,8 @@ jobs:
   # TODO multilingual
   acceptance-monolingual:
     runs-on: ubuntu-latest
+    env:
+      SEARCHKITBLOCK_TESTING_LANGUAGESETTINGS: monolingual
     steps:
       - uses: actions/checkout@v4
 
