@@ -185,19 +185,19 @@ acceptance-frontend-dev-start: ## Start acceptance frontend in development mode
 acceptance-frontend-prod-start: ## Start acceptance frontend in production mode
 	RAZZLE_API_PATH=http://127.0.0.1:55001/plone pnpm build && pnpm start:prod
 
-.PHONY: acceptance-backend-start
-acceptance-backend-start: ## Start backend acceptance server
-	$(MAKE) -C "./backend/" acceptance-backend-start
+.PHONY: acceptance-backend-start-monolingual
+acceptance-backend-start-monolingual: ## Start backend acceptance server
+	$(MAKE) -C "./backend/" acceptance-backend-start-monolingual
 
-.PHONY: ci-acceptance-backend-start
-ci-acceptance-backend-start: ## Start backend acceptance server in headless mode for CI
+.PHONY: ci-acceptance-backend-start-monolingual
+ci-acceptance-backend-start-monolingual: ## Start backend acceptance server in headless mode for CI
 	# docker run -i --rm -p 55001:55001 $(DOCKER_IMAGE_ACCEPTANCE)
-	make acceptance-backend-start
+	make acceptance-backend-start-monolingual
 
-.PHONY: acceptance-test
-acceptance-test: ## Start Cypress in interactive mode
-	pnpm --filter @plone/volto exec cypress open --config-file $(CURRENT_DIR)/cypress.config.js --config specPattern=$(CURRENT_DIR)'/cypress/tests/**/*.{js,jsx,ts,tsx}'
+.PHONY: acceptance-test-monolingual
+acceptance-test-monolingual: ## Start Cypress in interactive mode
+	pnpm --filter @plone/volto exec cypress open --config-file $(CURRENT_DIR)/cypress.config.js --config specPattern=$(CURRENT_DIR)'/cypress/tests/**/monolingual.*.{js,jsx,ts,tsx}'
 
-.PHONY: ci-acceptance-test
-ci-acceptance-test: ## Run cypress tests in headless mode for CI
-	pnpm --filter @plone/volto exec cypress run --config-file $(CURRENT_DIR)/cypress.config.js --config specPattern=$(CURRENT_DIR)'/cypress/tests/**/*.{js,jsx,ts,tsx}'
+.PHONY: ci-acceptance-test-monolingual
+ci-acceptance-test-monolingual: ## Run cypress tests in headless mode for CI
+	pnpm --filter @plone/volto exec cypress run --config-file $(CURRENT_DIR)/cypress.config.js --config specPattern=$(CURRENT_DIR)'/cypress/tests/**/monolingual.*.{js,jsx,ts,tsx}'
