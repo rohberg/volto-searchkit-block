@@ -126,15 +126,13 @@ const applyConfig = (config) => {
     },
   ];
 
-  if (process.env.SEARCHKITBLOCK_TESTING_LANGUAGESETTINGS === 'monolingual') {
-    config.settings.supportedLanguages = ['de'];
-    config.settings.defaultLanguage = 'de';
-  } else if (
-    process.env.SEARCHKITBLOCK_TESTING_LANGUAGESETTINGS === 'multilingual'
-  ) {
+  if (process.env.SEARCHKITBLOCK_TESTING_LANGUAGESETTINGS === 'multilingual') {
     config.settings.isMultilingual = true;
     config.settings.supportedLanguages = ['en', 'de'];
     config.settings.defaultLanguage = 'en';
+  } else {
+    config.settings.supportedLanguages = ['de'];
+    config.settings.defaultLanguage = 'de';
   }
 
   // DEBUG
