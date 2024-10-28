@@ -162,5 +162,5 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: ../opensearch/ingest-configuration
+      device: ./opensearch/ingest-configuration
       o: bind
