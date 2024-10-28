@@ -60,7 +60,7 @@ jobs:
         name: Start Servers
         with:
           run: |
-            make ci-acceptance-backend-start-monolngual &
+            make ci-acceptance-backend-start-monolingual &
             make acceptance-frontend-prod-start &
           # your step-level and job-level environment variables are available to your commands as-is
           # npm install will count towards the wait-for timeout
