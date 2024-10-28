@@ -2,6 +2,7 @@ describe('Searchkit block tests – search - multilingual - anonymous', () => {
   before(() => {
     cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
     cy.intercept('GET', `/**/*?expand*`).as('content');
+    cy.intercept('GET', '/**/Document').as('schema');
 
     cy.autologin();
 
@@ -37,9 +38,12 @@ describe('Searchkit block tests – search - multilingual - anonymous', () => {
       contentTitle: 'The garden in march',
       path: 'en',
     });
+    cy.wait(5000);
 
     // Add search block
-    cy.visit('/en/searching/edit');
+    cy.visit('/en/searching');
+    cy.navigate('/en/searching/edit');
+    cy.wait('@schema');
 
     cy.getSlate().clear().type('{enter}');
     cy.get('.button .block-add-button').click({ force: true });
