@@ -38,8 +38,6 @@ describe('Searchkit block tests – search - monolingual', () => {
     cy.get('#toolbar-save').click();
     cy.wait('@kitsearch');
     cy.wait('@content');
-    // TODO Replace this desperate wait per seconds
-    cy.wait(3000);
   });
 
   beforeEach(() => {
@@ -65,8 +63,8 @@ describe('Searchkit block tests – search - monolingual', () => {
 
   it('I see the start date', function () {
     cy.get('.searchbar-wrapper input').type('matterhorn{enter}');
-    // 01.01<b>.202</b>5
-    cy.get('.block.searchkitsearch').contains('.202');
+    // 10/29<b>/202</b>4
+    cy.get('.block.searchkitsearch').contains('/202');
   });
 
   it('I can open a result', function () {

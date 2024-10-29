@@ -53,17 +53,20 @@ describe('Searchkit block tests- create search ', () => {
     cy.visit('/searching');
     cy.get('a.edit').click();
 
+    // Add block
     cy.getSlate().click();
     cy.get('button.block-add-button').click();
-    cy.get('.blocks-chooser .title').contains('Allgemein').click();
+    cy.get('.blocks-chooser .title').contains('Common').click();
     cy.get('.blocks-chooser .button.searchkitblock').click({ force: true });
 
     cy.get('#toolbar-save').click();
     cy.visit('/searching');
 
+    // Without query string all docs are shown
     cy.get('.block.searchkitsearch').should('not.contain', 'No results');
     cy.get('.block.searchkitsearch').contains('The garden in february');
 
+    // searching for a query string
     cy.get('.searchbar-wrapper input').type('Februar{enter}');
     cy.get('.block.searchkitsearch').contains('The garden in february');
   });
