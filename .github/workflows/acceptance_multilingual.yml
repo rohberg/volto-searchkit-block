@@ -16,8 +16,6 @@ env:
 jobs:
   acceptance-multilingual:
     runs-on: ubuntu-latest
-    env:
-      SEARCHKITBLOCK_TESTING_LANGUAGESETTINGS: multilingual
     steps:
       - uses: actions/checkout@v4
 

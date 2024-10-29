@@ -39,24 +39,15 @@ describe('Searchkit block tests – search - multilingual - anonymous', () => {
       path: 'en',
     });
 
-    cy.wait(3000);
-
     // Add search block
-    cy.visit('/');
-    cy.visit('/en/searching');
-    cy.navigate('/en/searching/edit');
+    cy.visit('/en/searching/edit');
     cy.wait('@schema');
 
-    cy.getSlate().clear().type('{enter}');
-    cy.get('.button .block-add-button').click({ force: true });
-    cy.get('.blocks-chooser .title').contains('Common').click();
-    cy.get('.blocks-chooser .common')
-      .contains('Searchkit')
-      .click({ force: true });
+    cy.addNewBlock('searchkit');
 
     cy.get('#toolbar-save').click();
-    cy.wait('@kitsearch');
     cy.wait('@content');
+    cy.wait('@kitsearch');
   });
 
   beforeEach(() => {
@@ -75,6 +66,11 @@ describe('Searchkit block tests – search - multilingual - anonymous', () => {
   });
 
   it('I can search', function () {
+    cy.settings().then((settings) => {
+      settings.defaultLanguage = 'en';
+      settings.isMultilingual = true;
+      settings.supportedLanguages = ['de', 'en'];
+    });
     cy.get('.searchbar-wrapper input').type('february{enter}');
     cy.get('.block.searchkitsearch').contains('The garden in february');
     cy.get('.searchbar-wrapper input').clear().type('march{enter}');
@@ -82,6 +78,11 @@ describe('Searchkit block tests – search - multilingual - anonymous', () => {
   });
 
   it('As anonymous I see only published content', function () {
+    cy.settings().then((settings) => {
+      settings.defaultLanguage = 'en';
+      settings.isMultilingual = true;
+      settings.supportedLanguages = ['de', 'en'];
+    });
     cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
     cy.intercept('/**/@logout').as('logout');
 

@@ -1,5 +1,6 @@
 describe('Searchkit block tests – search - multilingual - language', () => {
   before(() => {
+
     cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
     cy.intercept('GET', `/**/*?expand*`).as('content');
     cy.intercept('GET', '/**/Document').as('schema');
@@ -25,6 +26,7 @@ describe('Searchkit block tests – search - multilingual - language', () => {
       contentId: 'der-garten-im-februar',
       contentTitle: 'Der Garten im Februar',
       path: 'de',
+      language: 'de',
     });
 
     // Add search block
@@ -53,6 +55,12 @@ describe('Searchkit block tests – search - multilingual - language', () => {
   });
 
   it('I can search within language', function () {
+    cy.settings().then((settings) => {
+      settings.defaultLanguage = 'en';
+      settings.isMultilingual = true;
+      settings.supportedLanguages = ['de', 'en'];
+    });
+    
     cy.get('.searchbar-wrapper input')
       .type('februax{enter}')
       .wait('@kitsearch')
