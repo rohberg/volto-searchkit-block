@@ -12,7 +12,7 @@ env:
   NODE_VERSION: 20.x
 
 jobs:
-  unit:
+  i18n:
     runs-on: ubuntu-latest
 
     steps:
