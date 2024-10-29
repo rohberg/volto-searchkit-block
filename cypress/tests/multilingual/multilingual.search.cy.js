@@ -68,6 +68,7 @@ describe('Searchkit block tests – search -multilingual - fuzzy etc', () => {
 
   beforeEach(() => {
     cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
+    cy.intercept('GET', `/**/*?expand*`).as('content');
 
     cy.autologin();
 
