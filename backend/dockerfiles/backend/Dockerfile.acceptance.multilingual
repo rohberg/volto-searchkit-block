@@ -1,6 +1,7 @@
 # syntax=docker/dockerfile:1
 # Dockerfile from cookiecutter-plone-starter
-# APPLY_PROFILES … collective.elastic.plone:multilingual
+# The language is set here:
+# APPLY_PROFILES … rohberg.volto:multilingual
 # Run robotserver verbose
 
 ARG PLONE_VERSION=6.0

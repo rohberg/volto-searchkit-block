@@ -1,5 +1,8 @@
 # syntax=docker/dockerfile:1
 # Dockerfile from cookiecutter-plone-starter
+# The language is set here:
+# APPLY_PROFILES … rohberg.volto:monolingual
+# TODO ! Move language profiles to volto-searchkit-block/backend policy package.
 
 ARG PLONE_VERSION=6.0
 ARG SEED=7
