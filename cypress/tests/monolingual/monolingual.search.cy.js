@@ -50,6 +50,8 @@ describe('Searchkit block tests – search - monolingual', () => {
       contentId: 'testseite-s',
       contentTitle: 'Testseite Stelle',
     });
+    // Wait after creating content for ingest and OpenSearch to index
+    cy.wait(3000);
 
     // Add search block to /suche
     cy.visit('/suche/edit');
@@ -149,6 +151,8 @@ describe('Searchkit block tests – search - monolingual', () => {
     cy.wait('@content');
 
     cy.log('I added a text block');
+    // Wait after creating content for ingest and OpenSearch to index
+    cy.wait(3000);
 
     // Searching
     // WARNING Do not use cy.navigate TODO understand difference between cy.visit and cy.navigate

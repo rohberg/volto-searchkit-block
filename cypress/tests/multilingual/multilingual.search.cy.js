@@ -56,6 +56,8 @@ describe('Searchkit block tests – search -multilingual - fuzzy etc', () => {
       contentTitle: 'Testseite Stelle',
       path: '/de',
     });
+    // Wait after creating content for ingest and OpenSearch to index
+    cy.wait(3000);
 
     // Add search block
     cy.visit('/de/suche/edit');
@@ -191,8 +193,10 @@ describe('Searchkit block tests – search -multilingual - fuzzy etc', () => {
     // cy.toolbarSave();
     cy.get('#toolbar-save').click();
     cy.wait('@content');
-
+    
     cy.log('I added a text block');
+    // Wait after creating content for ingest and OpenSearch to index
+    cy.wait(3000);
 
     // Searching
     cy.visit('de/suche');
