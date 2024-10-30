@@ -1,5 +1,5 @@
 describe('Searchkit block tests – search - monolingual', () => {
-  before(() => {
+  beforeEach(() => {
     cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
     cy.intercept('GET', `/**/*?expand*`).as('content');
 
@@ -30,27 +30,14 @@ describe('Searchkit block tests – search - monolingual', () => {
     });
 
     // Add search block to /suche
-    cy.visit('/suche');
-    cy.get('a.edit').click();
-
+    cy.visit('/suche/edit');
     cy.addNewBlock('searchkit');
-
     cy.get('#toolbar-save').click();
     cy.wait('@kitsearch');
     cy.wait('@content');
   });
 
-  beforeEach(() => {
-    cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
-    cy.intercept('GET', `/**/*?expand*`).as('content');
-    cy.autologin();
-
-    cy.visit('/suche');
-    cy.wait('@kitsearch');
-    cy.wait('@content');
-  });
-
-  after(() => {
+  afterEach(() => {
     cy.removeContent({ path: 'brunch' });
     cy.removeContent({ path: 'ausflug' });
     cy.removeContent({ path: 'suche' });

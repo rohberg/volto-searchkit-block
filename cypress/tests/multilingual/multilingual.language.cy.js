@@ -1,5 +1,5 @@
 describe('Searchkit block tests – search - multilingual - language', () => {
-  before(() => {
+  beforeEach(() => {
 
     cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
     cy.intercept('GET', `/**/*?expand*`).as('content');
@@ -40,15 +40,7 @@ describe('Searchkit block tests – search - multilingual - language', () => {
     cy.wait('@kitsearch');
   });
 
-  beforeEach(() => {
-    cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
-    cy.autologin();
-
-    cy.visit('/en/searching');
-    cy.wait('@kitsearch');
-  });
-
-  after(() => {
+  afterEach(() => {
     cy.removeContent({ path: 'en/searching' });
     cy.removeContent({ path: 'en/garden-in-february' });
     cy.removeContent({ path: 'de/der-garten-im-februar' });

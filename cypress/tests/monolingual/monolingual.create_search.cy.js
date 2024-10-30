@@ -1,5 +1,5 @@
 describe('Searchkit block tests- create search ', () => {
-  before(() => {
+  beforeEach(() => {
     cy.intercept('GET', `/**/*?expand*`).as('content');
     cy.intercept('GET', '/**/Document').as('schema');
 
@@ -32,17 +32,7 @@ describe('Searchkit block tests- create search ', () => {
     cy.wait('@content');
   });
 
-  beforeEach(() => {
-    cy.intercept('GET', `/**/*?expand*`).as('content');
-    cy.intercept('GET', '/**/Document').as('schema');
-
-    cy.autologin();
-
-    cy.visit('/');
-    cy.wait('@content');
-  });
-
-  after(() => {
+  afterEach(() => {
     cy.removeContent({ path: 'garden-blog/garden-february' });
     cy.removeContent({ path: 'garden-blog/garden-march' });
     cy.removeContent({ path: 'garden-blog' });

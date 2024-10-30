@@ -1,8 +1,11 @@
 describe('Searchkit block tests – search - monolingual', () => {
-  before(() => {
+  beforeEach(() => {
     cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
     cy.intercept('GET', `/**/*?expand*`).as('content');
-
+    cy.intercept('GET', '/**/Document').as('schema');
+    // Wait a bit to previous teardown to complete correctly because Heisenbug in this point
+    cy.wait(2000);
+    // given a logged in editor and a page in edit mode
     cy.autologin();
 
     cy.createContent({
@@ -49,27 +52,14 @@ describe('Searchkit block tests – search - monolingual', () => {
     });
 
     // Add search block to /suche
-    cy.visit('/suche');
-    cy.get('a.edit').click();
-
+    cy.visit('/suche/edit');
     cy.addNewBlock('searchkit');
-
     cy.get('#toolbar-save').click();
     cy.wait('@kitsearch');
     cy.wait('@content');
   });
 
-  beforeEach(() => {
-    cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
-    cy.intercept('GET', `/**/*?expand*`).as('content');
-    cy.autologin();
-
-    cy.visit('/suche');
-    cy.wait('@kitsearch');
-    cy.wait('@content');
-  });
-
-  after(() => {
+  afterEach(() => {
     cy.removeContent({ path: 'garten-blog' });
     cy.removeContent({ path: 'testseite-mann' });
     cy.removeContent({ path: 'testseite-manner' });
@@ -89,6 +79,12 @@ describe('Searchkit block tests – search - monolingual', () => {
   });
 
   it('I can search with inflection', function () {
+    cy.settings().then((settings) => {
+      settings.defaultLanguage = 'de';
+      settings.supportedLanguages = ['de'];
+      settings.isMultilingual = false;
+    });
+    cy.wait(2000);
     cy.get('.searchbar-wrapper input').type('Männer{enter}');
     cy.get('.block.searchkitsearch').contains('Testseite Mann');
 
@@ -118,6 +114,12 @@ describe('Searchkit block tests – search - monolingual', () => {
   });
 
   it('I can search for a compounded word', function () {
+    cy.settings().then((settings) => {
+      settings.defaultLanguage = 'de';
+      settings.supportedLanguages = ['de'];
+      settings.isMultilingual = false;
+    });
+    cy.wait(2000);
     cy.get('.searchbar-wrapper input').type('stelle{enter}');
     cy.get('.block.searchkitsearch').contains('Testseite Lehrstellenbörsen');
 

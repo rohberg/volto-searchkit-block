@@ -1,5 +1,5 @@
 describe('Searchkit block tests – search -multilingual - fuzzy etc', () => {
-  before(() => {
+  beforeEach(() => {
     cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
     cy.intercept('GET', `/**/*?expand*`).as('content');
     cy.intercept('GET', '/**/Document').as('schema');
@@ -66,17 +66,7 @@ describe('Searchkit block tests – search -multilingual - fuzzy etc', () => {
     cy.wait('@kitsearch');
   });
 
-  beforeEach(() => {
-    cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
-    cy.intercept('GET', `/**/*?expand*`).as('content');
-
-    cy.autologin();
-
-    cy.visit('/de/suche');
-    cy.wait('@kitsearch');
-  });
-
-  after(() => {
+  afterEach(() => {
     // cy.removeContent({ path: 'de/garten-blog/februar' });
     // cy.removeContent({ path: 'de/garten-blog/marz' });
     cy.removeContent({ path: 'de/garten-blog' });
