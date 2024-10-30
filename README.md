@@ -2,10 +2,11 @@
 
 Searching with OpenSearch
 
-[![npm](https://img.shields.io/npm/v/volto-searchkit-block)](https://www.npmjs.com/package/volto-searchkit-block)
-[![](https://img.shields.io/badge/-Storybook-ff4785?logo=Storybook&logoColor=white&style=flat-square)](https://rohberg.github.io/volto-searchkit-block/)
-[![Code analysis checks](https://github.com/rohberg/volto-searchkit-block/actions/workflows/code.yml/badge.svg)](https://github.com/rohberg/volto-searchkit-block/actions/workflows/code.yml)
+[![npm](https://img.shields.io/npm/v/@rohberg/volto-searchkit-block)](https://www.npmjs.com/package/@rohberg/volto-searchkit-block)
+[![Acceptance tests multilingual](https://github.com/rohberg/volto-searchkit-block/actions/workflows/acceptance_multilingual.yml/badge.svg)](https://github.com/rohberg/volto-searchkit-block/actions/workflows/acceptance_multilingual.yml)
+[![Acceptance tests monolingual](https://github.com/rohberg/volto-searchkit-block/actions/workflows/acceptance_monolingual.yml/badge.svg)](https://github.com/rohberg/volto-searchkit-block/actions/workflows/acceptance_monolingual.yml)
 [![Unit tests](https://github.com/rohberg/volto-searchkit-block/actions/workflows/unit.yml/badge.svg)](https://github.com/rohberg/volto-searchkit-block/actions/workflows/unit.yml)
+[![Code analysis checks](https://github.com/rohberg/volto-searchkit-block/actions/workflows/code.yml/badge.svg)](https://github.com/rohberg/volto-searchkit-block/actions/workflows/code.yml)
 
 ## Features
 
