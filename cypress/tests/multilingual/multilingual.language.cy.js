@@ -4,7 +4,9 @@ describe('Searchkit block tests – search - multilingual - language', () => {
     cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
     cy.intercept('GET', `/**/*?expand*`).as('content');
     cy.intercept('GET', '/**/Document').as('schema');
-
+    // Wait a bit to previous teardown to complete correctly because Heisenbug in this point
+    cy.wait(2000);
+    // given a logged in editor and a page in edit mode
     cy.autologin();
 
     cy.createContent({
@@ -44,6 +46,7 @@ describe('Searchkit block tests – search - multilingual - language', () => {
     cy.removeContent({ path: 'en/searching' });
     cy.removeContent({ path: 'en/garden-in-february' });
     cy.removeContent({ path: 'de/der-garten-im-februar' });
+    cy.wait(5000);
   });
 
   it('I can search within language', function () {

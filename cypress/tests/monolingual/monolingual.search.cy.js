@@ -66,6 +66,7 @@ describe('Searchkit block tests – search - monolingual', () => {
     cy.removeContent({ path: 'testseite-lsb' });
     cy.removeContent({ path: 'testseite-s' });
     cy.removeContent({ path: 'suche' });
+    cy.wait(5000);
   });
 
   it('I see all if no filter selected', function () {

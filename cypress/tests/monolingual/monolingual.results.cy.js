@@ -2,7 +2,9 @@ describe('Searchkit block tests – search - monolingual', () => {
   beforeEach(() => {
     cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
     cy.intercept('GET', `/**/*?expand*`).as('content');
-
+    // Wait a bit to previous teardown to complete correctly because Heisenbug in this point
+    cy.wait(2000);
+    // given a logged in editor and a page in edit mode
     cy.autologin();
 
     cy.createContent({
@@ -41,6 +43,7 @@ describe('Searchkit block tests – search - monolingual', () => {
     cy.removeContent({ path: 'brunch' });
     cy.removeContent({ path: 'ausflug' });
     cy.removeContent({ path: 'suche' });
+    cy.wait(5000);
   });
 
   it('I see the publishing date', function () {
