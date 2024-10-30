@@ -743,8 +743,8 @@ const FacetedSearch = ({ data, overriddenComponents }) => {
     ? state_intl_locale
     : config?.settings?.defaultLanguage || 'en';
 
-  const [isClient, setIsClient] = useState(false);
-  useEffect(() => {
+  const [isClient, setIsClient] = React.useState(false);
+  React.useEffect(() => {
     setIsClient(true);
   }, []);
 
