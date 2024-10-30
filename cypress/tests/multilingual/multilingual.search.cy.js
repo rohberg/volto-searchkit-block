@@ -130,74 +130,74 @@ describe('Searchkit block tests – search -multilingual - fuzzy etc', () => {
     cy.get('.block.searchkitsearch').contains('Februar');
   });
 
-  // it('I can search with wildcard', function () {
-  //   cy.settings().then((settings) => {
-  //     settings.defaultLanguage = 'de';
-  //     settings.isMultilingual = true;
-  //     settings.supportedLanguages = ['de', 'en'];
-  //   });
-  //   cy.wait(4000);
-  //   cy.get('.searchbar-wrapper input').type('Feb*{enter}');
-  //   cy.get('.block.searchkitsearch').contains('Der Garten im Februar');
-  // });
+  it('I can search with wildcard', function () {
+    cy.settings().then((settings) => {
+      settings.defaultLanguage = 'de';
+      settings.isMultilingual = true;
+      settings.supportedLanguages = ['de', 'en'];
+    });
+    cy.wait(4000);
+    cy.get('.searchbar-wrapper input').type('Feb*{enter}');
+    cy.get('.block.searchkitsearch').contains('Der Garten im Februar');
+  });
 
-  // it('I can search for an exact match', function () {
-  //   cy.settings().then((settings) => {
-  //     settings.defaultLanguage = 'de';
-  //     settings.isMultilingual = true;
-  //     settings.supportedLanguages = ['de', 'en'];
-  //   });
-  //   cy.wait(4000);
-  //   cy.get('.searchbar-wrapper input').type('"Mann"{enter}');
-  //   cy.get('.block.searchkitsearch').contains('Testseite Mann');
-  //   cy.get('.searchbar-wrapper input').clear().type('"Mann"{enter}');
-  //   cy.get('.block.searchkitsearch').should('not.contain', 'Männer');
-  // });
+  it('I can search for an exact match', function () {
+    cy.settings().then((settings) => {
+      settings.defaultLanguage = 'de';
+      settings.isMultilingual = true;
+      settings.supportedLanguages = ['de', 'en'];
+    });
+    cy.wait(4000);
+    cy.get('.searchbar-wrapper input').type('"Mann"{enter}');
+    cy.get('.block.searchkitsearch').contains('Testseite Mann');
+    cy.get('.searchbar-wrapper input').clear().type('"Mann"{enter}');
+    cy.get('.block.searchkitsearch').should('not.contain', 'Männer');
+  });
 
-  // it('I can search for a compounded word', function () {
-  //   cy.settings().then((settings) => {
-  //     settings.defaultLanguage = 'de';
-  //     settings.isMultilingual = true;
-  //     settings.supportedLanguages = ['de', 'en'];
-  //   });
-  //   cy.wait(4000);
-  //   cy.get('.searchbar-wrapper input').type('stelle{enter}');
-  //   cy.get('.block.searchkitsearch').contains('Testseite Lehrstellenbörsen');
-  //   cy.get('.searchbar-wrapper input').clear().type('Lehre{enter}');
-  //   cy.get('.block.searchkitsearch').contains('Testseite Lehrstellenbörsen');
-  //   cy.get('.searchbar-wrapper input').clear().type('Börse{enter}');
-  //   cy.get('.block.searchkitsearch').contains('Testseite Lehrstellenbörsen');
-  //   cy.get('.searchbar-wrapper input').clear().type('Lehrstellenbörse{enter}');
-  //   cy.get('.block.searchkitsearch').contains('Testseite Stelle');
-  // });
+  it('I can search for a compounded word', function () {
+    cy.settings().then((settings) => {
+      settings.defaultLanguage = 'de';
+      settings.isMultilingual = true;
+      settings.supportedLanguages = ['de', 'en'];
+    });
+    cy.wait(4000);
+    cy.get('.searchbar-wrapper input').type('stelle{enter}');
+    cy.get('.block.searchkitsearch').contains('Testseite Lehrstellenbörsen');
+    cy.get('.searchbar-wrapper input').clear().type('Lehre{enter}');
+    cy.get('.block.searchkitsearch').contains('Testseite Lehrstellenbörsen');
+    cy.get('.searchbar-wrapper input').clear().type('Börse{enter}');
+    cy.get('.block.searchkitsearch').contains('Testseite Lehrstellenbörsen');
+    cy.get('.searchbar-wrapper input').clear().type('Lehrstellenbörse{enter}');
+    cy.get('.block.searchkitsearch').contains('Testseite Stelle');
+  });
 
-  // // Blocks text
-  // it('I can search in blocks', function () {
-  //   cy.settings().then((settings) => {
-  //     settings.defaultLanguage = 'de';
-  //     settings.isMultilingual = true;
-  //     settings.supportedLanguages = ['de', 'en'];
-  //   });
-  //   cy.wait(4000);
-  //   cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
-  //   cy.visit('/de/garten-blog/februar');
-  //   cy.get('a.edit').click();
+  // Blocks text
+  it('I can search in blocks', function () {
+    cy.settings().then((settings) => {
+      settings.defaultLanguage = 'de';
+      settings.isMultilingual = true;
+      settings.supportedLanguages = ['de', 'en'];
+    });
+    cy.wait(4000);
+    cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
+    cy.visit('/de/garten-blog/februar');
+    cy.get('a.edit').click();
 
-  //   cy.getSlate().click();
-  //   cy.log('when I add a text block');
-  //   cy.getSlateEditorAndType('Montags gehen wir in den Zoo.').contains(
-  //     'Montags gehen wir in den Zoo.',
-  //   );
-  //   // cy.toolbarSave();
-  //   cy.get('#toolbar-save').click();
-  //   cy.wait('@content');
+    cy.getSlate().click();
+    cy.log('when I add a text block');
+    cy.getSlateEditorAndType('Montags gehen wir in den Zoo.').contains(
+      'Montags gehen wir in den Zoo.',
+    );
+    // cy.toolbarSave();
+    cy.get('#toolbar-save').click();
+    cy.wait('@content');
 
-  //   cy.log('I added a text block');
+    cy.log('I added a text block');
 
-  //   // Searching
-  //   cy.visit('de/suche');
-  //   cy.wait('@kitsearch');
-  //   cy.get('.searchbar-wrapper input').type('Montag{enter}');
-  //   cy.get('.block.searchkitsearch').contains('Der Garten im Februar');
-  // });
+    // Searching
+    cy.visit('de/suche');
+    cy.wait('@kitsearch');
+    cy.get('.searchbar-wrapper input').type('Montag{enter}');
+    cy.get('.block.searchkitsearch').contains('Der Garten im Februar');
+  });
 });
