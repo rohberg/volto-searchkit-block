@@ -736,17 +736,17 @@ const FacetedSearch = ({ data, overriddenComponents }) => {
       config.settings.searchkitblock.overriddenComponents),
   };
 
-  // TODO Check if check on client could be made simpler
   // Language. Search is done with language by targeting the appropriate fields:
   // for example title.de, title.en
   const state_intl_locale = useSelector((state) => state.intl?.locale) || 'en';
   let locale = config?.settings?.isMultilingual
     ? state_intl_locale
     : config?.settings?.defaultLanguage || 'en';
-  console.debug('FacetedSearch. locale', locale);
 
-  const [isClient, setIsClient] = React.useState(null);
-  React.useEffect(() => setIsClient(true), []);
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   return (
     <Segment vertical>
