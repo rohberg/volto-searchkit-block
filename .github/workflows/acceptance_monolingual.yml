@@ -7,7 +7,7 @@ on:
       - "*.yaml"
       - "cypress/tests/monolingual/**"
       - "packages/**"
-      - ".github/workflows/acceptance.yml"
+      - ".github/workflows/acceptance_monolingual.yml"
 
 env:
   NODE_VERSION: 20.x
