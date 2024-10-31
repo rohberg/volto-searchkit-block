@@ -1,0 +1,15 @@
+{
+  "name": "testing-volto-searchkit-block",
+  "version": "1.0.0",
+  "description": "fixtures",
+  "author": "Katja Süss",
+  "homepage": "https://github.com/ksuess/testing-volto-searchkit-block",
+  "license": "MIT",
+  "keywords": [
+    "volto-addon",
+    "volto",
+    "plone",
+    "react"
+  ],
+  "main": "src/index.js"
+}
