@@ -1,9 +1,9 @@
 {
   "name": "testing-volto-searchkit-block",
   "version": "1.0.0",
-  "description": "fixtures",
+  "description": "fixtures for testing",
   "author": "Katja Süss",
-  "homepage": "https://github.com/ksuess/testing-volto-searchkit-block",
+  "homepage": "https://github.com/rohberg/volto-searchkit-block",
   "license": "MIT",
   "keywords": [
     "volto-addon",
