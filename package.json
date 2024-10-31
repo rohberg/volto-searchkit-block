@@ -38,7 +38,8 @@
     "volto-searchkit-block": "workspace:*"
   },
   "devDependencies": {
-    "mrs-developer": "^2.2.0"
+    "mrs-developer": "^2.2.0",
+    "testing-volto-searchkit-block": "workspace:*"
   },
   "pnpm": {
     "overrides": {
