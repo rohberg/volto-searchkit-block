@@ -49,19 +49,14 @@ describe('Searchkit block tests – search - multilingual - language', () => {
     cy.wait(5000);
   });
 
-  it('I can search within language', function () {
-    cy.settings().then((settings) => {
-      settings.defaultLanguage = 'en';
-      settings.isMultilingual = true;
-      settings.supportedLanguages = ['de', 'en'];
-    });
-    
+  it('I can search within language', function () {    
     cy.get('.searchbar-wrapper input')
       .type('februax{enter}')
-      .wait('@kitsearch')
-      .get('.block.searchkitsearch')
-      .should('not.contain', 'Der Garten im Februar')
-      .get('.block.searchkitsearch')
+      .wait('@kitsearch');
+    cy.screenshot();
+    cy.get('.block.searchkitsearch')
+      .should('not.contain', 'Der Garten im Februar');
+    cy.get('.block.searchkitsearch')
       .contains('The garden in february');
   });
 });

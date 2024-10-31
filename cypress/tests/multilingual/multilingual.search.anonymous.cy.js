@@ -60,11 +60,6 @@ describe('Searchkit block tests – search - multilingual - anonymous', () => {
   });
 
   it('I can search', function () {
-    cy.settings().then((settings) => {
-      settings.defaultLanguage = 'en';
-      settings.isMultilingual = true;
-      settings.supportedLanguages = ['de', 'en'];
-    });
     cy.get('.searchbar-wrapper input').type('february{enter}');
     cy.get('.block.searchkitsearch').contains('The garden in february');
     cy.get('.searchbar-wrapper input').clear().type('march{enter}');
@@ -72,11 +67,6 @@ describe('Searchkit block tests – search - multilingual - anonymous', () => {
   });
 
   it('As anonymous I see only published content', function () {
-    cy.settings().then((settings) => {
-      settings.defaultLanguage = 'en';
-      settings.isMultilingual = true;
-      settings.supportedLanguages = ['de', 'en'];
-    });
     cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
     cy.intercept('/**/@logout').as('logout');
 

@@ -82,12 +82,6 @@ describe('Searchkit block tests – search - monolingual', () => {
   });
 
   it('I can search with inflection', function () {
-    cy.settings().then((settings) => {
-      settings.defaultLanguage = 'de';
-      settings.supportedLanguages = ['de'];
-      settings.isMultilingual = false;
-    });
-    cy.wait(2000);
     cy.get('.searchbar-wrapper input').type('Männer{enter}');
     cy.get('.block.searchkitsearch').contains('Testseite Mann');
 
@@ -117,12 +111,6 @@ describe('Searchkit block tests – search - monolingual', () => {
   });
 
   it('I can search for a compounded word', function () {
-    cy.settings().then((settings) => {
-      settings.defaultLanguage = 'de';
-      settings.supportedLanguages = ['de'];
-      settings.isMultilingual = false;
-    });
-    cy.wait(2000);
     cy.get('.searchbar-wrapper input').type('stelle{enter}');
     cy.get('.block.searchkitsearch').contains('Testseite Lehrstellenbörsen');
 

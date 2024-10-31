@@ -4,7 +4,7 @@ describe('Searchkit block tests – search -multilingual - fuzzy etc', () => {
     cy.intercept('GET', `/**/*?expand*`).as('content');
     cy.intercept('GET', '/**/Document').as('schema');
     // Wait a bit to previous teardown to complete correctly because Heisenbug in this point
-    cy.wait(3000);
+    cy.wait(2000);
     // given a logged in editor and a page in edit mode
     cy.autologin();
 
@@ -57,7 +57,7 @@ describe('Searchkit block tests – search -multilingual - fuzzy etc', () => {
       path: '/de',
     });
     // Wait after creating content for ingest and OpenSearch to index
-    cy.wait(3000);
+    cy.wait(2000);
 
     // Add search block
     cy.visit('/de/suche/edit');
@@ -79,38 +79,21 @@ describe('Searchkit block tests – search -multilingual - fuzzy etc', () => {
     cy.removeContent({ path: 'de/testseite-lsb' });
     cy.removeContent({ path: 'de/testseite-s' });
     cy.removeContent({ path: 'de/suche' });
-    cy.wait(5000);
+    cy.wait(2000);
   });
 
   it('I see all if no filter selected', function () {
-    cy.settings().then((settings) => {
-      settings.defaultLanguage = 'de';
-      settings.isMultilingual = true;
-      settings.supportedLanguages = ['de', 'en'];
-    });
-    cy.wait(4000);
     cy.get('.block.searchkitsearch').contains('Der Garten im Februar');
+    cy.screenshot();
   });
 
   it('I can search fuzzy', function () {
-    cy.settings().then((settings) => {
-      settings.defaultLanguage = 'de';
-      settings.isMultilingual = true;
-      settings.supportedLanguages = ['de', 'en'];
-    });
-    cy.wait(4000);
     cy.get('.searchbar-wrapper input').type('februax{enter}');
     cy.get('.block.searchkitsearch').contains('Der Garten im Februar');
     cy.get('.block.searchkitsearch').should('not.contain', 'März');
   });
 
   it('I can search with inflection', function () {
-    cy.settings().then((settings) => {
-      settings.defaultLanguage = 'de';
-      settings.isMultilingual = true;
-      settings.supportedLanguages = ['de', 'en'];
-    });
-    cy.wait(4000);
     cy.get('.searchbar-wrapper input').clear().type('Männer{enter}');
     cy.get('.block.searchkitsearch').contains('Testseite Mann');
 
@@ -119,12 +102,6 @@ describe('Searchkit block tests – search -multilingual - fuzzy etc', () => {
   });
 
   it('I can search with decompounding', function () {
-    cy.settings().then((settings) => {
-      settings.defaultLanguage = 'de';
-      settings.isMultilingual = true;
-      settings.supportedLanguages = ['de', 'en'];
-    });
-    cy.wait(4000);
     cy.get('.searchbar-wrapper input').type('Garten{enter}');
     cy.get('.block.searchkitsearch').contains('Garten-Blog');
 
@@ -133,23 +110,11 @@ describe('Searchkit block tests – search -multilingual - fuzzy etc', () => {
   });
 
   it('I can search with wildcard', function () {
-    cy.settings().then((settings) => {
-      settings.defaultLanguage = 'de';
-      settings.isMultilingual = true;
-      settings.supportedLanguages = ['de', 'en'];
-    });
-    cy.wait(4000);
     cy.get('.searchbar-wrapper input').type('Feb*{enter}');
     cy.get('.block.searchkitsearch').contains('Der Garten im Februar');
   });
 
   it('I can search for an exact match', function () {
-    cy.settings().then((settings) => {
-      settings.defaultLanguage = 'de';
-      settings.isMultilingual = true;
-      settings.supportedLanguages = ['de', 'en'];
-    });
-    cy.wait(4000);
     cy.get('.searchbar-wrapper input').type('"Mann"{enter}');
     cy.get('.block.searchkitsearch').contains('Testseite Mann');
     cy.get('.searchbar-wrapper input').clear().type('"Mann"{enter}');
@@ -157,12 +122,6 @@ describe('Searchkit block tests – search -multilingual - fuzzy etc', () => {
   });
 
   it('I can search for a compounded word', function () {
-    cy.settings().then((settings) => {
-      settings.defaultLanguage = 'de';
-      settings.isMultilingual = true;
-      settings.supportedLanguages = ['de', 'en'];
-    });
-    cy.wait(4000);
     cy.get('.searchbar-wrapper input').type('stelle{enter}');
     cy.get('.block.searchkitsearch').contains('Testseite Lehrstellenbörsen');
     cy.get('.searchbar-wrapper input').clear().type('Lehre{enter}');
@@ -175,12 +134,6 @@ describe('Searchkit block tests – search -multilingual - fuzzy etc', () => {
 
   // Blocks text
   it('I can search in blocks', function () {
-    cy.settings().then((settings) => {
-      settings.defaultLanguage = 'de';
-      settings.isMultilingual = true;
-      settings.supportedLanguages = ['de', 'en'];
-    });
-    cy.wait(4000);
     cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
     cy.visit('/de/garten-blog/februar');
     cy.get('a.edit').click();
@@ -193,10 +146,10 @@ describe('Searchkit block tests – search -multilingual - fuzzy etc', () => {
     // cy.toolbarSave();
     cy.get('#toolbar-save').click();
     cy.wait('@content');
-    
+
     cy.log('I added a text block');
     // Wait after creating content for ingest and OpenSearch to index
-    cy.wait(3000);
+    cy.wait(1000);
 
     // Searching
     cy.visit('de/suche');
