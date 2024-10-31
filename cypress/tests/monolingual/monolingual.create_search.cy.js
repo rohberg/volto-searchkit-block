@@ -49,7 +49,7 @@ describe('Searchkit block tests- create search ', () => {
     // Add block
     cy.getSlate().click();
     cy.get('button.block-add-button').click();
-    cy.get('.blocks-chooser .title').contains('Common').click();
+    cy.get('.blocks-chooser .title').contains('Allgemein').click();
     cy.get('.blocks-chooser .button.searchkitblock').click({ force: true });
 
     cy.get('#toolbar-save').click();
@@ -60,7 +60,7 @@ describe('Searchkit block tests- create search ', () => {
     cy.get('.block.searchkitsearch').contains('The garden in february');
 
     // searching for a query string
-    cy.get('.searchbar-wrapper input').type('Februar{enter}');
+    cy.get('.searchbar-wrapper input').type('february{enter}');
     cy.get('.block.searchkitsearch').contains('The garden in february');
   });
 });
