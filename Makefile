@@ -187,6 +187,8 @@ acceptance-frontend-prod-start-monolingual: ## Start acceptance frontend in prod
 
 .PHONY: acceptance-backend-start-monolingual
 acceptance-backend-start-monolingual: ## Start backend acceptance server
+    export INDEX_PASSWORD=paraDiesli,17
+    export PLONE_PASSWORD=secret
 	$(MAKE) -C "./backend/" acceptance-backend-start-monolingual
 
 .PHONY: ci-acceptance-backend-start-monolingual
@@ -215,6 +217,8 @@ acceptance-frontend-prod-start-multilingual: ## Start acceptance frontend in pro
 
 .PHONY: acceptance-backend-start-multilingual
 acceptance-backend-start-multilingual: ## Start backend acceptance server
+    export INDEX_PASSWORD=paraDiesli,17
+    export PLONE_PASSWORD=secret
 	$(MAKE) -C "./backend/" acceptance-backend-start-multilingual
 
 .PHONY: ci-acceptance-backend-start-multilingual

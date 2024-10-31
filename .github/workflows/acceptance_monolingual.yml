@@ -57,6 +57,9 @@ jobs:
 
       - uses: JarvusInnovations/background-action@v1
         name: Start Servers
+        env:
+          INDEX_PASSWORD: ${{ secrets.SECRET_INDEX_PASSWORD}}
+          PLONE_PASSWORD: ${{ secrets.SECRET_PLONE_PASSWORD}}
         with:
           run: |
             make ci-acceptance-backend-start-monolingual &
