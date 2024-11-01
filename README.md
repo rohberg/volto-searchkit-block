@@ -1,4 +1,4 @@
-# Searchkit Block (volto-searchkit-block)
+# Searchkit Block (@rohberg/volto-searchkit-block)
 
 Searching with OpenSearch
 
@@ -10,7 +10,25 @@ Searching with OpenSearch
 
 ## Features
 
-<!-- List your awesome features here -->
+<!-- TODO README
+- user instruction how to search
+- backend instructions
+- …
+ -->
+
+Search block with highly overridable components for searching, filtering and displaying search results. Sometimes also called faceted navigation.
+
+As this search is addressing `OpenSearch/ElasticSearch` with text analysis, the search does understand inflection of words, tolerates typos by fuzzy searching, allows exact search and wildcard search.
+See [User documentation](#user-documentation) on how to search.
+
+Matched phrases are shown with highlighted matches.
+
+Additional metadata per result item can be configured easily.
+Meta data values are clickable to find related content.
+
+The block is prepared for Matomo analytics.
+
+![Search @rohberg/volto-searchkit-block](public/search.png)
 
 ## Installation
 
@@ -67,12 +85,6 @@ Add `volto-searchkit-block` to your `volto.config.js`:
 const addons = ['volto-searchkit-block'];
 ```
 
-If this package provides a Volto theme, and you want to activate it, then add the following to your `volto.config.js`:
-
-```javascript
-const theme = 'volto-searchkit-block';
-```
-
 ## Test installation
 
 Visit http://localhost:3000/ in a browser, login, and check the awesome new features.
@@ -96,30 +108,40 @@ For this reason, it only works with pnpm and Volto 18 (currently in alpha).
 Run `make help` to list the available commands.
 
 ```text
-help                             Show this help
-install                          Installs the add-on in a development environment
-start                            Starts Volto, allowing reloading of the add-on during development
-build                            Build a production bundle for distribution of the project with the add-on
-i18n                             Sync i18n
-ci-i18n                          Check if i18n is not synced
-format                           Format codebase
-lint                             Lint, or catch and remove problems, in code base
-release                          Release the add-on on npmjs.org
-release-dry-run                  Dry-run the release of the add-on on npmjs.org
-test                             Run unit tests
-ci-test                          Run unit tests in CI
-backend-docker-start             Starts a Docker-based backend for development
-storybook-start                  Start Storybook server on port 6006
-storybook-build                  Build Storybook
-acceptance-frontend-dev-start    Start acceptance frontend in development mode
-acceptance-frontend-prod-start   Start acceptance frontend in production mode
-acceptance-backend-start         Start backend acceptance server
-ci-acceptance-backend-start      Start backend acceptance server in headless mode for CI
-acceptance-test                  Start Cypress in interactive mode
-ci-acceptance-test               Run cypress tests in headless mode for CI
+help                                          Show this help
+dev-backend-start-monolingual                 Start backend dev server
+dev-backend-start-multilingual                Start backend dev server
+install                                       Installs the add-on in a development environment
+start                                         Starts Volto, allowing reloading of the add-on during development
+build                                         Build a production bundle for distribution of the project with the add-on
+build-deps                                    Build dependencies
+i18n                                          Sync i18n
+ci-i18n                                       Check if i18n is not synced
+format                                        Format codebase
+lint                                          Lint, or catch and remove problems, in code base
+release                                       Release the add-on on npmjs.org
+release-dry-run                               Dry-run the release of the add-on on npmjs.org
+test                                          Run unit tests
+ci-test                                       Run unit tests in CI
+storybook-start                               Start Storybook server on port 6006
+storybook-build                               Build Storybook
+acceptance-frontend-dev-start-monolingual     Start acceptance frontend in development mode
+acceptance-frontend-prod-start-monolingual    Start acceptance frontend in production mode
+acceptance-backend-start-monolingual          Start backend acceptance server
+ci-acceptance-backend-start-monolingual       Start backend acceptance server in headless mode for CI
+acceptance-test-monolingual                   Start Cypress in interactive mode
+ci-acceptance-test-monolingual                Run cypress tests in headless mode for CI
+acceptance-frontend-dev-start-multilingual    Start acceptance frontend in development mode
+acceptance-frontend-prod-start-multilingual   Start acceptance frontend in production mode
+acceptance-backend-start-multilingual         Start backend acceptance server
+ci-acceptance-backend-start-multilingual      Start backend acceptance server in headless mode for CI
+acceptance-test-multilingual                  Start Cypress in interactive mode
+ci-acceptance-test-multilingual               Run cypress tests in headless mode for CI
 ```
 
 ### Development environment set up
+
+TODO Development environment set up. backend, frontend
 
 Install package requirements.
 
@@ -180,20 +202,22 @@ Run each of these steps in separate terminal sessions.
 In the first session, start the frontend in development mode.
 
 ```shell
-make acceptance-frontend-dev-start
+make acceptance-frontend-dev-start-monolingual
 ```
 
 In the second session, start the backend acceptance server.
 
 ```shell
-make acceptance-backend-start
+make acceptance-backend-start-monolingual
 ```
 
 In the third session, start the Cypress interactive test runner.
 
 ```shell
-make acceptance-test
+make acceptance-test-monolingual
 ```
+
+Appropriate make commands for **multilingual** Cypress tests are available.
 
 ## License
 
