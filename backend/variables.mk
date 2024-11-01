@@ -1,4 +1,4 @@
-PLONE_VERSION=6
+PLONE_VERSION=6.0.13
 PROJECT_NAME='volto-searchkit-block'
 # KGS=plone.restapi==9.4.2 plone.volto==4.3.0 plone.rest==4.1.3
 KGS=

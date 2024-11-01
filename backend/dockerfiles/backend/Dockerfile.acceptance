@@ -6,7 +6,7 @@
 
 ARG PLONE_VERSION=6.0
 ARG SEED=7
-FROM plone/server-builder:${PLONE_VERSION} as builder
+FROM plone/server-builder:${PLONE_VERSION} AS builder
 
 WORKDIR /app
 

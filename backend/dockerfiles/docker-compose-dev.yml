@@ -1,0 +1,146 @@
+services:
+  backend-dev:
+    build:
+      context: ./
+      dockerfile: ./backend/Dockerfile.dev.monolingual
+      args:
+        PLONE_VERSION: ${PLONE_VERSION:-6.0}
+    environment:
+      INDEX_SERVER: ${INDEX_SERVER?unset}
+      INDEX_NAME: ${INDEX_NAME?unset}
+      INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
+      INDEX_USE_SSL: ${INDEX_USE_SSL?unset}
+      INDEX_LOGIN: ${INDEX_LOGIN?unset}
+      INDEX_PASSWORD: ${INDEX_PASSWORD?unset}
+      CELERY_BROKER: ${CELERY_BROKER?unset}
+      CONFIGURE_PACKAGES: 'plone.restapi,plone.volto,plone.volto.cors,collective.elastic.plone,rohberg.volto'
+      # Run initialize of collective.elastic.plone to register ElasticSearchProxyIndex
+      INSTALL_PRODUCTS: 'collective.elastic.plone'
+    ports:
+      - 8080:8080
+    profiles:
+      - dev
+      - monolingual
+
+  backend-dev-multilingual:
+    build:
+      context: ./
+      dockerfile: ./backend/Dockerfile.dev.multilingual
+      args:
+        PLONE_VERSION: ${PLONE_VERSION:-6.0}
+    environment:
+      INDEX_SERVER: ${INDEX_SERVER?unset}
+      INDEX_NAME: multilingual
+      INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
+      INDEX_USE_SSL: ${INDEX_USE_SSL?unset}
+      INDEX_LOGIN: ${INDEX_LOGIN?unset}
+      INDEX_PASSWORD: ${INDEX_PASSWORD?unset}
+      CELERY_BROKER: ${CELERY_BROKER?unset}
+      CONFIGURE_PACKAGES: 'plone.restapi,plone.volto,plone.volto.cors,collective.elastic.plone,rohberg.volto'
+      # Run initialize of collective.elastic.plone to register ElasticSearchProxyIndex
+      INSTALL_PRODUCTS: 'collective.elastic.plone'
+    ports:
+      - 8080:8080
+    profiles:
+      - multilingual
+
+  ingest:
+    image: ghcr.io/collective/collective.elastic.ingest:latest
+    environment:
+      MAPPINGS_FILE: ${MAPPINGS_FILE}
+      ANALYSIS_FILE: ${ANALYSIS_FILE}
+      PREPROCESSINGS_FILE: ${PREPROCESSINGS_FILE}
+      INDEX_SERVER: ${INDEX_SERVER?unset}
+      INDEX_NAME: ${INDEX_NAME?unset}
+      INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
+      INDEX_USE_SSL: ${INDEX_USE_SSL?unset}
+      INDEX_LOGIN: ${INDEX_LOGIN?unset}
+      INDEX_PASSWORD: ${INDEX_PASSWORD?unset}
+      CELERY_BROKER: ${CELERY_BROKER?unset}
+      CELERY_CONCURRENCY: ${CELERY_CONCURRENCY:-1}
+      CELERY_LOGLEVEL: ${CELERY_LOGLEVEL:-info}
+      PLONE_SERVICE: http://backend-dev:8080
+      PLONE_SITE_PREFIX_PATH: ${PLONE_SITE_PREFIX_PATH?unset}
+      PLONE_USER: ${PLONE_USER?unset}
+      PLONE_PASSWORD: ${PLONE_PASSWORD?unset}
+      SENTRY_DSN: ${SENTRY_DSN}
+    volumes:
+      - ./opensearch/ingest-configuration:/configuration
+    profiles:
+      - dev
+      - prod
+      - monolingual
+
+  ingest-multilingual:
+    image: ghcr.io/collective/collective.elastic.ingest:latest
+    environment:
+      # Different INDEX_NAME
+      MAPPINGS_FILE: ${MAPPINGS_FILE}
+      ANALYSIS_FILE: ${ANALYSIS_FILE}
+      PREPROCESSINGS_FILE: ${PREPROCESSINGS_FILE}
+      INDEX_SERVER: ${INDEX_SERVER?unset}
+      INDEX_NAME: multilingual
+      INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
+      INDEX_USE_SSL: ${INDEX_USE_SSL?unset}
+      INDEX_LOGIN: ${INDEX_LOGIN?unset}
+      INDEX_PASSWORD: ${INDEX_PASSWORD?unset}
+      CELERY_BROKER: ${CELERY_BROKER?unset}
+      CELERY_CONCURRENCY: ${CELERY_CONCURRENCY:-1}
+      CELERY_LOGLEVEL: ${CELERY_LOGLEVEL:-info}
+      PLONE_SERVICE: http://backend-dev-multilingual:8080
+      PLONE_SITE_PREFIX_PATH: ${PLONE_SITE_PREFIX_PATH?unset}
+      PLONE_USER: ${PLONE_USER?unset}
+      PLONE_PASSWORD: ${PLONE_PASSWORD?unset}
+      SENTRY_DSN: ${SENTRY_DSN}
+    volumes:
+      - ./opensearch/ingest-configuration:/configuration
+    profiles:
+      - multilingual
+
+  redis:
+    image: 'redis:latest'
+    ports:
+      - 6379:6379
+
+  opensearch:
+    build:
+      context: ./
+      dockerfile: ./opensearch/Dockerfile.opensearch
+    environment:
+      - cluster.name=opensearch-cluster
+      - node.name=opensearch
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - 'OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx2g'
+      # - plugins.security.disabled=true
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=${INDEX_PASSWORD?unset}
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+      - 9200:9200 # REST API
+      - 9600:9600 # Performance Analyzer
+    tty: true
+
+  opensearch-dashboards:
+    image: opensearchproject/opensearch-dashboards:latest
+    ports:
+      - 5601:5601
+    expose:
+      - '5601'
+    environment:
+      OPENSEARCH_HOSTS: '["https://opensearch:9200"]'
+
+  # dejavu:
+  #   image: appbaseio/dejavu:latest
+  #   container_name: dejavu
+  #   ports:
+  #     - "1358:1358"
+  #   expose:
+  #     - "1358"
+  #   links:
+  #     - opensearch
