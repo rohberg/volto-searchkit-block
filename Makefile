@@ -42,7 +42,7 @@ dev-backend-start-monolingual: ## Start backend dev server
 	$(MAKE) -C "./backend/" dev-backend-start-monolingual
 
 .PHONY: dev-backend-start-multilingual
-dev-backend-start-multilingual: ## Start backend dev server
+dev-backend-start-multilingual: ## Start backend dev server with two languages
 	export INDEX_PASSWORD=paraDiesli,17
 	export PLONE_PASSWORD=admin
 	export PLONE_SITE_PREFIX_PATH=Plone
@@ -64,6 +64,14 @@ install: ## Installs the add-on in a development environment
 .PHONY: start
 start: ## Starts Volto, allowing reloading of the add-on during development
 	pnpm start
+
+.PHONY: start
+start-monolingual: ## Same as `make start` but with language 'de'
+	ADDONS=testing-volto-searchkit-block:monolingualFixture pnpm start
+
+.PHONY: start
+start-multilingual: ## Same as `make start` but with language 'de' and multi lingual
+	ADDONS=testing-volto-searchkit-block:multilingualFixture pnpm start
 
 .PHONY: build
 build: ## Build a production bundle for distribution of the project with the add-on
