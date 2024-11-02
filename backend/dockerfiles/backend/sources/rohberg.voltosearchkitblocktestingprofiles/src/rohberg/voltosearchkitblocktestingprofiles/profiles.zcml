@@ -1,0 +1,49 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="rohberg.voltosearchkitblocktestingprofiles"
+    >
+
+  <genericsetup:registerProfile
+      name="default"
+      title="Boo Hui: Install"
+      description="Package to configure a new Boo Hui site"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/default"
+      />
+
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="Boo Hui: Uninstall"
+      description="Uninstall Boo Hui setup."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/uninstall"
+      />
+
+
+  <genericsetup:registerProfile
+      name="monolingual"
+      title="monolingual"
+      description="language settings monolingual"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/monolingual"
+      />
+
+
+  <genericsetup:registerProfile
+      name="multilingual"
+      title="multilingual"
+      description="language settings multilingual"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/multilingual"
+      post_handler=".setuphandlers.init_pam"
+      />
+
+  <!-- Hide Uninstall Profile-->
+  <utility
+      factory=".setuphandlers.HiddenProfiles"
+      name="rohberg.voltosearchkitblocktestingprofiles"
+      />
+
+
+</configure>

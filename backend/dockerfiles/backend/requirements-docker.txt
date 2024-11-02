@@ -1,3 +1,3 @@
 collective.elastic.plone[redis,opensearch]==2.1.1
 elasticsearch
-rohberg.volto[test] @ git+https://github.com/rohberg/rohberg.volto.git
+-e sources/rohberg.voltosearchkitblocktestingprofiles

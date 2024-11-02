@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 # The language is set here:
-# PROFILES … rohberg.volto:multilingual
+# PROFILES …:multilingual
 ARG SEED=1000
 ARG PLONE_VERSION=6.0
 FROM plone/plone-backend:${PLONE_VERSION}
@@ -12,7 +12,7 @@ LABEL maintainer="Plone Foundation <collective@plone.org>" \
     org.label-schema.vendor="Rohberg"
 
 # Add local code
-COPY ./backend .
+COPY backend .
 
 # # Install local requirements and fix permissions
 # RUN <<EOT
@@ -26,6 +26,9 @@ COPY ./backend .
 
 # Install local requirements and fix permissions
 RUN <<EOT
+set -e
+# remove potentially existing virtualenv from local build
+rm -rf .venv
     mv requirements-docker.txt requirements.txt
     ./bin/pip install -r requirements.txt
     chown -R plone: /app
@@ -36,12 +39,11 @@ RUN <<EOT
     mv collective.elastic.plone-configure.zcml etc/package-includes/collective.elastic.plone-configure.zcml
 EOT
 
-# Create a new site with content
+# Create a new site with packages installed
 RUN <<EOT
     SEED=${SEED}
-    # # ADDITIONAL_PROFILES=collective.elastic.plone:default
-    export ADDONS="collective.elastic.plone[redis,opensearch] rohberg.volto[test]@git+https://github.com/rohberg/rohberg.volto.git"
-    export PROFILES="collective.elastic.plone:default rohberg.volto:multilingual"
+    # export ADDONS="collective.elastic.plone[redis,opensearch] rohberg.voltosearchkitblocktestingprofiles"
+    export PROFILES="collective.elastic.plone:default rohberg.voltosearchkitblocktestingprofiles:multilingual"
     export DEBUG_MODE=on
     export DELETE_EXISTING=true
     ./docker-entrypoint.sh create-site

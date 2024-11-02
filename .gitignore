@@ -12,3 +12,5 @@ results
 yarn.lock
 /public
 cypress/screenshots/*
+backend/dockerfiles/backend/.venv/
+backend/dockerfiles/backend/instance/

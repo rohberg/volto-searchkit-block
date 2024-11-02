@@ -1,0 +1,14 @@
+setuptools
+Products.CMFPlone
+plone.api
+plone.restapi
+plone.volto
+
+[test]
+zest.releaser[recommended]
+zestreleaser.towncrier
+plone.app.testing
+plone.restapi[test]
+pytest
+pytest-cov
+pytest-plone>=0.5.0

@@ -1,0 +1,7 @@
+###############################################################################
+# mxdev combined constraints
+-c constraints-mxdev.txt
+
+###############################################################################
+# main package
+-e sources/rohberg.voltosearchkitblocktestingprofiles

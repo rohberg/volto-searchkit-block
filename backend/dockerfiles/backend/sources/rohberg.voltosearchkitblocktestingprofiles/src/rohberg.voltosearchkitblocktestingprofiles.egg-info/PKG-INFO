@@ -1,0 +1,47 @@
+Metadata-Version: 2.1
+Name: rohberg.voltosearchkitblocktestingprofiles
+Version: 1.0.0a0
+Summary: A new add-on boo with hui
+Home-page: https://github.com/rohberg/rohberg.voltosearchkitblocktestingprofiles
+Author: Plone Community
+Author-email: collective@plone.org
+License: GPL version 2
+Project-URL: PyPI, https://pypi.org/project/rohberg.voltosearchkitblocktestingprofiles
+Project-URL: Source, https://github.com/rohberg/rohberg.voltosearchkitblocktestingprofiles
+Project-URL: Tracker, https://github.com/rohberg/rohberg.voltosearchkitblocktestingprofiles/issues
+Keywords: Python Plone CMS
+Classifier: Development Status :: 3 - Alpha
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Plone
+Classifier: Framework :: Plone :: Addon
+Classifier: Framework :: Plone :: 6.0
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Operating System :: OS Independent
+Classifier: License :: OSI Approved :: GNU General Public License v2 (GPLv2)
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: setuptools
+Requires-Dist: Products.CMFPlone
+Requires-Dist: plone.api
+Requires-Dist: plone.restapi
+Requires-Dist: plone.volto
+Provides-Extra: test
+Requires-Dist: zest.releaser[recommended]; extra == "test"
+Requires-Dist: zestreleaser.towncrier; extra == "test"
+Requires-Dist: plone.app.testing; extra == "test"
+Requires-Dist: plone.restapi[test]; extra == "test"
+Requires-Dist: pytest; extra == "test"
+Requires-Dist: pytest-cov; extra == "test"
+Requires-Dist: pytest-plone>=0.5.0; extra == "test"
+
+
+# rohberg.voltosearchkitblocktestingprofiles
+
+Profiles for testing monolingual and multilingual
+
+
