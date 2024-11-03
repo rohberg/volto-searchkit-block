@@ -80,11 +80,11 @@ dev-backend-start-multilingual: ## Start dev containers (backend and OpenSearch)
 
 .PHONY: acceptance-backend-start-monolingual
 acceptance-backend-start-monolingual: ## Start acceptance containers (backend and OpenSearch)
-	${ACCEPTANCE_MONOLINGUAL} --profile monolingual up -d --force-recreate
+	${ACCEPTANCE_COMPOSE_MONOLINGUAL} --profile monolingual up -d --force-recreate
 
 .PHONY: acceptance-backend-image-build-monolingual
 acceptance-backend-image-build-monolingual: ## Build acceptance containers (backend and OpenSearch)
-	${ACCEPTANCE_MONOLINGUAL} --profile monolingual build --no-cache
+	${ACCEPTANCE_COMPOSE_MONOLINGUAL} --profile monolingual build --no-cache
 
 
 # ########################################################################
@@ -93,4 +93,4 @@ acceptance-backend-image-build-monolingual: ## Build acceptance containers (back
 
 .PHONY: acceptance-backend-start-multilingual
 acceptance-backend-start-multilingual: ## Start acceptance containers (backend and OpenSearch)
-	${ACCEPTANCE_MULTILINGUAL} --profile multilingual up -d --force-recreate
+	${ACCEPTANCE_COMPOSE_MULTILINGUAL} --profile multilingual up -d --force-recreate

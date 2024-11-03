@@ -13,7 +13,7 @@ services:
       INDEX_LOGIN: ${INDEX_LOGIN?unset}
       INDEX_PASSWORD: ${INDEX_PASSWORD?unset}
       CELERY_BROKER: ${CELERY_BROKER?unset}
-      CONFIGURE_PACKAGES: 'plone.restapi,plone.volto,plone.volto.cors,collective.elastic.plone,rohberg.volto'
+      CONFIGURE_PACKAGES: 'plone.restapi,plone.volto,plone.volto.cors,collective.elastic.plone,rohberg.voltosearchkitblocktestingprofiles'
       # Run initialize of collective.elastic.plone to register ElasticSearchProxyIndex
       INSTALL_PRODUCTS: 'collective.elastic.plone'
     ports:
@@ -36,7 +36,7 @@ services:
       INDEX_LOGIN: ${INDEX_LOGIN?unset}
       INDEX_PASSWORD: ${INDEX_PASSWORD?unset}
       CELERY_BROKER: ${CELERY_BROKER?unset}
-      CONFIGURE_PACKAGES: 'plone.restapi,plone.volto,plone.volto.cors,collective.elastic.plone,rohberg.volto'
+      CONFIGURE_PACKAGES: 'plone.restapi,plone.volto,plone.volto.cors,collective.elastic.plone,rohberg.voltosearchkitblocktestingprofiles'
       # Run initialize of collective.elastic.plone to register ElasticSearchProxyIndex
       INSTALL_PRODUCTS: 'collective.elastic.plone'
     ports:

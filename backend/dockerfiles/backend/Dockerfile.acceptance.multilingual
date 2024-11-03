@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 # Dockerfile from cookiecutter-plone-starter
 # The language is set here:
-# APPLY_PROFILES … rohberg.volto:multilingual
+# APPLY_PROFILES … rohberg.voltosearchkitblocktestingprofiles:monolingual
 # Run robotserver verbose
 
 ARG PLONE_VERSION=6.0
@@ -11,21 +11,22 @@ FROM plone/server-builder:${PLONE_VERSION} AS builder
 WORKDIR /app
 
 # # Add local code
-# COPY . .
+COPY backend .
 
 # Install local requirements
 RUN <<EOT
-    SEED=${SEED}
     set -e
+    # remove potentially existing virtualenv from local build
+    rm -rf .venv
+    mv requirements-docker.txt requirements.txt
+    # And also install plone.app.robotframework
     bin/pip install plone.app.robotframework>=2.0.0
-    bin/pip install collective.elastic.plone[redis,opensearch]>=2.1.0
-    # bin/pip install 'collective.elastic.plone[redis,opensearch] @ git+https://github.com/collective/collective.elastic.plone.git'
-    bin/pip install 'rohberg.volto[test] @ git+https://github.com/rohberg/rohberg.volto.git'
+    ./bin/pip install -r requirements.txt
 EOT
 
 
 FROM plone/server-acceptance:${PLONE_VERSION}
-ENV APPLY_PROFILES="collective.elastic.plone:default,rohberg.volto:multilingual"
+ENV APPLY_PROFILES="collective.elastic.plone:default,rohberg.voltosearchkitblocktestingprofiles:multilingual"
 
 # Copy /app from builder
 COPY --from=builder /app /app
