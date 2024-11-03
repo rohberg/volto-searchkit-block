@@ -1,26 +1,21 @@
 describe('Searchkit block tests – search - multilingual - language', () => {
   beforeEach(() => {
-
     cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
     cy.intercept('GET', `/**/*?expand*`).as('content');
     cy.intercept('GET', '/**/Document').as('schema');
     // Wait a bit to previous teardown to complete correctly because Heisenbug in this point
     cy.wait(2000);
-    // given a logged in editor and a page in edit mode
     cy.autologin();
 
     cy.createContent({
       contentType: 'Document',
-      contentId: 'searching',
-      contentTitle: 'Searching',
-      path: 'en',
-    });
-
-    cy.createContent({
-      contentType: 'Document',
-      contentId: 'garden-in-february',
-      contentTitle: 'The garden in february',
-      path: 'en',
+      contentId: 'suche',
+      contentTitle: 'Suche',
+      path: 'de',
+      bodyModifier(body) {
+        body.language = 'de';
+        return body;
+      },
     });
 
     cy.createContent({
@@ -28,11 +23,25 @@ describe('Searchkit block tests – search - multilingual - language', () => {
       contentId: 'der-garten-im-februar',
       contentTitle: 'Der Garten im Februar',
       path: 'de',
-      language: 'de',
+      bodyModifier(body) {
+        body.language = 'de';
+        return body;
+      },
+    });
+
+    cy.createContent({
+      contentType: 'Document',
+      contentId: 'garden-in-february',
+      contentTitle: 'The garden in february',
+      path: 'en',
+      bodyModifier(body) {
+        body.language = 'en';
+        return body;
+      },
     });
 
     // Add search block
-    cy.visit('/en/searching/edit');
+    cy.visit('/de/suche/edit');
     cy.wait('@schema');
 
     cy.addNewBlock('searchkit');
@@ -43,20 +52,21 @@ describe('Searchkit block tests – search - multilingual - language', () => {
   });
 
   afterEach(() => {
-    cy.removeContent({ path: 'en/searching' });
+    cy.removeContent({ path: 'de/suche' });
     cy.removeContent({ path: 'en/garden-in-february' });
     cy.removeContent({ path: 'de/der-garten-im-februar' });
     cy.wait(5000);
   });
 
-  it('I can search within language', function () {    
+  it('I can search within language', function () {
+    cy.visit('/de/suche');
     cy.get('.searchbar-wrapper input')
       .type('februax{enter}')
       .wait('@kitsearch');
-    cy.screenshot();
-    cy.get('.block.searchkitsearch')
-      .should('not.contain', 'Der Garten im Februar');
-    cy.get('.block.searchkitsearch')
-      .contains('The garden in february');
+    cy.get('.block.searchkitsearch').should(
+      'not.contain',
+      'The garden in february',
+    );
+    cy.get('.block.searchkitsearch').contains('Der Garten im Februar');
   });
 });

@@ -8,11 +8,17 @@ describe('Searchkit block tests – search - multilingual - anonymous', () => {
     // given a logged in editor and a page in edit mode
     cy.autologin();
 
+    cy.visit('/en/');
+
     cy.createContent({
       contentType: 'Document',
       contentId: 'searching',
       contentTitle: 'Searching',
       path: 'en',
+      bodyModifier(body) {
+        body.language = 'de';
+        return body;
+      },
     });
 
     cy.setWorkflow({
@@ -26,6 +32,10 @@ describe('Searchkit block tests – search - multilingual - anonymous', () => {
       contentId: 'garden-in-february',
       contentTitle: 'The garden in february',
       path: 'en',
+      bodyModifier(body) {
+        body.language = 'de';
+        return body;
+      },
     });
 
     cy.setWorkflow({
@@ -39,6 +49,10 @@ describe('Searchkit block tests – search - multilingual - anonymous', () => {
       contentId: 'garden-in-march',
       contentTitle: 'The garden in march',
       path: 'en',
+      bodyModifier(body) {
+        body.language = 'de';
+        return body;
+      },
     });
 
     // Add search block
@@ -60,8 +74,14 @@ describe('Searchkit block tests – search - multilingual - anonymous', () => {
   });
 
   it('I can search', function () {
+    cy.visit('/en/searching');
+    cy.wait('@kitsearch');
     cy.get('.searchbar-wrapper input').type('february{enter}');
     cy.get('.block.searchkitsearch').contains('The garden in february');
+    cy.get('.block.searchkitsearch').should(
+      'not.contain',
+      'The garden in march',
+    );
     cy.get('.searchbar-wrapper input').clear().type('march{enter}');
     cy.get('.block.searchkitsearch').contains('The garden in march');
   });

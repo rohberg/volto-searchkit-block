@@ -13,48 +13,80 @@ describe('Searchkit block tests – search -multilingual - fuzzy etc', () => {
       contentId: 'suche',
       contentTitle: 'Suche',
       path: '/de',
+      bodyModifier(body) {
+        body.language = 'de';
+        return body;
+      },
     });
     cy.createContent({
       contentType: 'Document',
       contentId: 'garten-blog',
       contentTitle: 'Garten-Blog',
       path: '/de',
+      bodyModifier(body) {
+        body.language = 'de';
+        return body;
+      },
     });
     cy.createContent({
       contentType: 'Document',
       contentId: 'februar',
       contentTitle: 'Der Garten im Februar',
       path: '/de/garten-blog',
+      bodyModifier(body) {
+        body.language = 'de';
+        return body;
+      },
     });
     cy.createContent({
       contentType: 'Document',
       contentId: 'marz',
       contentTitle: 'Der Garten im März',
       path: '/de/garten-blog',
+      bodyModifier(body) {
+        body.language = 'de';
+        return body;
+      },
     });
     cy.createContent({
       contentType: 'Document',
       contentId: 'testseite-mann',
       contentTitle: 'Testseite Mann',
       path: '/de',
+      bodyModifier(body) {
+        body.language = 'de';
+        return body;
+      },
     });
     cy.createContent({
       contentType: 'Document',
       contentId: 'testseite-manner',
       contentTitle: 'Testseite Männer',
       path: '/de',
+      bodyModifier(body) {
+        body.language = 'de';
+        return body;
+      },
     });
     cy.createContent({
       contentType: 'Document',
       contentId: 'testseite-lsb',
       contentTitle: 'Testseite Lehrstellenbörsen',
       path: '/de',
+      bodyModifier(body) {
+        body.language = 'de';
+        return body;
+      },
     });
     cy.createContent({
       contentType: 'Document',
       contentId: 'testseite-s',
       contentTitle: 'Testseite Stelle',
       path: '/de',
+      bodyModifier(body) {
+        body.language = 'de';
+        return body;
+      },
     });
     // Wait after creating content for ingest and OpenSearch to index
     cy.wait(2000);

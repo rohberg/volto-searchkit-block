@@ -8,6 +8,7 @@ on:
       - "cypress/tests/monolingual/**"
       - "packages/**"
       - ".github/workflows/acceptance_monolingual.yml"
+      - "backend/dockerfiles/**"
 
 env:
   NODE_VERSION: 20.x
