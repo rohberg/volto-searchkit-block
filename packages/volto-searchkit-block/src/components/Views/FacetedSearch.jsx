@@ -73,7 +73,7 @@ const translate = (querystringindexes, fieldname, key) => {
   return label;
 };
 
-// TODO Make reviewstatemapping configurable
+// TODO 2nd priority: Make reviewstatemapping configurable
 export const ploneSearchApi = (data, language) => {
   const cookies = new Cookies();
   const authToken = cookies.get('auth_token');
