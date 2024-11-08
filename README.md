@@ -1,6 +1,6 @@
 # Searchkit Block (@rohberg/volto-searchkit-block)
 
-Searching with OpenSearch
+Searching with OpenSearch or ElasticSearch
 
 [![npm](https://img.shields.io/npm/v/@rohberg/volto-searchkit-block)](https://www.npmjs.com/package/@rohberg/volto-searchkit-block)
 [![Acceptance tests multilingual](https://github.com/rohberg/volto-searchkit-block/actions/workflows/acceptance_multilingual.yml/badge.svg)](https://github.com/rohberg/volto-searchkit-block/actions/workflows/acceptance_multilingual.yml)
@@ -32,68 +32,73 @@ The block is prepared for Matomo analytics.
 
 ## Installation
 
-To install your project, you must choose the method appropriate to your version of Volto.
+### Plone backend
 
+TODO backend instructions
 
-### Volto 17 and earlier
+### OpenSearch / ElasticSearch 
 
-Create a new Volto project (you can skip this step if you already have one):
+TODO OpenSearch
 
-```
-npm install -g yo @plone/generator-volto
-yo @plone/volto my-volto-project --addon volto-searchkit-block
-cd my-volto-project
-```
-
-Add `volto-searchkit-block` to your package.json:
-
-```JSON
-"addons": [
-    "volto-searchkit-block"
-],
-
-"dependencies": {
-    "volto-searchkit-block": "*"
-}
-```
-
-Download and install the new add-on by running:
-
-```
-yarn install
-```
-
-Start volto with:
-
-```
-yarn start
-```
-
-### Volto 18 and later
+### Volto frontend
 
 Add `volto-searchkit-block` to your `package.json`:
 
 ```json
 "dependencies": {
-    "volto-searchkit-block": "*"
+    "@rohberg/volto-searchkit-block": "^2.0.0"
 }
 ```
 
-Add `volto-searchkit-block` to your `volto.config.js`:
+Add `@rohberg/volto-searchkit-block` to your `volto.config.js`:
 
 ```javascript
-const addons = ['volto-searchkit-block'];
+const addons = ['@rohberg/volto-searchkit-block'];
 ```
 
-## Test installation
+### Configuration of the search block
+
+TODO Configuration of the search block
+
+## Demo
+
+TODO demo
 
 Visit http://localhost:3000/ in a browser, login, and check the awesome new features.
 
+## User instructions
+
+The search is a fuzzy search, that means typos are compensated.
+Approximate matches and inflections are found.
+
+To force the match of a search string, precede it with "+".
+To exclude matches of a search string, precede it with "-".
+
+Use wildcards to find matches of words that complement the search string.
+
+For exact matches of a search string embrace it with quotation marks.
+
+A search for a word with hyphen is equivalent to a search for the word and the parts of it.  
+Example: A search for "LSR-Lehrbetrieb" is equivalent to a search for "LSR-Lehrbetrieb LSR Lehrbetrieb"
+
+Words with hyphen are matched by searches for part of the words.  
+Example: "LSR-Lehrbetrieb" is found by a search for "LSR".
+
+### Multiple search strings
+
+Search results include at least one of the search strings.
+
+
+# Panel for testing matches
+
+You can test search results on a test panel: `/controlpanel/test-searchkit-querystrings`
+
+Please update the settings according to your deployment: `/controlpanel/volto_searchkit_block_control_panel`
 
 ## Development
 
 The development of this add-on is done in isolation using a new approach using pnpm workspaces and latest `mrs-developer` and other Volto core improvements.
-For this reason, it only works with pnpm and Volto 18 (currently in alpha).
+For this reason, it only works with pnpm and Volto 18.
 
 
 ### Pre-requisites
@@ -110,9 +115,11 @@ Run `make help` to list the available commands.
 ```text
 help                                          Show this help
 dev-backend-start-monolingual                 Start backend dev server
-dev-backend-start-multilingual                Start backend dev server
+dev-backend-start-multilingual                Start backend dev server with two languages
 install                                       Installs the add-on in a development environment
 start                                         Starts Volto, allowing reloading of the add-on during development
+start-monolingual                             Same as `make start` but with language 'de'
+start-multilingual                            Same as `make start` but with language 'de' and multi lingual
 build                                         Build a production bundle for distribution of the project with the add-on
 build-deps                                    Build dependencies
 i18n                                          Sync i18n
@@ -123,8 +130,6 @@ release                                       Release the add-on on npmjs.org
 release-dry-run                               Dry-run the release of the add-on on npmjs.org
 test                                          Run unit tests
 ci-test                                       Run unit tests in CI
-storybook-start                               Start Storybook server on port 6006
-storybook-build                               Build Storybook
 acceptance-frontend-dev-start-monolingual     Start acceptance frontend in development mode
 acceptance-frontend-prod-start-monolingual    Start acceptance frontend in production mode
 acceptance-backend-start-monolingual          Start backend acceptance server
@@ -141,9 +146,16 @@ ci-acceptance-test-multilingual               Run cypress tests in headless mode
 
 ### Development environment set up
 
-TODO Development environment set up. backend, frontend
+It's recommended to start three individual terminal sessions, one each for running the Plone backend, the Volto frontend, and the index server.
+All sessions should start from the root directory.
 
-Install package requirements.
+Install backend.
+
+```shell
+make dev-backend-install
+```
+
+Install the frontend.
 
 ```shell
 make install
@@ -154,13 +166,37 @@ make install
 Start the backend.
 
 ```shell
-make backend-docker-start
+make dev-backend-start
+```
+
+Create a site.
+
+```shell
+make create-site-monolingual
+```
+
+or create a multilingual site:
+
+```shell
+make create-site-multilingual
+```
+
+Start the index server.
+
+```shell
+make dev-index-start-monolingual 
 ```
 
 In a separate terminal session, start the frontend.
 
 ```shell
-make start
+make start-monolingual
+```
+
+or start multilingual:
+
+```shell
+make start-multilingual
 ```
 
 ### Lint code
