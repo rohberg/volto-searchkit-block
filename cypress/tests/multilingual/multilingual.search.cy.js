@@ -116,7 +116,6 @@ describe('Searchkit block tests – search -multilingual - fuzzy etc', () => {
 
   it('I see all if no filter selected', function () {
     cy.get('.block.searchkitsearch').contains('Der Garten im Februar');
-    cy.screenshot();
   });
 
   it('I can search fuzzy', function () {
