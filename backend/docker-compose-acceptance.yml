@@ -1,11 +1,13 @@
 services:
-  backend-dev:
+  backend-acceptance:
     build:
       context: ./
-      dockerfile: ./backend/Dockerfile.dev.monolingual
+      dockerfile: ./Dockerfile.acceptance
       args:
         PLONE_VERSION: ${PLONE_VERSION:-6.0}
     environment:
+      ZSERVER_HOST: '0.0.0.0'
+      ZSERVER_PORT: '55001'
       INDEX_SERVER: ${INDEX_SERVER?unset}
       INDEX_NAME: ${INDEX_NAME?unset}
       INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
@@ -17,18 +19,20 @@ services:
       # Run initialize of collective.elastic.plone to register ElasticSearchProxyIndex
       INSTALL_PRODUCTS: 'collective.elastic.plone'
     ports:
-      - 8080:8080
+      - 55001:55001
     profiles:
       - dev
       - monolingual
 
-  backend-dev-multilingual:
+  backend-acceptance-multilingual:
     build:
       context: ./
-      dockerfile: ./backend/Dockerfile.dev.multilingual
+      dockerfile: ./Dockerfile.acceptance.multilingual
       args:
         PLONE_VERSION: ${PLONE_VERSION:-6.0}
     environment:
+      ZSERVER_HOST: '0.0.0.0'
+      ZSERVER_PORT: '55001'
       INDEX_SERVER: ${INDEX_SERVER?unset}
       INDEX_NAME: multilingual
       INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
@@ -40,7 +44,7 @@ services:
       # Run initialize of collective.elastic.plone to register ElasticSearchProxyIndex
       INSTALL_PRODUCTS: 'collective.elastic.plone'
     ports:
-      - 8080:8080
+      - 55001:55001
     profiles:
       - multilingual
 
@@ -59,7 +63,7 @@ services:
       CELERY_BROKER: ${CELERY_BROKER?unset}
       CELERY_CONCURRENCY: ${CELERY_CONCURRENCY:-1}
       CELERY_LOGLEVEL: ${CELERY_LOGLEVEL:-info}
-      PLONE_SERVICE: http://backend-dev:8080
+      PLONE_SERVICE: http://backend-acceptance:55001
       PLONE_SITE_PREFIX_PATH: ${PLONE_SITE_PREFIX_PATH?unset}
       PLONE_USER: ${PLONE_USER?unset}
       PLONE_PASSWORD: ${PLONE_PASSWORD?unset}
@@ -87,7 +91,7 @@ services:
       CELERY_BROKER: ${CELERY_BROKER?unset}
       CELERY_CONCURRENCY: ${CELERY_CONCURRENCY:-1}
       CELERY_LOGLEVEL: ${CELERY_LOGLEVEL:-info}
-      PLONE_SERVICE: http://backend-dev-multilingual:8080
+      PLONE_SERVICE: http://backend-acceptance-multilingual:55001
       PLONE_SITE_PREFIX_PATH: ${PLONE_SITE_PREFIX_PATH?unset}
       PLONE_USER: ${PLONE_USER?unset}
       PLONE_PASSWORD: ${PLONE_PASSWORD?unset}

@@ -1,53 +1,4 @@
 services:
-  backend-acceptance:
-    build:
-      context: ./
-      dockerfile: ./backend/Dockerfile.acceptance
-      args:
-        PLONE_VERSION: ${PLONE_VERSION:-6.0}
-    environment:
-      ZSERVER_HOST: '0.0.0.0'
-      ZSERVER_PORT: '55001'
-      INDEX_SERVER: ${INDEX_SERVER?unset}
-      INDEX_NAME: ${INDEX_NAME?unset}
-      INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
-      INDEX_USE_SSL: ${INDEX_USE_SSL?unset}
-      INDEX_LOGIN: ${INDEX_LOGIN?unset}
-      INDEX_PASSWORD: ${INDEX_PASSWORD?unset}
-      CELERY_BROKER: ${CELERY_BROKER?unset}
-      CONFIGURE_PACKAGES: 'plone.restapi,plone.volto,plone.volto.cors,collective.elastic.plone,rohberg.voltosearchkitblocktestingprofiles'
-      # Run initialize of collective.elastic.plone to register ElasticSearchProxyIndex
-      INSTALL_PRODUCTS: 'collective.elastic.plone'
-    ports:
-      - 55001:55001
-    profiles:
-      - dev
-      - monolingual
-
-  backend-acceptance-multilingual:
-    build:
-      context: ./
-      dockerfile: ./backend/Dockerfile.acceptance.multilingual
-      args:
-        PLONE_VERSION: ${PLONE_VERSION:-6.0}
-    environment:
-      ZSERVER_HOST: '0.0.0.0'
-      ZSERVER_PORT: '55001'
-      INDEX_SERVER: ${INDEX_SERVER?unset}
-      INDEX_NAME: multilingual
-      INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
-      INDEX_USE_SSL: ${INDEX_USE_SSL?unset}
-      INDEX_LOGIN: ${INDEX_LOGIN?unset}
-      INDEX_PASSWORD: ${INDEX_PASSWORD?unset}
-      CELERY_BROKER: ${CELERY_BROKER?unset}
-      CONFIGURE_PACKAGES: 'plone.restapi,plone.volto,plone.volto.cors,collective.elastic.plone,rohberg.voltosearchkitblocktestingprofiles'
-      # Run initialize of collective.elastic.plone to register ElasticSearchProxyIndex
-      INSTALL_PRODUCTS: 'collective.elastic.plone'
-    ports:
-      - 55001:55001
-    profiles:
-      - multilingual
-
   ingest:
     image: ghcr.io/collective/collective.elastic.ingest:latest
     environment:
@@ -63,7 +14,7 @@ services:
       CELERY_BROKER: ${CELERY_BROKER?unset}
       CELERY_CONCURRENCY: ${CELERY_CONCURRENCY:-1}
       CELERY_LOGLEVEL: ${CELERY_LOGLEVEL:-info}
-      PLONE_SERVICE: http://backend-acceptance:55001
+      PLONE_SERVICE: http://host.docker.internal:8080
       PLONE_SITE_PREFIX_PATH: ${PLONE_SITE_PREFIX_PATH?unset}
       PLONE_USER: ${PLONE_USER?unset}
       PLONE_PASSWORD: ${PLONE_PASSWORD?unset}
@@ -91,8 +42,8 @@ services:
       CELERY_BROKER: ${CELERY_BROKER?unset}
       CELERY_CONCURRENCY: ${CELERY_CONCURRENCY:-1}
       CELERY_LOGLEVEL: ${CELERY_LOGLEVEL:-info}
-      PLONE_SERVICE: http://backend-acceptance-multilingual:55001
-      PLONE_SITE_PREFIX_PATH: ${PLONE_SITE_PREFIX_PATH?unset}
+      PLONE_SERVICE: http://host.docker.internal:8080
+      PLONE_SITE_PREFIX_PATH: Multilingual
       PLONE_USER: ${PLONE_USER?unset}
       PLONE_PASSWORD: ${PLONE_PASSWORD?unset}
       SENTRY_DSN: ${SENTRY_DSN}

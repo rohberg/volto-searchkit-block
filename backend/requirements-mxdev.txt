@@ -1,0 +1,21 @@
+###############################################################################
+# mxdev combined constraints
+-c constraints-mxdev.txt
+
+###############################################################################
+# mxdev development sources
+-e ./sources/collective.elastic.plone[test,redis,opensearch]
+-e ./sources/collective.elastic.ingest[test,redis,opensearch]
+
+
+###############################################################################
+# begin requirements from: requirements.txt
+
+
+elasticsearch
+
+# end requirements from: requirements.txt
+###############################################################################
+###############################################################################
+# main package
+-e sources/rohberg.voltosearchkitblocktestingprofiles

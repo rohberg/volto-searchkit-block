@@ -34,19 +34,43 @@ help: ## Show this help
 # dev backend
 ###########################################
 
+.PHONY: dev-backend-install
+dev-backend-install: ## Install Plone
+	$(MAKE) -C "./backend/" install
+
 .PHONY: dev-backend-start-monolingual
-dev-backend-start-monolingual: ## Start backend dev server
+dev-backend-start-monolingual: ## Start Plone
+	export INDEX_NAME=monolingual
 	export INDEX_PASSWORD=paraDiesli,17
-	export PLONE_PASSWORD=admin
-	export PLONE_SITE_PREFIX_PATH=Plone
-	$(MAKE) -C "./backend/" dev-backend-start-monolingual
+	$(MAKE) -C "./backend/" start
 
 .PHONY: dev-backend-start-multilingual
-dev-backend-start-multilingual: ## Start backend dev server with two languages
+dev-backend-start-multilingual: ## Start Plone
+	export INDEX_NAME=multilingual
+	export INDEX_PASSWORD=paraDiesli,17
+	$(MAKE) -C "./backend/" start
+
+.PHONY: create-site-monolingual
+create-site-monolingual:
+	$(MAKE) -C "./backend/" create-site-monolingual
+
+.PHONY: create-site-multilingual
+create-site-multilingual:
+	$(MAKE) -C "./backend/" create-site-multilingual
+
+.PHONY: dev-index-start-monolingual
+dev-index-start-monolingual: ## Start index dev server monolingual
 	export INDEX_PASSWORD=paraDiesli,17
 	export PLONE_PASSWORD=admin
 	export PLONE_SITE_PREFIX_PATH=Plone
-	$(MAKE) -C "./backend/" dev-backend-start-multilingual
+	$(MAKE) -C "./backend/" dev-index-start-monolingual
+
+.PHONY: dev-index-start-multilingual
+dev-index-start-multilingual: ## Start index dev server multilingual
+	export INDEX_PASSWORD=paraDiesli,17
+	export PLONE_PASSWORD=admin
+	export PLONE_SITE_PREFIX_PATH=Multilingual
+	$(MAKE) -C "./backend/" dev-index-start-multilingual
 
 
 ###########################################
@@ -70,8 +94,8 @@ start-monolingual: ## Same as `make start` but with language 'de'
 	ADDONS=testing-volto-searchkit-block:monolingualFixture pnpm start
 
 .PHONY: start
-start-multilingual: ## Same as `make start` but with language 'de' and multi lingual
-	ADDONS=testing-volto-searchkit-block:multilingualFixture pnpm start
+start-multilingual: ## Same as `make start` but with language 'de' and multilingual
+	ADDONS=testing-volto-searchkit-block:multilingualFixture RAZZLE_DEV_PROXY_API_PATH=http://127.0.0.1:8080/Multilingual pnpm start
 
 .PHONY: build
 build: ## Build a production bundle for distribution of the project with the add-on
@@ -124,17 +148,17 @@ ci-test: ## Run unit tests in CI
 	VOLTOCONFIG=$(pwd)/volto.config.js pnpm --filter @plone/volto i18n
 	CI=1 RAZZLE_JEST_CONFIG=$(CURRENT_DIR)/jest-addon.config.js pnpm --filter @plone/volto test -- --passWithNoTests
 
-## Storybook
-.PHONY: storybook-start
-storybook-start: ## Start Storybook server on port 6006
-	@echo "$(GREEN)==> Start Storybook$(RESET)"
-	pnpm run storybook
+# ## Storybook
+# .PHONY: storybook-start
+# storybook-start: ## Start Storybook server on port 6006
+# 	@echo "$(GREEN)==> Start Storybook$(RESET)"
+# 	pnpm run storybook
 
-.PHONY: storybook-build
-storybook-build: ## Build Storybook
-	@echo "$(GREEN)==> Build Storybook$(RESET)"
-	mkdir -p $(CURRENT_DIR)/.storybook-build
-	pnpm run storybook-build -o $(CURRENT_DIR)/.storybook-build
+# .PHONY: storybook-build
+# storybook-build: ## Build Storybook
+# 	@echo "$(GREEN)==> Build Storybook$(RESET)"
+# 	mkdir -p $(CURRENT_DIR)/.storybook-build
+# 	pnpm run storybook-build -o $(CURRENT_DIR)/.storybook-build
 
 
 ###########################################

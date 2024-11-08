@@ -2,15 +2,16 @@
 # Dockerfile from cookiecutter-plone-starter
 # The language is set here:
 # APPLY_PROFILES … rohberg.voltosearchkitblocktestingprofiles:monolingual
+# Run robotserver verbose
 
 ARG PLONE_VERSION=6.0
-ARG SEED=1
+ARG SEED=6
 FROM plone/server-builder:${PLONE_VERSION} AS builder
 
 WORKDIR /app
 
 # # Add local code
-COPY backend .
+COPY . .
 
 # Install local requirements
 RUN <<EOT
@@ -25,7 +26,7 @@ EOT
 
 
 FROM plone/server-acceptance:${PLONE_VERSION}
-ENV APPLY_PROFILES="collective.elastic.plone:default,rohberg.voltosearchkitblocktestingprofiles:monolingual"
+ENV APPLY_PROFILES="collective.elastic.plone:default,rohberg.voltosearchkitblocktestingprofiles:multilingual"
 
 # Copy /app from builder
 COPY --from=builder /app /app
@@ -34,3 +35,9 @@ RUN <<EOT
     SEED=${SEED}
     ln -s /data /app/var
 EOT
+
+
+# # Run VOLTO_ROBOT_TESTING by default
+# # Change: do it verbose
+# ENTRYPOINT [ "/app/bin/robot-server plone.app.robotframework.testing.VOLTO_ROBOT_TESTING -vvv" ]
+# CMD []
