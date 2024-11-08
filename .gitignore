@@ -12,5 +12,7 @@ results
 yarn.lock
 /public
 cypress/screenshots/*
-backend/dockerfiles/backend/.venv/
-backend/dockerfiles/backend/instance/
+backend/.venv/
+backend/instance/
+backend/sources/collective.elastic.plone/
+backend/sources/collective.elastic.ingest/
