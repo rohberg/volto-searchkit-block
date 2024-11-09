@@ -148,17 +148,17 @@ ci-test: ## Run unit tests in CI
 	VOLTOCONFIG=$(pwd)/volto.config.js pnpm --filter @plone/volto i18n
 	CI=1 RAZZLE_JEST_CONFIG=$(CURRENT_DIR)/jest-addon.config.js pnpm --filter @plone/volto test -- --passWithNoTests
 
-# ## Storybook
-# .PHONY: storybook-start
-# storybook-start: ## Start Storybook server on port 6006
-# 	@echo "$(GREEN)==> Start Storybook$(RESET)"
-# 	pnpm run storybook
+## Storybook
+.PHONY: storybook-start
+storybook-start: ## Start Storybook server on port 6006
+	@echo "$(GREEN)==> Start Storybook$(RESET)"
+	pnpm run storybook
 
-# .PHONY: storybook-build
-# storybook-build: ## Build Storybook
-# 	@echo "$(GREEN)==> Build Storybook$(RESET)"
-# 	mkdir -p $(CURRENT_DIR)/.storybook-build
-# 	pnpm run storybook-build -o $(CURRENT_DIR)/.storybook-build
+.PHONY: storybook-build
+storybook-build: ## Build Storybook
+	@echo "$(GREEN)==> Build Storybook$(RESET)"
+	mkdir -p $(CURRENT_DIR)/.storybook-build
+	pnpm run storybook-build -o $(CURRENT_DIR)/.storybook-build
 
 
 ###########################################
