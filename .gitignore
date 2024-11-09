@@ -16,3 +16,5 @@ backend/.venv/
 backend/instance/
 backend/sources/collective.elastic.plone/
 backend/sources/collective.elastic.ingest/
+*.pyc
+__pycache__/
