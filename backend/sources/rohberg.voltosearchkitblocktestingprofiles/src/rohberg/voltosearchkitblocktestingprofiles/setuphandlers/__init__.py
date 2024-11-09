@@ -1,7 +1,6 @@
-from plone.app.multilingual.browser.setup import SetupMultilingualSite
+from plone.app.multilingual.setuphandlers import init_pam
 from rohberg.voltosearchkitblocktestingprofiles import logger
 from Products.CMFPlone.interfaces import INonInstallable
-from zope.component.hooks import getSite
 from zope.interface import implementer
 
 
@@ -10,12 +9,16 @@ class HiddenProfiles:
     def getNonInstallableProfiles(self):
         """Hide uninstall profile from site-creation and quickinstaller."""
         return [
-            "project.title:uninstall",
+            "rohberg.voltosearchkitblocktestingprofiles:install",
+            "rohberg.voltosearchkitblocktestingprofiles:uninstall",
+            "rohberg.voltosearchkitblocktestingprofiles:monolingual",
+            "rohberg.voltosearchkitblocktestingprofiles:multilingual",
         ]
 
 
-def init_pam(tool):
-    """After installation run setup to create LRF and LIF."""
-    setup_tool = SetupMultilingualSite()
-    setup_tool.setupSite(getSite())
-    logger.info("plone.app.multilingual content created.")
+def multilingual(tool):
+    init_pam()
+    # TODO enable behavior 'volto.blocks'
+    logger.info(
+        "rohberg.voltosearchkitblocktestingprofiles:multilingual profile applied."
+        )

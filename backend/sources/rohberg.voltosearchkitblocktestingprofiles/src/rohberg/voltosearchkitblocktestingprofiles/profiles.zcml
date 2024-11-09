@@ -4,9 +4,9 @@
     i18n_domain="rohberg.voltosearchkitblocktestingprofiles"
     >
 
-  <genericsetup:registerProfile
+  <!-- <genericsetup:registerProfile
       name="default"
-      title="Boo Hui: Install"
+      title="my add-on: Install"
       description="Package to configure a new Boo Hui site"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       directory="profiles/default"
@@ -14,11 +14,11 @@
 
   <genericsetup:registerProfile
       name="uninstall"
-      title="Boo Hui: Uninstall"
+      title="my add-on: Uninstall"
       description="Uninstall Boo Hui setup."
       provides="Products.GenericSetup.interfaces.EXTENSION"
       directory="profiles/uninstall"
-      />
+      /> -->
 
 
   <genericsetup:registerProfile
@@ -36,7 +36,7 @@
       description="language settings multilingual"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       directory="profiles/multilingual"
-      post_handler=".setuphandlers.init_pam"
+      post_handler=".setuphandlers.multilingual"
       />
 
   <!-- Hide Uninstall Profile-->
