@@ -3,6 +3,7 @@ Products.CMFPlone
 plone.api
 plone.restapi
 plone.volto
+plone.exportimport
 
 [test]
 zest.releaser[recommended]

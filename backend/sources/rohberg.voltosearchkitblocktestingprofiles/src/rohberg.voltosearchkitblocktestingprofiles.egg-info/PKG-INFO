@@ -30,6 +30,7 @@ Requires-Dist: Products.CMFPlone
 Requires-Dist: plone.api
 Requires-Dist: plone.restapi
 Requires-Dist: plone.volto
+Requires-Dist: plone.exportimport
 Provides-Extra: test
 Requires-Dist: zest.releaser[recommended]; extra == "test"
 Requires-Dist: zestreleaser.towncrier; extra == "test"

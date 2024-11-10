@@ -27,9 +27,9 @@ def asbool(s):
 
 
 DELETE_EXISTING = asbool(os.getenv("DELETE_EXISTING"))
-# EXAMPLE_CONTENT = asbool(
-#     os.getenv("EXAMPLE_CONTENT", "1")
-# )  # Create example content by default
+EXAMPLE_CONTENT = asbool(
+    os.getenv("EXAMPLE_CONTENT", "1")
+)  # Create example content by default
 
 app = makerequest(globals()["app"])
 
@@ -47,6 +47,7 @@ payload = {
     "title": "Project Title",
     "profile_id": _DEFAULT_PROFILE,
     "extension_ids": [
+        "rohberg.voltosearchkitblocktestingprofiles:default",
         "collective.elastic.plone:default",
     ],
     "setup_content": False,
@@ -70,8 +71,13 @@ if site_id in app.objectIds() and DELETE_EXISTING:
 if site_id not in app.objectIds():
     site = addPloneSite(app, site_id, **payload)
     transaction.commit()
-    # if EXAMPLE_CONTENT:
-    #     portal_setup: SetupTool = site.portal_setup
-    #     portal_setup.runAllImportStepsFromProfile("rohberg.voltosearchkitblocktestingprofiles:initialmultilingual")
-    #     transaction.commit()
+    if EXAMPLE_CONTENT:
+        portal_setup: SetupTool = site.portal_setup
+        if ISMULTILINGUAL:
+            portal_setup.runAllImportStepsFromProfile(
+                "rohberg.voltosearchkitblocktestingprofiles:initialmultilingual")
+        else:
+            portal_setup.runAllImportStepsFromProfile(
+                "rohberg.voltosearchkitblocktestingprofiles:initialmonolingual")
+        transaction.commit()
     app._p_jar.sync()

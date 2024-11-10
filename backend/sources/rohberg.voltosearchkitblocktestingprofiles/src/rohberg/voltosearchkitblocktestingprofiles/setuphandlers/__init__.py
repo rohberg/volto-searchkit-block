@@ -13,6 +13,8 @@ class HiddenProfiles:
             "rohberg.voltosearchkitblocktestingprofiles:uninstall",
             "rohberg.voltosearchkitblocktestingprofiles:monolingual",
             "rohberg.voltosearchkitblocktestingprofiles:multilingual",
+            "rohberg.voltosearchkitblocktestingprofiles:initialmultilingual",
+            "rohberg.voltosearchkitblocktestingprofiles:initialmonolingual",
         ]
 
 
@@ -20,5 +22,5 @@ def multilingual(tool):
     init_pam(tool)
     # TODO enable behavior 'volto.blocks'
     logger.info(
-        "rohberg.voltosearchkitblocktestingprofiles:multilingual profile applied."
+        "profile rohberg.voltosearchkitblocktestingprofiles:multilingual applied."
         )

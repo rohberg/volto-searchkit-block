@@ -19,13 +19,9 @@
     <element value="volto.blocks" />
   </property>
 
-  <property name="default_view">folder_listing</property>
+  <property name="default_view">document_view</property>
   <property name="view_methods">
-    <element value="summary_view" />
-    <element value="full_view" />
-    <element value="tabular_view" />
-    <element value="album_view" />
-    <element value="folder_listing" />
+    <element value="document_view" />
   </property>
 
 </object>

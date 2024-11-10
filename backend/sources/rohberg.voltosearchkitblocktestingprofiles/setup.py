@@ -53,6 +53,7 @@ setup(
         "plone.api",
         "plone.restapi",
         "plone.volto",
+        "plone.exportimport",
     ],
     extras_require={
         "test": [

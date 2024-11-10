@@ -21,6 +21,7 @@
       /> -->
 
 
+  <!-- language settings -->
   <genericsetup:registerProfile
       name="monolingual"
       title="monolingual"
@@ -37,6 +38,26 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       directory="profiles/multilingual"
       post_handler=".setuphandlers.multilingual"
+      />
+
+
+  <!-- language content -->
+  <genericsetup:registerProfile
+      name="initialmultilingual"
+      title="Example content for a multilingual site"
+      description="Create example content"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/initial"
+      pre_handler=".setuphandlers.initial.create_example_content_multilingual"
+      />
+
+  <genericsetup:registerProfile
+      name="initialmonolingual"
+      title="Example content for a monolingual site"
+      description="Create example content"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/initial"
+      pre_handler=".setuphandlers.initial.create_example_content_monolingual"
       />
 
   <!-- Hide Uninstall Profile-->

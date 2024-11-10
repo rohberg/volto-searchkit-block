@@ -50,6 +50,7 @@ dev-backend-start-multilingual: ## Start Plone
 	export INDEX_PASSWORD=paraDiesli,17
 	$(MAKE) -C "./backend/" start
 
+# content
 .PHONY: create-site-monolingual
 create-site-monolingual: ## Create monolingual site
 	export INDEX_NAME=monolingual
@@ -62,6 +63,15 @@ create-site-multilingual: ## Create multilingual site
 	export INDEX_PASSWORD=paraDiesli,17
 	$(MAKE) -C "./backend/" create-site-multilingual
 
+.PHONY: backend-update-example-content-monolingual
+backend-update-example-content-monolingual: ## Export monolingual example content inside package
+	$(MAKE) -C "./backend/" update-example-content-monolingual
+
+.PHONY: backend-update-example-content-multilingual
+backend-update-example-content-multilingual: ## Export multilingual example content inside package
+	$(MAKE) -C "./backend/" update-example-content-multilingual
+
+# Index server
 .PHONY: dev-index-start-monolingual
 dev-index-start-monolingual: ## Start index dev server monolingual
 	export INDEX_PASSWORD=paraDiesli,17
