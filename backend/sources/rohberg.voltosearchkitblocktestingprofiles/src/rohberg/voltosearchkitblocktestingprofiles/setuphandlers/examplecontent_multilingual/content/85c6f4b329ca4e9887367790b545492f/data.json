@@ -1,0 +1,96 @@
+{
+  "@id": "/de/events",
+  "@type": "Document",
+  "UID": "85c6f4b329ca4e9887367790b545492f",
+  "allow_discussion": null,
+  "blocks": {
+    "1902d1b2-af6b-4f34-aba7-7814dc03cc7e": {
+      "@type": "title"
+    },
+    "1c3e134c-88ff-46e7-8fa1-4de5dbdacf31": {
+      "@type": "listing",
+      "headlineTag": "h2",
+      "querystring": {
+        "query": [
+          {
+            "i": "path",
+            "o": "plone.app.querystring.operation.string.relativePath",
+            "v": "."
+          }
+        ],
+        "sort_on": "effective",
+        "sort_order": "descending",
+        "sort_order_boolean": true
+      },
+      "variation": "default"
+    },
+    "94b27a66-78aa-414c-af79-143a0800069b": {
+      "@type": "slate"
+    }
+  },
+  "blocks_layout": {
+    "items": [
+      "1902d1b2-af6b-4f34-aba7-7814dc03cc7e",
+      "1c3e134c-88ff-46e7-8fa1-4de5dbdacf31",
+      "94b27a66-78aa-414c-af79-143a0800069b"
+    ]
+  },
+  "contributors": [],
+  "created": "2024-11-10T14:44:34+00:00",
+  "creators": [
+    "admin"
+  ],
+  "description": "",
+  "effective": "2024-11-10T15:44:00",
+  "exclude_from_nav": false,
+  "expires": null,
+  "exportimport.constrains": {},
+  "exportimport.conversation": [],
+  "exportimport.versions": {},
+  "id": "events",
+  "is_folderish": true,
+  "language": "de",
+  "layout": "document_view",
+  "lock": {
+    "locked": false,
+    "stealable": true
+  },
+  "modified": "2024-11-10T15:19:52+00:00",
+  "parent": {
+    "@id": "/de",
+    "@type": "LRF",
+    "UID": "b51b1a9ec25a442b84cf982ce21e9f0a",
+    "description": "",
+    "image_field": null,
+    "image_scales": {},
+    "review_state": "published",
+    "title": "Deutsch",
+    "type_title": "Language Root Folder"
+  },
+  "preview_caption": null,
+  "preview_image": null,
+  "review_state": "published",
+  "rights": "",
+  "subjects": [],
+  "title": "Events",
+  "type_title": "Page",
+  "version": "current",
+  "workflow_history": {
+    "simple_publication_workflow": [
+      {
+        "action": null,
+        "actor": "admin",
+        "comments": "",
+        "review_state": "private",
+        "time": "2024-11-10T14:44:34+00:00"
+      },
+      {
+        "action": "publish",
+        "actor": "admin",
+        "comments": "",
+        "review_state": "published",
+        "time": "2024-11-10T14:44:39+00:00"
+      }
+    ]
+  }
+}

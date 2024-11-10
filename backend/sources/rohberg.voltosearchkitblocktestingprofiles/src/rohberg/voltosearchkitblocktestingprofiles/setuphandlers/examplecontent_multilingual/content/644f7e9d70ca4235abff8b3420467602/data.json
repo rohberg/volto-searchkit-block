@@ -1,0 +1,121 @@
+{
+  "@id": "/en",
+  "@type": "LRF",
+  "UID": "644f7e9d70ca4235abff8b3420467602",
+  "allow_discussion": null,
+  "blocks": {
+    "0447fa1d-8bb9-4afc-898b-438756076a99": {
+      "@type": "title"
+    },
+    "1da4e4a7-d5cb-4582-a36c-1c265493de50": {
+      "@type": "searchkitblock",
+      "allowed_content_types": [
+        "Document",
+        "News Item",
+        "Event"
+      ],
+      "batchSize": 10,
+      "filterLayout": "dropdown",
+      "relocation": "",
+      "searchedFields": [
+        "title^1.4",
+        "description^1.2",
+        "blocks_plaintext"
+      ],
+      "showEventStartDate": [
+        "Event"
+      ],
+      "showNewsItemPublishedDate": [
+        "News Item"
+      ],
+      "show_filter_for_excluded_sections": true,
+      "subjectsFieldname": "subjects"
+    },
+    "5a56bbde-f202-444c-9865-2db9e3393eb8": {
+      "@type": "slate",
+      "plaintext": "",
+      "value": [
+        {
+          "children": [
+            {
+              "text": ""
+            }
+          ],
+          "type": "p"
+        }
+      ]
+    },
+    "6183136b-7d2e-4b04-b8b1-9538868a51f7": {
+      "@type": "slate",
+      "plaintext": "Welcome!",
+      "value": [
+        {
+          "children": [
+            {
+              "text": "Welcome!"
+            }
+          ],
+          "type": "p"
+        }
+      ]
+    }
+  },
+  "blocks_layout": {
+    "items": [
+      "0447fa1d-8bb9-4afc-898b-438756076a99",
+      "6183136b-7d2e-4b04-b8b1-9538868a51f7",
+      "1da4e4a7-d5cb-4582-a36c-1c265493de50",
+      "5a56bbde-f202-444c-9865-2db9e3393eb8"
+    ]
+  },
+  "contributors": [],
+  "created": "2024-11-10T13:41:47+00:00",
+  "creators": [
+    "admin"
+  ],
+  "description": "Development site",
+  "effective": null,
+  "exclude_from_nav": true,
+  "expires": null,
+  "exportimport.constrains": {},
+  "exportimport.conversation": [],
+  "exportimport.versions": {},
+  "id": "en",
+  "is_folderish": true,
+  "language": "##DEFAULT##",
+  "layout": "document_view",
+  "lock": {},
+  "modified": "2024-11-10T15:19:53+00:00",
+  "parent": {
+    "@id": "/",
+    "@type": "Plone Site",
+    "UID": "plone_site_root",
+    "description": "",
+    "title": "Multilingual site",
+    "type_title": "Plone Site"
+  },
+  "review_state": "published",
+  "rights": "",
+  "subjects": [],
+  "title": "English",
+  "type_title": "Language Root Folder",
+  "version": "current",
+  "workflow_history": {
+    "simple_publication_workflow": [
+      {
+        "action": null,
+        "actor": "admin",
+        "comments": "",
+        "review_state": "private",
+        "time": "2024-11-10T13:41:47+00:00"
+      },
+      {
+        "action": "publish",
+        "actor": "admin",
+        "comments": "",
+        "review_state": "published",
+        "time": "2024-11-10T13:41:47+00:00"
+      }
+    ]
+  }
+}

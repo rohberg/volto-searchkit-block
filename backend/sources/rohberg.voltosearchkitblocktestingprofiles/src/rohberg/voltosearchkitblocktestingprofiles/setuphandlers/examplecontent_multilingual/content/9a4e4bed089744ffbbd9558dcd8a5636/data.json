@@ -1,0 +1,180 @@
+{
+  "@id": "/de/events/brunch-fuer-familie-und-freunde",
+  "@type": "Event",
+  "UID": "9a4e4bed089744ffbbd9558dcd8a5636",
+  "allow_discussion": null,
+  "attendees": [],
+  "blocks": {
+    "2447c197-05c4-4adc-86d2-250ce6685a6a": {
+      "@canonical": "3d61edc6-b7b4-4841-9400-710ab03454d9",
+      "@type": "slate",
+      "block": "2447c197-05c4-4adc-86d2-250ce6685a6a",
+      "plaintext": "",
+      "value": [
+        {
+          "children": [
+            {
+              "text": ""
+            }
+          ],
+          "type": "p"
+        }
+      ]
+    },
+    "2fbf01fb-e876-428e-ad55-84136bfac8f0": {
+      "@canonical": "6ae9d279-6924-49f1-90ed-3af6d2d17365",
+      "@type": "title",
+      "block": "2fbf01fb-e876-428e-ad55-84136bfac8f0"
+    },
+    "f0c670a6-d497-4d8b-beb1-fb0e540c7831": {
+      "@canonical": "6935f406-ed2e-4740-9e53-5e5c2847e21e",
+      "@type": "slate",
+      "block": "f0c670a6-d497-4d8b-beb1-fb0e540c7831",
+      "plaintext": "Vom n\u00e4chsten Samstag an treffen wir und jeden ersten Samstag im Monat",
+      "value": [
+        {
+          "children": [
+            {
+              "text": "Vom n\u00e4chsten Samstag an treffen wir und jeden ersten Samstag im Monat"
+            }
+          ],
+          "type": "p"
+        }
+      ]
+    }
+  },
+  "blocks_layout": {
+    "items": [
+      "2fbf01fb-e876-428e-ad55-84136bfac8f0",
+      "f0c670a6-d497-4d8b-beb1-fb0e540c7831",
+      "2447c197-05c4-4adc-86d2-250ce6685a6a"
+    ]
+  },
+  "changeActor": "admin",
+  "changeNote": null,
+  "contact_email": null,
+  "contact_name": null,
+  "contact_phone": null,
+  "contributors": [],
+  "created": "2024-11-10T14:40:25+00:00",
+  "creators": [
+    "admin"
+  ],
+  "description": "",
+  "effective": null,
+  "end": "2024-11-16T12:00:00+00:00",
+  "event_url": null,
+  "exclude_from_nav": false,
+  "expires": null,
+  "exportimport.constrains": {},
+  "exportimport.conversation": [],
+  "exportimport.versions": {
+    "0": {
+      "@id": "/de/events/brunch-fuer-familie-und-freunde",
+      "@type": "Event",
+      "UID": "f1e72a12de64400f92b489dae786dc8e",
+      "allow_discussion": false,
+      "attendees": [],
+      "blocks": {},
+      "blocks_layout": {
+        "items": []
+      },
+      "changeNote": "",
+      "contact_email": null,
+      "contact_name": null,
+      "contact_phone": null,
+      "contributors": [],
+      "created": "2024-11-10T15:19:52+00:00",
+      "creators": [
+        "admin"
+      ],
+      "description": "",
+      "effective": null,
+      "end": "2024-11-10T16:00:00+00:00",
+      "event_url": null,
+      "exclude_from_nav": false,
+      "expires": null,
+      "id": "brunch-fuer-familie-und-freunde",
+      "is_folderish": true,
+      "language": "",
+      "layout": "event_view",
+      "location": null,
+      "lock": {
+        "locked": false,
+        "stealable": true
+      },
+      "modified": "2024-11-10T15:19:52+00:00",
+      "open_end": false,
+      "parent": {
+        "@id": "/de/events",
+        "@type": "Document",
+        "description": "",
+        "image_field": null,
+        "image_scales": {},
+        "review_state": "published",
+        "title": "Events",
+        "type_title": "Page"
+      },
+      "preview_caption": null,
+      "preview_image": null,
+      "recurrence": null,
+      "relatedItems": [],
+      "review_state": "private",
+      "rights": "",
+      "start": "2024-11-10T15:00:00+00:00",
+      "subjects": [],
+      "sync_uid": null,
+      "title": "",
+      "type_title": "Event",
+      "version": 0,
+      "versioning_enabled": true,
+      "whole_day": false
+    }
+  },
+  "id": "brunch-fuer-familie-und-freunde",
+  "is_folderish": true,
+  "language": "##DEFAULT##",
+  "layout": "event_view",
+  "location": null,
+  "lock": {
+    "locked": false,
+    "stealable": true
+  },
+  "modified": "2024-11-10T14:45:20+00:00",
+  "open_end": false,
+  "parent": {
+    "@id": "/de/events",
+    "@type": "Document",
+    "UID": "85c6f4b329ca4e9887367790b545492f",
+    "description": "",
+    "image_field": null,
+    "image_scales": {},
+    "review_state": "published",
+    "title": "Events",
+    "type_title": "Page"
+  },
+  "preview_caption": null,
+  "preview_image": null,
+  "recurrence": null,
+  "review_state": "private",
+  "rights": "",
+  "start": "2024-11-16T08:00:00+00:00",
+  "subjects": [],
+  "sync_uid": null,
+  "title": "Brunch f\u00fcr Familie und Freunde",
+  "type_title": "Event",
+  "version": "current",
+  "versioning_enabled": true,
+  "whole_day": false,
+  "workflow_history": {
+    "simple_publication_workflow": [
+      {
+        "action": null,
+        "actor": "admin",
+        "comments": "",
+        "review_state": "private",
+        "time": "2024-11-10T14:40:25+00:00"
+      }
+    ]
+  }
+}

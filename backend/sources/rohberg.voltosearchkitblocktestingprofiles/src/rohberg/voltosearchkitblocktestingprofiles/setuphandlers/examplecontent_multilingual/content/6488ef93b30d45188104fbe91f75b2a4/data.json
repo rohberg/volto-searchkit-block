@@ -1,0 +1,146 @@
+{
+  "@id": "/de/news/wieder-mehr-lehrstellen-besetzt",
+  "@type": "News Item",
+  "UID": "6488ef93b30d45188104fbe91f75b2a4",
+  "allow_discussion": null,
+  "blocks": {
+    "05e34f29-2d57-44d3-923f-9447e7449b58": {
+      "@type": "title"
+    },
+    "9d85b2eb-b3a8-4ba6-9877-131282f3fa53": {
+      "@type": "slate",
+      "plaintext": "",
+      "value": [
+        {
+          "children": [
+            {
+              "text": ""
+            }
+          ],
+          "type": "p"
+        }
+      ]
+    },
+    "d7a6b9e8-77f1-4a0d-9791-dda7c481097b": {
+      "@type": "description"
+    }
+  },
+  "blocks_layout": {
+    "items": [
+      "05e34f29-2d57-44d3-923f-9447e7449b58",
+      "d7a6b9e8-77f1-4a0d-9791-dda7c481097b",
+      "9d85b2eb-b3a8-4ba6-9877-131282f3fa53"
+    ]
+  },
+  "changeActor": "admin",
+  "changeNote": "Beschreibung",
+  "contributors": [],
+  "created": "2024-11-10T14:20:42+00:00",
+  "creators": [
+    "admin"
+  ],
+  "description": "Es ist weiterhin schwierig in manchen Branchen Lehrstellen zu besetzen.",
+  "effective": "2024-11-10T14:48:00",
+  "exclude_from_nav": false,
+  "expires": null,
+  "exportimport.constrains": {},
+  "exportimport.conversation": [],
+  "exportimport.versions": {
+    "0": {
+      "@id": "/de/news/wieder-mehr-lehrstellen-besetzt",
+      "@type": "News Item",
+      "UID": "bee9713ebfc849ea81496d11f0faa4b7",
+      "allow_discussion": false,
+      "blocks": {},
+      "blocks_layout": {
+        "items": []
+      },
+      "changeNote": "",
+      "contributors": [],
+      "created": "2024-11-10T15:19:53+00:00",
+      "creators": [
+        "admin"
+      ],
+      "description": "",
+      "effective": null,
+      "exclude_from_nav": false,
+      "expires": null,
+      "id": "wieder-mehr-lehrstellen-besetzt",
+      "image": null,
+      "image_caption": null,
+      "is_folderish": true,
+      "language": "",
+      "layout": "newsitem_view",
+      "lock": {
+        "locked": false,
+        "stealable": true
+      },
+      "modified": "2024-11-10T15:19:53+00:00",
+      "parent": {
+        "@id": "/de/news",
+        "@type": "Document",
+        "description": "",
+        "image_field": null,
+        "image_scales": {},
+        "review_state": "published",
+        "title": "News",
+        "type_title": "Page"
+      },
+      "relatedItems": [],
+      "review_state": "published",
+      "rights": "",
+      "subjects": [],
+      "title": "",
+      "type_title": "News Item",
+      "version": 0,
+      "versioning_enabled": true
+    }
+  },
+  "id": "wieder-mehr-lehrstellen-besetzt",
+  "image": null,
+  "image_caption": null,
+  "is_folderish": true,
+  "language": "de",
+  "layout": "newsitem_view",
+  "lock": {
+    "locked": false,
+    "stealable": true
+  },
+  "modified": "2024-11-10T14:51:42+00:00",
+  "parent": {
+    "@id": "/de/news",
+    "@type": "Document",
+    "UID": "957ed9149ade46168e2d996bfece41b4",
+    "description": "",
+    "image_field": null,
+    "image_scales": {},
+    "review_state": "published",
+    "title": "News",
+    "type_title": "Page"
+  },
+  "review_state": "published",
+  "rights": "",
+  "subjects": [],
+  "title": "Wieder mehr Lehrstellen besetzt",
+  "type_title": "News Item",
+  "version": "current",
+  "versioning_enabled": true,
+  "workflow_history": {
+    "simple_publication_workflow": [
+      {
+        "action": null,
+        "actor": "admin",
+        "comments": "",
+        "review_state": "private",
+        "time": "2024-11-10T14:20:42+00:00"
+      },
+      {
+        "action": "publish",
+        "actor": "admin",
+        "comments": "",
+        "review_state": "published",
+        "time": "2024-11-10T14:20:46+00:00"
+      }
+    ]
+  }
+}

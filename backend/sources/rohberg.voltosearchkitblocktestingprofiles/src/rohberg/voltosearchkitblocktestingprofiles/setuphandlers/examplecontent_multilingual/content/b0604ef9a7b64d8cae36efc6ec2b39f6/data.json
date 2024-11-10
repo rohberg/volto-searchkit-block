@@ -1,0 +1,59 @@
+{
+  "@id": "/de/assets",
+  "@type": "LIF",
+  "UID": "b0604ef9a7b64d8cae36efc6ec2b39f6",
+  "allow_discussion": null,
+  "contributors": [],
+  "created": "2024-11-10T13:41:47+00:00",
+  "creators": [
+    "admin"
+  ],
+  "description": "",
+  "effective": null,
+  "exclude_from_nav": true,
+  "expires": null,
+  "exportimport.constrains": {},
+  "exportimport.conversation": [],
+  "exportimport.versions": {},
+  "id": "assets",
+  "is_folderish": true,
+  "language": "de",
+  "layout": "folder_listing",
+  "lock": {},
+  "modified": "2024-11-10T13:41:47+00:00",
+  "parent": {
+    "@id": "/de",
+    "@type": "LRF",
+    "UID": "b51b1a9ec25a442b84cf982ce21e9f0a",
+    "description": "",
+    "image_field": null,
+    "image_scales": {},
+    "review_state": "published",
+    "title": "Deutsch",
+    "type_title": "Language Root Folder"
+  },
+  "review_state": "published",
+  "rights": "",
+  "subjects": [],
+  "title": "Assets",
+  "type_title": "Language Independent Folder",
+  "version": "current",
+  "workflow_history": {
+    "simple_publication_workflow": [
+      {
+        "action": null,
+        "actor": "admin",
+        "comments": "",
+        "review_state": "private",
+        "time": "2024-11-10T13:41:47+00:00"
+      },
+      {
+        "action": "publish",
+        "actor": "admin",
+        "comments": "",
+        "review_state": "published",
+        "time": "2024-11-10T13:41:47+00:00"
+      }
+    ]
+  }
+}

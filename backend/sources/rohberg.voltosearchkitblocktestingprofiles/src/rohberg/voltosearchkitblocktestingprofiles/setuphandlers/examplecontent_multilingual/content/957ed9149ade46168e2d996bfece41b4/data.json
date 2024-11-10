@@ -1,0 +1,96 @@
+{
+  "@id": "/de/news",
+  "@type": "Document",
+  "UID": "957ed9149ade46168e2d996bfece41b4",
+  "allow_discussion": null,
+  "blocks": {
+    "22cae82d-6757-4632-94c8-558f1ee8b7ba": {
+      "@type": "slate"
+    },
+    "7e4b886b-9ce4-462f-8960-35d086ab7243": {
+      "@type": "title"
+    },
+    "9852e620-1db2-45bd-8665-420a0407abcd": {
+      "@type": "listing",
+      "headlineTag": "h2",
+      "querystring": {
+        "query": [
+          {
+            "i": "path",
+            "o": "plone.app.querystring.operation.string.relativePath",
+            "v": "."
+          }
+        ],
+        "sort_on": "effective",
+        "sort_order": "descending",
+        "sort_order_boolean": true
+      },
+      "variation": "default"
+    }
+  },
+  "blocks_layout": {
+    "items": [
+      "7e4b886b-9ce4-462f-8960-35d086ab7243",
+      "9852e620-1db2-45bd-8665-420a0407abcd",
+      "22cae82d-6757-4632-94c8-558f1ee8b7ba"
+    ]
+  },
+  "contributors": [],
+  "created": "2024-11-10T14:23:09+00:00",
+  "creators": [
+    "admin"
+  ],
+  "description": "",
+  "effective": "2024-11-10T08:23:00",
+  "exclude_from_nav": false,
+  "expires": null,
+  "exportimport.constrains": {},
+  "exportimport.conversation": [],
+  "exportimport.versions": {},
+  "id": "news",
+  "is_folderish": true,
+  "language": "de",
+  "layout": "document_view",
+  "lock": {
+    "locked": false,
+    "stealable": true
+  },
+  "modified": "2024-11-10T15:19:53+00:00",
+  "parent": {
+    "@id": "/de",
+    "@type": "LRF",
+    "UID": "b51b1a9ec25a442b84cf982ce21e9f0a",
+    "description": "",
+    "image_field": null,
+    "image_scales": {},
+    "review_state": "published",
+    "title": "Deutsch",
+    "type_title": "Language Root Folder"
+  },
+  "preview_caption": null,
+  "preview_image": null,
+  "review_state": "published",
+  "rights": "",
+  "subjects": [],
+  "title": "News",
+  "type_title": "Page",
+  "version": "current",
+  "workflow_history": {
+    "simple_publication_workflow": [
+      {
+        "action": null,
+        "actor": "admin",
+        "comments": "",
+        "review_state": "private",
+        "time": "2024-11-10T14:23:09+00:00"
+      },
+      {
+        "action": "publish",
+        "actor": "admin",
+        "comments": "",
+        "review_state": "published",
+        "time": "2024-11-10T14:23:12+00:00"
+      }
+    ]
+  }
+}

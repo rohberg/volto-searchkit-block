@@ -1,0 +1,181 @@
+{
+  "@id": "/en/events/brunch-for-family-and-friends",
+  "@type": "Event",
+  "UID": "138b7df4f083424f947834cdc13dc4a3",
+  "allow_discussion": null,
+  "attendees": [],
+  "blocks": {
+    "3d61edc6-b7b4-4841-9400-710ab03454d9": {
+      "@type": "slate",
+      "plaintext": "",
+      "value": [
+        {
+          "children": [
+            {
+              "text": ""
+            }
+          ],
+          "type": "p"
+        }
+      ]
+    },
+    "6935f406-ed2e-4740-9e53-5e5c2847e21e": {
+      "@type": "slate",
+      "plaintext": "From next saturday on we meet every first saturday each month.",
+      "value": [
+        {
+          "children": [
+            {
+              "text": "From next saturday on we meet every first saturday each month."
+            }
+          ],
+          "type": "p"
+        }
+      ]
+    },
+    "6ae9d279-6924-49f1-90ed-3af6d2d17365": {
+      "@type": "title"
+    }
+  },
+  "blocks_layout": {
+    "items": [
+      "6ae9d279-6924-49f1-90ed-3af6d2d17365",
+      "6935f406-ed2e-4740-9e53-5e5c2847e21e",
+      "3d61edc6-b7b4-4841-9400-710ab03454d9"
+    ]
+  },
+  "changeActor": "admin",
+  "changeNote": null,
+  "contact_email": null,
+  "contact_name": null,
+  "contact_phone": null,
+  "contributors": [],
+  "created": "2024-11-10T13:51:24+00:00",
+  "creators": [
+    "admin"
+  ],
+  "description": "meet and chat",
+  "effective": "2024-11-10T14:51:00",
+  "end": "2024-11-16T12:00:00+00:00",
+  "event_url": null,
+  "exclude_from_nav": false,
+  "expires": null,
+  "exportimport.constrains": {},
+  "exportimport.conversation": [],
+  "exportimport.versions": {
+    "0": {
+      "@id": "/en/events/brunch-for-family-and-friends",
+      "@type": "Event",
+      "UID": "17042536aa914dd180bcd9aa601d8fcf",
+      "allow_discussion": false,
+      "attendees": [],
+      "blocks": {},
+      "blocks_layout": {
+        "items": []
+      },
+      "changeNote": "",
+      "contact_email": null,
+      "contact_name": null,
+      "contact_phone": null,
+      "contributors": [],
+      "created": "2024-11-10T15:19:53+00:00",
+      "creators": [
+        "admin"
+      ],
+      "description": "",
+      "effective": null,
+      "end": "2024-11-10T16:00:00+00:00",
+      "event_url": null,
+      "exclude_from_nav": false,
+      "expires": null,
+      "id": "brunch-for-family-and-friends",
+      "is_folderish": true,
+      "language": "",
+      "layout": "event_view",
+      "location": null,
+      "lock": {
+        "locked": false,
+        "stealable": true
+      },
+      "modified": "2024-11-10T15:19:53+00:00",
+      "open_end": false,
+      "parent": {
+        "@id": "/en/events",
+        "@type": "Document",
+        "description": "",
+        "image_field": null,
+        "image_scales": {},
+        "review_state": "published",
+        "title": "Events",
+        "type_title": "Page"
+      },
+      "preview_caption": null,
+      "preview_image": null,
+      "recurrence": null,
+      "relatedItems": [],
+      "review_state": "published",
+      "rights": "",
+      "start": "2024-11-10T15:00:00+00:00",
+      "subjects": [],
+      "sync_uid": null,
+      "title": "",
+      "type_title": "Event",
+      "version": 0,
+      "versioning_enabled": true,
+      "whole_day": false
+    }
+  },
+  "id": "brunch-for-family-and-friends",
+  "is_folderish": true,
+  "language": "##DEFAULT##",
+  "layout": "event_view",
+  "location": "greenhouse",
+  "lock": {
+    "locked": false,
+    "stealable": true
+  },
+  "modified": "2024-11-10T14:53:31+00:00",
+  "open_end": false,
+  "parent": {
+    "@id": "/en/events",
+    "@type": "Document",
+    "UID": "e691250cb621416f8c5070d1c261c6c4",
+    "description": "",
+    "image_field": null,
+    "image_scales": {},
+    "review_state": "published",
+    "title": "Events",
+    "type_title": "Page"
+  },
+  "preview_caption": null,
+  "preview_image": null,
+  "recurrence": null,
+  "review_state": "published",
+  "rights": "",
+  "start": "2024-11-16T08:00:00+00:00",
+  "subjects": [],
+  "sync_uid": null,
+  "title": "Brunch for family and friends",
+  "type_title": "Event",
+  "version": "current",
+  "versioning_enabled": true,
+  "whole_day": false,
+  "workflow_history": {
+    "simple_publication_workflow": [
+      {
+        "action": null,
+        "actor": "admin",
+        "comments": "",
+        "review_state": "private",
+        "time": "2024-11-10T13:51:24+00:00"
+      },
+      {
+        "action": "publish",
+        "actor": "admin",
+        "comments": "",
+        "review_state": "published",
+        "time": "2024-11-10T13:51:55+00:00"
+      }
+    ]
+  }
+}

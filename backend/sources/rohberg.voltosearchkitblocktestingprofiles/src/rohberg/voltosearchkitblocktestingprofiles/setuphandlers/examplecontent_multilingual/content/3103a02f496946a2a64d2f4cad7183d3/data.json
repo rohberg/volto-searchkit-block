@@ -1,0 +1,190 @@
+{
+  "@id": "/de/news/tipps-zur-formulierung-von-stellenbeschreibungen",
+  "@type": "News Item",
+  "UID": "3103a02f496946a2a64d2f4cad7183d3",
+  "allow_discussion": null,
+  "blocks": {
+    "2f578510-5a0f-424b-8918-701eb1b13b96": {
+      "@type": "title"
+    },
+    "8065a719-db1f-4e34-a215-851aaad62a04": {
+      "@type": "slate"
+    }
+  },
+  "blocks_layout": {
+    "items": [
+      "2f578510-5a0f-424b-8918-701eb1b13b96",
+      "8065a719-db1f-4e34-a215-851aaad62a04"
+    ]
+  },
+  "changeActor": "admin",
+  "changeNote": null,
+  "contributors": [],
+  "created": "2024-11-10T14:26:42+00:00",
+  "creators": [
+    "admin"
+  ],
+  "description": "Rechtliches",
+  "effective": "2024-11-10T15:26:00",
+  "exclude_from_nav": false,
+  "expires": null,
+  "exportimport.constrains": {},
+  "exportimport.conversation": [],
+  "exportimport.versions": {
+    "0": {
+      "@id": "/de/news/tipps-zur-formulierung-von-stellenbeschreibungen",
+      "@type": "News Item",
+      "UID": "27243a819fa644098f9eb7aa4989dc39",
+      "allow_discussion": false,
+      "blocks": {},
+      "blocks_layout": {
+        "items": []
+      },
+      "changeNote": "",
+      "contributors": [],
+      "created": "2024-11-10T15:19:52+00:00",
+      "creators": [
+        "admin"
+      ],
+      "description": "",
+      "effective": null,
+      "exclude_from_nav": false,
+      "expires": null,
+      "id": "tipps-zur-formulierung-von-stellenbeschreibungen",
+      "image": null,
+      "image_caption": null,
+      "is_folderish": true,
+      "language": "",
+      "layout": "newsitem_view",
+      "lock": {
+        "locked": false,
+        "stealable": true
+      },
+      "modified": "2024-11-10T15:19:52+00:00",
+      "parent": {
+        "@id": "/de/news",
+        "@type": "Document",
+        "description": "",
+        "image_field": null,
+        "image_scales": {},
+        "review_state": "published",
+        "title": "News",
+        "type_title": "Page"
+      },
+      "relatedItems": [],
+      "review_state": "published",
+      "rights": "",
+      "subjects": [],
+      "title": "",
+      "type_title": "News Item",
+      "version": 0,
+      "versioning_enabled": true
+    },
+    "1": {
+      "@id": "/de/news/tipps-zur-formulierung-von-stellenbeschreibungen",
+      "@type": "News Item",
+      "UID": "27243a819fa644098f9eb7aa4989dc39",
+      "allow_discussion": false,
+      "blocks": {
+        "2f578510-5a0f-424b-8918-701eb1b13b96": {
+          "@type": "title"
+        },
+        "8065a719-db1f-4e34-a215-851aaad62a04": {
+          "@type": "slate"
+        }
+      },
+      "blocks_layout": {
+        "items": [
+          "2f578510-5a0f-424b-8918-701eb1b13b96",
+          "8065a719-db1f-4e34-a215-851aaad62a04"
+        ]
+      },
+      "changeNote": "",
+      "contributors": [],
+      "created": "2024-11-10T15:19:52+00:00",
+      "creators": [
+        "admin"
+      ],
+      "description": "Rechtliches",
+      "effective": "2024-11-10T15:26:00",
+      "exclude_from_nav": false,
+      "expires": null,
+      "id": "tipps-zur-formulierung-von-stellenbeschreibungen",
+      "image": null,
+      "image_caption": null,
+      "is_folderish": true,
+      "language": "de",
+      "layout": "newsitem_view",
+      "lock": {
+        "locked": false,
+        "stealable": true
+      },
+      "modified": "2024-11-10T15:19:52+00:00",
+      "parent": {
+        "@id": "/de/news",
+        "@type": "Document",
+        "description": "",
+        "image_field": null,
+        "image_scales": {},
+        "review_state": "published",
+        "title": "News",
+        "type_title": "Page"
+      },
+      "relatedItems": [],
+      "review_state": "published",
+      "rights": "",
+      "subjects": [],
+      "title": "Tipps zur Formulierung von Stellenbeschreibungen",
+      "type_title": "News Item",
+      "version": 1,
+      "versioning_enabled": true
+    }
+  },
+  "id": "tipps-zur-formulierung-von-stellenbeschreibungen",
+  "image": null,
+  "image_caption": null,
+  "is_folderish": true,
+  "language": "de",
+  "layout": "newsitem_view",
+  "lock": {
+    "locked": false,
+    "stealable": true
+  },
+  "modified": "2024-11-10T15:23:05+00:00",
+  "parent": {
+    "@id": "/de/news",
+    "@type": "Document",
+    "UID": "957ed9149ade46168e2d996bfece41b4",
+    "description": "",
+    "image_field": null,
+    "image_scales": {},
+    "review_state": "published",
+    "title": "News",
+    "type_title": "Page"
+  },
+  "review_state": "published",
+  "rights": "",
+  "subjects": [],
+  "title": "Tipps zur Formulierung von Bewerbungen",
+  "type_title": "News Item",
+  "version": "current",
+  "versioning_enabled": true,
+  "workflow_history": {
+    "simple_publication_workflow": [
+      {
+        "action": null,
+        "actor": "admin",
+        "comments": "",
+        "review_state": "private",
+        "time": "2024-11-10T14:26:42+00:00"
+      },
+      {
+        "action": "publish",
+        "actor": "admin",
+        "comments": "",
+        "review_state": "published",
+        "time": "2024-11-10T14:26:46+00:00"
+      }
+    ]
+  }
+}

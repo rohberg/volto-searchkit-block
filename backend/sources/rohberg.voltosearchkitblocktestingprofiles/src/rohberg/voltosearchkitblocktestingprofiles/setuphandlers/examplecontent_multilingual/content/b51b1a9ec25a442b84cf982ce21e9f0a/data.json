@@ -1,0 +1,116 @@
+{
+  "@id": "/de",
+  "@type": "LRF",
+  "UID": "b51b1a9ec25a442b84cf982ce21e9f0a",
+  "allow_discussion": null,
+  "blocks": {
+    "35d10509-d902-4a73-8ea5-5e999547637f": {
+      "@type": "searchkitblock",
+      "allow_search_excluded_sections": true,
+      "allowed_content_types": [
+        "Document",
+        "News Item",
+        "Event"
+      ],
+      "batchSize": 10,
+      "facet_fields": [
+        {
+          "@id": "13fa6a74-e8ae-4eb7-bea3-22e5f230035d",
+          "field": {
+            "label": "Inhaltstyp",
+            "value": "portal_type"
+          },
+          "title": "Inhaltstyp"
+        }
+      ],
+      "filterLayout": "dropdown",
+      "relocation": "",
+      "search_sections": {
+        "items": [
+          {
+            "@id": "3b9695a8-39cd-45e6-9c9a-594d48d452ec",
+            "label": "News",
+            "section": "news",
+            "show_filter": true
+          }
+        ]
+      },
+      "searchedFields": [
+        "title^1.4",
+        "description^1.2",
+        "blocks_plaintext"
+      ],
+      "showEventStartDate": [
+        "Event"
+      ],
+      "showNewsItemPublishedDate": [
+        "News Item"
+      ],
+      "show_filter_for_excluded_sections": true,
+      "subjectsFieldname": "subjects"
+    },
+    "363099c6-e9d1-485f-9d03-1542d82130b9": {
+      "@type": "title"
+    },
+    "e0c55423-9496-45ff-b094-932ddc41a77b": {
+      "@type": "slate"
+    }
+  },
+  "blocks_layout": {
+    "items": [
+      "363099c6-e9d1-485f-9d03-1542d82130b9",
+      "35d10509-d902-4a73-8ea5-5e999547637f",
+      "e0c55423-9496-45ff-b094-932ddc41a77b"
+    ]
+  },
+  "contributors": [],
+  "created": "2024-11-10T13:41:47+00:00",
+  "creators": [
+    "admin"
+  ],
+  "description": "",
+  "effective": null,
+  "exclude_from_nav": true,
+  "expires": null,
+  "exportimport.constrains": {},
+  "exportimport.conversation": [],
+  "exportimport.versions": {},
+  "id": "de",
+  "is_folderish": true,
+  "language": "de",
+  "layout": "document_view",
+  "lock": {},
+  "modified": "2024-11-10T15:19:53+00:00",
+  "parent": {
+    "@id": "/",
+    "@type": "Plone Site",
+    "UID": "plone_site_root",
+    "description": "",
+    "title": "Multilingual site",
+    "type_title": "Plone Site"
+  },
+  "review_state": "published",
+  "rights": "",
+  "subjects": [],
+  "title": "Deutsch",
+  "type_title": "Language Root Folder",
+  "version": "current",
+  "workflow_history": {
+    "simple_publication_workflow": [
+      {
+        "action": null,
+        "actor": "admin",
+        "comments": "",
+        "review_state": "private",
+        "time": "2024-11-10T13:41:47+00:00"
+      },
+      {
+        "action": "publish",
+        "actor": "admin",
+        "comments": "",
+        "review_state": "published",
+        "time": "2024-11-10T13:41:47+00:00"
+      }
+    ]
+  }
+}
