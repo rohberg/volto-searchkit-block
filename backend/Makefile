@@ -113,11 +113,13 @@ console: instance/etc/zope.ini ## Start a console into a Plone instance
 
 .PHONY: create-site-monolingual
 create-site-monolingual: instance/etc/zope.ini ## Create a new site from scratch
-	DELETE_EXISTING=true PYTHONWARNINGS=ignore $(BIN_FOLDER)/zconsole run instance/etc/zope.conf ./scripts/create_site_cookieplone_example_content.py
+	source .dev-env
+	DELETE_EXISTING=true PYTHONWARNINGS=ignore $(BIN_FOLDER)/zconsole run instance/etc/zope.conf ./scripts/create_site.py
 
 .PHONY: create-site-multilingual
 create-site-multilingual: instance/etc/zope.ini ## Create a new site from scratch
-	DELETE_EXISTING=true ISMULTILINGUAL=true PYTHONWARNINGS=ignore $(BIN_FOLDER)/zconsole run instance/etc/zope.conf ./scripts/create_site_cookieplone_example_content.py
+	source .dev-env
+	DELETE_EXISTING=true ISMULTILINGUAL=true PYTHONWARNINGS=ignore $(BIN_FOLDER)/zconsole run instance/etc/zope.conf ./scripts/create_site.py
 
 .PHONY: dev-index-start-monolingual
 dev-index-start-monolingual: ## Start dev containers (OpenSearch, ingest, etc.)

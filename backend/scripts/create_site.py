@@ -72,6 +72,6 @@ if site_id not in app.objectIds():
     transaction.commit()
     # if EXAMPLE_CONTENT:
     #     portal_setup: SetupTool = site.portal_setup
-    #     portal_setup.runAllImportStepsFromProfile("project.title:initial")
+    #     portal_setup.runAllImportStepsFromProfile("rohberg.voltosearchkitblocktestingprofiles:initialmultilingual")
     #     transaction.commit()
     app._p_jar.sync()
