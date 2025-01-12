@@ -9,7 +9,7 @@ on:
       - ".github/workflows/code.yml"
 
 env:
-  NODE_VERSION: 20.x
+  NODE_VERSION: 22.x
 
 jobs:
   codeanalysis:
@@ -19,7 +19,7 @@ jobs:
       - name: Main checkout
         uses: actions/checkout@v4
 
-      - name: Use Node.js
+      - name: Use Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
