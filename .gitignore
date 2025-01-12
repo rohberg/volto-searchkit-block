@@ -16,6 +16,7 @@ backend/.venv/
 backend/instance/
 backend/sources/collective.elastic.plone/
 backend/sources/collective.elastic.ingest/
+backend/sources/collective.bookmarks/
 *.pyc
 __pycache__/
 packages/volto-bookmarks

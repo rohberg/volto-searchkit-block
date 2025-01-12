@@ -1,5 +1,5 @@
 import Bookmarking from '@plone-collective/volto-bookmarks/components/Bookmarking';
-import CustomResultsListItemWithBookmarks from './components/CustomResultsListItemWithBookmarks';
+// import CustomResultsListItemWithBookmarks from './components/CustomResultsListItemWithBookmarks';
 
 export const multilingualFixture = (config) => {
   config.settings.isMultilingual = true;
