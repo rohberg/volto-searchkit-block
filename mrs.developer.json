@@ -5,5 +5,14 @@
     "url": "git@github.com:plone/volto.git",
     "https": "https://github.com/plone/volto.git",
     "tag": "18.6.0"
+  },
+  "volto-bookmarks": {
+    "develop": true,
+    "package": "@plone-collective/volto-bookmarks",
+    "url": "git@github.com:collective/volto-bookmarks.git",
+    "https": "https://github.com/collective/volto-bookmarks.git",
+    "output": "./packages/",
+    "path": "packages/volto-bookmarks/src",
+    "branch": "main"
   }
 }
