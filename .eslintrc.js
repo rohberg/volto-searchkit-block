@@ -31,7 +31,7 @@ module.exports = {
           ['volto-searchkit-block', './packages/volto-searchkit-block/src'],
           [
             '@plone-collective/volto-bookmarks',
-            './packages/volto-bookmarks/src',
+            './packages/volto-bookmarks/packages/volto-bookmarks/src',
           ],
           ...addonAliases,
         ],
