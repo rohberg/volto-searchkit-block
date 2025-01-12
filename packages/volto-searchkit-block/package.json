@@ -1,5 +1,5 @@
 {
-  "name": "volto-searchkit-block",
+  "name": "@rohberg/volto-searchkit-block",
   "version": "0.4.0",
   "description": "Searching with OpenSearch",
   "main": "src/index.js",

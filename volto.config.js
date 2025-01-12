@@ -1,4 +1,4 @@
-const addons = ['volto-searchkit-block'];
+const addons = ['@rohberg/volto-searchkit-block'];
 const theme = '';
 
 module.exports = {

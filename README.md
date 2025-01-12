@@ -50,7 +50,7 @@ Add `volto-searchkit-block` to your `package.json`:
 }
 ```
 
-Add `@rohberg/volto-searchkit-block` to your `volto.config.js`:
+Add `@rohberg/volto-searchkit-block` to your add-ons in `volto.config.js`:
 
 ```javascript
 const addons = ['@rohberg/volto-searchkit-block'];
@@ -163,10 +163,16 @@ make install
 
 ### Start developing
 
-Start the backend.
+Start the backend. Monolingual:
 
 ```shell
-make dev-backend-start
+make dev-backend-start-monolingual
+```
+
+or start the multilingual backend:
+
+```shell
+make dev-backend-start-monolingual
 ```
 
 Create a site.
@@ -181,10 +187,15 @@ or create a multilingual site:
 make create-site-multilingual
 ```
 
-Start the index server.
+Start the index server. Monolingual:
 
 ```shell
 make dev-index-start-monolingual 
+```
+or start the index server multilingual:
+
+```shell
+make dev-index-start-multilingual 
 ```
 
 In a separate terminal session, start the frontend.

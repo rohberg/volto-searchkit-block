@@ -35,11 +35,12 @@
   "dependencies": {
     "@plone/volto": "workspace:*",
     "@plone/registry": "workspace:*",
-    "volto-searchkit-block": "workspace:*"
+    "@rohberg/volto-searchkit-block": "workspace:*"
   },
   "devDependencies": {
     "mrs-developer": "^2.2.0",
-    "testing-volto-searchkit-block": "workspace:*"
+    "testing-volto-searchkit-block": "workspace:*",
+    "@plone-collective/volto-bookmarks": "workspace:*"
   },
   "pnpm": {
     "overrides": {

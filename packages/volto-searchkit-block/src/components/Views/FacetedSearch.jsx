@@ -316,7 +316,10 @@ const _CustomResultsListItem = (props) => {
   );
 };
 
-const CustomResultsListItem = withState(_CustomResultsListItem);
+config.registerComponent({
+  name: 'CustomResultsListItem',
+  component: _CustomResultsListItem,
+});
 
 const MyCountElement = ({ totalResults }) => {
   const intl = useIntl();
@@ -710,7 +713,10 @@ const FacetedSearch = ({ data, overriddenComponents }) => {
   };
 
   const defaultOverriddenComponents = {
-    'ResultsList.item.elasticsearch': CustomResultsListItem,
+    'ResultsList.item.elasticsearch': withState(
+      config.getComponent('CustomResultsListItem').component ||
+        _CustomResultsListItem,
+    ),
     'Count.element': MyCountElement,
     'ActiveFilters.element': myActiveFiltersElement,
     'EmptyResults.element': customEmpytResultsElement,

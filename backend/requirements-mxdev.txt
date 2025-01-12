@@ -6,6 +6,7 @@
 # mxdev development sources
 -e ./sources/collective.elastic.plone[test,redis,opensearch]
 -e ./sources/collective.elastic.ingest[test,redis,opensearch]
+-e ./sources/collective.bookmarks
 
 
 ###############################################################################

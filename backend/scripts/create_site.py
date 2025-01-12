@@ -8,6 +8,7 @@ from zope.interface import directlyProvidedBy
 from zope.interface import directlyProvides
 
 import os
+import time
 import transaction
 
 
@@ -81,3 +82,4 @@ if site_id not in app.objectIds():
                 "rohberg.voltosearchkitblocktestingprofiles:initialmonolingual")
         transaction.commit()
     app._p_jar.sync()
+    time.sleep(30)

@@ -40,7 +40,7 @@ dev-backend-install: ## Install Plone
 
 .PHONY: dev-backend-start-monolingual
 dev-backend-start-monolingual: ## Start Plone
-	export INDEX_NAME=monolingual
+	export INDEX_NAME=plone
 	export INDEX_PASSWORD=paraDiesli,17
 	$(MAKE) -C "./backend/" start
 
@@ -53,7 +53,7 @@ dev-backend-start-multilingual: ## Start Plone
 # content
 .PHONY: create-site-monolingual
 create-site-monolingual: ## Create monolingual site
-	export INDEX_NAME=monolingual
+	export INDEX_NAME=plone
 	export INDEX_PASSWORD=paraDiesli,17
 	$(MAKE) -C "./backend/" create-site-monolingual
 
@@ -103,13 +103,17 @@ install: ## Installs the add-on in a development environment
 start: ## Starts Volto, allowing reloading of the add-on during development
 	pnpm start
 
-.PHONY: start
-start-monolingual: ## Same as `make start` but with language 'de'
+.PHONY: start-monolingual
+start-monolingual: ## frontend with language 'de'
 	ADDONS=testing-volto-searchkit-block:monolingualFixture pnpm start
 
-.PHONY: start
-start-multilingual: ## Same as `make start` but with language 'de' and multilingual
+.PHONY: start-multilingual
+start-multilingual: ## frontend with language 'de' and multilingual
 	ADDONS=testing-volto-searchkit-block:multilingualFixture RAZZLE_DEV_PROXY_API_PATH=http://127.0.0.1:8080/Multilingual pnpm start
+
+.PHONY: start-with-bookmarks
+start-with-bookmarks: ## frontend with addon `volto-bookmarks`
+	ADDONS="@plone-collective/volto-bookmarks;testing-volto-searchkit-block:bookmarksFixture" pnpm start
 
 .PHONY: build
 build: ## Build a production bundle for distribution of the project with the add-on

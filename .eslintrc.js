@@ -28,9 +28,10 @@ module.exports = {
           ['@plone/volto', `${coreLocation}/packages/volto/src`],
           ['@plone/volto-slate', `${coreLocation}/packages/volto-slate/src`],
           ['@plone/registry', `${coreLocation}/packages/registry/src`],
+          ['volto-searchkit-block', './packages/volto-searchkit-block/src'],
           [
-            'volto-searchkit-block',
-            './packages/volto-searchkit-block/src',
+            '@plone-collective/volto-bookmarks',
+            './packages/volto-bookmarks/src',
           ],
           ...addonAliases,
         ],

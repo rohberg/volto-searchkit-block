@@ -18,3 +18,4 @@ backend/sources/collective.elastic.plone/
 backend/sources/collective.elastic.ingest/
 *.pyc
 __pycache__/
+packages/volto-bookmarks
