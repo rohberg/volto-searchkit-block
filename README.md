@@ -28,7 +28,7 @@ Meta data values are clickable to find related content.
 
 The block is prepared for Matomo analytics.
 
-![Search @rohberg/volto-searchkit-block](public/search.png)
+![Search @rohberg/volto-searchkit-block](docs/source/_static/img/search.png)
 
 ## Installation
 
