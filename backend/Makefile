@@ -40,8 +40,8 @@ endif
 PLONE_SITE_ID_MONOLINGUAL=Plone
 PLONE_SITE_ID_MULTILINGUAL=Multilingual
 BACKEND_FOLDER=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
-EXAMPLE_CONTENT_FOLDER_MONOLINGUAL=${BACKEND_FOLDER}/sources/rohberg.voltosearchkitblocktestingprofiles/src/rohberg/voltosearchkitblocktestingprofiles/setuphandlers/examplecontent_monolingual
-EXAMPLE_CONTENT_FOLDER_MULTILINGUAL=${BACKEND_FOLDER}/sources/rohberg.voltosearchkitblocktestingprofiles/src/rohberg/voltosearchkitblocktestingprofiles/setuphandlers/examplecontent_multilingual
+EXAMPLE_CONTENT_FOLDER_MONOLINGUAL=${BACKEND_FOLDER}/sources/rohberg.voltosearchkitblocktestingprofiles/distributions/monolingualtestcontent/content
+EXAMPLE_CONTENT_FOLDER_MULTILINGUAL=${BACKEND_FOLDER}/sources/rohberg.voltosearchkitblocktestingprofiles/distributions/multilingualtestcontent/content
 
 GIT_FOLDER=$(BACKEND_FOLDER)/.git
 VENV_FOLDER=$(BACKEND_FOLDER)/.venv

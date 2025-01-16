@@ -63,12 +63,12 @@ create-site-multilingual: ## Create multilingual site
 	export INDEX_PASSWORD=paraDiesli,17
 	$(MAKE) -C "./backend/" create-site-multilingual
 
-.PHONY: backend-update-example-content-monolingual
-backend-update-example-content-monolingual: ## Export monolingual example content inside package
+.PHONY: update-example-content-monolingual
+update-example-content-monolingual: ## Export monolingual example to distribution
 	$(MAKE) -C "./backend/" update-example-content-monolingual
 
-.PHONY: backend-update-example-content-multilingual
-backend-update-example-content-multilingual: ## Export multilingual example content inside package
+.PHONY: update-example-content-multilingual
+update-example-content-multilingual: ## Export multilingual example to distribution
 	$(MAKE) -C "./backend/" update-example-content-multilingual
 
 # Index server

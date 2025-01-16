@@ -1,0 +1,108 @@
+{
+  "@id": "/Plone",
+  "@type": "Plone Site",
+  "UID": "plone_site_root",
+  "allow_discussion": null,
+  "blocks": {
+    "5f31e9e4-173f-4ec1-ab48-64e9e2789b76": {
+      "@type": "title"
+    },
+    "a42ccd46-7202-4de2-b9c8-f199595ba30a": {
+      "@type": "slate"
+    },
+    "e5ace182-3746-472c-ad81-696425a2b161": {
+      "@type": "slate",
+      "plaintext": "Welcome to your new Plone site!",
+      "value": [
+        {
+          "children": [
+            {
+              "text": "Welcome to your new Plone site!"
+            }
+          ],
+          "type": "p"
+        }
+      ]
+    },
+    "e75c47cc-e670-496a-9de0-604557467c2f": {
+      "@type": "searchkitblock",
+      "allow_search_excluded_sections": true,
+      "allowed_content_types": [
+        "Document",
+        "News Item",
+        "Event"
+      ],
+      "batchSize": 10,
+      "facet_fields": [
+        {
+          "@id": "07e2f891-7419-4d9d-91e9-2501b8dd3947",
+          "field": {
+            "label": "Inhaltstyp",
+            "value": "portal_type"
+          },
+          "title": "Inhaltstyp"
+        }
+      ],
+      "filterLayout": "dropdown",
+      "relocation": "",
+      "search_sections": {
+        "items": [
+          {
+            "@id": "fd82f39e-b6e6-41b2-b207-c2e0230600ad",
+            "label": "Nachrichten",
+            "section": "nachrichten",
+            "show_filter": true
+          }
+        ]
+      },
+      "searchedFields": [
+        "title^1.4",
+        "description^1.2",
+        "blocks_plaintext"
+      ],
+      "showEventStartDate": [
+        "Event"
+      ],
+      "showNewsItemPublishedDate": [
+        "News Item"
+      ],
+      "show_filter_for_excluded_sections": true,
+      "subjectsFieldname": "subjects"
+    }
+  },
+  "blocks_layout": {
+    "items": [
+      "5f31e9e4-173f-4ec1-ab48-64e9e2789b76",
+      "e5ace182-3746-472c-ad81-696425a2b161",
+      "e75c47cc-e670-496a-9de0-604557467c2f",
+      "a42ccd46-7202-4de2-b9c8-f199595ba30a"
+    ]
+  },
+  "contributors": [],
+  "creators": [
+    "admin"
+  ],
+  "description": "",
+  "effective": null,
+  "exclude_from_nav": false,
+  "expires": null,
+  "exportimport.constrains": {},
+  "exportimport.conversation": [],
+  "exportimport.versions": {},
+  "id": "Plone",
+  "is_folderish": true,
+  "items_total": 2,
+  "language": "##DEFAULT##",
+  "lock": {
+    "locked": false,
+    "stealable": true
+  },
+  "parent": {},
+  "review_state": null,
+  "rights": "",
+  "subjects": [],
+  "table_of_contents": null,
+  "title": "Project Title",
+  "type_title": "Plone Site",
+  "workflow_history": {}
+}
