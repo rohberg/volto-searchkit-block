@@ -19,5 +19,8 @@ exports[`Generic Error renders a simple error component 1`] = `
   <i>
     Service pipapo not found.
   </i>
+  <p>
+    If no index exists, reindex your content or just start by editing and saving a page.
+  </p>
 </div>
 `;
