@@ -1,5 +1,7 @@
 {
     "base": [
+      "plone.app.contenttypes:default",
+      "plonetheme.barceloneta:default",
       "rohberg.voltosearchkitblocktestingprofiles:monolingual"
     ],
     "content": [
