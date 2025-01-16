@@ -4,21 +4,13 @@
     i18n_domain="rohberg.voltosearchkitblocktestingprofiles"
     >
 
-  <genericsetup:registerProfile
+  <!-- <genericsetup:registerProfile
       name="default"
       title="my add-on: Install"
       description="Package to configure a new Boo Hui site"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       directory="profiles/default"
-      />
-
-  <genericsetup:registerProfile
-      name="uninstall"
-      title="my add-on: Uninstall"
-      description="Uninstall Boo Hui setup."
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      directory="profiles/uninstall"
-      />
+      /> -->
 
 
   <!-- language settings -->
@@ -29,7 +21,6 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       directory="profiles/monolingual"
       />
-
 
   <genericsetup:registerProfile
       name="multilingual"
@@ -43,21 +34,21 @@
 
   <!-- language content -->
   <genericsetup:registerProfile
-      name="initialmultilingual"
-      title="Example content for a multilingual site"
-      description="Create example content"
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      directory="profiles/initial"
-      pre_handler=".setuphandlers.initial.create_example_content_multilingual"
-      />
-
-  <genericsetup:registerProfile
       name="initialmonolingual"
       title="Example content for a monolingual site"
       description="Create example content"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       directory="profiles/initial"
       pre_handler=".setuphandlers.initial.create_example_content_monolingual"
+      />
+
+  <genericsetup:registerProfile
+      name="initialmultilingual"
+      title="Example content for a multilingual site"
+      description="Create example content"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/initial"
+      pre_handler=".setuphandlers.initial.create_example_content_multilingual"
       />
 
   <!-- Hide Uninstall Profile-->
