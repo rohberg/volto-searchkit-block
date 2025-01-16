@@ -13,6 +13,12 @@ const Error = ({ error }) => {
         </h3>
       </Header>
       <b>{error?.type}:</b> <i>{error?.message}</i>
+      <p>
+        <FormattedMessage
+          id="If no index exists, reindex your content or just start by editing and saving a page."
+          defaultMessage="If no index exists, reindex your content or just start by editing and saving a page."
+        />
+      </p>
     </Segment>
   ) : null;
 };

@@ -54,6 +54,7 @@ setup(
         "plone.restapi",
         "plone.volto",
         "plone.exportimport",
+        "plone.distribution"
     ],
     extras_require={
         "test": [

@@ -57,6 +57,7 @@ const ExtrainfoSchema = ({ intl }) => {
   return extrainfoschema;
 };
 
+// TODO: add translations
 export const SearchBlockSchema = ({ data = {}, intl }) => {
   return {
     title: intl.formatMessage(messages.searchBlock),
@@ -157,7 +158,7 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
         default: 10,
       },
       facet_fields: {
-        title: 'Facets',
+        title: intl.formatMessage(messages.facets),
         description: 'Fields to filter on.',
         widget: 'object_list',
         schema: FacetSchema({ intl }),

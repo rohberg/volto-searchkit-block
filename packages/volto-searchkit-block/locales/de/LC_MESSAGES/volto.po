@@ -24,7 +24,7 @@ msgstr ""
 #. Default: "Check the configuration of your searchkit block!"
 #: components/Searchkit/Error
 msgid "Check the configuration of your searchkit block!"
-msgstr ""
+msgstr "Überprüfe die Konfiguration deines Searchkit-Blocks!"
 
 #. Default: "Content"
 #: messages
@@ -64,6 +64,11 @@ msgstr ""
 #. Default: "Field"
 #: messages
 msgid "Field"
+msgstr ""
+
+#. Default: "If no index exists, reindex your content or just start by editing and saving a page."
+#: components/Searchkit/Error
+msgid "If no index exists, reindex your content or just start by editing and saving a page."
 msgstr ""
 
 #. Default: "Label"

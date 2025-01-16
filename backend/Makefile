@@ -117,7 +117,7 @@ console: instance/etc/zope.ini ## Start a console into a Plone instance
 .PHONY: create-site-monolingual
 create-site-monolingual: instance/etc/zope.ini ## Create a new site from scratch
 	source .dev-env
-	DELETE_EXISTING=true PYTHONWARNINGS=ignore $(BIN_FOLDER)/zconsole run instance/etc/zope.conf ./scripts/create_site.py
+	DELETE_EXISTING=true PYTHONWARNINGS=ignore $(BIN_FOLDER)/zconsole run instance/etc/zope.conf ./scripts/create_site.py --log=DEBUG
 
 .PHONY: create-site-multilingual
 create-site-multilingual: instance/etc/zope.ini ## Create a new site from scratch

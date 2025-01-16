@@ -1,11 +1,20 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="rohberg.voltosearchkitblocktestingprofiles"
     >
 
+  <include package="plone.distribution" />
 
   <include file="dependencies.zcml" />
   <include file="profiles.zcml" />
+
+  <plone:distribution
+    name="monolingualexamplecontent"
+    title="Monolingual Example Content"
+    description="A Plone site already configured with language 'german' and some example content"
+    directory="distributions/monolingualtestcontent"
+    />
 
 </configure>

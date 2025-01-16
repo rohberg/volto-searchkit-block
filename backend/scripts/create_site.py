@@ -1,3 +1,4 @@
+# OBSOLETE See distribution
 from AccessControl.SecurityManagement import newSecurityManager
 from Products.CMFPlone.factory import _DEFAULT_PROFILE
 from Products.CMFPlone.factory import addPloneSite
@@ -48,7 +49,6 @@ payload = {
     "title": "Project Title",
     "profile_id": _DEFAULT_PROFILE,
     "extension_ids": [
-        "rohberg.voltosearchkitblocktestingprofiles:default",
         "collective.elastic.plone:default",
     ],
     "setup_content": False,
@@ -72,6 +72,7 @@ if site_id in app.objectIds() and DELETE_EXISTING:
 if site_id not in app.objectIds():
     site = addPloneSite(app, site_id, **payload)
     transaction.commit()
+    app._p_jar.sync()
     if EXAMPLE_CONTENT:
         portal_setup: SetupTool = site.portal_setup
         if ISMULTILINGUAL:
