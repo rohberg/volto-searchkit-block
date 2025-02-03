@@ -64,11 +64,11 @@ create-site-multilingual: ## Create multilingual site
 	$(MAKE) -C "./backend/" create-site-multilingual
 
 .PHONY: update-example-content-monolingual
-update-example-content-monolingual: ## Export monolingual example to distribution
+update-example-content-monolingual: ## Export monolingual example content to distribution
 	$(MAKE) -C "./backend/" update-example-content-monolingual
 
 .PHONY: update-example-content-multilingual
-update-example-content-multilingual: ## Export multilingual example to distribution
+update-example-content-multilingual: ## Export multilingual example content to distribution
 	$(MAKE) -C "./backend/" update-example-content-multilingual
 
 # Index server
