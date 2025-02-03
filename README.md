@@ -162,7 +162,18 @@ Install the frontend.
 make install
 ```
 
-### Start developing
+### Start processes
+
+Start the index server. Monolingual:
+
+```shell
+make dev-index-start-monolingual 
+```
+or start the index server multilingual:
+
+```shell
+make dev-index-start-multilingual 
+```
 
 Start the backend. Monolingual:
 
@@ -176,30 +187,9 @@ or start the multilingual backend:
 make dev-backend-start-multilingual
 ```
 
-Create a site.
+Create a site with one of the two distributions, monolingual or multilingual.
 
-```shell
-make create-site-monolingual
-```
-
-or create a multilingual site:
-
-```shell
-make create-site-multilingual
-```
-
-Start the index server. Monolingual:
-
-```shell
-make dev-index-start-monolingual 
-```
-or start the index server multilingual:
-
-```shell
-make dev-index-start-multilingual 
-```
-
-In a separate terminal session, start the frontend.
+In a separate terminal session, start the frontend:
 
 ```shell
 make start-monolingual
