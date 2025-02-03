@@ -19,7 +19,7 @@ msgstr ""
 #. Default: "Cancel"
 #: messages
 msgid "Cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 #. Default: "Check the configuration of your searchkit block!"
 #: components/Searchkit/Error
@@ -29,47 +29,47 @@ msgstr "Überprüfe die Konfiguration deines Searchkit-Blocks!"
 #. Default: "Content"
 #: messages
 msgid "Content"
-msgstr ""
+msgstr "Inhalt"
 
 #. Default: "Date"
 #: components/Views/FacetedSearch
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #. Default: "Description"
 #: messages
 msgid "Description"
-msgstr ""
+msgstr "Beschreibung"
 
 #. Default: "Deselect all"
 #: components/Views/FacetedSearch
 msgid "Deselect all"
-msgstr ""
+msgstr "Alles abwählen"
 
 #. Default: "Facet"
 #: messages
 msgid "Facet"
-msgstr ""
+msgstr "Facette"
 
 #. Default: "Facet widget"
 #: messages
 msgid "Facet widget"
-msgstr ""
+msgstr "Facetten-Widget"
 
 #. Default: "Facets"
 #: messages
 msgid "Facets"
-msgstr ""
+msgstr "Facetten"
 
 #. Default: "Field"
 #: messages
 msgid "Field"
-msgstr ""
+msgstr "Feld"
 
 #. Default: "If no index exists, reindex your content or just start by editing and saving a page."
 #: components/Searchkit/Error
 msgid "If no index exists, reindex your content or just start by editing and saving a page."
-msgstr ""
+msgstr "Wenn kein Index existiert, indiziere deinen Inhalt neu oder beginne einfach damit, eine Seite zu bearbeiten und zu speichern."
 
 #. Default: "Label"
 #: messages
@@ -89,47 +89,47 @@ msgstr ""
 #. Default: "No results"
 #: components/Views/FacetedSearch
 msgid "No results"
-msgstr ""
+msgstr "Keine Ergebnisse"
 
 #. Default: "Relevance"
 #: components/Views/FacetedSearch
 msgid "Relevance"
-msgstr ""
+msgstr "Relevanz"
 
 #. Default: "Search block"
 #: messages
 msgid "Search block"
-msgstr ""
+msgstr "Suchblock"
 
 #. Default: "Search can be restricted by sections / paths"
 #: messages
 msgid "Search can be restricted by sections / paths"
-msgstr ""
+msgstr "Die Suche kann durch Website-Bereiche / Pfade eingeschränkt werden"
 
 #. Default: "Search in sections"
 #: messages
 msgid "Search in sections"
-msgstr ""
+msgstr "In Bereichen suchen"
 
 #. Default: "Search result"
 #: messages
 msgid "Search result"
-msgstr ""
+msgstr "Suchergebnis"
 
 #. Default: "Search results"
 #: messages
 msgid "Search results"
-msgstr ""
+msgstr "Suchergebnisse"
 
 #. Default: "section"
 #: messages
 msgid "Search section"
-msgstr ""
+msgstr "Suchbereich"
 
 #. Default: "Search section label"
 #: messages
 msgid "Search section label"
-msgstr ""
+msgstr "Bezeichnung Suchbereiche"
 
 #. Default: "Searchkit"
 #: messages
@@ -139,35 +139,35 @@ msgstr ""
 #. Default: "Select all"
 #: components/Views/FacetedSearch
 msgid "Select all"
-msgstr ""
+msgstr "Alles auswählen"
 
 #. Default: "Show filter"
 #: messages
 msgid "Show filters"
-msgstr ""
+msgstr "Zeige Filter"
 
 #. Default: "Sort by:"
 #: components/Views/FacetedSearch
 msgid "Sort By:"
-msgstr ""
+msgstr "Sortiere nach:"
 
 #. Default: "Tags"
 #: components/Views/FacetedSearch
 #: messages
 msgid "Tags"
-msgstr ""
+msgstr "Schlagwörter"
 
 #. Default: "Title"
 #: messages
 msgid "Title"
-msgstr ""
+msgstr "Titel"
 
 #. Default: "reset search"
 #: components/Views/FacetedSearch
 msgid "reset search"
-msgstr ""
+msgstr "Suche zurücksetzen"
 
 #. Default: "search"
 #: messages
 msgid "search"
-msgstr ""
+msgstr "suchen"
