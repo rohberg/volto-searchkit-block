@@ -27,14 +27,6 @@
 
 
   <!-- language content -->
-  <genericsetup:registerProfile
-    name="initialmonolingual"
-    title="Example content for a monolingual site"
-    description="Create example content"
-    provides="Products.GenericSetup.interfaces.EXTENSION"
-    directory="profiles/initial"
-    pre_handler=".setuphandlers.initial.create_example_content_monolingual"
-    />
 
   <genericsetup:registerProfile
     name="initialmultilingual"

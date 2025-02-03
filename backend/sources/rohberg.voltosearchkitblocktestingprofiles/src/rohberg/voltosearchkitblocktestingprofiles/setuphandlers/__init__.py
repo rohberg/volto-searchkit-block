@@ -14,7 +14,6 @@ class HiddenProfiles:
             "rohberg.voltosearchkitblocktestingprofiles:monolingual",
             "rohberg.voltosearchkitblocktestingprofiles:multilingual",
             "rohberg.voltosearchkitblocktestingprofiles:initialmultilingual",
-            "rohberg.voltosearchkitblocktestingprofiles:initialmonolingual",
         ]
 
 
