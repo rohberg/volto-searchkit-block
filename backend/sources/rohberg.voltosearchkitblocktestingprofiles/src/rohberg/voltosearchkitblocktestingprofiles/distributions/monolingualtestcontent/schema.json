@@ -31,7 +31,7 @@
           "type": "boolean",
           "title": "Create Content",
           "description": "Should example content be added during site creation?",
-          "default": false
+          "default": true
         }
       }
     },
