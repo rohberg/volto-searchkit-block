@@ -13,7 +13,7 @@ const FacetSchema = ({ intl }) => ({
   fieldsets: [
     {
       id: 'default',
-      title: 'Default',
+      title: intl.formatMessage(messages.default),
       fields: ['title', 'field'],
     },
   ],
@@ -64,7 +64,7 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
     fieldsets: [
       {
         id: 'default',
-        title: 'Search',
+        title: intl.formatMessage(messages.search),
         fields: [
           'allowed_content_types',
           'allowed_review_states',
@@ -85,7 +85,7 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
       },
       {
         id: 'results',
-        title: 'Results',
+        title: intl.formatMessage(messages.results),
         fields: [
           'extrainfo_fields',
           'subjectsFieldname',
@@ -95,7 +95,7 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
       },
       {
         id: 'divers',
-        title: 'Divers',
+        title: intl.formatMessage(messages.divers),
         fields: ['relocation'],
       },
     ],
@@ -118,17 +118,17 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
         widget: 'searchsectionswidget',
       },
       allow_search_excluded_sections: {
-        title: 'Allow search everywhere except in sections',
+        title: intl.formatMessage(messages.allowSearchExcludedSections),
         type: 'boolean',
       },
       show_filter_for_excluded_sections: {
-        title: 'Show filter for excluded sections',
+        title: intl.formatMessage(messages.showFilterForExcludedSections),
         type: 'boolean',
         default: true,
       },
       allowed_content_types: {
-        title: 'Types',
-        description: 'Restrict types to display.',
+        title: intl.formatMessage(messages.types),
+        description: intl.formatMessage(messages.restrictTypes),
         type: 'array',
         widget: 'array',
         items: {
@@ -136,8 +136,8 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
         },
       },
       allowed_review_states: {
-        title: 'States',
-        description: 'Restrict review states.',
+        title: intl.formatMessage(messages.states),
+        description: intl.formatMessage(messages.restrictStates),
         type: 'array',
         widget: 'array',
         items: {
@@ -145,21 +145,20 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
         },
       },
       searchedFields: {
-        title: 'Searchable fields with boosting',
-        description:
-          'Type fieldnames to search in field names. Type title^1.4 to boost the title 40%.',
+        title: intl.formatMessage(messages.searchableFields),
+        description: intl.formatMessage(messages.searchableFieldsDescription),
         type: 'array',
         creatable: true,
         default: ['title^1.4', 'description^1.2', 'blocks_plaintext'],
       },
       batchSize: {
-        title: 'Batch size',
+        title: intl.formatMessage(messages.batchSize),
         type: 'number',
         default: 10,
       },
       facet_fields: {
         title: intl.formatMessage(messages.facets),
-        description: 'Fields to filter on.',
+        description: intl.formatMessage(messages.fieldsToFilterOn),
         widget: 'object_list',
         schema: FacetSchema({ intl }),
       },
@@ -178,13 +177,12 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
         schema: ExtrainfoSchema({ intl }),
       },
       subjectsFieldname: {
-        title: 'Field name of tags field',
-        description:
-          'Show tags to search for. Let the field empty to not show tags.',
+        title: intl.formatMessage(messages.fieldNameOfTagsField),
+        description: intl.formatMessage(messages.showTagsToSearchFor),
         default: 'subjects',
       },
       showNewsItemPublishedDate: {
-        title: 'Show published date of news items',
+        title: intl.formatMessage(messages.showPublishedDateOfNewsItems),
         type: 'array',
         widget: 'array',
         items: {
@@ -193,7 +191,7 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
         default: ['News Item'],
       },
       showEventStartDate: {
-        title: 'Show start date of events',
+        title: intl.formatMessage(messages.showStartDateOfEvents),
         type: 'array',
         widget: 'array',
         items: {
@@ -202,9 +200,8 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
         default: ['Event'],
       },
       relocation: {
-        title: 'Relocation',
-        description:
-          'CSS selector for relocation of search bar. Leave empty to keep search bar in block.',
+        title: intl.formatMessage(messages.relocation),
+        description: intl.formatMessage(messages.relocationDescription),
         default: '',
       },
     },
