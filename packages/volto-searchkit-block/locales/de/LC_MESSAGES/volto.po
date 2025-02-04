@@ -14,7 +14,7 @@ msgstr ""
 #. Default: "Add {type}"
 #: messages
 msgid "Add {type}"
-msgstr ""
+msgstr "Füge {type} hinzu"
 
 #. Default: "Cancel"
 #: messages
@@ -45,6 +45,11 @@ msgstr "Beschreibung"
 #: components/Views/FacetedSearch
 msgid "Deselect all"
 msgstr "Alles abwählen"
+
+#. Default: "Everywhere"
+#: components/Searchkit/SectionsSearch
+msgid "Everywhere"
+msgstr "Überall"
 
 #. Default: "Facet"
 #: messages
@@ -79,7 +84,7 @@ msgstr ""
 #. Default: "Meta data"
 #: messages
 msgid "Meta data"
-msgstr ""
+msgstr "Metadaten"
 
 #. Default: "Multiple choices?"
 #: messages
@@ -90,6 +95,11 @@ msgstr ""
 #: components/Views/FacetedSearch
 msgid "No results"
 msgstr "Keine Ergebnisse"
+
+#. Default: "Not in sections"
+#: components/Searchkit/SectionsSearch
+msgid "Not in sections"
+msgstr "Nicht in ausgewählten Bereichen"
 
 #. Default: "Relevance"
 #: components/Views/FacetedSearch

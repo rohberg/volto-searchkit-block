@@ -51,6 +51,11 @@ msgstr ""
 msgid "Deselect all"
 msgstr ""
 
+#. Default: "Everywhere"
+#: components/Searchkit/SectionsSearch
+msgid "Everywhere"
+msgstr ""
+
 #. Default: "Facet"
 #: messages
 msgid "Facet"
@@ -94,6 +99,11 @@ msgstr ""
 #. Default: "No results"
 #: components/Views/FacetedSearch
 msgid "No results"
+msgstr ""
+
+#. Default: "Not in sections"
+#: components/Searchkit/SectionsSearch
+msgid "Not in sections"
 msgstr ""
 
 #. Default: "Relevance"
