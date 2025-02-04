@@ -51,7 +51,9 @@ class Results extends Component {
           </Grid.Column>
         </Grid>
         <Grid style={{ padding: '2em 0' }}>
-          <ResultsMultiLayout overridableId="elasticsearch" />
+          <Grid.Column width={12}>
+            <ResultsMultiLayout layout="grid" overridableId="elasticsearch" />
+          </Grid.Column>
         </Grid>
         <Grid verticalAlign="middle" textAlign="center">
           <Pagination options={{ size: 'small' }} />
