@@ -1,17 +1,17 @@
 import Bookmarking from '@plone-collective/volto-bookmarks/components/Bookmarking';
-// import CustomResultsListItemWithBookmarks from './components/CustomResultsListItemWithBookmarks';
+import CustomResultsListItemWithBookmarks from './components/CustomResultsListItemWithBookmarks';
 
-export const multilingualFixture = (config) => {
-  config.settings.isMultilingual = true;
-  config.settings.supportedLanguages = ['de', 'en'];
+export const monolingualFixture = (config) => {
+  config.settings.isMultilingual = false;
+  config.settings.supportedLanguages = ['de'];
   config.settings.defaultLanguage = 'de';
 
   return config;
 };
 
-export const monolingualFixture = (config) => {
-  config.settings.isMultilingual = false;
-  config.settings.supportedLanguages = ['de'];
+export const multilingualFixture = (config) => {
+  config.settings.isMultilingual = true;
+  config.settings.supportedLanguages = ['de', 'en'];
   config.settings.defaultLanguage = 'de';
 
   return config;
@@ -24,6 +24,7 @@ export const bookmarksFixture = (config) => {
   config.settings.appExtras = [
     ...config.settings.appExtras,
     {
+      // match: '/news/',
       match: '/',
       component: Bookmarking,
     },
@@ -32,15 +33,20 @@ export const bookmarksFixture = (config) => {
   config.settings.bookmarks.bookmarkgroupmapping = {
     ...config.settings.bookmarks.bookmarkgroupmapping,
     'News Item': 'Nachrichten',
+    default_search: 'Suche',
+    default_nogroup: 'Miscellaneous',
   };
 
-  config.settings.bookmarks.filtermapping = {
-    facet_fields: {
-      'News Item': 'Nachricht',
-    },
-    search_sections: {
-      nachrichten: 'Nachrichten',
-    },
+  config.settings.bookmarks.filtermapping.facet_fields = {
+    ...config.settings.bookmarks.filtermapping.facet_fields,
+    'News Item': 'Typ Nachricht',
+    Document: 'Typ Seite',
+    published: 'veröffentlichte',
+  };
+  config.settings.bookmarks.filtermapping.search_sections = {
+    ...config.settings.bookmarks.filtermapping.search_sections,
+    nachrichten: 'Bereich Nachrichten',
+    others: 'Nicht in ausgewählten Bereichen',
   };
 
   // Add bookmarking to the search block
