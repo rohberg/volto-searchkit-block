@@ -149,7 +149,12 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
         description: intl.formatMessage(messages.searchableFieldsDescription),
         type: 'array',
         creatable: true,
-        default: ['title^1.4', 'description^1.2', 'blocks_plaintext'],
+        default: [
+          'title^1.4',
+          'description^1.2',
+          'subjects^1.2',
+          'blocks_plaintext',
+        ],
       },
       batchSize: {
         title: intl.formatMessage(messages.batchSize),
