@@ -3,6 +3,7 @@
       "plone.app.contenttypes:default",
       "plonetheme.barceloneta:default",
       "collective.elastic.plone:default",
+      "collective.bookmarks:default",
       "rohberg.voltosearchkitblocktestingprofiles:monolingual"
     ],
     "content": [
