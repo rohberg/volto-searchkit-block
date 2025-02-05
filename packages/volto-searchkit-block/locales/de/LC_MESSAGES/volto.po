@@ -248,7 +248,6 @@ msgstr "Stati"
 
 #. Default: "Tags"
 #: components/Views/ExtraInfo
-#: components/Views/FacetedSearch
 #: messages
 msgid "Tags"
 msgstr "Schlagwörter"

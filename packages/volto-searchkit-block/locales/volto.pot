@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone\n"
-"POT-Creation-Date: 2025-02-05T11:46:22.270Z\n"
+"POT-Creation-Date: 2025-02-05T11:57:20.388Z\n"
 "Last-Translator: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
 "Language-Team: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -250,7 +250,6 @@ msgstr ""
 
 #. Default: "Tags"
 #: components/Views/ExtraInfo
-#: components/Views/FacetedSearch
 #: messages
 msgid "Tags"
 msgstr ""
