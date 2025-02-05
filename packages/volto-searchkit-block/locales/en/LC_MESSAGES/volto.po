@@ -247,6 +247,7 @@ msgid "States"
 msgstr ""
 
 #. Default: "Tags"
+#: components/Views/ExtraInfo
 #: components/Views/FacetedSearch
 #: messages
 msgid "Tags"
