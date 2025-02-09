@@ -1,4 +1,3 @@
-// TODO translations title and descriptions of fields
 import {
   hasNonValueOperation,
   hasDateOperation,
@@ -57,7 +56,6 @@ const ExtrainfoSchema = ({ intl }) => {
   return extrainfoschema;
 };
 
-// TODO: add translations
 export const SearchBlockSchema = ({ data = {}, intl }) => {
   return {
     title: intl.formatMessage(messages.searchBlock),
