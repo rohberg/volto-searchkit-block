@@ -18,7 +18,12 @@ import { scrollToTarget } from '../helpers';
 class Results extends Component {
   componentDidMount() {
     // Dispatch event (on query change), other add-ons can subscribe to.
-    var evt = new CustomEvent('searchkitQueryChanged', {});
+    var evt = new CustomEvent('searchkitQueryChanged', {
+      detail: {
+        queryString: this.props.currentQueryState.queryString,
+        filters: this.props.currentQueryState.filters,
+      },
+    });
     window && window.dispatchEvent(evt);
     if (
       config.settings.searchkitblock.trackVoltoMatomo &&
