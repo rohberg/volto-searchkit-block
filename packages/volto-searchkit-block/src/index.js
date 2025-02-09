@@ -13,9 +13,6 @@ import {
 
 import SearchSectionsWidget from './components/Blocks/SearchSectionsWidget';
 
-// DEBUG
-import ListingVariationTemplateWithBookmarks from './components/Views/ListingVariationTemplateWithBookmarks';
-
 const applyConfig = (config) => {
   // @eeacms/volto-matomo
   config.settings.searchkitblock = {
@@ -128,14 +125,6 @@ const applyConfig = (config) => {
       },
     },
   ];
-
-  // DEBUG Testing bookmarks in search/listing block
-  // Variation with one bookmark button per listing item
-  config.blocks.blocksConfig.listing.variations.push({
-    id: 'intranet1',
-    title: 'Intranet 1',
-    template: ListingVariationTemplateWithBookmarks,
-  });
 
   return config;
 };
