@@ -7,6 +7,7 @@ import FormattedDate from '@plone/volto/components/theme/FormattedDate/Formatted
 import { flattenESUrlToPath } from '@rohberg/volto-searchkit-block/components/helpers';
 import cx from 'classnames';
 import { ToggleBookmarkButton } from '@plone-collective/volto-bookmarks/components';
+import ExtraInfo from '@rohberg/volto-searchkit-block/components/Views/ExtraInfo'; // Adjust the import path as necessary
 // import UniversalLink from '@plone/volto/components/manage/UniversalLink/UniversalLink';
 
 const CustomResultsListItemWithBookmarks = (props) => {
@@ -36,6 +37,8 @@ const CustomResultsListItemWithBookmarks = (props) => {
           <Item.Description>
             {truncate(result.description, { length: 200 })}
           </Item.Description>
+
+          <ExtraInfo result={result} />
           <Item.Extra>
             <div className="right floated">
               <ToggleBookmarkButton item={result} />
