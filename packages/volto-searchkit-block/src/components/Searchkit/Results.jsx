@@ -74,12 +74,12 @@ Results.defaultProps = {};
 
 const MyResults = (props) => {
   // Add scroll to search input field
-  React.useEffect(() => {
-    const el = document.querySelector('.searchkitsearch');
-    if (el) {
-      scrollToTarget(el);
-    }
-  }, []);
+  // React.useEffect(() => {
+  //   const el = document.querySelector('.searchkitsearch');
+  //   if (el) {
+  //     scrollToTarget(el);
+  //   }
+  // }, []);
 
   return <Results {...props} />;
 };

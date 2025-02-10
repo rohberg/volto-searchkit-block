@@ -28,6 +28,9 @@ importers:
       mrs-developer:
         specifier: ^2.2.0
         version: 2.3.0
+      testing-volto-bookmarks:
+        specifier: workspace:*
+        version: link:packages/testing-volto-bookmarks
       testing-volto-searchkit-block:
         specifier: workspace:*
         version: link:packages/testing-volto-searchkit-block
@@ -1654,6 +1657,8 @@ importers:
       release-it:
         specifier: ^17.1.1
         version: 17.1.1(typescript@5.7.3)
+
+  packages/testing-volto-bookmarks: {}
 
   packages/testing-volto-searchkit-block: {}
 
@@ -27512,7 +27517,11 @@ snapshots:
       pretty-format: 26.6.2
       throat: 5.0.0
     transitivePeerDependencies:
+      - bufferutil
+      - canvas
       - supports-color
+      - ts-node
+      - utf-8-validate
 
   jest-leak-detector@26.6.2:
     dependencies:

@@ -2,5 +2,6 @@ packages:
   # all packages in direct subdirs of packages/
   - 'core/packages/*'
   - 'packages/testing-volto-searchkit-block'
+  - 'packages/testing-volto-bookmarks'
   - 'packages/volto-bookmarks/packages/volto-bookmarks'
   - 'packages/volto-searchkit-block'
