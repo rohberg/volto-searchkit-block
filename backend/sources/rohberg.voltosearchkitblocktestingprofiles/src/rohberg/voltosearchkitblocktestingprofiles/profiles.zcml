@@ -3,68 +3,62 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="rohberg.voltosearchkitblocktestingprofiles"
     >
+    <!-- the first profile which is not included in 'getNonInstallableProfiles' is offered in 'http://localhost:8080/Plone/prefs_install_products_form' -->
 
-  <genericsetup:registerProfile
-      name="default"
-      title="my add-on: Install"
-      description="Package to configure a new Boo Hui site"
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      directory="profiles/default"
-      />
-
-  <genericsetup:registerProfile
-      name="uninstall"
-      title="my add-on: Uninstall"
-      description="Uninstall Boo Hui setup."
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      directory="profiles/uninstall"
-      />
 
 
   <!-- language settings -->
   <genericsetup:registerProfile
-      name="monolingual"
-      title="monolingual"
-      description="language settings monolingual"
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      directory="profiles/monolingual"
-      />
-
+    name="monolingual"
+    title="monolingual"
+    description="language settings monolingual"
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    directory="profiles/monolingual"
+    />
 
   <genericsetup:registerProfile
-      name="multilingual"
-      title="multilingual"
-      description="language settings multilingual"
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      directory="profiles/multilingual"
-      post_handler=".setuphandlers.multilingual"
-      />
+    name="multilingual"
+    title="multilingual"
+    description="language settings multilingual"
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    directory="profiles/multilingual"
+    post_handler=".setuphandlers.multilingual"
+    />
 
 
   <!-- language content -->
-  <genericsetup:registerProfile
-      name="initialmultilingual"
-      title="Example content for a multilingual site"
-      description="Create example content"
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      directory="profiles/initial"
-      pre_handler=".setuphandlers.initial.create_example_content_multilingual"
-      />
 
   <genericsetup:registerProfile
-      name="initialmonolingual"
-      title="Example content for a monolingual site"
-      description="Create example content"
+    name="initialmultilingual"
+    title="Example content for a multilingual site"
+    description="Create example content"
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    directory="profiles/initial"
+    pre_handler=".setuphandlers.initial.create_example_content_multilingual"
+    />
+
+
+  <!-- default profiles -->
+  <genericsetup:registerProfile
+      name="default"
+      title="voltosearchkitblocktestingprofiles: Install"
+      description="This package provides profiles for testing and example content. Not meant to be installed. "
       provides="Products.GenericSetup.interfaces.EXTENSION"
-      directory="profiles/initial"
-      pre_handler=".setuphandlers.initial.create_example_content_monolingual"
       />
+  
+  <genericsetup:registerProfile
+    name="uninstall"
+    title="voltosearchkitblocktestingprofiles: Uninstall"
+    description="Not meant to be installed. This package provides profiles for testing and example content."
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+
 
   <!-- Hide Uninstall Profile-->
   <utility
-      factory=".setuphandlers.HiddenProfiles"
-      name="rohberg.voltosearchkitblocktestingprofiles"
-      />
+    factory=".setuphandlers.HiddenProfiles"
+    name="rohberg.voltosearchkitblocktestingprofiles-hiddenprofiles"
+    />
 
 
 </configure>

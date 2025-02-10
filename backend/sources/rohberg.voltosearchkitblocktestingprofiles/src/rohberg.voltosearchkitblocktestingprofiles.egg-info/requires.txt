@@ -4,6 +4,7 @@ plone.api
 plone.restapi
 plone.volto
 plone.exportimport
+plone.distribution
 
 [test]
 zest.releaser[recommended]

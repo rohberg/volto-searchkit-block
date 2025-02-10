@@ -4,7 +4,6 @@ describe('Searchkit block tests- create search ', () => {
     cy.intercept('GET', '/**/Document').as('schema');
     // Wait a bit to previous teardown to complete correctly because Heisenbug in this point
     cy.wait(2000);
-    // given a logged in editor and a page in edit mode
     cy.autologin();
 
     cy.createContent({
@@ -29,9 +28,6 @@ describe('Searchkit block tests- create search ', () => {
       contentTitle: 'The garden in march',
       path: '/garden-blog',
     });
-
-    cy.visit('/');
-    cy.wait('@content');
   });
 
   afterEach(() => {

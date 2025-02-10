@@ -1,4 +1,4 @@
-Metadata-Version: 2.1
+Metadata-Version: 2.2
 Name: rohberg.voltosearchkitblocktestingprofiles
 Version: 1.0.0a0
 Summary: A new add-on boo with hui
@@ -31,6 +31,7 @@ Requires-Dist: plone.api
 Requires-Dist: plone.restapi
 Requires-Dist: plone.volto
 Requires-Dist: plone.exportimport
+Requires-Dist: plone.distribution
 Provides-Extra: test
 Requires-Dist: zest.releaser[recommended]; extra == "test"
 Requires-Dist: zestreleaser.towncrier; extra == "test"
@@ -39,6 +40,19 @@ Requires-Dist: plone.restapi[test]; extra == "test"
 Requires-Dist: pytest; extra == "test"
 Requires-Dist: pytest-cov; extra == "test"
 Requires-Dist: pytest-plone>=0.5.0; extra == "test"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: project-url
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
 
 
 # rohberg.voltosearchkitblocktestingprofiles

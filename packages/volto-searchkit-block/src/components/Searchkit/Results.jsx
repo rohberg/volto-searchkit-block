@@ -13,12 +13,17 @@ import config from '@plone/volto/registry';
 // TODO conditional Matomo tracking: catch case if app has not volto-matomo installed
 import * as matomoUtils from '@eeacms/volto-matomo/src/utils';
 
-import { scrollToTarget } from '../helpers';
+// import { scrollToTarget } from '../helpers';
 
 class Results extends Component {
   componentDidMount() {
     // Dispatch event (on query change), other add-ons can subscribe to.
-    var evt = new CustomEvent('searchkitQueryChanged', {});
+    var evt = new CustomEvent('searchkitQueryChanged', {
+      detail: {
+        queryString: this.props.currentQueryState.queryString,
+        filters: this.props.currentQueryState.filters,
+      },
+    });
     window && window.dispatchEvent(evt);
     if (
       config.settings.searchkitblock.trackVoltoMatomo &&
@@ -51,7 +56,9 @@ class Results extends Component {
           </Grid.Column>
         </Grid>
         <Grid style={{ padding: '2em 0' }}>
-          <ResultsMultiLayout overridableId="elasticsearch" />
+          <Grid.Column width={12}>
+            <ResultsMultiLayout layout="grid" overridableId="elasticsearch" />
+          </Grid.Column>
         </Grid>
         <Grid verticalAlign="middle" textAlign="center">
           <Pagination options={{ size: 'small' }} />
@@ -67,12 +74,12 @@ Results.defaultProps = {};
 
 const MyResults = (props) => {
   // Add scroll to search input field
-  React.useEffect(() => {
-    const el = document.querySelector('.searchkitsearch');
-    if (el) {
-      scrollToTarget(el);
-    }
-  }, []);
+  // React.useEffect(() => {
+  //   const el = document.querySelector('.searchkitsearch');
+  //   if (el) {
+  //     scrollToTarget(el);
+  //   }
+  // }, []);
 
   return <Results {...props} />;
 };

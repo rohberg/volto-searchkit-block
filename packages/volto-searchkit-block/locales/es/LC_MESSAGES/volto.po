@@ -23,6 +23,21 @@ msgstr ""
 msgid "Add {type}"
 msgstr ""
 
+#. Default: "Allow search everywhere except in sections"
+#: messages
+msgid "Allow search everywhere except in sections"
+msgstr ""
+
+#. Default: "Batch size"
+#: messages
+msgid "Batch size"
+msgstr ""
+
+#. Default: "CSS selector for relocation of search bar. Leave empty to keep search bar in block"
+#: messages
+msgid "CSS selector for relocation of search bar. Leave empty to keep search bar in block"
+msgstr ""
+
 #. Default: "Cancel"
 #: messages
 msgid "Cancel"
@@ -43,6 +58,11 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
+#. Default: "Default"
+#: messages
+msgid "Default"
+msgstr ""
+
 #. Default: "Description"
 #: messages
 msgid "Description"
@@ -51,6 +71,16 @@ msgstr ""
 #. Default: "Deselect all"
 #: components/Views/FacetedSearch
 msgid "Deselect all"
+msgstr ""
+
+#. Default: "Divers"
+#: messages
+msgid "Divers"
+msgstr ""
+
+#. Default: "Everywhere"
+#: components/Searchkit/SectionsSearch
+msgid "Everywhere"
 msgstr ""
 
 #. Default: "Facet"
@@ -73,6 +103,21 @@ msgstr ""
 msgid "Field"
 msgstr ""
 
+#. Default: "Field name of tags field"
+#: messages
+msgid "Field name of tags field"
+msgstr ""
+
+#. Default: "Fields to filter on"
+#: messages
+msgid "Fields to filter on"
+msgstr ""
+
+#. Default: "If no index exists, reindex your content or just start by editing and saving a page."
+#: components/Searchkit/Error
+msgid "If no index exists, reindex your content or just start by editing and saving a page."
+msgstr ""
+
 #. Default: "Label"
 #: messages
 msgid "Label"
@@ -93,9 +138,34 @@ msgstr ""
 msgid "No results"
 msgstr ""
 
+#. Default: "Not in sections"
+#: components/Searchkit/SectionsSearch
+msgid "Not in sections"
+msgstr ""
+
 #. Default: "Relevance"
 #: components/Views/FacetedSearch
 msgid "Relevance"
+msgstr ""
+
+#. Default: "Relocation"
+#: messages
+msgid "Relocation"
+msgstr ""
+
+#. Default: "Restrict review states"
+#: messages
+msgid "Restrict review states"
+msgstr ""
+
+#. Default: "Restrict types to display"
+#: messages
+msgid "Restrict types to display"
+msgstr ""
+
+#. Default: "Results"
+#: messages
+msgid "Results"
 msgstr ""
 
 #. Default: "Search block"
@@ -133,6 +203,11 @@ msgstr ""
 msgid "Search section label"
 msgstr ""
 
+#. Default: "Searchable fields with boosting"
+#: messages
+msgid "Searchable fields with boosting"
+msgstr ""
+
 #. Default: "Searchkit"
 #: messages
 msgid "Searchkit"
@@ -143,9 +218,29 @@ msgstr ""
 msgid "Select all"
 msgstr ""
 
+#. Default: "Show filter for excluded sections"
+#: messages
+msgid "Show filter for excluded sections"
+msgstr ""
+
 #. Default: "Show filter"
 #: messages
 msgid "Show filters"
+msgstr ""
+
+#. Default: "Show published date of news items"
+#: messages
+msgid "Show published date of news items"
+msgstr ""
+
+#. Default: "Show start date of events"
+#: messages
+msgid "Show start date of events"
+msgstr ""
+
+#. Default: "Show tags to search for. Let the field empty to not show tags"
+#: messages
+msgid "Show tags to search for. Let the field empty to not show tags"
 msgstr ""
 
 #. Default: "Sort by:"
@@ -153,8 +248,13 @@ msgstr ""
 msgid "Sort By:"
 msgstr ""
 
+#. Default: "States"
+#: messages
+msgid "States"
+msgstr ""
+
 #. Default: "Tags"
-#: components/Views/FacetedSearch
+#: components/Views/ExtraInfo
 #: messages
 msgid "Tags"
 msgstr ""
@@ -162,6 +262,16 @@ msgstr ""
 #. Default: "Title"
 #: messages
 msgid "Title"
+msgstr ""
+
+#. Default: "Type fieldnames to search in field names. Type title^1.4 to boost the title 40%"
+#: messages
+msgid "Type fieldnames to search in field names. Type title^1.4 to boost the title 40%"
+msgstr ""
+
+#. Default: "Types"
+#: messages
+msgid "Types"
 msgstr ""
 
 #. Default: "reset search"

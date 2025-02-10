@@ -25,7 +25,7 @@
     "admin"
   ],
   "description": "Es bleibt weiterhin schwierig Lehrstellen zu besetzen.",
-  "effective": "2024-11-10T16:33:23",
+  "effective": "2024-11-10T16:33:00",
   "exclude_from_nav": false,
   "expires": null,
   "exportimport.constrains": {},
@@ -34,25 +34,15 @@
     "0": {
       "@id": "/nachrichten/wieder-mehr-lehrstellen-besetzt",
       "@type": "News Item",
-      "UID": "ae5aa9374ceb4e628aa1f572342837c7",
+      "UID": "76fb268ff0d84fa78414640bb805dafb",
       "allow_discussion": false,
-      "blocks": {
-        "4072b826-b1a7-4d59-afdd-e5f2f7bc94bc": {
-          "@type": "title"
-        },
-        "7e807a94-5814-49e2-9714-8ec5e9b46f4e": {
-          "@type": "slate"
-        }
-      },
+      "blocks": {},
       "blocks_layout": {
-        "items": [
-          "4072b826-b1a7-4d59-afdd-e5f2f7bc94bc",
-          "7e807a94-5814-49e2-9714-8ec5e9b46f4e"
-        ]
+        "items": []
       },
       "changeNote": "",
       "contributors": [],
-      "created": "2024-11-10T15:33:19+00:00",
+      "created": "2025-01-16T08:43:06+00:00",
       "creators": [
         "admin"
       ],
@@ -64,13 +54,13 @@
       "image": null,
       "image_caption": null,
       "is_folderish": true,
-      "language": "de",
+      "language": "",
       "layout": "newsitem_view",
       "lock": {
         "locked": false,
         "stealable": true
       },
-      "modified": "2024-11-10T15:33:19+00:00",
+      "modified": "2025-01-16T08:43:06+00:00",
       "parent": {
         "@id": "/nachrichten",
         "@type": "Document",
@@ -85,7 +75,7 @@
       "review_state": "published",
       "rights": "",
       "subjects": [],
-      "title": "Wieder mehr Lehrstellen besetzt",
+      "title": "",
       "type_title": "News Item",
       "version": 0,
       "versioning_enabled": true

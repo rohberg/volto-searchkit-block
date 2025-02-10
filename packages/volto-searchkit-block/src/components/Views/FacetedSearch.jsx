@@ -9,6 +9,8 @@ import { FormattedMessage, useIntl } from 'react-intl';
 
 import { OverridableContext } from 'react-overridable';
 
+import ExtraInfo from './ExtraInfo';
+
 import {
   Button,
   Container,
@@ -40,7 +42,11 @@ import lastAngle from '@plone/volto/icons/last.svg';
 import clearSVG from '@plone/volto/icons/clear.svg';
 
 import messages from '../../messages';
-import { flattenESUrlToPath, getObjectFromObjectList } from '../helpers';
+import {
+  flattenESUrlToPath,
+  getObjectFromObjectList,
+  translateQuerystringindex,
+} from '../helpers';
 
 import { PloneSearchApi } from '../Searchkit/ESSearchApi';
 import { CustomESRequestSerializer } from '../Searchkit/CustomESRequestSerializer';
@@ -57,21 +63,6 @@ import ErrorComponent from '../Searchkit/Error';
 import './less/springisnow-volto-searchkit-block.less';
 
 import config from '@plone/volto/registry';
-
-/**
- *
- * @param {Object} querystringindexes
- * @param {String} fieldname One of the indexes
- * @param {String} key to be translated
- * @returns {String}
- */
-const translate = (querystringindexes, fieldname, key) => {
-  let label = key;
-  if (querystringindexes && fieldname in querystringindexes) {
-    label = querystringindexes[fieldname].values[key]?.title || key;
-  }
-  return label;
-};
 
 // TODO 2nd priority: Make reviewstatemapping configurable
 export const ploneSearchApi = (data, language) => {
@@ -102,116 +93,6 @@ export const ploneSearchApi = (data, language) => {
   });
 };
 
-const _ExtraInfo = (props) => {
-  const { result } = props;
-
-  const extrainfo_fields = getObjectFromObjectList(
-    props.currentQueryState.data.extrainfo_fields,
-  );
-  const facet_fields = getObjectFromObjectList(
-    props.currentQueryState.data.facet_fields,
-  );
-  let subjectsFieldname = props.currentQueryState.data?.subjectsFieldname; // "subjects";
-
-  const querystringindexes = useSelector(
-    (state) => state.query?.querystringindexes,
-  );
-
-  return (
-    <Item.Extra className="metadata">
-      {Object.keys(extrainfo_fields).map((extrainfo_key, idx) => {
-        if (!result[extrainfo_key]) {
-          return null;
-        }
-        const extrainfo_value = Array.isArray(result[extrainfo_key])
-          ? result[extrainfo_key]
-          : [result[extrainfo_key]];
-
-        return Object.keys(facet_fields).includes(extrainfo_key) ? (
-          <React.Fragment key={extrainfo_key}>
-            <span className="label">{extrainfo_fields[extrainfo_key]}:</span>
-            {extrainfo_value?.map((item, index) => {
-              let tito = translate(querystringindexes, extrainfo_key, item);
-              let payloadOfFilter = {
-                searchQuery: {
-                  sortBy: 'bestmatch',
-                  sortOrder: 'asc',
-                  layout: 'list',
-                  page: 1,
-                  size: props.currentQueryState.data.batchSize,
-                  filters: [[`${extrainfo_key}_agg`, item]],
-                },
-              };
-              return (
-                <button
-                  onClick={() => onQueryChanged(payloadOfFilter)}
-                  key={tito}
-                >
-                  {tito}
-                  {index < extrainfo_value.length - 1 ? ',' : null}
-                </button>
-              );
-            })}
-            {idx < Object.keys(extrainfo_fields).length - 1 && (
-              <span className="metadataseparator">|</span>
-            )}
-          </React.Fragment>
-        ) : (
-          <React.Fragment key={extrainfo_key}>
-            <span className="label">{extrainfo_fields[extrainfo_key]}:</span>
-            {extrainfo_value?.map((item, index) => {
-              let tito = item.title || item.token || item;
-              return (
-                <span key={index}>
-                  {tito}
-                  {index < extrainfo_value.length - 1 ? ',' : null}
-                </span>
-              );
-            })}
-            {idx < Object.keys(extrainfo_fields).length - 1 && (
-              <span className="metadataseparator">|</span>
-            )}
-          </React.Fragment>
-        );
-      })}
-
-      {Array.isArray(result[subjectsFieldname]) &&
-      result[subjectsFieldname]?.length > 0 ? (
-        <div className="metadata-tags">
-          <span className="label">
-            <FormattedMessage id="Tags" defaultMessage="Tags" />:
-          </span>
-          {result[subjectsFieldname]?.map((item, index) => {
-            let tito = item;
-            let payloadOfTag = {
-              searchQuery: {
-                sortBy: 'bestmatch',
-                sortOrder: 'asc',
-                layout: 'list',
-                page: 1,
-                size: props.currentQueryState.data.batchSize,
-                queryString: tito,
-              },
-            };
-            return (
-              <button key={tito} onClick={() => onQueryChanged(payloadOfTag)}>
-                {tito}
-                {index < result[subjectsFieldname].length - 1 ? (
-                  ','
-                ) : (
-                  <span></span>
-                )}
-              </button>
-            );
-          })}
-        </div>
-      ) : null}
-    </Item.Extra>
-  );
-};
-
-const ExtraInfo = withState(_ExtraInfo);
-
 const _CustomResultsListItem = (props) => {
   const { result } = props;
   const item_url = flattenESUrlToPath(result['@id']);
@@ -237,7 +118,11 @@ const _CustomResultsListItem = (props) => {
         result.informationtype?.length > 0 ? (
           <Item.Meta>
             {result.informationtype?.map((item, index) => {
-              let tito = translate(querystringindexes, 'informationtype', item);
+              let tito = translateQuerystringindex(
+                querystringindexes,
+                'informationtype',
+                item,
+              );
               const payload = {
                 searchQuery: {
                   sortBy: 'bestmatch',

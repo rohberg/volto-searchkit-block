@@ -8,7 +8,6 @@ import { flattenESUrlToPath } from '@rohberg/volto-searchkit-block/components/he
 import cx from 'classnames';
 import { ToggleBookmarkButton } from '@plone-collective/volto-bookmarks/components';
 import ExtraInfo from '@rohberg/volto-searchkit-block/components/Views/ExtraInfo'; // Adjust the import path as necessary
-// import UniversalLink from '@plone/volto/components/manage/UniversalLink/UniversalLink';
 
 const CustomResultsListItemWithBookmarks = (props) => {
   const { result } = props;

@@ -95,6 +95,7 @@ You can test search results on a test panel: `/controlpanel/test-searchkit-query
 
 Please update the settings according to your deployment: `/controlpanel/volto_searchkit_block_control_panel`
 
+
 ## Development
 
 The development of this add-on is done in isolation using a new approach using pnpm workspaces and latest `mrs-developer` and other Volto core improvements.
@@ -161,31 +162,7 @@ Install the frontend.
 make install
 ```
 
-### Start developing
-
-Start the backend. Monolingual:
-
-```shell
-make dev-backend-start-monolingual
-```
-
-or start the multilingual backend:
-
-```shell
-make dev-backend-start-monolingual
-```
-
-Create a site.
-
-```shell
-make create-site-monolingual
-```
-
-or create a multilingual site:
-
-```shell
-make create-site-multilingual
-```
+### Start processes
 
 Start the index server. Monolingual:
 
@@ -198,7 +175,21 @@ or start the index server multilingual:
 make dev-index-start-multilingual 
 ```
 
-In a separate terminal session, start the frontend.
+Start the backend. Monolingual:
+
+```shell
+make dev-backend-start-monolingual
+```
+
+or start the multilingual backend:
+
+```shell
+make dev-backend-start-multilingual
+```
+
+Create a site with one of the two distributions, monolingual or multilingual.
+
+In a separate terminal session, start the frontend:
 
 ```shell
 make start-monolingual
@@ -270,6 +261,5 @@ Appropriate make commands for **multilingual** Cypress tests are available.
 
 The project is licensed under the MIT license.
 
-## Credits and Acknowledgements 🙏
+## Credits and Acknowledgements 
 
-Crafted with care by **Generated using [Cookieplone (0.7.1)](https://github.com/plone/cookieplone) and [cookiecutter-plone (6f17615)](https://github.com/plone/cookiecutter-plone/commit/6f1761520019010ae3799dfa0c6b999b533d59a7) on 2024-10-26 13:17:25.419878**. A special thanks to all contributors and supporters!

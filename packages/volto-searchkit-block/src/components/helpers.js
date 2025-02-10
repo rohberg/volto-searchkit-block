@@ -61,4 +61,25 @@ function getObjectFromObjectList(objlst) {
   return obj;
 }
 
-export { NoSSR, flattenESUrlToPath, scrollToTarget, getObjectFromObjectList };
+/**
+ *
+ * @param {Object} querystringindexes
+ * @param {String} fieldname One of the indexes
+ * @param {String} key to be translated
+ * @returns {String}
+ */
+const translateQuerystringindex = (querystringindexes, fieldname, key) => {
+  let label = key;
+  if (querystringindexes && fieldname in querystringindexes) {
+    label = querystringindexes[fieldname].values[key]?.title || key;
+  }
+  return label;
+};
+
+export {
+  NoSSR,
+  getObjectFromObjectList,
+  flattenESUrlToPath,
+  scrollToTarget,
+  translateQuerystringindex,
+};
