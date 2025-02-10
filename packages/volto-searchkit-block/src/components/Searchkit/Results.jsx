@@ -13,7 +13,7 @@ import config from '@plone/volto/registry';
 // TODO conditional Matomo tracking: catch case if app has not volto-matomo installed
 import * as matomoUtils from '@eeacms/volto-matomo/src/utils';
 
-import { scrollToTarget } from '../helpers';
+// import { scrollToTarget } from '../helpers';
 
 class Results extends Component {
   componentDidMount() {
