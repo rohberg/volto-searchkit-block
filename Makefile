@@ -214,11 +214,11 @@ ci-acceptance-test-monolingual: ## Run cypress tests in headless mode for CI
 ###########################################
 .PHONY: acceptance-frontend-dev-start
 acceptance-frontend-dev-start-multilingual: ## Start acceptance frontend in development mode
-	ADDONS="@plone-collective/volto-bookmarks;testing-volto-searchkit-block:multilingualFixture" RAZZLE_API_PATH=http://127.0.0.1:55001/plone pnpm start
+	ADDONS="testing-volto-searchkit-block:multilingualFixture" RAZZLE_API_PATH=http://127.0.0.1:55001/plone pnpm start
 
 .PHONY: acceptance-frontend-prod-start
 acceptance-frontend-prod-start-multilingual: ## Start acceptance frontend in production mode
-	ADDONS="@plone-collective/volto-bookmarks;testing-volto-searchkit-block:multilingualFixture" RAZZLE_API_PATH=http://127.0.0.1:55001/plone pnpm build && pnpm start:prod
+	ADDONS="testing-volto-searchkit-block:multilingualFixture" RAZZLE_API_PATH=http://127.0.0.1:55001/plone pnpm build && pnpm start:prod
 
 .PHONY: acceptance-backend-start-multilingual
 acceptance-backend-start-multilingual: ## Start backend acceptance server
