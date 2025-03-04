@@ -17,4 +17,11 @@
     directory="distributions/monolingualtestcontent"
     />
 
+  <plone:distribution
+    name="multilingualexamplecontent"
+    title="Multilingual Example Content"
+    description="A Plone site already configured multilingual with languages 'english', 'german' and some example content"
+    directory="distributions/multilingualtestcontent"
+    />
+
 </configure>

@@ -1,6 +1,6 @@
 [
   {
-    "@id": "http://nohost/Multilingual",
+    "@id": "http://nohost/Plone",
     "UID": "plone_site_root",
     "portlets": {
       "plone.footerportlets": [

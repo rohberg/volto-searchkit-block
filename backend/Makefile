@@ -113,7 +113,7 @@ console: instance/etc/zope.ini ## Start a console into a Plone instance
 	source .dev-env
 	PYTHONWARNINGS=ignore $(BIN_FOLDER)/zconsole debug instance/etc/zope.conf
 
-# OBSOLETE See distribution 'monolingualexamplecontent' and 'multilingualexamplecontent'
+# OBSOLETE See distributions 'monolingualexamplecontent' and 'multilingualexamplecontent'
 # # Example Content
 # .PHONY: create-site-monolingual
 # create-site-monolingual: instance/etc/zope.ini ## Create a new site from scratch
@@ -129,13 +129,13 @@ console: instance/etc/zope.ini ## Start a console into a Plone instance
 update-example-content-monolingual: $(BIN_FOLDER)/tox ## Export example content inside package to update the distribution
 	@echo "$(GREEN)==> Export example content into $(EXAMPLE_CONTENT_FOLDER_MONOLINGUAL) $(RESET)"
 	if [ -d $(EXAMPLE_CONTENT_FOLDER_MONOLINGUAL)/content ]; then rm -r $(EXAMPLE_CONTENT_FOLDER_MONOLINGUAL)/* ;fi
-	$(BIN_FOLDER)/plone-exporter instance/etc/zope.conf $(PLONE_SITE_ID_MONOLINGUAL) $(EXAMPLE_CONTENT_FOLDER_MONOLINGUAL)
+	$(BIN_FOLDER)/export-distribution instance/etc/zope.conf $(PLONE_SITE_ID_MONOLINGUAL)
 
 .PHONY: update-example-content-multilingual
 update-example-content-multilingual: $(BIN_FOLDER)/tox ## Export example content inside package to update the distribution
 	@echo "$(GREEN)==> Export example content into $(EXAMPLE_CONTENT_FOLDER_MULTILINGUAL) $(RESET)"
 	if [ -d $(EXAMPLE_CONTENT_FOLDER_MULTILINGUAL)/content ]; then rm -r $(EXAMPLE_CONTENT_FOLDER_MULTILINGUAL)/* ;fi
-	$(BIN_FOLDER)/plone-exporter instance/etc/zope.conf $(PLONE_SITE_ID_MULTILINGUAL) $(EXAMPLE_CONTENT_FOLDER_MULTILINGUAL)
+	$(BIN_FOLDER)/export-distribution instance/etc/zope.conf $(PLONE_SITE_ID_MULTILINGUAL) 
 
 # Index server
 .PHONY: dev-index-start-monolingual
