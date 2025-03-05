@@ -30,6 +30,7 @@ services:
     image: ghcr.io/collective/collective.elastic.ingest:latest
     environment:
       # Different INDEX_NAME
+      # Different PLONE_SITE_PREFIX_PATH
       MAPPINGS_FILE: ${MAPPINGS_FILE}
       ANALYSIS_FILE: ${ANALYSIS_FILE}
       PREPROCESSINGS_FILE: ${PREPROCESSINGS_FILE}
