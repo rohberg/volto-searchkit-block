@@ -10,6 +10,8 @@
   <include file="dependencies.zcml" />
   <include file="profiles.zcml" />
 
+  <include package=".browser" />
+
   <plone:distribution
     name="monolingualexamplecontent"
     title="Monolingual Example Content"
