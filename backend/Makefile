@@ -113,17 +113,16 @@ console: instance/etc/zope.ini ## Start a console into a Plone instance
 	source .dev-env
 	PYTHONWARNINGS=ignore $(BIN_FOLDER)/zconsole debug instance/etc/zope.conf
 
-# OBSOLETE See distributions 'monolingualexamplecontent' and 'multilingualexamplecontent'
-# # Example Content
-# .PHONY: create-site-monolingual
-# create-site-monolingual: instance/etc/zope.ini ## Create a new site from scratch
-# 	source .dev-env
-# 	DELETE_EXISTING=true PYTHONWARNINGS=ignore $(BIN_FOLDER)/zconsole run instance/etc/zope.conf ./scripts/create_site.py --log=DEBUG
+# Example Content
+.PHONY: create-site-monolingual
+create-site-monolingual: instance/etc/zope.ini ## Create a new site from scratch
+	source .dev-env
+	DELETE_EXISTING=true PYTHONWARNINGS=ignore $(BIN_FOLDER)/zconsole run instance/etc/zope.conf ./scripts/create_site.py --log=DEBUG
 
-# .PHONY: create-site-multilingual
-# create-site-multilingual: instance/etc/zope.ini ## Create a new site from scratch
-# 	source .dev-env
-# 	DELETE_EXISTING=true ISMULTILINGUAL=true PYTHONWARNINGS=ignore $(BIN_FOLDER)/zconsole run instance/etc/zope.conf ./scripts/create_site.py
+.PHONY: create-site-multilingual
+create-site-multilingual: instance/etc/zope.ini ## Create a new site from scratch
+	source .dev-env
+	DELETE_EXISTING=true ISMULTILINGUAL=true PYTHONWARNINGS=ignore $(BIN_FOLDER)/zconsole run instance/etc/zope.conf ./scripts/create_site.py
 
 .PHONY: update-example-content-monolingual
 update-example-content-monolingual: $(BIN_FOLDER)/tox ## Export example content inside package to update the distribution

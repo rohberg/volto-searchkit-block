@@ -51,19 +51,17 @@ dev-backend-start-multilingual: ## Start Plone
 	$(MAKE) -C "./backend/" start
 
 # content
+.PHONY: create-site-monolingual
+create-site-monolingual: ## Create monolingual site
+	export INDEX_NAME=plone
+	export INDEX_PASSWORD=paraDiesli,17
+	$(MAKE) -C "./backend/" create-site-monolingual
 
-# OBSOLETE See distributions 'monolingualexamplecontent' and 'multilingualexamplecontent'
-# .PHONY: create-site-monolingual
-# create-site-monolingual: ## Create monolingual site
-# 	export INDEX_NAME=plone
-# 	export INDEX_PASSWORD=paraDiesli,17
-# 	$(MAKE) -C "./backend/" create-site-monolingual
-
-# .PHONY: create-site-multilingual
-# create-site-multilingual: ## Create multilingual site
-# 	export INDEX_NAME=multilingual
-# 	export INDEX_PASSWORD=paraDiesli,17
-# 	$(MAKE) -C "./backend/" create-site-multilingual
+.PHONY: create-site-multilingual
+create-site-multilingual: ## Create multilingual site
+	export INDEX_NAME=multilingual
+	export INDEX_PASSWORD=paraDiesli,17
+	$(MAKE) -C "./backend/" create-site-multilingual
 
 .PHONY: update-example-content-monolingual
 update-example-content-monolingual: ## Export monolingual example content to distribution
