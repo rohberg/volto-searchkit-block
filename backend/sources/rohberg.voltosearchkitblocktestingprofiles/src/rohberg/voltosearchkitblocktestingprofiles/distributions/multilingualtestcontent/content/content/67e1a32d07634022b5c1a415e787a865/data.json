@@ -1,0 +1,72 @@
+{
+  "@id": "/en",
+  "@type": "LRF",
+  "UID": "67e1a32d07634022b5c1a415e787a865",
+  "allow_discussion": null,
+  "blocks": {
+    "8ff68d18-d3f7-424e-901e-4249c00b4347": {
+      "@type": "title"
+    },
+    "f2256e01-ff19-4d2b-b8ff-2cd3829b84d9": {
+      "@type": "slate",
+      "plaintext": "Welcome to your new Plone site!",
+      "value": [
+        {
+          "children": [
+            {
+              "text": "Welcome to your new Plone site!"
+            }
+          ],
+          "type": "p"
+        }
+      ]
+    }
+  },
+  "blocks_layout": {
+    "items": [
+      "8ff68d18-d3f7-424e-901e-4249c00b4347",
+      "f2256e01-ff19-4d2b-b8ff-2cd3829b84d9"
+    ]
+  },
+  "contributors": [],
+  "created": "2025-03-04T08:23:57+00:00",
+  "creators": [
+    "admin"
+  ],
+  "description": "",
+  "effective": null,
+  "exclude_from_nav": true,
+  "expires": null,
+  "exportimport.constrains": {},
+  "exportimport.conversation": [],
+  "id": "en",
+  "is_folderish": true,
+  "language": "##DEFAULT##",
+  "layout": "folder_listing",
+  "lock": {},
+  "modified": "2025-03-05T09:40:33+00:00",
+  "review_state": "published",
+  "rights": "",
+  "subjects": [],
+  "title": "English",
+  "type_title": "Language Root Folder",
+  "version": "current",
+  "workflow_history": {
+    "simple_publication_workflow": [
+      {
+        "action": null,
+        "actor": "admin",
+        "comments": "",
+        "review_state": "private",
+        "time": "2025-03-04T08:23:57+00:00"
+      },
+      {
+        "action": "publish",
+        "actor": "admin",
+        "comments": "",
+        "review_state": "published",
+        "time": "2025-03-04T08:23:57+00:00"
+      }
+    ]
+  }
+}

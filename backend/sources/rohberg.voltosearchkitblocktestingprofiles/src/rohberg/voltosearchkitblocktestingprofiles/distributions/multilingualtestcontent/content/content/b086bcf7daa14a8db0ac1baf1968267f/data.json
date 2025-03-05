@@ -1,0 +1,51 @@
+{
+  "@id": "/de",
+  "@type": "LRF",
+  "UID": "b086bcf7daa14a8db0ac1baf1968267f",
+  "allow_discussion": null,
+  "blocks": {},
+  "blocks_layout": {
+    "items": []
+  },
+  "contributors": [],
+  "created": "2025-03-04T08:23:57+00:00",
+  "creators": [
+    "admin"
+  ],
+  "description": "",
+  "effective": null,
+  "exclude_from_nav": true,
+  "expires": null,
+  "exportimport.constrains": {},
+  "exportimport.conversation": [],
+  "id": "de",
+  "is_folderish": true,
+  "language": "de",
+  "layout": "folder_listing",
+  "lock": {},
+  "modified": "2025-03-05T09:44:58+00:00",
+  "review_state": "published",
+  "rights": "",
+  "subjects": [],
+  "title": "Deutsch",
+  "type_title": "Language Root Folder",
+  "version": "current",
+  "workflow_history": {
+    "simple_publication_workflow": [
+      {
+        "action": null,
+        "actor": "admin",
+        "comments": "",
+        "review_state": "private",
+        "time": "2025-03-04T08:23:57+00:00"
+      },
+      {
+        "action": "publish",
+        "actor": "admin",
+        "comments": "",
+        "review_state": "published",
+        "time": "2025-03-04T08:23:57+00:00"
+      }
+    ]
+  }
+}

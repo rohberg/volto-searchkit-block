@@ -1,0 +1,81 @@
+{
+  "@id": "/en/news/purslane-can-be-harvested",
+  "@type": "News Item",
+  "UID": "4c5e1b3e7d774e8ba3b388a4faa3608a",
+  "allow_discussion": null,
+  "blocks": {
+    "08f324f3-bc1c-4c0f-8bcb-806c16382034": {
+      "@type": "title"
+    },
+    "14b8a0da-71b6-4f7b-85a2-b4532a3d29fe": {
+      "@type": "slate",
+      "plaintext": "Plenty of salad is ready to harvest.",
+      "value": [
+        {
+          "children": [
+            {
+              "text": "Plenty of salad is ready to harvest."
+            }
+          ],
+          "type": "p"
+        }
+      ]
+    }
+  },
+  "blocks_layout": {
+    "items": [
+      "08f324f3-bc1c-4c0f-8bcb-806c16382034",
+      "14b8a0da-71b6-4f7b-85a2-b4532a3d29fe"
+    ]
+  },
+  "changeNote": "",
+  "contributors": [],
+  "created": "2025-03-05T09:41:27+00:00",
+  "creators": [
+    "admin"
+  ],
+  "description": "",
+  "effective": "2025-03-05T10:41:43",
+  "exclude_from_nav": false,
+  "expires": null,
+  "exportimport.constrains": {},
+  "exportimport.conversation": [],
+  "id": "purslane-can-be-harvested",
+  "image": null,
+  "image_caption": null,
+  "is_folderish": true,
+  "language": "##DEFAULT##",
+  "layout": "newsitem_view",
+  "lock": {
+    "locked": false,
+    "stealable": true
+  },
+  "modified": "2025-03-05T10:11:02+00:00",
+  "review_state": "published",
+  "rights": "",
+  "subjects": [
+    "harvesting"
+  ],
+  "title": "Purslane can be harvested",
+  "type_title": "News Item",
+  "version": "current",
+  "versioning_enabled": true,
+  "workflow_history": {
+    "simple_publication_workflow": [
+      {
+        "action": null,
+        "actor": "admin",
+        "comments": "",
+        "review_state": "private",
+        "time": "2025-03-05T09:41:27+00:00"
+      },
+      {
+        "action": "publish",
+        "actor": "admin",
+        "comments": "",
+        "review_state": "published",
+        "time": "2025-03-05T09:41:43+00:00"
+      }
+    ]
+  }
+}

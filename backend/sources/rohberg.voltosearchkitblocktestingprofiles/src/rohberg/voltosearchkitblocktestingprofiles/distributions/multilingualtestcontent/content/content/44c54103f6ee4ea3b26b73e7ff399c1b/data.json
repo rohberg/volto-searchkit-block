@@ -1,0 +1,81 @@
+{
+  "@id": "/en/tutorials-garden/preparing-the-garden-in-february",
+  "@type": "Document",
+  "UID": "44c54103f6ee4ea3b26b73e7ff399c1b",
+  "allow_discussion": null,
+  "blocks": {
+    "5d04c129-37e1-4458-ba21-696d886fd178": {
+      "@type": "slate",
+      "plaintext": "Check if all old stuff is removed from the",
+      "value": [
+        {
+          "children": [
+            {
+              "text": "Check if all old stuff is removed from the "
+            }
+          ],
+          "type": "p"
+        }
+      ]
+    },
+    "5eaf5b72-bc44-48bc-b224-1e0383d422ec": {
+      "@type": "title"
+    }
+  },
+  "blocks_layout": {
+    "items": [
+      "5eaf5b72-bc44-48bc-b224-1e0383d422ec",
+      "5d04c129-37e1-4458-ba21-696d886fd178"
+    ]
+  },
+  "changeNote": "",
+  "contributors": [],
+  "created": "2025-03-05T09:13:19+00:00",
+  "creators": [
+    "admin"
+  ],
+  "description": "",
+  "effective": "2025-03-05T10:25:02",
+  "exclude_from_nav": false,
+  "expires": null,
+  "exportimport.constrains": {},
+  "exportimport.conversation": [],
+  "id": "preparing-the-garden-in-february",
+  "is_folderish": true,
+  "language": "##DEFAULT##",
+  "layout": "document_view",
+  "lock": {
+    "locked": false,
+    "stealable": true
+  },
+  "modified": "2025-03-05T09:26:23+00:00",
+  "preview_caption": null,
+  "preview_image": null,
+  "review_state": "published",
+  "rights": "",
+  "subjects": [
+    "preparation"
+  ],
+  "title": "Preparing the garden in february",
+  "type_title": "Page",
+  "version": "current",
+  "versioning_enabled": true,
+  "workflow_history": {
+    "simple_publication_workflow": [
+      {
+        "action": null,
+        "actor": "admin",
+        "comments": "",
+        "review_state": "private",
+        "time": "2025-03-05T09:13:19+00:00"
+      },
+      {
+        "action": "publish",
+        "actor": "admin",
+        "comments": "",
+        "review_state": "published",
+        "time": "2025-03-05T09:25:02+00:00"
+      }
+    ]
+  }
+}

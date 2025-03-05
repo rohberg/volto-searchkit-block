@@ -1,0 +1,84 @@
+{
+  "@id": "/en/news",
+  "@type": "Document",
+  "UID": "07c8fd1fc1e14061b445ad26ba7d4f44",
+  "allow_discussion": null,
+  "blocks": {
+    "8092c3da-c9b3-455c-a5fa-566d2f733a12": {
+      "@type": "slate"
+    },
+    "c8625104-fca3-428a-883a-20e205206b04": {
+      "@type": "listing",
+      "headlineTag": "h2",
+      "querystring": {
+        "query": [
+          {
+            "i": "path",
+            "o": "plone.app.querystring.operation.string.relativePath",
+            "v": "."
+          }
+        ],
+        "sort_order": "ascending"
+      },
+      "variation": "default"
+    },
+    "e40d1234-d0b2-4f81-b44d-2c6c82ff12c4": {
+      "@type": "title"
+    }
+  },
+  "blocks_layout": {
+    "items": [
+      "e40d1234-d0b2-4f81-b44d-2c6c82ff12c4",
+      "c8625104-fca3-428a-883a-20e205206b04",
+      "8092c3da-c9b3-455c-a5fa-566d2f733a12"
+    ]
+  },
+  "changeNote": "",
+  "contributors": [],
+  "created": "2025-03-05T09:40:33+00:00",
+  "creators": [
+    "admin"
+  ],
+  "description": "",
+  "effective": "2025-03-05T10:41:38",
+  "exclude_from_nav": false,
+  "expires": null,
+  "exportimport.constrains": {},
+  "exportimport.conversation": [],
+  "id": "news",
+  "is_folderish": true,
+  "language": "##DEFAULT##",
+  "layout": "document_view",
+  "lock": {
+    "locked": false,
+    "stealable": true
+  },
+  "modified": "2025-03-05T09:41:38+00:00",
+  "preview_caption": null,
+  "preview_image": null,
+  "review_state": "published",
+  "rights": "",
+  "subjects": [],
+  "title": "News",
+  "type_title": "Page",
+  "version": "current",
+  "versioning_enabled": true,
+  "workflow_history": {
+    "simple_publication_workflow": [
+      {
+        "action": null,
+        "actor": "admin",
+        "comments": "",
+        "review_state": "private",
+        "time": "2025-03-05T09:40:33+00:00"
+      },
+      {
+        "action": "publish",
+        "actor": "admin",
+        "comments": "",
+        "review_state": "published",
+        "time": "2025-03-05T09:41:38+00:00"
+      }
+    ]
+  }
+}

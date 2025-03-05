@@ -1,1 +1,38 @@
-[]
+[
+  {
+    "canonical": "4c5e1b3e7d774e8ba3b388a4faa3608a",
+    "translations": {
+      "de": "f134283af81d44cb9c4ec9e6fead3873"
+    }
+  },
+  {
+    "canonical": "54b0141ce259436ab3fc8ecdfdd4e463",
+    "translations": {
+      "de": "f68be5615ea74811a1d34e24fa90f1ac"
+    }
+  },
+  {
+    "canonical": "5319a69bf7cc489f9875864a3989b470",
+    "translations": {
+      "de": "d3f52795231b48098afde8f972aa91d3"
+    }
+  },
+  {
+    "canonical": "3b25407f317b4ac391147eff5dac2ee9",
+    "translations": {
+      "de": "7ada133a8d6449848bbfc16a0b903f12"
+    }
+  },
+  {
+    "canonical": "67e1a32d07634022b5c1a415e787a865",
+    "translations": {
+      "de": "b086bcf7daa14a8db0ac1baf1968267f"
+    }
+  },
+  {
+    "canonical": "07c8fd1fc1e14061b445ad26ba7d4f44",
+    "translations": {
+      "de": "877d255aa0614741ad9906f1abecd150"
+    }
+  }
+]
