@@ -1,9 +1,5 @@
-from plone.distribution.api import site as site_api
-
 from AccessControl.SecurityManagement import newSecurityManager
-from Products.CMFPlone.factory import _DEFAULT_PROFILE
-from Products.CMFPlone.factory import addPloneSite
-from Products.GenericSetup.tool import SetupTool
+from plone.distribution.api import site as site_api
 from rohberg.voltosearchkitblocktestingprofiles.interfaces import IBrowserLayer
 from Testing.makerequest import makerequest
 from zope.interface import directlyProvidedBy
