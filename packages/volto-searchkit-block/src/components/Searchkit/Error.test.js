@@ -11,7 +11,7 @@ beforeAll(() => {});
 const mockStore = configureStore();
 
 describe('Generic Error', () => {
-  it('renders a simple error component', () => {
+  it('renders a simple error message if error', () => {
     const store = mockStore({
       intl: {
         locale: 'en',
@@ -27,6 +27,24 @@ describe('Generic Error', () => {
               message: 'Service pipapo not found.',
             }}
           />
+        </MemoryRouter>
+      </Provider>,
+    );
+    const json = component.toJSON();
+    expect(json).toMatchSnapshot();
+  });
+
+  it('renders null if no error', () => {
+    const store = mockStore({
+      intl: {
+        locale: 'en',
+        messages: {},
+      },
+    });
+    const component = renderer.create(
+      <Provider store={store}>
+        <MemoryRouter>
+          <Error error={{}} />
         </MemoryRouter>
       </Provider>,
     );
