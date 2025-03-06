@@ -105,15 +105,12 @@ start: ## Starts Volto, allowing reloading of the add-on during development
 
 .PHONY: start-monolingual
 start-monolingual: ## frontend with language 'de'
-	ADDONS=testing-volto-searchkit-block:monolingualFixture pnpm start
+	# ADDONS=testing-volto-searchkit-block:monolingualFixture pnpm start
+	ADDONS="testing-volto-bookmarks:bookmarksFixture;testing-volto-searchkit-block:monolingualFixture" pnpm start
 
 .PHONY: start-multilingual
-start-multilingual: ## frontend with language 'de' and multilingual
-	ADDONS=testing-volto-searchkit-block:multilingualFixture RAZZLE_DEV_PROXY_API_PATH=http://127.0.0.1:8080/Multilingual pnpm start
-
-.PHONY: start-with-bookmarks
-start-with-bookmarks: ## frontend with addon `volto-bookmarks`, monolinugal with language 'de
-	ADDONS="testing-volto-bookmarks:bookmarksFixture;testing-volto-searchkit-block:monolingualFixture" pnpm start
+start-multilingual: ## frontend with languages 'en' and 'de' and multilingual
+	ADDONS="testing-volto-bookmarks:bookmarksFixture;testing-volto-searchkit-block:multilingualFixture" RAZZLE_DEV_PROXY_API_PATH=http://127.0.0.1:8080/Multilingual pnpm start
 
 .PHONY: build
 build: ## Build a production bundle for distribution of the project with the add-on
