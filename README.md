@@ -30,41 +30,11 @@ The block is prepared for Matomo analytics.
 
 ![Search @rohberg/volto-searchkit-block](docs/source/_static/img/search.png)
 
-## Installation
-
-### Plone backend
-
-TODO backend instructions
-
-### OpenSearch / ElasticSearch 
-
-TODO OpenSearch
-
-### Volto frontend
-
-Add `volto-searchkit-block` to your `package.json`:
-
-```json
-"dependencies": {
-    "@rohberg/volto-searchkit-block": "^2.0.0"
-}
-```
-
-Add `@rohberg/volto-searchkit-block` to your add-ons in `volto.config.js`:
-
-```javascript
-const addons = ['@rohberg/volto-searchkit-block'];
-```
-
-### Configuration of the search block
-
-TODO Configuration of the search block
 
 ## Demo
 
-TODO demo
+<!-- TODO demo -->
 
-Visit http://localhost:3000/ in a browser, login, and check the awesome new features.
 
 ## User instructions
 
@@ -89,7 +59,45 @@ Example: "LSR-Lehrbetrieb" is found by a search for "LSR".
 Search results include at least one of the search strings.
 
 
-# Panel for testing matches
+## Installation
+
+### Plone backend
+
+This add-on relies on indexing and secure querying via [collective.elastic.plone](https://github.com/collective/collective.elastic.plone).
+Add  this add-on `collective.elastic.plone` to your backend.
+
+```
+collective.elastic.plone[redis,opensearch]
+```
+
+### OpenSearch / ElasticSearch 
+
+<!-- TODO OpenSearch -->
+
+Integrate a container for the index server.
+
+### Volto frontend
+
+Add `volto-searchkit-block` to your `package.json`:
+
+```json
+"dependencies": {
+    "@rohberg/volto-searchkit-block": "^1.0.0"
+}
+```
+
+Add `@rohberg/volto-searchkit-block` to your add-ons in `volto.config.js`:
+
+```javascript
+const addons = ['@rohberg/volto-searchkit-block'];
+```
+
+### Configuration of the search block
+
+<!-- TODO Configuration of the search block -->
+
+
+### Panel for testing matches
 
 You can test search results on a test panel: `/controlpanel/test-searchkit-querystrings`
 
@@ -112,6 +120,8 @@ For this reason, it only works with pnpm and Volto 18.
 ### Make convenience commands
 
 Run `make help` to list the available commands.
+
+<!-- TODO Update list of make commands -->
 
 ```text
 help                                          Show this help
@@ -164,7 +174,7 @@ make install
 
 ### Start processes
 
-Start the index server. Monolingual:
+Start the **index server**. Monolingual:
 
 ```shell
 make dev-index-start-monolingual 
@@ -175,7 +185,7 @@ or start the index server multilingual:
 make dev-index-start-multilingual 
 ```
 
-Start the backend. Monolingual:
+Start the **backend**. Monolingual:
 
 ```shell
 make dev-backend-start-monolingual
@@ -189,7 +199,7 @@ make dev-backend-start-multilingual
 
 Create a site with one of the two distributions, monolingual or multilingual.
 
-In a separate terminal session, start the frontend:
+In a separate terminal session, start the **frontend**:
 
 ```shell
 make start-monolingual
@@ -256,6 +266,7 @@ make acceptance-test-monolingual
 ```
 
 Appropriate make commands for **multilingual** Cypress tests are available.
+
 
 ## License
 
