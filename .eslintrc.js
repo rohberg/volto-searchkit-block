@@ -32,10 +32,6 @@ module.exports = {
             '@rohberg/volto-searchkit-block',
             `${projectRootPath}/packages/volto-searchkit-block/src`,
           ],
-          [
-            '@plone-collective/volto-bookmarks',
-            `${projectRootPath}/packages/volto-bookmarks/packages/volto-bookmarks/src`,
-          ],
           ...addonAliases,
         ],
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
