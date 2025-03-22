@@ -1,5 +1,5 @@
 import Bookmarking from '@plone-collective/volto-bookmarks/components/Bookmarking';
-import ListingVariationTemplateWithBookmarks from '@plone-collective/volto-bookmarks/components/ListingVariationTemplateWithBookmarks';
+import ListingVariationTemplateWithBookmarks from './components/ListingVariationTemplateWithBookmarks';
 import CustomResultsListItemWithBookmarks from './components/CustomResultsListItemWithBookmarks';
 
 /**
