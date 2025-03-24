@@ -32,6 +32,11 @@ module.exports = {
             '@rohberg/volto-searchkit-block',
             `${projectRootPath}/packages/volto-searchkit-block/src`,
           ],
+          [
+            '@plone-collective/volto-bookmarks',
+            // `${projectRootPath}/node_modules/.pnpm/@plone-collective+volto-bookmarks@3.0.2_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/@plone-collective/volto-bookmarks/src`,
+            `${projectRootPath}/packages/testing-volto-bookmarks/node_modules/@plone-collective/volto-bookmarks/src`,
+          ],
           ...addonAliases,
         ],
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
