@@ -13,7 +13,7 @@ Searching with OpenSearch or ElasticSearch
 <!-- TODO README
 - user instruction how to search
 - backend instructions
-- …
+- Matomo
  -->
 
 Search block with highly overridable components for searching, filtering and displaying search results. Sometimes also called faceted navigation.
@@ -95,6 +95,63 @@ const addons = ['@rohberg/volto-searchkit-block'];
 ### Configuration of the search block
 
 <!-- TODO Configuration of the search block -->
+
+
+### Tracking search with Matomo
+
+The search can be tracked with an event listener.
+The event dispatched per search is called `searchkitQueryChanged`.
+
+#### Integration with `@eeacms/volto-matomo`
+
+Event listener
+
+```jsx
+import React from 'react';
+import * as matomoUtils from '@eeacms/volto-matomo/utils';
+
+const TrackSearch = () => {
+  React.useEffect(() => {
+    const handleFooEvent = (event) => {
+      // Matomo trackSiteSearch(keyword, [category], [resultsCount])
+      // See https://developer.matomo.org/guides/tracking-javascript
+      let options = {
+        keyword: event.detail.queryString,
+        category: 'search',
+        count: event.detail.total,
+      };
+      matomoUtils.trackSiteSearch(
+        options.keyword,
+        options.category,
+        options.count,
+      );
+    };
+
+    window.addEventListener('searchkitQueryChanged', handleFooEvent);
+
+    return () => {
+      window.removeEventListener('searchkitQueryChanged', handleFooEvent);
+    };
+  }, []);
+
+  return null;
+};
+
+export default TrackSearch;
+```
+
+Integrate via appExtra
+
+```js
+  config.settings.appExtras = [
+    ...config.settings.appExtras,
+    {
+      match: '/',
+      component: TrackSearch,
+    },
+  ];
+```
+
 
 
 ### Panel for testing matches

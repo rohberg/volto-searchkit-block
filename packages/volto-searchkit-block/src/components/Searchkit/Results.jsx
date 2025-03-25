@@ -8,34 +8,20 @@ import {
   withState,
 } from 'react-searchkit';
 
-import config from '@plone/volto/registry';
-
-import * as matomoUtils from '@eeacms/volto-matomo/src/utils';
-
 // import { scrollToTarget } from '../helpers';
 
 class Results extends Component {
   componentDidMount() {
-    // Dispatch event (on query change), other add-ons can subscribe to.
+    // Dispatch an event on query change, other add-ons can subscribe to.
+    let detail = {
+      queryString: this.props.currentQueryState.queryString,
+      filters: this.props.currentQueryState.filters,
+      total: this.props.currentResultsState.data.total,
+    };
     var evt = new CustomEvent('searchkitQueryChanged', {
-      detail: {
-        queryString: this.props.currentQueryState.queryString,
-        filters: this.props.currentQueryState.filters,
-      },
+      detail: detail,
     });
     window && window.dispatchEvent(evt);
-
-    if (
-      config.settings.searchkitblock.trackVoltoMatomo &&
-      this.props.currentQueryState.queryString
-    ) {
-      const options = {
-        ...config.settings.searchkitblock.trackSiteSearchOptions,
-        keyword: this.props.currentQueryState.queryString,
-        count: this.props.currentResultsState.data.total,
-      };
-      matomoUtils.trackSiteSearch(options);
-    }
   }
 
   render() {
