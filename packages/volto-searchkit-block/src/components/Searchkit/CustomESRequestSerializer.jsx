@@ -517,10 +517,10 @@ export class CustomESRequestSerializer {
       extend(bodyParams['aggs'], aggBucketTermsComponent);
     });
 
-    console.debug(
-      'bodyParams.query?.bool || bodyParams.query',
-      bodyParams.query?.bool || bodyParams.query,
-    );
+    // console.debug(
+    //   'bodyParams.query?.bool || bodyParams.query',
+    //   bodyParams.query?.bool || bodyParams.query,
+    // );
     return bodyParams;
   };
 }
