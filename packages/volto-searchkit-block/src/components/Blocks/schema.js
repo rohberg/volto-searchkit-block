@@ -152,6 +152,7 @@ export const SearchBlockSchema = ({ data = {}, intl }) => {
           'description^1.2',
           'subjects^1.2',
           'blocks_plaintext',
+          'file__extracted.content',
         ],
       },
       batchSize: {
