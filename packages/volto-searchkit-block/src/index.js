@@ -1,5 +1,5 @@
 import zoomSVG from '@plone/volto/icons/zoom.svg';
-import { getQuerystring } from '@plone/volto/actions';
+// import { getQuerystring } from '@plone/volto/actions/querystring/querystring';
 
 import {
   FacetedSearchBlockEdit,
@@ -102,29 +102,29 @@ const applyConfig = (config) => {
 
   // Fetch querystring indexes.
   // See /effective-volto/addons/asyncconnect
-  config.settings.asyncPropsExtenders = [
-    ...(config.settings.asyncPropsExtenders || []),
-    {
-      path: '/',
-      extend: (dispatchActions) => {
-        const action = {
-          key: 'querystringindexes',
-          promise: ({ store }) => {
-            const state = store.getState();
-            if (state.querystring?.indexes?.Title) {
-              return;
-            }
-            const myaction = getQuerystring();
-            return store.dispatch(myaction).catch((e) => {
-              // eslint-disable-next-line no-console
-              console.error('Fetch of getQuerystring failed');
-            });
-          },
-        };
-        return [...dispatchActions, action];
-      },
-    },
-  ];
+  // config.settings.asyncPropsExtenders = [
+  //   ...(config.settings.asyncPropsExtenders || []),
+  //   {
+  //     path: '/',
+  //     extend: (dispatchActions) => {
+  //       const action = {
+  //         key: 'querystringindexes',
+  //         promise: ({ store }) => {
+  //           const state = store.getState();
+  //           if (state.querystring?.indexes?.Title) {
+  //             return;
+  //           }
+  //           const myaction = getQuerystring();
+  //           return store.dispatch(myaction).catch((e) => {
+  //             // eslint-disable-next-line no-console
+  //             console.error('Fetch of getQuerystring failed');
+  //           });
+  //         },
+  //       };
+  //       return [...dispatchActions, action];
+  //     },
+  //   },
+  // ];
 
   return config;
 };
