@@ -61,20 +61,98 @@ Search results include at least one of the search strings.
 
 ## Installation
 
-### Plone backend
-
-This add-on relies on indexing and secure querying via [collective.elastic.plone](https://github.com/collective/collective.elastic.plone).
-Add  this add-on `collective.elastic.plone` to your backend.
-
-```
-collective.elastic.plone[redis,opensearch]
-```
+Start with the index server OpenSearch/ElasticSearch.
 
 ### OpenSearch / ElasticSearch 
 
-<!-- TODO OpenSearch -->
+Copy `examples/opensearch/indexserver` to your project.
 
-Integrate a container for the index server.
+Add target `index-server-start` to your `Makefile`.
+
+```Makefile
+.PHONY: index-server-start
+index-server-start: ## Start index server
+	@echo "Start index server"
+	$(MAKE) -C "./indexserver/" start
+```
+
+Start index server with `make index-server-start`.
+
+`indexserver/opensearch-configuration` can be adjusted later when index server, backend and frontend is up and running and a search block searches and finds.  
+See `docs/configuration_index_server` for the configuration of the handling of compound words.
+
+
+### Plone backend
+
+This add-on relies on indexing and secure querying via [collective.elastic.plone](https://github.com/collective/collective.elastic.plone).
+
+Add this add-on `collective.elastic.plone` with appropriate parameters (`collective.elastic.plone[redis,opensearch]`) to your backend.
+'Install' means: Available as Python package, loaded as Plone add-on (`instance.yaml`), installed as add-on (include as dependency in `metadata.xml`)
+
+Add necessary environment variables to `devops/.env`.
+
+```yaml
+INDEX_LOGIN=admin
+INDEX_PASSWORD=paraDiesli,17
+PLONE_USER=admin
+PLONE_PASSWORD=admin
+```
+
+For development we include in main `Makefile` an additional environment file `.env`
+
+```Makefile
+include .env
+export
+```
+
+`.env`
+
+```
+INDEX_SERVER=localhost:9200
+INDEX_USE_SSL=1
+INDEX_OPENSEARCH=1
+INDEX_LOGIN=admin
+INDEX_PASSWORD=paraDiesli,17
+
+CELERY_BROKER=redis://localhost:6379/0
+
+PLONE_USER=admin
+PLONE_PASSWORD=admin
+
+
+
+```
+
+You may want to change in /backend/Makefile:
+
+```
+# BACKEND_FOLDER=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
+BACKEND_FOLDER=$(dir $(realpath $(firstword $(MAKEFILE_LIST))))
+```
+
+And you may want to change in Makefiles with includes:
+
+```
+# @grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":"}; {printf "\033[36m%-40s\033[0m %s\n", $$2, $$3}'
+```
+
+Run `make backend-install`.
+
+Ignore the following error.
+The indexing is done on first search.
+
+```
+ERROR:collective.elastic.plone:Reindexing of <PloneSite at Plone> failed.'
+```
+
+Github action `.github/workflows/backend.yml`:
+
+```
+env:
+  INDEX_OPENSEARCH: 1
+```
+
 
 ### Volto frontend
 
@@ -159,6 +237,11 @@ Integrate via appExtra
 You can test search results on a test panel: `/controlpanel/test-searchkit-querystrings`
 
 Please update the settings according to your deployment: `/controlpanel/volto_searchkit_block_control_panel`
+
+
+## Deployement
+
+<!-- TODO .env for backend and indexserver -->
 
 
 ## Development
