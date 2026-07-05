@@ -16,6 +16,6 @@
     "@plone-collective/volto-bookmarks"
   ],
   "devDependencies": {
-    "@plone-collective/volto-bookmarks": "^3.0.2"
+    "@plone-collective/volto-bookmarks": "*"
   }
 }
