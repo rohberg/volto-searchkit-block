@@ -317,12 +317,12 @@ make install
 Start the **index server**. Monolingual:
 
 ```shell
-make dev-index-start-monolingual 
+make dev-index-start-monolingual
 ```
 or start the index server multilingual:
 
 ```shell
-make dev-index-start-multilingual 
+make dev-index-start-multilingual
 ```
 
 Start the **backend**. Monolingual:
