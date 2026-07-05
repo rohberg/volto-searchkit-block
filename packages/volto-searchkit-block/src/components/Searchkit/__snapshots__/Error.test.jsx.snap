@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Generic Error renders a simple error message if error 1`] = `
+exports[`Generic Error > renders a simple error message if error 1`] = `
 <div
   className="ui red inverted secondary segment"
 >
@@ -27,4 +27,4 @@ exports[`Generic Error renders a simple error message if error 1`] = `
 </div>
 `;
 
-exports[`Generic Error renders null if no error 1`] = `null`;
+exports[`Generic Error > renders null if no error 1`] = `null`;

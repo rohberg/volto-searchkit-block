@@ -9,7 +9,7 @@ on:
       - ".github/workflows/i18n.yml"
 
 env:
-  NODE_VERSION: 20.x
+  NODE_VERSION: 22.x
 
 jobs:
   i18n:

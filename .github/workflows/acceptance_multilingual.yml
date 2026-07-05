@@ -11,7 +11,7 @@ on:
       - "backend/dockerfiles/**"
 
 env:
-  NODE_VERSION: 20.x
+  NODE_VERSION: 22.x
   CYPRESS_RETRIES: 2
 
 jobs:
