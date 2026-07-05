@@ -145,6 +145,12 @@ dev-index-start-monolingual: ## Start dev containers (OpenSearch, ingest, etc.)
 dev-index-start-multilingual: ## Start dev containers (OpenSearch, ingest, etc.)
 	${DEV_COMPOSE_MULTILINGUAL} --profile multilingual up -d --force-recreate
 
+.PHONY: build-index-image
+build-index-image: ## Build the docker image for the index server
+	# @DOCKER_BUILDKIT=1 docker build . -t $(IMAGE_NAME_PREFIX)-backend:$(IMAGE_TAG) -f Dockerfile --build-arg PLONE_VERSION=$(PLONE_VERSION)
+	# ${DEV_CMD} -p ${PROJECT_NAME} -f ${DEV_COMPOSE_FILE} --profile monolingual build --no-cache
+	@DOCKER_BUILDKIT=1 docker build . -t $(IMAGE_NAME_PREFIX):$(IMAGE_TAG) -f Dockerfile
+
 # ########################################################################
 # Acceptance monolingual
 # ########################################################################

@@ -71,7 +71,10 @@ update-example-content-monolingual: ## Export monolingual example content to dis
 update-example-content-multilingual: ## Export multilingual example content to distribution
 	$(MAKE) -C "./backend/" update-example-content-multilingual
 
+###########################################
 # Index server
+###########################################
+
 .PHONY: dev-index-start-monolingual
 dev-index-start-monolingual: ## Start index dev server monolingual
 	export INDEX_PASSWORD=paraDiesli,17
@@ -85,6 +88,10 @@ dev-index-start-multilingual: ## Start index dev server multilingual
 	export PLONE_PASSWORD=admin
 	export PLONE_SITE_PREFIX_PATH=Multilingual
 	$(MAKE) -C "./backend/" dev-index-start-multilingual
+
+.PHONY: build-index-image
+build-index-image:  ## Build the docker image for the index server
+	$(MAKE) -C "./backend/" build-index-image
 
 
 ###########################################
