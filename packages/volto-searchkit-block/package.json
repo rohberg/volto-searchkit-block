@@ -27,7 +27,7 @@
     "release-alpha": "release-it --preRelease=alpha"
   },
   "dependencies": {
-    "@eeacms/volto-matomo": "^5.0.0",
+    "@eeacms/volto-matomo": "^7.0.0",
     "react-overridable": "^0.0.3",
     "react-searchkit": "v2.2.0"
   },
