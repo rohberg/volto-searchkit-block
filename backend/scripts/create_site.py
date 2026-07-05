@@ -66,5 +66,5 @@ if answers["site_id"] in app.objectIds() and DELETE_EXISTING:
     time.sleep(20)
 
 if answers["site_id"] not in app.objectIds():
-    print("Creating new site.")
+    print("*** Creating new site.")
     site = site_api.create(app, distribution_name, answers)

@@ -9,8 +9,3 @@ export CELERY_LOGLEVEL=info
 
 export PLONE_SITE_PREFIX_PATH=plone
 export PLONE_USER=admin
-
-export MAPPINGS_FILE=opensearch/ingest-configuration/mappings.json
-export ANALYSIS_FILE=opensearch/ingest-configuration/analysis.json
-export PREPROCESSINGS_FILE=opensearch/ingest-configuration/preprocessings.json
-
