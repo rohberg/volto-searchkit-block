@@ -1372,12 +1372,21 @@ importers:
       react-dom:
         specifier: 18.2.0
         version: 18.2.0(react@18.2.0)
+      react-intl:
+        specifier: 3.12.1
+        version: 3.12.1(@types/react@18.3.31)(react@18.2.0)
       react-overridable:
         specifier: ^0.0.3
         version: 0.0.3(@babel/runtime@7.29.7)(prop-types@15.8.1)(react@18.2.0)
+      react-router-dom:
+        specifier: 5.2.0
+        version: 5.2.0(react@18.2.0)
       react-searchkit:
         specifier: v2.2.0
         version: 2.2.0(@babel/runtime@7.29.7)(axios@1.18.1)(lodash@4.18.1)(qs@6.15.3)(react-dom@18.2.0(react@18.2.0))(react-overridable@0.0.3(@babel/runtime@7.29.7)(prop-types@15.8.1)(react@18.2.0))(react-redux@8.1.2(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(redux@4.2.1))(react@18.2.0)(redux-thunk@2.4.2(redux@4.2.1))(redux@4.2.1)(semantic-ui-css@2.5.0)(semantic-ui-react@2.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0))
+      semantic-ui-react:
+        specifier: 2.1.5
+        version: 2.1.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
     devDependencies:
       '@plone/registry':
         specifier: workspace:*
@@ -1397,6 +1406,12 @@ importers:
       '@types/react-dom':
         specifier: ^18.3.1
         version: 18.3.7(@types/react@18.3.31)
+      react-test-renderer:
+        specifier: 18.2.0
+        version: 18.2.0(react@18.2.0)
+      redux-mock-store:
+        specifier: 1.5.4
+        version: 1.5.4
       release-it:
         specifier: ^19.0.5
         version: 19.2.4(@types/node@24.13.2)(magicast@0.3.5)
