@@ -130,7 +130,7 @@ core/packages/components/dist: $(shell find core/packages/components/src -type f
 	pnpm --filter @plone/components build
 
 .PHONY: build-deps
-build-deps: core/packages/registry/dist core/packages/components/dist ## Build dependencies
+build-deps: core/packages/registry/dist core/packages/components/dist
 
 .PHONY: i18n
 i18n: ## Sync i18n
