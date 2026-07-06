@@ -163,7 +163,7 @@ const addons = ['@rohberg/volto-searchkit-block'];
 
 ### Configuration of the search block
 
-<!-- TODO Configuration of the search block -->
+![Configuration search block](docs/source/_static/img/configuration_block.png)
 
 
 ### Tracking search with Matomo
