@@ -1,5 +1,6 @@
 describe('Searchkit block tests- create search ', () => {
   beforeEach(() => {
+    cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
     cy.intercept('GET', `/**/*?expand*`).as('content');
     cy.intercept('GET', '/**/Document').as('schema');
     // Wait a bit to previous teardown to complete correctly because Heisenbug in this point
@@ -52,7 +53,8 @@ describe('Searchkit block tests- create search ', () => {
       });
 
     cy.get('#toolbar-save').click();
-    cy.visit('/searching');
+    cy.wait('@kitsearch');
+    cy.wait('@content');
 
     // Without query string all docs are shown
     cy.get('.block.searchkitsearch').should('not.contain', 'No results');
