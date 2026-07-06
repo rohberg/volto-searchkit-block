@@ -45,8 +45,11 @@ describe('Searchkit block tests- create search ', () => {
     // Add block
     cy.getSlate().click();
     cy.get('button.block-add-button').click();
-    cy.get('.blocks-chooser .title').contains('Allgemein').click();
-    cy.get('.blocks-chooser .button.searchkitblock').click({ force: true });
+    cy.get('.blocks-chooser .common .button.searchkitblock')
+      .contains('Searchkit')
+      .click({
+        force: true,
+      });
 
     cy.get('#toolbar-save').click();
     cy.visit('/searching');

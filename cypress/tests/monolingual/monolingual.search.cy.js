@@ -143,7 +143,7 @@ describe('Searchkit block tests – search - monolingual', () => {
     cy.wait(3000);
 
     // Searching
-    // WARNING Do not use cy.navigate TODO understand difference between cy.visit and cy.navigate
+    // WARNING Do not use cy.navigate!
     cy.visit('/suche');
     cy.get('.searchbar-wrapper input').type('Montag{enter}');
     cy.get('.block.searchkitsearch').contains('Der Garten im Februar');
