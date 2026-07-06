@@ -83,17 +83,17 @@
         "comment": "... needs this information, essential rewrite, do not remove",
         "action": "rewrite",
         "configuration": {
-        "source": "@components/collectiveelastic/section_id",
-        "target": "section",
-        "enforce": true
+            "source": "@components/collectiveelastic/section_id",
+            "target": "section",
+            "enforce": true
         }
     },
     {
         "comment": "Schema for above section_id, do not remove",
         "action": "additional_schema",
         "configuration": {
-        "name": "section",
-        "field": "zope.schema._field.ASCIILine"
+            "name": "section",
+            "field": "zope.schema._field.ASCIILine"
         }
     },
     {
@@ -233,8 +233,8 @@
         "comment": "Fix field type of review_state to keyword",
         "action": "additional_schema",
         "configuration": {
-        "name": "review_state",
-        "field": "zope.schema._field.ASCIILine"
+            "name": "review_state",
+            "field": "zope.schema._field.ASCIILine"
         }
     }
 ]
