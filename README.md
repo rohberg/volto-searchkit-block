@@ -1,6 +1,8 @@
-# Searchkit Block (@rohberg/volto-searchkit-block)
+# Searching with OpenSearch or ElasticSearch
 
-Searching with OpenSearch or ElasticSearch
+Volto block
+
+The package provides a block for the Plone Volto frontend.
 
 [![npm](https://img.shields.io/npm/v/@rohberg/volto-searchkit-block)](https://www.npmjs.com/package/@rohberg/volto-searchkit-block)
 [![Acceptance tests multilingual](https://github.com/rohberg/volto-searchkit-block/actions/workflows/acceptance_multilingual.yml/badge.svg)](https://github.com/rohberg/volto-searchkit-block/actions/workflows/acceptance_multilingual.yml)
@@ -9,12 +11,6 @@ Searching with OpenSearch or ElasticSearch
 [![Code analysis checks](https://github.com/rohberg/volto-searchkit-block/actions/workflows/code.yml/badge.svg)](https://github.com/rohberg/volto-searchkit-block/actions/workflows/code.yml)
 
 ## Features
-
-<!-- TODO README
-- user instruction how to search
-- backend instructions
-- Matomo
- -->
 
 Search block with highly overridable components for searching, filtering and displaying search results. Sometimes also called faceted navigation.
 
@@ -29,11 +25,6 @@ Meta data values are clickable to find related content.
 The block is prepared for Matomo analytics.
 
 ![Search @rohberg/volto-searchkit-block](docs/source/_static/img/search.png)
-
-
-## Demo
-
-<!-- TODO demo -->
 
 
 ## User instructions
@@ -231,7 +222,6 @@ Integrate via appExtra
 ```
 
 
-
 ### Panel for testing matches
 
 You can test search results on a test panel: `/controlpanel/test-searchkit-querystrings`
@@ -241,7 +231,37 @@ Please update the settings according to your deployment: `/controlpanel/volto_se
 
 ## Deployement
 
-<!-- TODO .env for backend and indexserver -->
+Assuming you have a project set up with cookieplone.
+
+1. Add services ingest, redis, opensearch, and opensearch-dashboard to your devops compose file.
+
+1. Provide environment values via .env file
+
+    ```text
+    ANSIBLE_REMOTE_PORT=22
+    DEPLOY_ENV=prod
+    DEPLOY_HOST=lilly.example.ch
+    DEPLOY_PORT=22
+    DEPLOY_USER=lillyuser
+    DOCKER_CONFIG=.docker
+    STACK_NAME=prod-lilly
+
+    # Indexserver
+    INDEX_PASSWORD=mypassword
+
+    CELERY_LOGLEVEL=debug
+
+    PLONE_USER=admin
+    PLONE_PASSWORD=mypassword
+    PLONE_SITE_PREFIX_PATH=Plone
+
+    MAPPINGS_FILE=opensearch/ingest-configuration/mappings.json
+    ANALYSIS_FILE=opensearch/ingest-configuration/analysis.json
+    PREPROCESSINGS_FILE=opensearch/ingest-configuration/preprocessings.json
+    ```
+
+1. Provide configuration files.
+Copy /examples/opensearch to /devops and customize.
 
 
 ## Development
@@ -261,18 +281,23 @@ For this reason, it only works with pnpm and Volto 18.
 
 Run `make help` to list the available commands.
 
-<!-- TODO Update list of make commands -->
-
 ```text
 help                                          Show this help
-dev-backend-start-monolingual                 Start backend dev server
-dev-backend-start-multilingual                Start backend dev server with two languages
+dev-backend-install                           Install Plone
+dev-backend-start-monolingual                 Start Plone
+dev-backend-start-multilingual                Start Plone
+create-site-monolingual                       Create monolingual site
+create-site-multilingual                      Create multilingual site
+update-example-content-monolingual            Export monolingual example content to distribution
+update-example-content-multilingual           Export multilingual example content to distribution
+dev-index-start-monolingual                   Start index dev server monolingual
+dev-index-start-multilingual                  Start index dev server multilingual
+build-index-image                             Build the docker image for the index server
 install                                       Installs the add-on in a development environment
 start                                         Starts Volto, allowing reloading of the add-on during development
-start-monolingual                             Same as `make start` but with language 'de'
-start-multilingual                            Same as `make start` but with language 'de' and multi lingual
+start-monolingual                             frontend with language 'de'
+start-multilingual                            frontend with languages 'en' and 'de' and multilingual
 build                                         Build a production bundle for distribution of the project with the add-on
-build-deps                                    Build dependencies
 i18n                                          Sync i18n
 ci-i18n                                       Check if i18n is not synced
 format                                        Format codebase
@@ -281,6 +306,8 @@ release                                       Release the add-on on npmjs.org
 release-dry-run                               Dry-run the release of the add-on on npmjs.org
 test                                          Run unit tests
 ci-test                                       Run unit tests in CI
+storybook-start                               Start Storybook server on port 6006
+storybook-build                               Build Storybook
 acceptance-frontend-dev-start-monolingual     Start acceptance frontend in development mode
 acceptance-frontend-prod-start-monolingual    Start acceptance frontend in production mode
 acceptance-backend-start-monolingual          Start backend acceptance server
@@ -339,6 +366,16 @@ make dev-backend-start-multilingual
 
 Create a site with one of the two distributions, monolingual or multilingual.
 
+```shell
+make create-site-monolingual
+```
+
+or
+
+```shell
+make create-site-multilingual
+```
+
 In a separate terminal session, start the **frontend**:
 
 ```shell
@@ -393,7 +430,7 @@ In the first session, start the frontend in development mode.
 make acceptance-frontend-dev-start-monolingual
 ```
 
-In the second session, start the backend acceptance server.
+In the second session, start the backend acceptance server (backend and opensearch).
 
 ```shell
 make acceptance-backend-start-monolingual
