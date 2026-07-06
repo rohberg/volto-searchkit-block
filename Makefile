@@ -158,7 +158,7 @@ release: ## Release the add-on on npmjs.org
 
 .PHONY: release-dry-run
 release-dry-run: ## Dry-run the release of the add-on on npmjs.org
-	pnpm release
+	pnpm dry-release
 
 .PHONY: test
 test: ## Run unit tests
