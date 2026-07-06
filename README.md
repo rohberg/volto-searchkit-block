@@ -229,7 +229,7 @@ You can test search results on a test panel: `/controlpanel/test-searchkit-query
 Please update the settings according to your deployment: `/controlpanel/volto_searchkit_block_control_panel`
 
 
-## Deployement
+## Deployment
 
 Assuming you have a project set up with cookieplone.
 
@@ -449,5 +449,8 @@ Appropriate make commands for **multilingual** Cypress tests are available.
 
 The project is licensed under the MIT license.
 
+Copyright (C) 2026 Rohberg
+
 ## Credits and Acknowledgements 
 
+This package uses UI components of react-searchkit https://www.npmjs.com/package/react-searchkit Copyright (C) 2015- CERN.
