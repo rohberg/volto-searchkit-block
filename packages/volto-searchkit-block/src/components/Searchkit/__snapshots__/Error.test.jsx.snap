@@ -1,0 +1,30 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Generic Error > renders a simple error message if error 1`] = `
+<div
+  className="ui red inverted secondary segment"
+>
+  <div
+    className="ui icon header"
+  >
+    <h3>
+      Check the configuration of your searchkit block!
+    </h3>
+  </div>
+  <p>
+    <b>
+      ConnectionError
+      :
+    </b>
+     
+    <i>
+      Service pipapo not found.
+    </i>
+  </p>
+  <p>
+    If no index exists, reindex your content or just start by editing and saving a page.
+  </p>
+</div>
+`;
+
+exports[`Generic Error > renders null if no error 1`] = `null`;

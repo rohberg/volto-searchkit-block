@@ -27,16 +27,28 @@
     "release-alpha": "release-it --preRelease=alpha"
   },
   "dependencies": {
-    "@eeacms/volto-matomo": "*",
+    "@eeacms/volto-matomo": "^7.0.0",
     "react-overridable": "^0.0.3",
     "react-searchkit": "v2.2.0"
   },
   "peerDependencies": {
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-router-dom": "5.2.0",
+    "semantic-ui-react": "2.1.5",
+    "react-intl": "3.12.1"
   },
   "devDependencies": {
-    "@plone/scripts": "^3.6.1",
-    "release-it": "^17.1.1"
+    "@plone/registry": "workspace:*",
+    "@plone/scripts": "workspace:*",
+    "@plone/types": "workspace:*",
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.1",
+    "typescript": "^5.7.3",
+    "@testing-library/react": "^16.2.0",
+    "release-it": "^19.0.5",
+    "vitest": "^3.1.2",
+    "react-test-renderer": "18.2.0",
+    "redux-mock-store": "1.5.4"
   }
 }

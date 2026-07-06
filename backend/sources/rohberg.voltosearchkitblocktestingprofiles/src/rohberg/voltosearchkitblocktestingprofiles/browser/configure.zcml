@@ -1,0 +1,14 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="collective.elastic.plone">
+
+  <browser:page
+        for="*"
+        name="clear-index"
+        permission="cmf.ManagePortal"
+        class=".ClearIndex"
+        />
+
+</configure>

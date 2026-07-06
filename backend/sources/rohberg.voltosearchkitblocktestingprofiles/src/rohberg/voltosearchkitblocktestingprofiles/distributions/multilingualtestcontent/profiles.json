@@ -1,0 +1,13 @@
+{
+    "base": [
+      "plone.app.contenttypes:default",
+      "plonetheme.barceloneta:default",
+      "plone.app.multilingual:default",
+      "plone.volto:default",
+      "collective.elastic.plone:default",
+      "collective.bookmarks:default",
+      "rohberg.voltosearchkitblocktestingprofiles:multilingual"
+    ],
+    "content": [
+    ]
+  }

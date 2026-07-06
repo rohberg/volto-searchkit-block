@@ -1,7 +1,5 @@
 from AccessControl.SecurityManagement import newSecurityManager
-from Products.CMFPlone.factory import _DEFAULT_PROFILE
-from Products.CMFPlone.factory import addPloneSite
-from Products.GenericSetup.tool import SetupTool
+from plone.distribution.api import site as site_api
 from rohberg.voltosearchkitblocktestingprofiles.interfaces import IBrowserLayer
 from Testing.makerequest import makerequest
 from zope.interface import directlyProvidedBy
@@ -31,6 +29,7 @@ DELETE_EXISTING = asbool(os.getenv("DELETE_EXISTING"))
 EXAMPLE_CONTENT = asbool(
     os.getenv("EXAMPLE_CONTENT", "1")
 )  # Create example content by default
+ISMULTILINGUAL = asbool(os.getenv("ISMULTILINGUAL"))
 
 app = makerequest(globals()["app"])
 
@@ -44,42 +43,28 @@ admin = app.acl_users.getUserById("admin")
 admin = admin.__of__(app.acl_users)
 newSecurityManager(None, admin)
 
-payload = {
-    "title": "Project Title",
-    "profile_id": _DEFAULT_PROFILE,
-    "extension_ids": [
-        "rohberg.voltosearchkitblocktestingprofiles:default",
-        "collective.elastic.plone:default",
-    ],
-    "setup_content": False,
+answers = {
     "portal_timezone": "UTC",
+    "setup_content": EXAMPLE_CONTENT,
 }
-ISMULTILINGUAL = asbool(os.getenv("ISMULTILINGUAL"))
 if ISMULTILINGUAL:
-    site_id = "Multilingual"
-    payload["extension_ids"].append(
-        "rohberg.voltosearchkitblocktestingprofiles:multilingual")
+    distribution_name = "multilingualexamplecontent"
+    answers["site_id"] = "Multilingual"
+    answers["title"] = "Multilingual"
+    answers["description"] = "A new Plone site using the multilingual distribution"
 else:
-    site_id = "Plone"
-    payload["extension_ids"].append(
-        "rohberg.voltosearchkitblocktestingprofiles:monolingual")
+    distribution_name = "monolingualexamplecontent"
+    answers["site_id"] = "Plone"
+    answers["title"] = "Plone"
+    answers["description"] = "A new Plone site using the monolingual distribution"
 
-if site_id in app.objectIds() and DELETE_EXISTING:
-    app.manage_delObjects([site_id])
+if answers["site_id"] in app.objectIds() and DELETE_EXISTING:
+    app.manage_delObjects([answers["site_id"]])
     transaction.commit()
     app._p_jar.sync()
+    print("Wait until site is deleted, before creating a new one.")
+    time.sleep(20)
 
-if site_id not in app.objectIds():
-    site = addPloneSite(app, site_id, **payload)
-    transaction.commit()
-    if EXAMPLE_CONTENT:
-        portal_setup: SetupTool = site.portal_setup
-        if ISMULTILINGUAL:
-            portal_setup.runAllImportStepsFromProfile(
-                "rohberg.voltosearchkitblocktestingprofiles:initialmultilingual")
-        else:
-            portal_setup.runAllImportStepsFromProfile(
-                "rohberg.voltosearchkitblocktestingprofiles:initialmonolingual")
-        transaction.commit()
-    app._p_jar.sync()
-    time.sleep(30)
+if answers["site_id"] not in app.objectIds():
+    print("*** Creating new site.")
+    site = site_api.create(app, distribution_name, answers)

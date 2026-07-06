@@ -40,8 +40,8 @@ endif
 PLONE_SITE_ID_MONOLINGUAL=Plone
 PLONE_SITE_ID_MULTILINGUAL=Multilingual
 BACKEND_FOLDER=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
-EXAMPLE_CONTENT_FOLDER_MONOLINGUAL=${BACKEND_FOLDER}/sources/rohberg.voltosearchkitblocktestingprofiles/src/rohberg/voltosearchkitblocktestingprofiles/setuphandlers/examplecontent_monolingual
-EXAMPLE_CONTENT_FOLDER_MULTILINGUAL=${BACKEND_FOLDER}/sources/rohberg.voltosearchkitblocktestingprofiles/src/rohberg/voltosearchkitblocktestingprofiles/setuphandlers/examplecontent_multilingual
+EXAMPLE_CONTENT_FOLDER_MONOLINGUAL=${BACKEND_FOLDER}/sources/rohberg.voltosearchkitblocktestingprofiles/distributions/monolingualtestcontent/content
+EXAMPLE_CONTENT_FOLDER_MULTILINGUAL=${BACKEND_FOLDER}/sources/rohberg.voltosearchkitblocktestingprofiles/distributions/multilingualtestcontent/content
 
 GIT_FOLDER=$(BACKEND_FOLDER)/.git
 VENV_FOLDER=$(BACKEND_FOLDER)/.venv
@@ -117,7 +117,7 @@ console: instance/etc/zope.ini ## Start a console into a Plone instance
 .PHONY: create-site-monolingual
 create-site-monolingual: instance/etc/zope.ini ## Create a new site from scratch
 	source .dev-env
-	DELETE_EXISTING=true PYTHONWARNINGS=ignore $(BIN_FOLDER)/zconsole run instance/etc/zope.conf ./scripts/create_site.py
+	DELETE_EXISTING=true PYTHONWARNINGS=ignore $(BIN_FOLDER)/zconsole run instance/etc/zope.conf ./scripts/create_site.py --log=DEBUG
 
 .PHONY: create-site-multilingual
 create-site-multilingual: instance/etc/zope.ini ## Create a new site from scratch
@@ -125,16 +125,16 @@ create-site-multilingual: instance/etc/zope.ini ## Create a new site from scratc
 	DELETE_EXISTING=true ISMULTILINGUAL=true PYTHONWARNINGS=ignore $(BIN_FOLDER)/zconsole run instance/etc/zope.conf ./scripts/create_site.py
 
 .PHONY: update-example-content-monolingual
-update-example-content-monolingual: $(BIN_FOLDER)/tox ## Export example content inside package
+update-example-content-monolingual: $(BIN_FOLDER)/tox ## Export example content inside package to update the distribution
 	@echo "$(GREEN)==> Export example content into $(EXAMPLE_CONTENT_FOLDER_MONOLINGUAL) $(RESET)"
 	if [ -d $(EXAMPLE_CONTENT_FOLDER_MONOLINGUAL)/content ]; then rm -r $(EXAMPLE_CONTENT_FOLDER_MONOLINGUAL)/* ;fi
-	$(BIN_FOLDER)/plone-exporter instance/etc/zope.conf $(PLONE_SITE_ID_MONOLINGUAL) $(EXAMPLE_CONTENT_FOLDER_MONOLINGUAL)
+	$(BIN_FOLDER)/export-distribution instance/etc/zope.conf $(PLONE_SITE_ID_MONOLINGUAL)
 
 .PHONY: update-example-content-multilingual
-update-example-content-multilingual: $(BIN_FOLDER)/tox ## Export example content inside package
+update-example-content-multilingual: $(BIN_FOLDER)/tox ## Export example content inside package to update the distribution
 	@echo "$(GREEN)==> Export example content into $(EXAMPLE_CONTENT_FOLDER_MULTILINGUAL) $(RESET)"
 	if [ -d $(EXAMPLE_CONTENT_FOLDER_MULTILINGUAL)/content ]; then rm -r $(EXAMPLE_CONTENT_FOLDER_MULTILINGUAL)/* ;fi
-	$(BIN_FOLDER)/plone-exporter instance/etc/zope.conf $(PLONE_SITE_ID_MULTILINGUAL) $(EXAMPLE_CONTENT_FOLDER_MULTILINGUAL)
+	$(BIN_FOLDER)/export-distribution instance/etc/zope.conf $(PLONE_SITE_ID_MULTILINGUAL) 
 
 # Index server
 .PHONY: dev-index-start-monolingual
@@ -144,6 +144,12 @@ dev-index-start-monolingual: ## Start dev containers (OpenSearch, ingest, etc.)
 .PHONY: dev-index-start-multilingual
 dev-index-start-multilingual: ## Start dev containers (OpenSearch, ingest, etc.)
 	${DEV_COMPOSE_MULTILINGUAL} --profile multilingual up -d --force-recreate
+
+.PHONY: build-index-image
+build-index-image: ## Build the docker image for the index server
+	# @DOCKER_BUILDKIT=1 docker build . -t $(IMAGE_NAME_PREFIX)-backend:$(IMAGE_TAG) -f Dockerfile --build-arg PLONE_VERSION=$(PLONE_VERSION)
+	# ${DEV_CMD} -p ${PROJECT_NAME} -f ${DEV_COMPOSE_FILE} --profile monolingual build --no-cache
+	@DOCKER_BUILDKIT=1 docker build . -t $(IMAGE_NAME_PREFIX):$(IMAGE_TAG) -f Dockerfile
 
 # ########################################################################
 # Acceptance monolingual

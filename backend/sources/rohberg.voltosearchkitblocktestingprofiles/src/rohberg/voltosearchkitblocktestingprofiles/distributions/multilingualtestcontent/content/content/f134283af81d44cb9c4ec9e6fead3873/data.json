@@ -1,0 +1,83 @@
+{
+  "@id": "/de/news/portulak-kann-geerntet-werden",
+  "@type": "News Item",
+  "UID": "f134283af81d44cb9c4ec9e6fead3873",
+  "allow_discussion": null,
+  "blocks": {
+    "4d7c4ea8-0029-4442-bc91-83ace0c8f512": {
+      "@canonical": "14b8a0da-71b6-4f7b-85a2-b4532a3d29fe",
+      "@type": "slate",
+      "block": "4d7c4ea8-0029-4442-bc91-83ace0c8f512",
+      "plaintext": "Es gibt schon reichlich zu ernten.",
+      "value": [
+        {
+          "children": [
+            {
+              "text": "Es gibt schon reichlich zu ernten."
+            }
+          ],
+          "type": "p"
+        }
+      ]
+    },
+    "5823347c-198a-4b2e-8f82-736c1949723c": {
+      "@canonical": "08f324f3-bc1c-4c0f-8bcb-806c16382034",
+      "@type": "title",
+      "block": "5823347c-198a-4b2e-8f82-736c1949723c"
+    }
+  },
+  "blocks_layout": {
+    "items": [
+      "5823347c-198a-4b2e-8f82-736c1949723c",
+      "4d7c4ea8-0029-4442-bc91-83ace0c8f512"
+    ]
+  },
+  "changeNote": "",
+  "contributors": [],
+  "created": "2025-03-05T09:45:53+00:00",
+  "creators": [
+    "admin"
+  ],
+  "description": "frisches Gr\u00fcn",
+  "effective": "2025-03-05T10:46:19",
+  "exclude_from_nav": false,
+  "expires": null,
+  "exportimport.constrains": {},
+  "exportimport.conversation": [],
+  "id": "portulak-kann-geerntet-werden",
+  "image": null,
+  "image_caption": null,
+  "is_folderish": true,
+  "language": "de",
+  "layout": "newsitem_view",
+  "lock": {
+    "locked": false,
+    "stealable": true
+  },
+  "modified": "2025-03-05T09:46:19+00:00",
+  "review_state": "published",
+  "rights": "",
+  "subjects": [],
+  "title": "Portulak kann geerntet werden",
+  "type_title": "News Item",
+  "version": "current",
+  "versioning_enabled": true,
+  "workflow_history": {
+    "simple_publication_workflow": [
+      {
+        "action": null,
+        "actor": "admin",
+        "comments": "",
+        "review_state": "private",
+        "time": "2025-03-05T09:45:53+00:00"
+      },
+      {
+        "action": "publish",
+        "actor": "admin",
+        "comments": "",
+        "review_state": "published",
+        "time": "2025-03-05T09:46:19+00:00"
+      }
+    ]
+  }
+}

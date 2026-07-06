@@ -63,15 +63,18 @@ create-site-multilingual: ## Create multilingual site
 	export INDEX_PASSWORD=paraDiesli,17
 	$(MAKE) -C "./backend/" create-site-multilingual
 
-.PHONY: backend-update-example-content-monolingual
-backend-update-example-content-monolingual: ## Export monolingual example content inside package
+.PHONY: update-example-content-monolingual
+update-example-content-monolingual: ## Export monolingual example content to distribution
 	$(MAKE) -C "./backend/" update-example-content-monolingual
 
-.PHONY: backend-update-example-content-multilingual
-backend-update-example-content-multilingual: ## Export multilingual example content inside package
+.PHONY: update-example-content-multilingual
+update-example-content-multilingual: ## Export multilingual example content to distribution
 	$(MAKE) -C "./backend/" update-example-content-multilingual
 
+###########################################
 # Index server
+###########################################
+
 .PHONY: dev-index-start-monolingual
 dev-index-start-monolingual: ## Start index dev server monolingual
 	export INDEX_PASSWORD=paraDiesli,17
@@ -85,6 +88,10 @@ dev-index-start-multilingual: ## Start index dev server multilingual
 	export PLONE_PASSWORD=admin
 	export PLONE_SITE_PREFIX_PATH=Multilingual
 	$(MAKE) -C "./backend/" dev-index-start-multilingual
+
+.PHONY: build-index-image
+build-index-image:  ## Build the docker image for the index server
+	$(MAKE) -C "./backend/" build-index-image
 
 
 ###########################################
@@ -105,15 +112,12 @@ start: ## Starts Volto, allowing reloading of the add-on during development
 
 .PHONY: start-monolingual
 start-monolingual: ## frontend with language 'de'
-	ADDONS=testing-volto-searchkit-block:monolingualFixture pnpm start
+	# ADDONS=testing-volto-searchkit-block:monolingualFixture pnpm start
+	ADDONS="testing-volto-bookmarks:bookmarksFixture;testing-volto-searchkit-block:monolingualFixture" pnpm start
 
 .PHONY: start-multilingual
-start-multilingual: ## frontend with language 'de' and multilingual
-	ADDONS=testing-volto-searchkit-block:multilingualFixture RAZZLE_DEV_PROXY_API_PATH=http://127.0.0.1:8080/Multilingual pnpm start
-
-.PHONY: start-with-bookmarks
-start-with-bookmarks: ## frontend with addon `volto-bookmarks`
-	ADDONS="@plone-collective/volto-bookmarks;testing-volto-searchkit-block:bookmarksFixture" pnpm start
+start-multilingual: ## frontend with languages 'en' and 'de' and multilingual
+	ADDONS="testing-volto-bookmarks:bookmarksFixture;testing-volto-searchkit-block:multilingualFixture" RAZZLE_DEV_PROXY_API_PATH=http://127.0.0.1:8080/Multilingual pnpm start
 
 .PHONY: build
 build: ## Build a production bundle for distribution of the project with the add-on
@@ -126,7 +130,7 @@ core/packages/components/dist: $(shell find core/packages/components/src -type f
 	pnpm --filter @plone/components build
 
 .PHONY: build-deps
-build-deps: core/packages/registry/dist core/packages/components/dist ## Build dependencies
+build-deps: core/packages/registry/dist core/packages/components/dist
 
 .PHONY: i18n
 i18n: ## Sync i18n
@@ -164,7 +168,7 @@ test: ## Run unit tests
 ci-test: ## Run unit tests in CI
 	# Unit Tests need the i18n to be built
 	VOLTOCONFIG=$(pwd)/volto.config.js pnpm --filter @plone/volto i18n
-	CI=1 RAZZLE_JEST_CONFIG=$(CURRENT_DIR)/jest-addon.config.js pnpm --filter @plone/volto test -- --passWithNoTests
+	CI=1 pnpm run test --passWithNoTests
 
 ## Storybook
 .PHONY: storybook-start
@@ -184,11 +188,11 @@ storybook-build: ## Build Storybook
 ###########################################
 .PHONY: acceptance-frontend-dev-start
 acceptance-frontend-dev-start-monolingual: ## Start acceptance frontend in development mode
-	ADDONS="@plone-collective/volto-bookmarks;testing-volto-searchkit-block:monolingualFixture" RAZZLE_API_PATH=http://127.0.0.1:55001/plone pnpm start
+	ADDONS="testing-volto-searchkit-block:monolingualFixture" RAZZLE_API_PATH=http://127.0.0.1:55001/plone pnpm start
 
 .PHONY: acceptance-frontend-prod-start
 acceptance-frontend-prod-start-monolingual: ## Start acceptance frontend in production mode
-	ADDONS="@plone-collective/volto-bookmarks;testing-volto-searchkit-block:monolingualFixture" RAZZLE_API_PATH=http://127.0.0.1:55001/plone pnpm build && pnpm start:prod
+	ADDONS="testing-volto-searchkit-block:monolingualFixture" RAZZLE_API_PATH=http://127.0.0.1:55001/plone pnpm build && pnpm start:prod
 
 .PHONY: acceptance-backend-start-monolingual
 acceptance-backend-start-monolingual: ## Start backend acceptance server
@@ -214,11 +218,11 @@ ci-acceptance-test-monolingual: ## Run cypress tests in headless mode for CI
 ###########################################
 .PHONY: acceptance-frontend-dev-start
 acceptance-frontend-dev-start-multilingual: ## Start acceptance frontend in development mode
-	ADDONS="@plone-collective/volto-bookmarks;testing-volto-searchkit-block:multilingualFixture" RAZZLE_API_PATH=http://127.0.0.1:55001/plone pnpm start
+	ADDONS="testing-volto-searchkit-block:multilingualFixture" RAZZLE_API_PATH=http://127.0.0.1:55001/plone pnpm start
 
 .PHONY: acceptance-frontend-prod-start
 acceptance-frontend-prod-start-multilingual: ## Start acceptance frontend in production mode
-	ADDONS="@plone-collective/volto-bookmarks;testing-volto-searchkit-block:multilingualFixture" RAZZLE_API_PATH=http://127.0.0.1:55001/plone pnpm build && pnpm start:prod
+	ADDONS="testing-volto-searchkit-block:multilingualFixture" RAZZLE_API_PATH=http://127.0.0.1:55001/plone pnpm build && pnpm start:prod
 
 .PHONY: acceptance-backend-start-multilingual
 acceptance-backend-start-multilingual: ## Start backend acceptance server

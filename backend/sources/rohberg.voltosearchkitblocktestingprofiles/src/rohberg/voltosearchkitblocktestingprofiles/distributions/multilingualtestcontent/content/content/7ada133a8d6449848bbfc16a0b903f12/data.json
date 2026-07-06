@@ -1,0 +1,85 @@
+{
+  "@id": "/de/anleitungen-garten/was-im-maerz-saeen",
+  "@type": "Document",
+  "UID": "7ada133a8d6449848bbfc16a0b903f12",
+  "allow_discussion": null,
+  "blocks": {
+    "38fe4a09-763f-4729-b848-7e522493a481": {
+      "@canonical": "456f82a5-2a74-42d8-bfcb-6b74f288e586",
+      "@type": "slate",
+      "block": "38fe4a09-763f-4729-b848-7e522493a481",
+      "plaintext": "Im M\u00e4rz kann damit begonnen Chili-Setzlinge zu ziehen.",
+      "value": [
+        {
+          "children": [
+            {
+              "text": "Im M\u00e4rz kann damit begonnen Chili-Setzlinge zu ziehen."
+            }
+          ],
+          "type": "p"
+        }
+      ]
+    },
+    "7c4f97c1-0dff-4949-a947-533024bb8b85": {
+      "@canonical": "347b8e7e-6c13-4605-a5dd-f12cb04e1062",
+      "@type": "title",
+      "block": "7c4f97c1-0dff-4949-a947-533024bb8b85"
+    }
+  },
+  "blocks_layout": {
+    "items": [
+      "7c4f97c1-0dff-4949-a947-533024bb8b85",
+      "38fe4a09-763f-4729-b848-7e522493a481"
+    ]
+  },
+  "changeNote": "",
+  "contributors": [],
+  "created": "2025-03-05T09:43:43+00:00",
+  "creators": [
+    "admin"
+  ],
+  "description": "Los gehts!",
+  "effective": "2025-03-05T10:46:17",
+  "exclude_from_nav": false,
+  "expires": null,
+  "exportimport.constrains": {},
+  "exportimport.conversation": [],
+  "id": "was-im-maerz-saeen",
+  "is_folderish": true,
+  "language": "de",
+  "layout": "document_view",
+  "lock": {
+    "locked": false,
+    "stealable": true
+  },
+  "modified": "2025-03-05T09:46:17+00:00",
+  "preview_caption": null,
+  "preview_image": null,
+  "review_state": "published",
+  "rights": "",
+  "subjects": [
+    "s\u00e4en"
+  ],
+  "title": "Was im M\u00e4rz s\u00e4en",
+  "type_title": "Page",
+  "version": "current",
+  "versioning_enabled": true,
+  "workflow_history": {
+    "simple_publication_workflow": [
+      {
+        "action": null,
+        "actor": "admin",
+        "comments": "",
+        "review_state": "private",
+        "time": "2025-03-05T09:43:43+00:00"
+      },
+      {
+        "action": "publish",
+        "actor": "admin",
+        "comments": "",
+        "review_state": "published",
+        "time": "2025-03-05T09:46:17+00:00"
+      }
+    ]
+  }
+}

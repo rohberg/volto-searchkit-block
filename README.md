@@ -1,6 +1,8 @@
-# Searchkit Block (@rohberg/volto-searchkit-block)
+# Searching with OpenSearch or ElasticSearch
 
-Searching with OpenSearch or ElasticSearch
+Volto block
+
+The package provides a block for the Plone Volto frontend.
 
 [![npm](https://img.shields.io/npm/v/@rohberg/volto-searchkit-block)](https://www.npmjs.com/package/@rohberg/volto-searchkit-block)
 [![Acceptance tests multilingual](https://github.com/rohberg/volto-searchkit-block/actions/workflows/acceptance_multilingual.yml/badge.svg)](https://github.com/rohberg/volto-searchkit-block/actions/workflows/acceptance_multilingual.yml)
@@ -9,12 +11,6 @@ Searching with OpenSearch or ElasticSearch
 [![Code analysis checks](https://github.com/rohberg/volto-searchkit-block/actions/workflows/code.yml/badge.svg)](https://github.com/rohberg/volto-searchkit-block/actions/workflows/code.yml)
 
 ## Features
-
-<!-- TODO README
-- user instruction how to search
-- backend instructions
-- …
- -->
 
 Search block with highly overridable components for searching, filtering and displaying search results. Sometimes also called faceted navigation.
 
@@ -30,41 +26,6 @@ The block is prepared for Matomo analytics.
 
 ![Search @rohberg/volto-searchkit-block](docs/source/_static/img/search.png)
 
-## Installation
-
-### Plone backend
-
-TODO backend instructions
-
-### OpenSearch / ElasticSearch 
-
-TODO OpenSearch
-
-### Volto frontend
-
-Add `volto-searchkit-block` to your `package.json`:
-
-```json
-"dependencies": {
-    "@rohberg/volto-searchkit-block": "^2.0.0"
-}
-```
-
-Add `@rohberg/volto-searchkit-block` to your add-ons in `volto.config.js`:
-
-```javascript
-const addons = ['@rohberg/volto-searchkit-block'];
-```
-
-### Configuration of the search block
-
-TODO Configuration of the search block
-
-## Demo
-
-TODO demo
-
-Visit http://localhost:3000/ in a browser, login, and check the awesome new features.
 
 ## User instructions
 
@@ -89,11 +50,219 @@ Example: "LSR-Lehrbetrieb" is found by a search for "LSR".
 Search results include at least one of the search strings.
 
 
-# Panel for testing matches
+## Installation
+
+Start with the index server OpenSearch/ElasticSearch.
+
+### OpenSearch / ElasticSearch 
+
+Copy `examples/opensearch/indexserver` to your project.
+
+Add target `index-server-start` to your `Makefile`.
+
+```Makefile
+.PHONY: index-server-start
+index-server-start: ## Start index server
+	@echo "Start index server"
+	$(MAKE) -C "./indexserver/" start
+```
+
+Start index server with `make index-server-start`.
+
+`indexserver/opensearch-configuration` can be adjusted later when index server, backend and frontend is up and running and a search block searches and finds.  
+See `docs/configuration_index_server` for the configuration of the handling of compound words.
+
+
+### Plone backend
+
+This add-on relies on indexing and secure querying via [collective.elastic.plone](https://github.com/collective/collective.elastic.plone).
+
+Add this add-on `collective.elastic.plone` with appropriate parameters (`collective.elastic.plone[redis,opensearch]`) to your backend.
+'Install' means: Available as Python package, loaded as Plone add-on (`instance.yaml`), installed as add-on (include as dependency in `metadata.xml`)
+
+Add necessary environment variables to `devops/.env`.
+
+```yaml
+INDEX_LOGIN=admin
+INDEX_PASSWORD=paraDiesli,17
+PLONE_USER=admin
+PLONE_PASSWORD=admin
+```
+
+For development we include in main `Makefile` an additional environment file `.env`
+
+```Makefile
+include .env
+export
+```
+
+`.env`
+
+```
+INDEX_SERVER=localhost:9200
+INDEX_USE_SSL=1
+INDEX_OPENSEARCH=1
+INDEX_LOGIN=admin
+INDEX_PASSWORD=paraDiesli,17
+
+CELERY_BROKER=redis://localhost:6379/0
+
+PLONE_USER=admin
+PLONE_PASSWORD=admin
+
+
+
+```
+
+You may want to change in /backend/Makefile:
+
+```
+# BACKEND_FOLDER=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
+BACKEND_FOLDER=$(dir $(realpath $(firstword $(MAKEFILE_LIST))))
+```
+
+And you may want to change in Makefiles with includes:
+
+```
+# @grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":"}; {printf "\033[36m%-40s\033[0m %s\n", $$2, $$3}'
+```
+
+Run `make backend-install`.
+
+Ignore the following error.
+The indexing is done on first search.
+
+```
+ERROR:collective.elastic.plone:Reindexing of <PloneSite at Plone> failed.'
+```
+
+Github action `.github/workflows/backend.yml`:
+
+```
+env:
+  INDEX_OPENSEARCH: 1
+```
+
+
+### Volto frontend
+
+Add `volto-searchkit-block` to your `package.json`:
+
+```json
+"dependencies": {
+    "@rohberg/volto-searchkit-block": "^1.0.0"
+}
+```
+
+Add `@rohberg/volto-searchkit-block` to your add-ons in `volto.config.js`:
+
+```javascript
+const addons = ['@rohberg/volto-searchkit-block'];
+```
+
+### Configuration of the search block
+
+![Configuration search block](docs/source/_static/img/configuration_block.png)
+
+
+### Tracking search with Matomo
+
+The search can be tracked with an event listener.
+The event dispatched per search is called `searchkitQueryChanged`.
+
+#### Integration with `@eeacms/volto-matomo`
+
+Event listener
+
+```jsx
+import React from 'react';
+import * as matomoUtils from '@eeacms/volto-matomo/utils';
+
+const TrackSearch = () => {
+  React.useEffect(() => {
+    const handleFooEvent = (event) => {
+      // Matomo trackSiteSearch(keyword, [category], [resultsCount])
+      // See https://developer.matomo.org/guides/tracking-javascript
+      let options = {
+        keyword: event.detail.queryString,
+        category: 'search',
+        count: event.detail.total,
+      };
+      matomoUtils.trackSiteSearch(
+        options.keyword,
+        options.category,
+        options.count,
+      );
+    };
+
+    window.addEventListener('searchkitQueryChanged', handleFooEvent);
+
+    return () => {
+      window.removeEventListener('searchkitQueryChanged', handleFooEvent);
+    };
+  }, []);
+
+  return null;
+};
+
+export default TrackSearch;
+```
+
+Integrate via appExtra
+
+```js
+  config.settings.appExtras = [
+    ...config.settings.appExtras,
+    {
+      match: '/',
+      component: TrackSearch,
+    },
+  ];
+```
+
+
+### Panel for testing matches
 
 You can test search results on a test panel: `/controlpanel/test-searchkit-querystrings`
 
 Please update the settings according to your deployment: `/controlpanel/volto_searchkit_block_control_panel`
+
+
+## Deployment
+
+Assuming you have a project set up with cookieplone.
+
+1. Add services ingest, redis, opensearch, and opensearch-dashboard to your devops compose file.
+
+1. Provide environment values via .env file
+
+    ```text
+    ANSIBLE_REMOTE_PORT=22
+    DEPLOY_ENV=prod
+    DEPLOY_HOST=lilly.example.ch
+    DEPLOY_PORT=22
+    DEPLOY_USER=lillyuser
+    DOCKER_CONFIG=.docker
+    STACK_NAME=prod-lilly
+
+    # Indexserver
+    INDEX_PASSWORD=mypassword
+
+    CELERY_LOGLEVEL=debug
+
+    PLONE_USER=admin
+    PLONE_PASSWORD=mypassword
+    PLONE_SITE_PREFIX_PATH=Plone
+
+    MAPPINGS_FILE=opensearch/ingest-configuration/mappings.json
+    ANALYSIS_FILE=opensearch/ingest-configuration/analysis.json
+    PREPROCESSINGS_FILE=opensearch/ingest-configuration/preprocessings.json
+    ```
+
+1. Provide configuration files.
+Copy /examples/opensearch to /devops and customize.
+
 
 ## Development
 
@@ -114,14 +283,21 @@ Run `make help` to list the available commands.
 
 ```text
 help                                          Show this help
-dev-backend-start-monolingual                 Start backend dev server
-dev-backend-start-multilingual                Start backend dev server with two languages
+dev-backend-install                           Install Plone
+dev-backend-start-monolingual                 Start Plone
+dev-backend-start-multilingual                Start Plone
+create-site-monolingual                       Create monolingual site
+create-site-multilingual                      Create multilingual site
+update-example-content-monolingual            Export monolingual example content to distribution
+update-example-content-multilingual           Export multilingual example content to distribution
+dev-index-start-monolingual                   Start index dev server monolingual
+dev-index-start-multilingual                  Start index dev server multilingual
+build-index-image                             Build the docker image for the index server
 install                                       Installs the add-on in a development environment
 start                                         Starts Volto, allowing reloading of the add-on during development
-start-monolingual                             Same as `make start` but with language 'de'
-start-multilingual                            Same as `make start` but with language 'de' and multi lingual
+start-monolingual                             frontend with language 'de'
+start-multilingual                            frontend with languages 'en' and 'de' and multilingual
 build                                         Build a production bundle for distribution of the project with the add-on
-build-deps                                    Build dependencies
 i18n                                          Sync i18n
 ci-i18n                                       Check if i18n is not synced
 format                                        Format codebase
@@ -130,6 +306,8 @@ release                                       Release the add-on on npmjs.org
 release-dry-run                               Dry-run the release of the add-on on npmjs.org
 test                                          Run unit tests
 ci-test                                       Run unit tests in CI
+storybook-start                               Start Storybook server on port 6006
+storybook-build                               Build Storybook
 acceptance-frontend-dev-start-monolingual     Start acceptance frontend in development mode
 acceptance-frontend-prod-start-monolingual    Start acceptance frontend in production mode
 acceptance-backend-start-monolingual          Start backend acceptance server
@@ -161,9 +339,20 @@ Install the frontend.
 make install
 ```
 
-### Start developing
+### Start processes
 
-Start the backend. Monolingual:
+Start the **index server**. Monolingual:
+
+```shell
+make dev-index-start-monolingual
+```
+or start the index server multilingual:
+
+```shell
+make dev-index-start-multilingual
+```
+
+Start the **backend**. Monolingual:
 
 ```shell
 make dev-backend-start-monolingual
@@ -172,33 +361,22 @@ make dev-backend-start-monolingual
 or start the multilingual backend:
 
 ```shell
-make dev-backend-start-monolingual
+make dev-backend-start-multilingual
 ```
 
-Create a site.
+Create a site with one of the two distributions, monolingual or multilingual.
 
 ```shell
 make create-site-monolingual
 ```
 
-or create a multilingual site:
+or
 
 ```shell
 make create-site-multilingual
 ```
 
-Start the index server. Monolingual:
-
-```shell
-make dev-index-start-monolingual 
-```
-or start the index server multilingual:
-
-```shell
-make dev-index-start-multilingual 
-```
-
-In a separate terminal session, start the frontend.
+In a separate terminal session, start the **frontend**:
 
 ```shell
 make start-monolingual
@@ -252,7 +430,7 @@ In the first session, start the frontend in development mode.
 make acceptance-frontend-dev-start-monolingual
 ```
 
-In the second session, start the backend acceptance server.
+In the second session, start the backend acceptance server (backend and opensearch).
 
 ```shell
 make acceptance-backend-start-monolingual
@@ -266,10 +444,13 @@ make acceptance-test-monolingual
 
 Appropriate make commands for **multilingual** Cypress tests are available.
 
+
 ## License
 
 The project is licensed under the MIT license.
 
-## Credits and Acknowledgements 🙏
+Copyright (C) 2026 Rohberg
 
-Crafted with care by **Generated using [Cookieplone (0.7.1)](https://github.com/plone/cookieplone) and [cookiecutter-plone (6f17615)](https://github.com/plone/cookiecutter-plone/commit/6f1761520019010ae3799dfa0c6b999b533d59a7) on 2024-10-26 13:17:25.419878**. A special thanks to all contributors and supporters!
+## Credits and Acknowledgements 
+
+This package uses UI components of react-searchkit https://www.npmjs.com/package/react-searchkit Copyright (C) 2015- CERN.

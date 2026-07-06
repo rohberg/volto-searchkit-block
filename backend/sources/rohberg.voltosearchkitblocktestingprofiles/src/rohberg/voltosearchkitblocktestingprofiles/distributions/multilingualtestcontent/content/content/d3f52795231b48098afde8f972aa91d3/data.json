@@ -1,0 +1,90 @@
+{
+  "@id": "/de/anleitungen-garten",
+  "@type": "Document",
+  "UID": "d3f52795231b48098afde8f972aa91d3",
+  "allow_discussion": null,
+  "blocks": {
+    "39bf7271-61e9-4bba-adc3-65e79871be3c": {
+      "@canonical": "2a817f40-7839-4288-8120-784db7435364",
+      "@type": "title",
+      "block": "39bf7271-61e9-4bba-adc3-65e79871be3c"
+    },
+    "7bf1b280-eb10-4de9-8d18-956d3a2e0ad2": {
+      "@canonical": "e5837576-fdea-4d84-88e0-1c060ba8b486",
+      "@type": "listing",
+      "block": "7bf1b280-eb10-4de9-8d18-956d3a2e0ad2",
+      "headlineTag": "h2",
+      "querystring": {
+        "query": [
+          {
+            "i": "path",
+            "o": "plone.app.querystring.operation.string.relativePath",
+            "v": "."
+          }
+        ],
+        "sort_order": "ascending"
+      },
+      "variation": "default"
+    },
+    "b1693fb8-7adc-4c6f-91a4-514dcade224a": {
+      "@canonical": "228da2af-5778-4d09-8d82-c9402273c4b6",
+      "@type": "slate",
+      "block": "b1693fb8-7adc-4c6f-91a4-514dcade224a"
+    }
+  },
+  "blocks_layout": {
+    "items": [
+      "39bf7271-61e9-4bba-adc3-65e79871be3c",
+      "7bf1b280-eb10-4de9-8d18-956d3a2e0ad2",
+      "b1693fb8-7adc-4c6f-91a4-514dcade224a"
+    ]
+  },
+  "changeNote": "",
+  "contributors": [],
+  "created": "2025-03-05T09:42:54+00:00",
+  "creators": [
+    "admin"
+  ],
+  "description": "",
+  "effective": "2025-03-05T10:46:16",
+  "exclude_from_nav": false,
+  "expires": null,
+  "exportimport.constrains": {},
+  "exportimport.conversation": [],
+  "id": "anleitungen-garten",
+  "is_folderish": true,
+  "language": "de",
+  "layout": "document_view",
+  "lock": {
+    "locked": false,
+    "stealable": true
+  },
+  "modified": "2025-03-05T09:46:16+00:00",
+  "preview_caption": null,
+  "preview_image": null,
+  "review_state": "published",
+  "rights": "",
+  "subjects": [],
+  "title": "Anleitungen Garten",
+  "type_title": "Page",
+  "version": "current",
+  "versioning_enabled": true,
+  "workflow_history": {
+    "simple_publication_workflow": [
+      {
+        "action": null,
+        "actor": "admin",
+        "comments": "",
+        "review_state": "private",
+        "time": "2025-03-05T09:42:54+00:00"
+      },
+      {
+        "action": "publish",
+        "actor": "admin",
+        "comments": "",
+        "review_state": "published",
+        "time": "2025-03-05T09:46:16+00:00"
+      }
+    ]
+  }
+}

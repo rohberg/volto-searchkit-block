@@ -2,9 +2,9 @@ services:
   ingest:
     image: ghcr.io/collective/collective.elastic.ingest:latest
     environment:
-      MAPPINGS_FILE: ${MAPPINGS_FILE}
-      ANALYSIS_FILE: ${ANALYSIS_FILE}
-      PREPROCESSINGS_FILE: ${PREPROCESSINGS_FILE}
+      MAPPINGS_FILE: configuration/mappings.json
+      ANALYSIS_FILE: configuration/analysis.json
+      PREPROCESSINGS_FILE: configuration/preprocessings.json
       INDEX_SERVER: ${INDEX_SERVER?unset}
       INDEX_NAME: ${INDEX_NAME?unset}
       INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}
@@ -30,9 +30,10 @@ services:
     image: ghcr.io/collective/collective.elastic.ingest:latest
     environment:
       # Different INDEX_NAME
-      MAPPINGS_FILE: ${MAPPINGS_FILE}
-      ANALYSIS_FILE: ${ANALYSIS_FILE}
-      PREPROCESSINGS_FILE: ${PREPROCESSINGS_FILE}
+      # Different PLONE_SITE_PREFIX_PATH
+      MAPPINGS_FILE: configuration/mappings.json
+      ANALYSIS_FILE: configuration/analysis.json
+      PREPROCESSINGS_FILE: configuration/preprocessings.json
       INDEX_SERVER: ${INDEX_SERVER?unset}
       INDEX_NAME: multilingual
       INDEX_OPENSEARCH: ${INDEX_OPENSEARCH?unset}

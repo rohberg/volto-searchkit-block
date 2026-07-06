@@ -1,0 +1,90 @@
+{
+  "@id": "/de/news",
+  "@type": "Document",
+  "UID": "877d255aa0614741ad9906f1abecd150",
+  "allow_discussion": null,
+  "blocks": {
+    "029e1da1-dd92-45df-8a69-b827f41ee983": {
+      "@canonical": "8092c3da-c9b3-455c-a5fa-566d2f733a12",
+      "@type": "slate",
+      "block": "029e1da1-dd92-45df-8a69-b827f41ee983"
+    },
+    "4ddcca93-49c2-4213-a8a1-a51c49c6136e": {
+      "@canonical": "e40d1234-d0b2-4f81-b44d-2c6c82ff12c4",
+      "@type": "title",
+      "block": "4ddcca93-49c2-4213-a8a1-a51c49c6136e"
+    },
+    "d71b136e-ba8d-449a-8471-f7a64ec71ff8": {
+      "@canonical": "c8625104-fca3-428a-883a-20e205206b04",
+      "@type": "listing",
+      "block": "d71b136e-ba8d-449a-8471-f7a64ec71ff8",
+      "headlineTag": "h2",
+      "querystring": {
+        "query": [
+          {
+            "i": "path",
+            "o": "plone.app.querystring.operation.string.relativePath",
+            "v": "."
+          }
+        ],
+        "sort_order": "ascending"
+      },
+      "variation": "default"
+    }
+  },
+  "blocks_layout": {
+    "items": [
+      "4ddcca93-49c2-4213-a8a1-a51c49c6136e",
+      "d71b136e-ba8d-449a-8471-f7a64ec71ff8",
+      "029e1da1-dd92-45df-8a69-b827f41ee983"
+    ]
+  },
+  "changeNote": "",
+  "contributors": [],
+  "created": "2025-03-05T09:44:57+00:00",
+  "creators": [
+    "admin"
+  ],
+  "description": "",
+  "effective": "2025-03-05T10:46:19",
+  "exclude_from_nav": false,
+  "expires": null,
+  "exportimport.constrains": {},
+  "exportimport.conversation": [],
+  "id": "news",
+  "is_folderish": true,
+  "language": "de",
+  "layout": "document_view",
+  "lock": {
+    "locked": false,
+    "stealable": true
+  },
+  "modified": "2025-03-05T09:46:19+00:00",
+  "preview_caption": null,
+  "preview_image": null,
+  "review_state": "published",
+  "rights": "",
+  "subjects": [],
+  "title": "News",
+  "type_title": "Page",
+  "version": "current",
+  "versioning_enabled": true,
+  "workflow_history": {
+    "simple_publication_workflow": [
+      {
+        "action": null,
+        "actor": "admin",
+        "comments": "",
+        "review_state": "private",
+        "time": "2025-03-05T09:44:57+00:00"
+      },
+      {
+        "action": "publish",
+        "actor": "admin",
+        "comments": "",
+        "review_state": "published",
+        "time": "2025-03-05T09:46:19+00:00"
+      }
+    ]
+  }
+}

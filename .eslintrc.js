@@ -34,7 +34,8 @@ module.exports = {
           ],
           [
             '@plone-collective/volto-bookmarks',
-            `${projectRootPath}/packages/volto-bookmarks/packages/volto-bookmarks/src`,
+            // `${projectRootPath}/node_modules/.pnpm/@plone-collective+volto-bookmarks@3.0.2_react-dom@18.2.0_react@18.2.0__react@18.2.0/node_modules/@plone-collective/volto-bookmarks/src`,
+            `${projectRootPath}/packages/testing-volto-bookmarks/node_modules/@plone-collective/volto-bookmarks/src`,
           ],
           ...addonAliases,
         ],

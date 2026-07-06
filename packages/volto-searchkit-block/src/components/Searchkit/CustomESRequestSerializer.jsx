@@ -154,7 +154,16 @@ export class CustomESRequestSerializer {
       });
 
       // fields with boosting
-      let searchedFields = [...this.searchedFields];
+      // Take care of nested field file__extracted.content
+      let searchedFields = [];
+      let search_file_content = false;
+      this.searchedFields.forEach((el) => {
+        if (el.startsWith('file__extracted')) {
+          search_file_content = true;
+        } else {
+          searchedFields.push(el);
+        }
+      });
 
       let searchedFields_simple = searchedFields.map((fld) => {
         const fieldname = fld.split('^')[0];
@@ -178,6 +187,19 @@ export class CustomESRequestSerializer {
             fields: searchedFields_simple,
           },
         });
+        // nested file content field
+        if (search_file_content) {
+          shouldList.push({
+            nested: {
+              path: 'file__extracted',
+              query: {
+                match: {
+                  'file__extracted.content': element,
+                },
+              },
+            },
+          });
+        }
       });
       qs_tailored_should_exact.forEach((element) => {
         shouldList.push({
@@ -186,21 +208,70 @@ export class CustomESRequestSerializer {
             fields: searchedFields_exact,
           },
         });
+        // nested file content field
+        if (search_file_content) {
+          shouldList.push({
+            nested: {
+              path: 'file__extracted',
+              query: {
+                match: {
+                  'file__extracted.content': element,
+                },
+              },
+            },
+          });
+        }
       });
 
-      qs_tailored_must_notexact.forEach((el) => {
+      qs_tailored_must_notexact.forEach((element) => {
         mustList.push({
-          query_string: {
-            query: el,
-            fields: searchedFields_simple,
+          bool: {
+            should: [
+              {
+                query_string: {
+                  query: element,
+                  fields: [
+                    'title.de^1.4',
+                    'description.de^1.2',
+                    'blocks_plaintext.de',
+                    'subjects.de^1.2',
+                  ],
+                },
+              },
+              {
+                nested: {
+                  path: 'file__extracted',
+                  query: { match: { 'file__extracted.content': element } },
+                },
+              },
+            ],
+            minimum_should_match: 1,
           },
         });
       });
       qs_tailored_must_exact.forEach((element) => {
         mustList.push({
-          query_string: {
-            query: element,
-            fields: searchedFields_exact,
+          bool: {
+            should: [
+              {
+                query_string: {
+                  query: element,
+                  fields: [
+                    'title.de^1.4',
+                    'description.de^1.2',
+                    'blocks_plaintext.de',
+                    'subjects.de^1.2',
+                  ],
+                },
+              },
+              {
+                nested: {
+                  path: 'file__extracted',
+                  query: { match: { 'file__extracted.content': element } },
+                },
+              },
+            ],
+            minimum_should_match: 1,
           },
         });
       });
@@ -211,6 +282,19 @@ export class CustomESRequestSerializer {
             fields: searchedFields_exact,
           },
         });
+        //  nested file content field
+        if (search_file_content) {
+          must_notList.push({
+            nested: {
+              path: 'file__extracted',
+              query: {
+                match: {
+                  'file__extracted.content': element,
+                },
+              },
+            },
+          });
+        }
       });
 
       bodyParams['query'] = {
@@ -433,6 +517,10 @@ export class CustomESRequestSerializer {
       extend(bodyParams['aggs'], aggBucketTermsComponent);
     });
 
+    // console.debug(
+    //   'bodyParams.query?.bool || bodyParams.query',
+    //   bodyParams.query?.bool || bodyParams.query,
+    // );
     return bodyParams;
   };
 }

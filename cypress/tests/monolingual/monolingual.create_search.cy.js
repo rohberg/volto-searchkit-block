@@ -1,10 +1,10 @@
 describe('Searchkit block tests- create search ', () => {
   beforeEach(() => {
+    cy.intercept('POST', '/**/@kitsearch').as('kitsearch');
     cy.intercept('GET', `/**/*?expand*`).as('content');
     cy.intercept('GET', '/**/Document').as('schema');
     // Wait a bit to previous teardown to complete correctly because Heisenbug in this point
     cy.wait(2000);
-    // given a logged in editor and a page in edit mode
     cy.autologin();
 
     cy.createContent({
@@ -29,9 +29,6 @@ describe('Searchkit block tests- create search ', () => {
       contentTitle: 'The garden in march',
       path: '/garden-blog',
     });
-
-    cy.visit('/');
-    cy.wait('@content');
   });
 
   afterEach(() => {
@@ -49,11 +46,15 @@ describe('Searchkit block tests- create search ', () => {
     // Add block
     cy.getSlate().click();
     cy.get('button.block-add-button').click();
-    cy.get('.blocks-chooser .title').contains('Allgemein').click();
-    cy.get('.blocks-chooser .button.searchkitblock').click({ force: true });
+    cy.get('.blocks-chooser .common .button.searchkitblock')
+      .contains('Searchkit')
+      .click({
+        force: true,
+      });
 
     cy.get('#toolbar-save').click();
-    cy.visit('/searching');
+    cy.wait('@kitsearch');
+    cy.wait('@content');
 
     // Without query string all docs are shown
     cy.get('.block.searchkitsearch').should('not.contain', 'No results');

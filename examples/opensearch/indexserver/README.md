@@ -1,0 +1,2 @@
+/indexserver 
+index server OpenSearch

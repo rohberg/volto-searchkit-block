@@ -1,0 +1,21 @@
+{
+  "name": "testing-volto-bookmarks",
+  "version": "1.0.0",
+  "description": "fixtures for testing",
+  "author": "Katja Süss",
+  "homepage": "https://github.com/rohberg/volto-searchkit-block",
+  "license": "MIT",
+  "keywords": [
+    "volto-addon",
+    "volto",
+    "plone",
+    "react"
+  ],
+  "main": "src/index.js",
+  "addons": [
+    "@plone-collective/volto-bookmarks"
+  ],
+  "devDependencies": {
+    "@plone-collective/volto-bookmarks": "*"
+  }
+}

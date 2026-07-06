@@ -2,6 +2,7 @@ import React from 'react';
 import { isEmpty, keyBy } from 'lodash';
 import { withState } from 'react-searchkit';
 import { BodyClass } from '@plone/volto/helpers';
+import { FormattedMessage } from 'react-intl';
 // import StateLogger from '../StateLogger';
 
 const _SectionsSearch = (props) => {
@@ -114,7 +115,8 @@ const _SectionsSearch = (props) => {
             className={activeSection === 'all' ? 'active' : ''}
             onClick={() => restrictSearchToSection('all')}
           >
-            Überall <span className="count">{`(${doc_count_all})`}</span>
+            <FormattedMessage id="Everywhere" defaultMessage="Everywhere" />{' '}
+            <span className="count">{`(${doc_count_all})`}</span>
           </button>
         ) : null}
         {search_sections?.items?.length > 0 &&
@@ -123,7 +125,11 @@ const _SectionsSearch = (props) => {
             className={activeSection === 'others' ? 'active' : ''}
             onClick={() => restrictSearchToSection('others')}
           >
-            Website <span className="count">{`(${doc_count_others})`}</span>
+            <FormattedMessage
+              id="Not in sections"
+              defaultMessage="Not in sections"
+            />{' '}
+            <span className="count">{`(${doc_count_others})`}</span>
           </button>
         ) : null}
         {search_sections

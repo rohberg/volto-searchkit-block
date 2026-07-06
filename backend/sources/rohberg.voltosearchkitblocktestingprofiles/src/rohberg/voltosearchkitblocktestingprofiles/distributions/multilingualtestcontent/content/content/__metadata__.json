@@ -1,0 +1,224 @@
+{
+  "__version__": "1.0.0",
+  "_blob_files_": [],
+  "_data_files_": [
+    "plone_site_root/data.json",
+    "b086bcf7daa14a8db0ac1baf1968267f/data.json",
+    "d3f52795231b48098afde8f972aa91d3/data.json",
+    "7ada133a8d6449848bbfc16a0b903f12/data.json",
+    "34655d319596419da07c0dab51bcb708/data.json",
+    "877d255aa0614741ad9906f1abecd150/data.json",
+    "f134283af81d44cb9c4ec9e6fead3873/data.json",
+    "f68be5615ea74811a1d34e24fa90f1ac/data.json",
+    "67e1a32d07634022b5c1a415e787a865/data.json",
+    "95053a37096849b29dbc79d75b68c36b/data.json",
+    "07c8fd1fc1e14061b445ad26ba7d4f44/data.json",
+    "4c5e1b3e7d774e8ba3b388a4faa3608a/data.json",
+    "54b0141ce259436ab3fc8ecdfdd4e463/data.json",
+    "5319a69bf7cc489f9875864a3989b470/data.json",
+    "44c54103f6ee4ea3b26b73e7ff399c1b/data.json",
+    "3b25407f317b4ac391147eff5dac2ee9/data.json"
+  ],
+  "default_page": {},
+  "local_permissions": {
+    "07c8fd1fc1e14061b445ad26ba7d4f44": {},
+    "34655d319596419da07c0dab51bcb708": {},
+    "3b25407f317b4ac391147eff5dac2ee9": {},
+    "44c54103f6ee4ea3b26b73e7ff399c1b": {},
+    "4c5e1b3e7d774e8ba3b388a4faa3608a": {},
+    "5319a69bf7cc489f9875864a3989b470": {},
+    "54b0141ce259436ab3fc8ecdfdd4e463": {},
+    "67e1a32d07634022b5c1a415e787a865": {},
+    "7ada133a8d6449848bbfc16a0b903f12": {},
+    "877d255aa0614741ad9906f1abecd150": {},
+    "95053a37096849b29dbc79d75b68c36b": {},
+    "b086bcf7daa14a8db0ac1baf1968267f": {},
+    "d3f52795231b48098afde8f972aa91d3": {},
+    "f134283af81d44cb9c4ec9e6fead3873": {},
+    "f68be5615ea74811a1d34e24fa90f1ac": {},
+    "plone_site_root": {
+      "Add portal member": {
+        "acquire": false,
+        "roles": [
+          "Manager",
+          "Site Administrator",
+          "Owner"
+        ]
+      },
+      "Content rules: Manage rules": {
+        "acquire": false,
+        "roles": [
+          "Manager",
+          "Site Administrator"
+        ]
+      },
+      "Set own password": {
+        "acquire": false,
+        "roles": [
+          "Authenticated",
+          "Manager",
+          "Site Administrator"
+        ]
+      },
+      "Set own properties": {
+        "acquire": false,
+        "roles": [
+          "Authenticated",
+          "Manager",
+          "Site Administrator"
+        ]
+      },
+      "Show Toolbar": {
+        "acquire": false,
+        "roles": [
+          "Authenticated"
+        ]
+      },
+      "plone.resource: Export ZIP file": {
+        "acquire": false,
+        "roles": [
+          "Manager"
+        ]
+      },
+      "plone.resourceeditor: Manage Sources": {
+        "acquire": false,
+        "roles": [
+          "Manager",
+          "Site Administrator"
+        ]
+      }
+    }
+  },
+  "local_roles": {
+    "07c8fd1fc1e14061b445ad26ba7d4f44": {
+      "local_roles": {
+        "admin": [
+          "Owner"
+        ]
+      }
+    },
+    "34655d319596419da07c0dab51bcb708": {
+      "local_roles": {
+        "admin": [
+          "Owner"
+        ]
+      }
+    },
+    "3b25407f317b4ac391147eff5dac2ee9": {
+      "local_roles": {
+        "admin": [
+          "Owner"
+        ]
+      }
+    },
+    "44c54103f6ee4ea3b26b73e7ff399c1b": {
+      "local_roles": {
+        "admin": [
+          "Owner"
+        ]
+      }
+    },
+    "4c5e1b3e7d774e8ba3b388a4faa3608a": {
+      "local_roles": {
+        "admin": [
+          "Owner"
+        ]
+      }
+    },
+    "5319a69bf7cc489f9875864a3989b470": {
+      "local_roles": {
+        "admin": [
+          "Owner"
+        ]
+      }
+    },
+    "54b0141ce259436ab3fc8ecdfdd4e463": {
+      "local_roles": {
+        "admin": [
+          "Owner"
+        ]
+      }
+    },
+    "67e1a32d07634022b5c1a415e787a865": {
+      "local_roles": {
+        "admin": [
+          "Owner"
+        ]
+      }
+    },
+    "7ada133a8d6449848bbfc16a0b903f12": {
+      "local_roles": {
+        "admin": [
+          "Owner"
+        ]
+      }
+    },
+    "877d255aa0614741ad9906f1abecd150": {
+      "local_roles": {
+        "admin": [
+          "Owner"
+        ]
+      }
+    },
+    "95053a37096849b29dbc79d75b68c36b": {
+      "local_roles": {
+        "admin": [
+          "Owner"
+        ]
+      }
+    },
+    "b086bcf7daa14a8db0ac1baf1968267f": {
+      "local_roles": {
+        "admin": [
+          "Owner"
+        ]
+      }
+    },
+    "d3f52795231b48098afde8f972aa91d3": {
+      "local_roles": {
+        "admin": [
+          "Owner"
+        ]
+      }
+    },
+    "f134283af81d44cb9c4ec9e6fead3873": {
+      "local_roles": {
+        "admin": [
+          "Owner"
+        ]
+      }
+    },
+    "f68be5615ea74811a1d34e24fa90f1ac": {
+      "local_roles": {
+        "admin": [
+          "Owner"
+        ]
+      }
+    },
+    "plone_site_root": {
+      "local_roles": {
+        "admin": [
+          "Owner"
+        ]
+      }
+    }
+  },
+  "ordering": {
+    "07c8fd1fc1e14061b445ad26ba7d4f44": 3,
+    "34655d319596419da07c0dab51bcb708": 0,
+    "3b25407f317b4ac391147eff5dac2ee9": 0,
+    "44c54103f6ee4ea3b26b73e7ff399c1b": 1,
+    "4c5e1b3e7d774e8ba3b388a4faa3608a": 0,
+    "5319a69bf7cc489f9875864a3989b470": 2,
+    "54b0141ce259436ab3fc8ecdfdd4e463": 1,
+    "67e1a32d07634022b5c1a415e787a865": 41,
+    "7ada133a8d6449848bbfc16a0b903f12": 0,
+    "877d255aa0614741ad9906f1abecd150": 3,
+    "95053a37096849b29dbc79d75b68c36b": 0,
+    "b086bcf7daa14a8db0ac1baf1968267f": 42,
+    "d3f52795231b48098afde8f972aa91d3": 2,
+    "f134283af81d44cb9c4ec9e6fead3873": 0,
+    "f68be5615ea74811a1d34e24fa90f1ac": 1
+  },
+  "relations": []
+}

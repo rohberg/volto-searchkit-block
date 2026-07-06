@@ -1,0 +1,81 @@
+{
+  "@id": "/en/tutorials-garden/what-to-sow-in-march",
+  "@type": "Document",
+  "UID": "3b25407f317b4ac391147eff5dac2ee9",
+  "allow_discussion": null,
+  "blocks": {
+    "347b8e7e-6c13-4605-a5dd-f12cb04e1062": {
+      "@type": "title"
+    },
+    "456f82a5-2a74-42d8-bfcb-6b74f288e586": {
+      "@type": "slate",
+      "plaintext": "In march you can start inside with chilis.",
+      "value": [
+        {
+          "children": [
+            {
+              "text": "In march you can start inside with chilis."
+            }
+          ],
+          "type": "p"
+        }
+      ]
+    }
+  },
+  "blocks_layout": {
+    "items": [
+      "347b8e7e-6c13-4605-a5dd-f12cb04e1062",
+      "456f82a5-2a74-42d8-bfcb-6b74f288e586"
+    ]
+  },
+  "changeNote": "",
+  "contributors": [],
+  "created": "2025-03-05T09:12:13+00:00",
+  "creators": [
+    "admin"
+  ],
+  "description": "",
+  "effective": "2025-03-05T10:12:24",
+  "exclude_from_nav": false,
+  "expires": null,
+  "exportimport.constrains": {},
+  "exportimport.conversation": [],
+  "id": "what-to-sow-in-march",
+  "is_folderish": true,
+  "language": "##DEFAULT##",
+  "layout": "document_view",
+  "lock": {
+    "locked": false,
+    "stealable": true
+  },
+  "modified": "2025-03-05T09:26:00+00:00",
+  "preview_caption": null,
+  "preview_image": null,
+  "review_state": "published",
+  "rights": "",
+  "subjects": [
+    "sowing"
+  ],
+  "title": "What to sow in March",
+  "type_title": "Page",
+  "version": "current",
+  "versioning_enabled": true,
+  "workflow_history": {
+    "simple_publication_workflow": [
+      {
+        "action": null,
+        "actor": "admin",
+        "comments": "",
+        "review_state": "private",
+        "time": "2025-03-05T09:12:13+00:00"
+      },
+      {
+        "action": "publish",
+        "actor": "admin",
+        "comments": "",
+        "review_state": "published",
+        "time": "2025-03-05T09:12:24+00:00"
+      }
+    ]
+  }
+}

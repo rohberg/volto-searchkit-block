@@ -1,0 +1,129 @@
+{
+  "@id": "/de/suchen-und-finden",
+  "@type": "Document",
+  "UID": "f68be5615ea74811a1d34e24fa90f1ac",
+  "allow_discussion": null,
+  "blocks": {
+    "2ca82ebf-c9fa-401f-8087-8f399259fe55": {
+      "@canonical": "61d496fb-9144-41b2-aaaf-7da253a0a129",
+      "@type": "searchkitblock",
+      "allow_search_excluded_sections": false,
+      "allowed_content_types": [
+        "Document",
+        "News Item",
+        "Event"
+      ],
+      "batchSize": 10,
+      "block": "2ca82ebf-c9fa-401f-8087-8f399259fe55",
+      "facet_fields": [
+        {
+          "@id": "d111ad5e-4579-454e-9470-bdf75a47740b",
+          "field": {
+            "label": "Type",
+            "value": "portal_type"
+          },
+          "title": "Typ"
+        },
+        {
+          "@id": "c77072fc-f3ed-487f-80dc-3591321d6b79",
+          "field": {
+            "label": "Schlagwort",
+            "value": "Subject"
+          },
+          "title": "Schlagwort"
+        }
+      ],
+      "filterLayout": "dropdown",
+      "relocation": "",
+      "search_sections": {
+        "items": [
+          {
+            "@id": "f3cefc11-7ef5-4cae-93ec-a772e8c0450f",
+            "label": "Anleitungen Garten",
+            "section": "anleitungen-garten",
+            "show_filter": true
+          }
+        ]
+      },
+      "searchedFields": [
+        "title^1.4",
+        "description^1.2",
+        "subjects^1.2",
+        "blocks_plaintext"
+      ],
+      "showEventStartDate": [
+        "Event"
+      ],
+      "showNewsItemPublishedDate": [
+        "News Item"
+      ],
+      "show_filter_for_excluded_sections": true,
+      "subjectsFieldname": "subjects"
+    },
+    "a13f83dc-19d7-418a-b4e8-c01e102c1a41": {
+      "@canonical": "78b1ce59-f574-4893-ad25-9ba72f4e8212",
+      "@type": "title",
+      "block": "a13f83dc-19d7-418a-b4e8-c01e102c1a41"
+    },
+    "db76214e-d274-4abf-8f0c-a5f79b08f467": {
+      "@canonical": "8f5949ad-9eb7-4df5-8930-736586abd02b",
+      "@type": "slate",
+      "block": "db76214e-d274-4abf-8f0c-a5f79b08f467"
+    }
+  },
+  "blocks_layout": {
+    "items": [
+      "a13f83dc-19d7-418a-b4e8-c01e102c1a41",
+      "2ca82ebf-c9fa-401f-8087-8f399259fe55",
+      "db76214e-d274-4abf-8f0c-a5f79b08f467"
+    ]
+  },
+  "changeNote": "",
+  "contributors": [],
+  "created": "2025-03-05T09:35:29+00:00",
+  "creators": [
+    "admin"
+  ],
+  "description": "",
+  "effective": "2025-03-05T10:46:17",
+  "exclude_from_nav": false,
+  "expires": null,
+  "exportimport.constrains": {},
+  "exportimport.conversation": [],
+  "id": "suchen-und-finden",
+  "is_folderish": true,
+  "language": "de",
+  "layout": "document_view",
+  "lock": {
+    "locked": false,
+    "stealable": true
+  },
+  "modified": "2025-03-05T10:08:15+00:00",
+  "preview_caption": null,
+  "preview_image": null,
+  "review_state": "published",
+  "rights": "",
+  "subjects": [],
+  "title": "Suchen und Finden",
+  "type_title": "Page",
+  "version": "current",
+  "versioning_enabled": true,
+  "workflow_history": {
+    "simple_publication_workflow": [
+      {
+        "action": null,
+        "actor": "admin",
+        "comments": "",
+        "review_state": "private",
+        "time": "2025-03-05T09:35:29+00:00"
+      },
+      {
+        "action": "publish",
+        "actor": "admin",
+        "comments": "",
+        "review_state": "published",
+        "time": "2025-03-05T09:46:17+00:00"
+      }
+    ]
+  }
+}

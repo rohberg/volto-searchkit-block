@@ -1,5 +1,5 @@
 import zoomSVG from '@plone/volto/icons/zoom.svg';
-import { getQuerystring } from '@plone/volto/actions';
+// import { getQuerystring } from '@plone/volto/actions/querystring/querystring';
 
 import {
   FacetedSearchBlockEdit,
@@ -12,9 +12,6 @@ import {
 } from './components/Blocks/Reference';
 
 import SearchSectionsWidget from './components/Blocks/SearchSectionsWidget';
-
-// DEBUG
-import ListingVariationTemplateWithBookmarks from './components/Views/ListingVariationTemplateWithBookmarks';
 
 const applyConfig = (config) => {
   // @eeacms/volto-matomo
@@ -105,37 +102,29 @@ const applyConfig = (config) => {
 
   // Fetch querystring indexes.
   // See /effective-volto/addons/asyncconnect
-  config.settings.asyncPropsExtenders = [
-    ...(config.settings.asyncPropsExtenders || []),
-    {
-      path: '/',
-      extend: (dispatchActions) => {
-        const action = {
-          key: 'querystringindexes',
-          promise: ({ store }) => {
-            const state = store.getState();
-            if (state.querystring?.indexes?.Title) {
-              return;
-            }
-            const myaction = getQuerystring();
-            return store.dispatch(myaction).catch((e) => {
-              // eslint-disable-next-line no-console
-              console.error('Fetch of getQuerystring failed');
-            });
-          },
-        };
-        return [...dispatchActions, action];
-      },
-    },
-  ];
-
-  // DEBUG Testing bookmarks in search/listing block
-  // Variation with one bookmark button per listing item
-  config.blocks.blocksConfig.listing.variations.push({
-    id: 'intranet1',
-    title: 'Intranet 1',
-    template: ListingVariationTemplateWithBookmarks,
-  });
+  // config.settings.asyncPropsExtenders = [
+  //   ...(config.settings.asyncPropsExtenders || []),
+  //   {
+  //     path: '/',
+  //     extend: (dispatchActions) => {
+  //       const action = {
+  //         key: 'querystringindexes',
+  //         promise: ({ store }) => {
+  //           const state = store.getState();
+  //           if (state.querystring?.indexes?.Title) {
+  //             return;
+  //           }
+  //           const myaction = getQuerystring();
+  //           return store.dispatch(myaction).catch((e) => {
+  //             // eslint-disable-next-line no-console
+  //             console.error('Fetch of getQuerystring failed');
+  //           });
+  //         },
+  //       };
+  //       return [...dispatchActions, action];
+  //     },
+  //   },
+  // ];
 
   return config;
 };

@@ -1,5 +1,6 @@
 import _get from 'lodash/get';
 import _hasIn from 'lodash/hasIn';
+import { expandToBackendURL } from '@plone/volto/helpers';
 import { CustomESRequestSerializer } from './CustomESRequestSerializer';
 import { CustomESResponseSerializer } from './CustomESResponseSerializer';
 
@@ -48,7 +49,6 @@ export class PloneSearchApi {
    */
   async search(stateQuery) {
     const payload = this.requestSerializer.serialize(stateQuery);
-    // Extend paylod with url and index to address elasticsearch server
     try {
       const response = await fetch(this.fetchConfig.url, {
         method: 'POST',
@@ -59,11 +59,19 @@ export class PloneSearchApi {
           // elasticsearch_index: this.elastic_search_api_index,
         }),
       });
-      // let results = await this.responseSerializer.serialize(response.data);
       let results = await response.json();
       if (results.message) {
-        throw results;
-        // throw new Error(`${results.type} ${results.message}`);
+        if (results.type === 'NotFoundError') {
+          await fetch(
+            expandToBackendURL('/@@clear-and-update-index-server-index'),
+          );
+          await new Promise((resolve) => setTimeout(resolve, 5000));
+          let new_search_results = await this.search(stateQuery);
+          return new_search_results;
+        } else {
+          throw results;
+          // throw new Error(`${results.type} ${results.message}`);
+        }
       }
       results = this.responseSerializer.serialize(results);
       return results;

@@ -11,11 +11,11 @@ const ItemSchema = ({ intl }) => {
       type: intl.formatMessage(messages.searchSection),
     }),
     properties: {
-      section: {
-        title: intl.formatMessage(messages.searchSection),
-      },
       label: {
         title: intl.formatMessage(messages.searchSectionLabel),
+      },
+      section: {
+        title: intl.formatMessage(messages.searchSection),
       },
       show_filter: {
         title: intl.formatMessage(messages.showFilter),
@@ -27,7 +27,7 @@ const ItemSchema = ({ intl }) => {
       {
         id: 'default',
         title: 'History-Eintrag',
-        fields: ['section', 'label', 'show_filter'],
+        fields: ['label', 'section', 'show_filter'],
       },
     ],
     required: [],
