@@ -48,17 +48,20 @@ describe('Searchkit block tests – search - monolingual', () => {
 
   it('I see the publishing date', function () {
     cy.get('.searchbar-wrapper input').type('brunch{enter}');
+    cy.wait('@kitsearch');
     cy.get('.block.searchkitsearch').contains('2018');
   });
 
   it('I see the start date', function () {
     cy.get('.searchbar-wrapper input').type('matterhorn{enter}');
+    cy.wait('@kitsearch');
     // 29.10<b>.202</b>4
     cy.get('.block.searchkitsearch').contains('.202');
   });
 
   it('I can open a result', function () {
     cy.get('.searchbar-wrapper input').type('matterhorn{enter}');
+    cy.wait('@kitsearch');
     cy.get('.searchkitresultitem a').first().click();
     cy.get('.block').contains('Matterhorn');
   });

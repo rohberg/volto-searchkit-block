@@ -46,7 +46,7 @@
     "@types/react-dom": "^18.3.1",
     "typescript": "^5.7.3",
     "@testing-library/react": "^16.2.0",
-    "release-it": "^19.0.5",
+    "release-it": "^20.2.1",
     "vitest": "^3.1.2",
     "react-test-renderer": "18.2.0",
     "redux-mock-store": "1.5.4"

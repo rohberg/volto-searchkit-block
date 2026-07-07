@@ -120,6 +120,7 @@ describe('Searchkit block tests – search -multilingual - fuzzy etc', () => {
 
   it('I can search fuzzy', function () {
     cy.get('.searchbar-wrapper input').type('februax{enter}');
+    cy.wait('@kitsearch');
     cy.get('.block.searchkitsearch').contains('Der Garten im Februar');
     cy.get('.block.searchkitsearch').should('not.contain', 'März');
   });
@@ -134,6 +135,7 @@ describe('Searchkit block tests – search -multilingual - fuzzy etc', () => {
 
   it('I can search with decompounding', function () {
     cy.get('.searchbar-wrapper input').type('Garten{enter}');
+    cy.wait('@kitsearch');
     cy.get('.block.searchkitsearch').contains('Garten-Blog');
 
     cy.get('.searchbar-wrapper input').clear().type('Garten-Blog{enter}');
@@ -142,11 +144,13 @@ describe('Searchkit block tests – search -multilingual - fuzzy etc', () => {
 
   it('I can search with wildcard', function () {
     cy.get('.searchbar-wrapper input').type('Feb*{enter}');
+    cy.wait('@kitsearch');
     cy.get('.block.searchkitsearch').contains('Der Garten im Februar');
   });
 
   it('I can search for an exact match', function () {
     cy.get('.searchbar-wrapper input').type('"Mann"{enter}');
+    cy.wait('@kitsearch');
     cy.get('.block.searchkitsearch').contains('Testseite Mann');
     cy.get('.searchbar-wrapper input').clear().type('"Mann"{enter}');
     cy.get('.block.searchkitsearch').should('not.contain', 'Männer');
@@ -154,6 +158,7 @@ describe('Searchkit block tests – search -multilingual - fuzzy etc', () => {
 
   it('I can search for a compounded word', function () {
     cy.get('.searchbar-wrapper input').type('stelle{enter}');
+    cy.wait('@kitsearch');
     cy.get('.block.searchkitsearch').contains('Testseite Lehrstellenbörsen');
     cy.get('.searchbar-wrapper input').clear().type('Lehre{enter}');
     cy.get('.block.searchkitsearch').contains('Testseite Lehrstellenbörsen');
@@ -186,6 +191,7 @@ describe('Searchkit block tests – search -multilingual - fuzzy etc', () => {
     cy.visit('de/suche');
     cy.wait('@kitsearch');
     cy.get('.searchbar-wrapper input').type('Montag{enter}');
+    cy.wait('@kitsearch');
     cy.get('.block.searchkitsearch').contains('Der Garten im Februar');
   });
 });
