@@ -1,1 +1,0 @@
-Refactor dev setup monolingual and multilingual with plone.distribution. @ksuess

@@ -8,3 +8,12 @@
 
 <!-- towncrier release notes start -->
 
+## 1.0.0 (2026-07-07)
+
+### Feature
+
+- Refactor dev setup monolingual and multilingual with plone.distribution. @ksuess [#23](https://github.com/rohberg/volto-searchkit-block/issue/23)
+
+### Internal
+
+- upgrade releas-it to 20.1.2 @ksuess [#25](https://github.com/rohberg/volto-searchkit-block/issue/25)
