@@ -77,6 +77,7 @@ describe('Searchkit block tests – search - multilingual - anonymous', () => {
     cy.visit('/en/searching');
     cy.wait('@kitsearch');
     cy.get('.searchbar-wrapper input').type('february{enter}');
+    cy.wait('@kitsearch');
     cy.get('.block.searchkitsearch').contains('The garden in february');
     cy.get('.block.searchkitsearch').should(
       'not.contain',
@@ -97,6 +98,7 @@ describe('Searchkit block tests – search - multilingual - anonymous', () => {
     cy.wait('@kitsearch');
 
     cy.get('.searchbar-wrapper input').type('february{enter}');
+    cy.wait('@kitsearch');
     cy.get('.block.searchkitsearch').contains('The garden in february');
 
     cy.get('.searchbar-wrapper input').clear().type('march{enter}');

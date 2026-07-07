@@ -62,6 +62,7 @@ describe('Searchkit block tests- create search ', () => {
 
     // searching for a query string
     cy.get('.searchbar-wrapper input').type('february{enter}');
+    cy.wait('@kitsearch');
     cy.get('.block.searchkitsearch').contains('The garden in february');
   });
 });
