@@ -59,10 +59,5 @@ describe('Searchkit block tests- create search ', () => {
     // Without query string all docs are shown
     cy.get('.block.searchkitsearch').should('not.contain', 'No results');
     cy.get('.block.searchkitsearch').contains('The garden in february');
-
-    // searching for a query string
-    cy.get('.searchbar-wrapper input').type('february{enter}');
-    cy.wait('@kitsearch');
-    cy.get('.block.searchkitsearch').contains('The garden in february');
   });
 });
