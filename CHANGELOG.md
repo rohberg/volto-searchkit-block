@@ -16,4 +16,4 @@
 
 ### Internal
 
-- upgrade releas-it to 20.1.2 @ksuess [#25](https://github.com/rohberg/volto-searchkit-block/issue/25)
+- upgrade release-it to 20.1.2 @ksuess [#25](https://github.com/rohberg/volto-searchkit-block/issue/25)
