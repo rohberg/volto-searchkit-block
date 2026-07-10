@@ -1,9 +1,10 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useAtomValue } from 'jotai';
 import { FormattedMessage } from 'react-intl';
 import { Item } from 'semantic-ui-react';
 import { onQueryChanged, withState } from 'react-searchkit';
 import { getObjectFromObjectList, translateQuerystringindex } from '../helpers';
+import { querystringIndexesAtom } from '../../atoms';
 
 const _ExtraInfo = (props) => {
   const { result } = props;
@@ -16,9 +17,7 @@ const _ExtraInfo = (props) => {
   );
   let subjectsFieldname = props.currentQueryState.data?.subjectsFieldname; // "subjects";
 
-  const querystringindexes = useSelector(
-    (state) => state.query?.querystringindexes,
-  );
+  const querystringindexes = useAtomValue(querystringIndexesAtom);
 
   return (
     <Item.Extra className="metadata">
@@ -67,7 +66,11 @@ const _ExtraInfo = (props) => {
           <React.Fragment key={extrainfo_key}>
             <span className="label">{extrainfo_fields[extrainfo_key]}:</span>
             {extrainfo_value?.map((item, index) => {
-              let tito = item.title || item.token || item;
+              let tito = translateQuerystringindex(
+                querystringindexes,
+                extrainfo_key,
+                item,
+              );
               return (
                 <span key={index}>
                   {tito}

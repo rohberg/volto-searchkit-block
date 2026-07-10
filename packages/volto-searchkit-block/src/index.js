@@ -12,8 +12,24 @@ import {
 } from './components/Blocks/Reference';
 
 import SearchSectionsWidget from './components/Blocks/SearchSectionsWidget';
+import {
+  FetchQuerystringIndexes,
+  InitializeAtom,
+} from './atoms/QuerystringIndexes';
 
 const applyConfig = (config) => {
+  config.settings.appExtras = [
+    ...config.settings.appExtras,
+    {
+      match: '/',
+      component: FetchQuerystringIndexes,
+    },
+    {
+      match: '/',
+      component: InitializeAtom,
+    },
+  ];
+
   // @eeacms/volto-matomo
   config.settings.searchkitblock = {
     trackVoltoMatomo: false,
@@ -99,32 +115,6 @@ const applyConfig = (config) => {
     // backend_url: 'http://host.docker.internal:8080/Plone',
     // frontend_url: 'http://localhost:3000',
   };
-
-  // Fetch querystring indexes.
-  // See /effective-volto/addons/asyncconnect
-  // config.settings.asyncPropsExtenders = [
-  //   ...(config.settings.asyncPropsExtenders || []),
-  //   {
-  //     path: '/',
-  //     extend: (dispatchActions) => {
-  //       const action = {
-  //         key: 'querystringindexes',
-  //         promise: ({ store }) => {
-  //           const state = store.getState();
-  //           if (state.querystring?.indexes?.Title) {
-  //             return;
-  //           }
-  //           const myaction = getQuerystring();
-  //           return store.dispatch(myaction).catch((e) => {
-  //             // eslint-disable-next-line no-console
-  //             console.error('Fetch of getQuerystring failed');
-  //           });
-  //         },
-  //       };
-  //       return [...dispatchActions, action];
-  //     },
-  //   },
-  // ];
 
   return config;
 };

@@ -1,0 +1,1 @@
+Fix translations of result extra info labels. Read querystringindexes from jotai atom ( we have two stores: Volto and searchkit). @ksuess
