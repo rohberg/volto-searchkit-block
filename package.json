@@ -1,6 +1,6 @@
 {
   "name": "volto-searchkit-block-dev",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Searching with OpenSearch. Volto UI block with faceted search.",
   "author": "Katja S\u00fcss",
   "homepage": "https://github.com/rohberg/volto-searchkit-block",

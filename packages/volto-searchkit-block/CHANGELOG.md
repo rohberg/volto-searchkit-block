@@ -8,6 +8,12 @@
 
 <!-- towncrier release notes start -->
 
+## 1.0.1 (2026-07-11)
+
+### Bugfix
+
+- Fix translations of result extra info labels. Read querystringindexes from jotai atom ( we have two stores: Volto and searchkit). @ksuess [#27](https://github.com/rohberg/volto-searchkit-block/issue/27)
+
 ## 1.0.0 (2026-07-07)
 
 ### Feature

@@ -1,6 +1,6 @@
 {
   "name": "@rohberg/volto-searchkit-block",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Searching with OpenSearch",
   "main": "src/index.js",
   "license": "MIT",
