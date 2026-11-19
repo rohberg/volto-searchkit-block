@@ -8,6 +8,17 @@
 
 <!-- towncrier release notes start -->
 
+## 1.0.2 (2026-11-19)
+
+### Bugfix
+
+- Translate search result labels. Get values via Jotai atom. @ksuess [#41](https://github.com/rohberg/volto-searchkit-block/issue/41)
+
+### Internal
+
+- fix versions. @ksuess [#41b](https://github.com/rohberg/volto-searchkit-block/issue/41b)
+- Upgrade Plone version and workflow actions. @ksuess [#41](https://github.com/rohberg/volto-searchkit-block/issue/41)
+
 ## 1.0.1 (2026-07-11)
 
 ### Bugfix
