@@ -12,5 +12,5 @@ src/rohberg.voltosearchkitblocktestingprofiles.egg-info/top_level.txt
 src/rohberg/voltosearchkitblocktestingprofiles/__init__.py
 src/rohberg/voltosearchkitblocktestingprofiles/handlers.py
 src/rohberg/voltosearchkitblocktestingprofiles/interfaces.py
+src/rohberg/voltosearchkitblocktestingprofiles/browser/__init__.py
 src/rohberg/voltosearchkitblocktestingprofiles/setuphandlers/__init__.py
-src/rohberg/voltosearchkitblocktestingprofiles/setuphandlers/initial.py
