@@ -4,6 +4,7 @@ import cx from 'classnames';
 import Cookies from 'universal-cookie';
 import { createPortal } from 'react-dom';
 import { useSelector } from 'react-redux';
+import { useAtomValue } from 'jotai';
 import { Link } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
 
@@ -42,6 +43,7 @@ import lastAngle from '@plone/volto/icons/last.svg';
 import clearSVG from '@plone/volto/icons/clear.svg';
 
 import messages from '../../messages';
+import { querystringIndexesAtom } from '../../atoms';
 import {
   flattenESUrlToPath,
   getObjectFromObjectList,
@@ -98,9 +100,7 @@ const _CustomResultsListItem = (props) => {
   const item_url = flattenESUrlToPath(result['@id']);
   const is_external_content = item_url.startsWith('https');
   const locale = useSelector((state) => state.query?.locale);
-  const querystringindexes = useSelector(
-    (state) => state.query?.querystringindexes,
-  );
+  const querystringindexes = useAtomValue(querystringIndexesAtom);
   const showNewsItemPublishedDate = useSelector(
     (state) => state.query?.data.showNewsItemPublishedDate,
   );
@@ -247,9 +247,7 @@ const myActiveFiltersElement = (props) => {
 const CustomBucketAggregationElement = (props) => {
   const { title, containerCmp, updateQueryFilters } = props;
   const fieldname = props.agg.field;
-  const querystringindexes = useSelector(
-    (state) => state.query?.querystringindexes,
-  );
+  const querystringindexes = useAtomValue(querystringIndexesAtom);
 
   /**
    * Translate labels according vocabulary
