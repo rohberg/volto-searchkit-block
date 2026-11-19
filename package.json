@@ -45,7 +45,11 @@
   "pnpm": {
     "overrides": {
       "@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
-      "react-refresh": "^0.14.2"
+      "react-refresh": "^0.14.2",
+      "qs@<6.16.1": "^6.16.1",
+      "tmp@<0.2.7": "^0.2.7",
+      "moment@<2.31.0": "^2.31.0",
+      "http-proxy-middleware@>=2.0.0 <2.0.10": "^2.0.10"
     },
     "ignoredBuiltDependencies": [
       "@parcel/watcher"
