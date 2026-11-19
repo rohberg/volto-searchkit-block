@@ -11,17 +11,17 @@ on:
       - "backend/dockerfiles/**"
 
 env:
-  NODE_VERSION: 22.x
+  NODE_VERSION: 24.x
   CYPRESS_RETRIES: 2
 
 jobs:
   acceptance-monolingual:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: ${{ env.NODE_VERSION }}
 
@@ -33,7 +33,7 @@ jobs:
         run: |
           echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         name: Setup pnpm cache
         with:
           path: ${{ env.STORE_PATH }}
@@ -43,7 +43,7 @@ jobs:
 
       - name: Cache Cypress Binary
         id: cache-cypress-binary
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.cache/Cypress
           key: binary-${{ env.NODE_VERSION }}-${{ hashFiles('pnpm-lock.yaml') }}
@@ -56,7 +56,7 @@ jobs:
         working-directory: core/packages/volto
         run: make cypress-install
 
-      - uses: JarvusInnovations/background-action@v1
+      - uses: JarvusInnovations/background-action@v2
         name: Start Servers
         env:
           INDEX_PASSWORD: ${{ secrets.SECRET_INDEX_PASSWORD}}
@@ -90,15 +90,26 @@ jobs:
 
       - run: make ci-acceptance-test-monolingual
 
+      # Containers run detached, so their output is not part of the step logs
+      - name: Dump backend and index server container logs
+        if: failure()
+        run: |
+          docker ps -a --filter label=com.docker.compose.project=volto-searchkit-block-acceptance-monolingual
+          for c in $(docker ps -aq --filter label=com.docker.compose.project=volto-searchkit-block-acceptance-monolingual); do
+            echo "::group::$(docker inspect --format '{{.Name}}' $c)"
+            docker logs --tail 300 $c 2>&1
+            echo "::endgroup::"
+          done
+
       # Upload Cypress screenshots
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: cypress-screenshots-acceptance
           path: cypress/screenshots
 
       # Upload Cypress videos
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: cypress-videos-acceptance

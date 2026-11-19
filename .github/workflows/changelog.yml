@@ -6,23 +6,23 @@ on:
       - main
 
 env:
-  NODE_VERSION: 22.x
+  NODE_VERSION: 24.x
   ADDON_NAME: volto-searchkit-block
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           # Fetch all history
           fetch-depth: '0'
 
-      - name: Install pipx
+      - name: Install towncrier
         run: pip install towncrier
 
       - name: Use Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: ${{ env.NODE_VERSION }}
 
@@ -35,7 +35,7 @@ jobs:
           STORE_PATH=$(pnpm store path --silent)
           echo "STORE_PATH=$STORE_PATH" >> $GITHUB_ENV
 
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         name: Setup pnpm cache
         with:
           path: ${{ env.STORE_PATH }}
