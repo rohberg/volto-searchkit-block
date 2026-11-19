@@ -20,3 +20,5 @@ backend/sources/collective.bookmarks/
 *.pyc
 __pycache__/
 packages/volto-bookmarks
+
+backend/.mxdev_cache/
